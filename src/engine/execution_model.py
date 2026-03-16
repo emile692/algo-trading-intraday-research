@@ -22,6 +22,6 @@ class ExecutionModel:
             return price + slippage_points if is_entry else price - slippage_points
         return price - slippage_points if is_entry else price + slippage_points
 
-    def round_trip_fees(self) -> float:
-        """Return total round-trip fees in USD."""
-        return 2.0 * self.commission_per_side_usd
+    def round_trip_fees(self, quantity: int = 1) -> float:
+        """Return total round-trip fees in USD for the requested quantity."""
+        return 2.0 * self.commission_per_side_usd * quantity

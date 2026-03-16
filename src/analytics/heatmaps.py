@@ -29,6 +29,8 @@ def run_orb_grid_search(
                 target_multiple=target_mult,
                 stop_multiple=strategy.stop_multiple,
                 time_exit=strategy.time_exit,
+                account_size_usd=strategy.account_size_usd,
+                risk_per_trade_pct=strategy.risk_per_trade_pct,
             )
             metrics = compute_metrics(trades)
             rows.append(

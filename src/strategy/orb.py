@@ -20,6 +20,8 @@ class ORBStrategy:
     stop_multiple: float = 1.0
     target_multiple: float = 1.5
     time_exit: str = "15:55"
+    account_size_usd: float | None = None
+    risk_per_trade_pct: float | None = None
 
     def generate_signals(self, df: pd.DataFrame) -> pd.DataFrame:
         """Generate ORB entry signals based on OR high/low breaks."""
@@ -27,7 +29,7 @@ class ORBStrategy:
         out["signal"] = 0
         buffer = self.entry_buffer_ticks * NQ_TICK_SIZE
 
-        for session_date, group in out.groupby("session_date", sort=True):
+        for __, group in out.groupby("session_date", sort=True):
             has_trade = False
             for idx in group.index:
                 row = out.loc[idx]

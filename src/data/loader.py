@@ -21,13 +21,20 @@ def load_ohlcv_csv(path: Path | str, timezone: str = DEFAULT_TIMEZONE) -> pd.Dat
     df = pd.read_csv(csv_path)
     df.columns = [col.strip().lower() for col in df.columns]
 
-    if "timestamp" not in df.columns:
-        raise ValueError("Missing required 'timestamp' column")
+    if "timestamp" not in df.columns and "ts_event" not in df.columns:
+        raise ValueError("Missing required 'timestamp' or 'ts_event' column")
 
-    df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
-    if df["timestamp"].isna().any():
-        raise ValueError("Found unparsable timestamp values")
+    if "timestamp" in df.columns:
+        df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
+        if df["timestamp"].isna().any():
+            raise ValueError("Found unparsable timestamp values")
 
+    if "ts_event" in df.columns:
+        df["ts_event"] = pd.to_datetime(df["ts_event"], errors="coerce")
+        df.rename(columns={"ts_event": "timestamp"}, inplace=True) 
+        if df["ts_event"].isna().any():
+            raise ValueError("Found unparsable ts_event values")
+             
     if df["timestamp"].dt.tz is None:
         df["timestamp"] = df["timestamp"].dt.tz_localize(timezone)
     else:
