@@ -16,10 +16,13 @@ def _build_trade_df() -> pd.DataFrame:
             "timestamp": timestamp,
             "session_date": timestamp.normalize().date,
             "signal": [1, 0],
-            "or_width": [1.0, 1.0],
+            "or_high": [101.0, 101.0],
+            "or_low": [99.0, 99.0],
+            "or_width": [2.0, 2.0],
+            "open": [100.0, 100.0],
             "close": [100.0, 100.0],
             "high": [100.0, 100.0],
-            "low": [100.0, 99.0],
+            "low": [100.0, 98.75],
         }
     )
 
@@ -43,17 +46,19 @@ def test_backtester_sizes_position_from_account_risk() -> None:
         execution_model=ExecutionModel(),
         account_size_usd=50_000,
         risk_per_trade_pct=1.0,
-        stop_multiple=1.0,
+        stop_buffer_ticks=1,
         time_exit="09:35",
     )
 
     assert len(trades) == 1
     trade = trades.iloc[0]
-    assert trade["quantity"] == 18
+    assert trade["stop_price"] == pytest.approx(98.75)
+    assert trade["target_price"] == pytest.approx(102.5)
+    assert trade["quantity"] == 13
     assert trade["risk_budget_usd"] == pytest.approx(500.0)
-    assert trade["risk_per_contract_usd"] == pytest.approx(27.5)
-    assert trade["actual_risk_usd"] == pytest.approx(495.0)
-    assert trade["net_pnl_usd"] == pytest.approx(-495.0)
+    assert trade["risk_per_contract_usd"] == pytest.approx(37.5)
+    assert trade["actual_risk_usd"] == pytest.approx(487.5)
+    assert trade["net_pnl_usd"] == pytest.approx(-487.5)
 
 
 def test_backtester_skips_trade_when_risk_budget_is_too_small() -> None:
@@ -62,11 +67,32 @@ def test_backtester_skips_trade_when_risk_budget_is_too_small() -> None:
         execution_model=ExecutionModel(),
         account_size_usd=100.0,
         risk_per_trade_pct=1.0,
-        stop_multiple=1.0,
+        stop_buffer_ticks=1,
         time_exit="09:35",
     )
 
     assert trades.empty
+
+
+def test_backtester_targets_a_multiple_of_entry_to_stop_risk() -> None:
+    df = _build_trade_df()
+    df.loc[df.index[1], "high"] = 103.25
+    df.loc[df.index[1], "low"] = 100.0
+
+    trades = run_backtest(
+        df,
+        execution_model=ExecutionModel(),
+        stop_buffer_ticks=1,
+        target_multiple=2.0,
+        time_exit="09:35",
+    )
+
+    assert len(trades) == 1
+    trade = trades.iloc[0]
+    assert trade["stop_price"] == pytest.approx(98.75)
+    assert trade["target_price"] == pytest.approx(103.25)
+    assert trade["exit_reason"] == "target"
+    assert trade["net_pnl_usd"] == pytest.approx(52.5)
 
 
 def test_backtester_requires_complete_risk_parameters() -> None:

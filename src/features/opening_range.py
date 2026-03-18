@@ -4,15 +4,24 @@ from __future__ import annotations
 
 import pandas as pd
 
+from src.utils.time_utils import build_session_time
 
-def compute_opening_range(df: pd.DataFrame, or_minutes: int = 30) -> pd.DataFrame:
-    """Compute opening range high/low/width/midpoint per session for first N minutes."""
+
+def compute_opening_range(
+    df: pd.DataFrame,
+    or_minutes: int = 30,
+    opening_time: str = "09:00:00",
+) -> pd.DataFrame:
+    """Compute opening range high/low/width/midpoint from the configured opening time."""
     out = df.copy()
     out["session_date"] = out["timestamp"].dt.date
 
     range_frames = []
     for session_date, group in out.groupby("session_date", sort=True):
-        start = group["timestamp"].min()
+        if group.empty:
+            continue
+
+        start = build_session_time(group["timestamp"].iloc[0], opening_time)
         end = start + pd.Timedelta(minutes=or_minutes)
         opening_window = group[(group["timestamp"] >= start) & (group["timestamp"] < end)]
         if opening_window.empty:

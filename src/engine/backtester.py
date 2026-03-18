@@ -23,6 +23,12 @@ def _validate_risk_inputs(account_size_usd: float | None, risk_per_trade_pct: fl
         raise ValueError("risk_per_trade_pct must be in the (0, 100] interval.")
 
 
+def _validate_backtest_inputs(stop_buffer_ticks: int) -> None:
+    """Validate non-risk backtest inputs."""
+    if stop_buffer_ticks < 0:
+        raise ValueError("stop_buffer_ticks must be non-negative.")
+
+
 def _compute_risk_sized_quantity(
     direction: int,
     entry_price: float,
@@ -51,41 +57,60 @@ def run_backtest(
     execution_model: ExecutionModel,
     tick_value_usd: float = DEFAULT_TICK_VALUE_USD,
     time_exit: str = "15:55",
-    stop_multiple: float = 1.0,
+    stop_buffer_ticks: int = 0,
     target_multiple: float = 1.5,
     account_size_usd: float | None = None,
     risk_per_trade_pct: float | None = None,
+    entry_on_next_open: bool = True,
 ) -> pd.DataFrame:
     """Run a straightforward signal-driven single-position backtest."""
     _validate_risk_inputs(account_size_usd, risk_per_trade_pct)
+    _validate_backtest_inputs(stop_buffer_ticks)
 
     trades = []
     trade_id = 1
     force_exit_time = dt.time.fromisoformat(time_exit)
     use_risk_sizing = account_size_usd is not None and risk_per_trade_pct is not None
+    stop_buffer_points = stop_buffer_ticks * NQ_TICK_SIZE
 
     for session_date, session_df in df.groupby("session_date", sort=True):
+        session_df = session_df.sort_values("timestamp").reset_index(drop=True)
         position = 0
         quantity = 0
         entry_price = stop_price = target_price = None
         entry_time = None
         risk_budget_usd = risk_per_contract_usd = actual_risk_usd = None
 
-        for _, row in session_df.iterrows():
+        for idx in range(len(session_df)):
+            row = session_df.loc[idx]
             current_time = row["timestamp"].time()
 
-            if position == 0 and row.get("signal", 0) != 0 and row.get("or_width", 0) > 0:
+            if position == 0 and row.get("signal", 0) != 0:
                 direction = int(row["signal"])
-                raw_entry = row["close"]
+                or_high = row.get("or_high")
+                or_low = row.get("or_low")
+                if pd.isna(or_high) or pd.isna(or_low):
+                    continue
+
+                entry_idx = idx + 1 if entry_on_next_open else idx
+                if entry_idx >= len(session_df):
+                    continue
+
+                entry_row = session_df.loc[entry_idx]
+                raw_entry = entry_row["open"] if entry_on_next_open else row["close"]
                 candidate_entry_price = execution_model.apply_slippage(raw_entry, direction, is_entry=True)
-                candidate_entry_time = row["timestamp"]
-                width = float(row["or_width"])
+                candidate_entry_time = entry_row["timestamp"] if entry_on_next_open else row["timestamp"]
+
                 if direction == 1:
-                    candidate_stop_price = candidate_entry_price - stop_multiple * width
-                    candidate_target_price = candidate_entry_price + target_multiple * width
+                    candidate_stop_price = float(or_low) - stop_buffer_points
                 else:
-                    candidate_stop_price = candidate_entry_price + stop_multiple * width
-                    candidate_target_price = candidate_entry_price - target_multiple * width
+                    candidate_stop_price = float(or_high) + stop_buffer_points
+
+                risk_points = (candidate_entry_price - candidate_stop_price) * direction
+                if risk_points <= 0:
+                    continue
+
+                candidate_target_price = candidate_entry_price + direction * target_multiple * risk_points
 
                 candidate_quantity = 1
                 candidate_risk_budget_usd = None
@@ -136,8 +161,8 @@ def run_backtest(
                         exit_reason = "target"
                         raw_exit_price = target_price
 
-                if exit_reason is None and current_time >= force_exit_time:
-                    exit_reason = "time_exit"
+                if exit_reason is None and (current_time >= force_exit_time or idx == len(session_df) - 1):
+                    exit_reason = "time_exit" if current_time >= force_exit_time else "eod_exit"
                     raw_exit_price = row["close"]
 
                 if exit_reason is not None and raw_exit_price is not None:

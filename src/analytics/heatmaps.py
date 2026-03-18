@@ -16,18 +16,23 @@ def run_orb_grid_search(
     df: pd.DataFrame,
     or_minutes_values: Iterable[int],
     target_multiple_values: Iterable[float],
+    opening_time: str = "09:00:00",
 ) -> pd.DataFrame:
     """Run simple grid search over ORB parameters."""
     rows = []
     for or_minutes in or_minutes_values:
         for target_mult in target_multiple_values:
-            strategy = ORBStrategy(or_minutes=or_minutes, target_multiple=target_mult)
+            strategy = ORBStrategy(
+                or_minutes=or_minutes,
+                target_multiple=target_mult,
+                opening_time=opening_time,
+            )
             signals = strategy.generate_signals(df)
             trades = run_backtest(
                 signals,
                 execution_model=ExecutionModel(),
                 target_multiple=target_mult,
-                stop_multiple=strategy.stop_multiple,
+                stop_buffer_ticks=strategy.stop_buffer_ticks,
                 time_exit=strategy.time_exit,
                 account_size_usd=strategy.account_size_usd,
                 risk_per_trade_pct=strategy.risk_per_trade_pct,

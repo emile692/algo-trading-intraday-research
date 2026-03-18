@@ -7,6 +7,7 @@ from dataclasses import dataclass
 import pandas as pd
 
 from src.config.settings import NQ_TICK_SIZE
+from src.utils.time_utils import build_session_time
 
 
 @dataclass
@@ -17,8 +18,9 @@ class ORBStrategy:
     direction: str = "both"
     one_trade_per_day: bool = True
     entry_buffer_ticks: int = 0
-    stop_multiple: float = 1.0
+    stop_buffer_ticks: int = 0
     target_multiple: float = 1.5
+    opening_time: str = "09:00:00"
     time_exit: str = "15:55"
     account_size_usd: float | None = None
     risk_per_trade_pct: float | None = None
@@ -29,11 +31,19 @@ class ORBStrategy:
         out["signal"] = 0
         buffer = self.entry_buffer_ticks * NQ_TICK_SIZE
 
-        for __, group in out.groupby("session_date", sort=True):
+        for _, group in out.groupby("session_date", sort=True):
+            if group.empty:
+                continue
+            session_start = build_session_time(group["timestamp"].iloc[0], self.opening_time)
+            or_expiry = session_start + pd.Timedelta(minutes=self.or_minutes)
+
             has_trade = False
             for idx in group.index:
                 row = out.loc[idx]
                 if pd.isna(row.get("or_high")) or pd.isna(row.get("or_low")):
+                    continue
+                # Only look for breakouts after the OR period is complete.
+                if row["timestamp"] < or_expiry:
                     continue
 
                 long_break = row["high"] > row["or_high"] + buffer

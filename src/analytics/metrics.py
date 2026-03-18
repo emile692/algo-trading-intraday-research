@@ -31,6 +31,10 @@ def compute_metrics(trades: pd.DataFrame) -> dict[str, float]:
     gross_loss_abs = abs(losses.sum())
     profit_factor = float(gross_profit / gross_loss_abs) if gross_loss_abs > 0 else np.inf
 
+    n_years = (trades["exit_time"].max() - trades["entry_time"].min()).days / 365.25
+    trades_per_year = len(trades) / n_years
+    sharpe = (pnl.mean() / pnl.std()) * np.sqrt(trades_per_year) if pnl.std() > 0 else 0.0
+
     return {
         "n_trades": int(len(trades)),
         "win_rate": float((pnl > 0).mean()),
@@ -40,4 +44,5 @@ def compute_metrics(trades: pd.DataFrame) -> dict[str, float]:
         "profit_factor": float(profit_factor),
         "cumulative_pnl": float(pnl.sum()),
         "max_drawdown": float(drawdown.min()),
+        "sharpe_ratio": float(sharpe),
     }
