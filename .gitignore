@@ -10,3 +10,4 @@ venv/
 *.log
 data/exports/*.csv
 data/exports/*.png
+*.png
