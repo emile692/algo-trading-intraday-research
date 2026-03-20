@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from src.config.settings import DEFAULT_COMMISSION_PER_SIDE_USD, DEFAULT_SLIPPAGE_TICKS, NQ_TICK_SIZE
+from src.config.settings import DEFAULT_COMMISSION_PER_SIDE_USD, DEFAULT_SLIPPAGE_TICKS, DEFAULT_TICK_SIZE
 
 
 @dataclass
@@ -13,7 +13,7 @@ class ExecutionModel:
 
     commission_per_side_usd: float = DEFAULT_COMMISSION_PER_SIDE_USD
     slippage_ticks: int = DEFAULT_SLIPPAGE_TICKS
-    tick_size: float = NQ_TICK_SIZE
+    tick_size: float = DEFAULT_TICK_SIZE
 
     def apply_slippage(self, price: float, direction: int, is_entry: bool) -> float:
         """Adjust price by slippage in unfavorable direction."""

@@ -1,5 +1,4 @@
-def main():
-    print("Hello from algo-trading-intraday-research!")
+from src.analytics.orb_campaign import main
 
 
 if __name__ == "__main__":

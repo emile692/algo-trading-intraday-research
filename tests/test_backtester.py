@@ -44,6 +44,7 @@ def test_backtester_sizes_position_from_account_risk() -> None:
     trades = run_backtest(
         _build_trade_df(),
         execution_model=ExecutionModel(),
+        tick_value_usd=5.0,
         account_size_usd=50_000,
         risk_per_trade_pct=1.0,
         stop_buffer_ticks=1,
@@ -65,6 +66,7 @@ def test_backtester_skips_trade_when_risk_budget_is_too_small() -> None:
     trades = run_backtest(
         _build_trade_df(),
         execution_model=ExecutionModel(),
+        tick_value_usd=5.0,
         account_size_usd=100.0,
         risk_per_trade_pct=1.0,
         stop_buffer_ticks=1,
@@ -82,6 +84,7 @@ def test_backtester_targets_a_multiple_of_entry_to_stop_risk() -> None:
     trades = run_backtest(
         df,
         execution_model=ExecutionModel(),
+        tick_value_usd=5.0,
         stop_buffer_ticks=1,
         target_multiple=2.0,
         time_exit="09:35",
@@ -103,3 +106,23 @@ def test_backtester_requires_complete_risk_parameters() -> None:
             account_size_usd=50_000,
             time_exit="09:35",
         )
+
+
+def test_backtester_applies_leverage_cap_after_risk_sizing() -> None:
+    trades = run_backtest(
+        _build_trade_df(),
+        execution_model=ExecutionModel(),
+        tick_value_usd=5.0,
+        point_value_usd=20.0,
+        account_size_usd=10_000,
+        risk_per_trade_pct=50.0,
+        max_leverage=1.0,
+        stop_buffer_ticks=1,
+        time_exit="09:35",
+    )
+
+    assert len(trades) == 1
+    trade = trades.iloc[0]
+    assert trade["quantity"] == 4
+    assert trade["notional_usd"] == pytest.approx(4 * 100.25 * 20.0)
+    assert trade["leverage_used"] == pytest.approx((4 * 100.25 * 20.0) / 10_000.0)
