@@ -124,8 +124,8 @@ class ORBStrategy:
             or_expiry = session_start + pd.Timedelta(minutes=self.or_minutes)
             eligible = session_df["timestamp"] >= or_expiry
             valid_or = session_df["or_high"].notna() & session_df["or_low"].notna()
-            long_break = eligible & valid_or & (session_df["high"] > session_df["or_high"] + buffer)
-            short_break = eligible & valid_or & (session_df["low"] < session_df["or_low"] - buffer)
+            long_break = eligible & valid_or & (session_df["close"] > session_df["or_high"] + buffer)
+            short_break = eligible & valid_or & (session_df["close"] < session_df["or_low"] - buffer)
 
             raw_signal = pd.Series(0, index=session_df.index, dtype=int)
             if side_mode in ("both", "long"):
