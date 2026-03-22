@@ -1,0 +1,10 @@
+zone,split,score_level,n_candidate_days
+narrow_q25_30__q90_95,total,0.0,367
+narrow_q25_30__q90_95,total,0.5,143
+narrow_q25_30__q90_95,total,1.0,830
+narrow_q25_30__q90_95,is,0.0,284
+narrow_q25_30__q90_95,is,0.5,94
+narrow_q25_30__q90_95,is,1.0,572
+narrow_q25_30__q90_95,oos,0.0,83
+narrow_q25_30__q90_95,oos,0.5,49
+narrow_q25_30__q90_95,oos,1.0,258

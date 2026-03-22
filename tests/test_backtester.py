@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.config.paths import RAW_DATA_DIR
+from src.config.paths import DOWNLOADED_DATA_DIR
 from src.data.loader import load_ohlcv_csv
 from src.features.intraday import add_intraday_features
 from src.features.opening_range import compute_opening_range
@@ -28,7 +28,7 @@ def _build_trade_df() -> pd.DataFrame:
 
 
 def test_backtester_runs() -> None:
-    df = load_ohlcv_csv(RAW_DATA_DIR / "NQ_1min_sample.csv")
+    df = load_ohlcv_csv(DOWNLOADED_DATA_DIR / "NQ_1min_sample.csv")
     df = add_intraday_features(df)
     df = compute_opening_range(df, or_minutes=2)
     df["signal"] = 0

@@ -1,0 +1,38 @@
+{
+  "run_timestamp": "2026-03-21T00:03:44.971920",
+  "spec": {
+    "strategy": {
+      "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\raw\\MNQ_1mim.parquet",
+      "is_fraction": 0.7,
+      "initial_capital_usd": 50000.0,
+      "risk_per_trade_pct": 0.25,
+      "or_minutes": 15,
+      "opening_time": "09:30:00",
+      "time_exit": "16:00:00",
+      "side_mode": "long_only",
+      "entry_buffer_ticks": 0,
+      "stop_buffer_ticks": 2,
+      "target_multiple": 5.0,
+      "entry_on_next_open": true,
+      "atr_period": 14,
+      "atr_q_low": 0.5,
+      "atr_q_high": 1.0,
+      "ema_length": 30,
+      "direction_filter_mode": "ema_only",
+      "execution_profile": "repo_realistic"
+    },
+    "challenge": {
+      "target_return_pct": 0.06,
+      "max_drawdown_pct": 0.04,
+      "n_bootstrap_paths": 5000,
+      "horizon_days": null,
+      "random_seed": 42
+    }
+  },
+  "session_count_total": 1761,
+  "session_count_is": 1232,
+  "session_count_oos": 529,
+  "oos_start_date": "2024-02-12",
+  "winner_variant": "baseline",
+  "output_dir": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\meta_risk_campaign_20260320_231000"
+}

@@ -41,3 +41,59 @@ def add_ema(df: pd.DataFrame, window: int, price_col: str = "close") -> pd.DataF
     out = df.copy()
     out[f"ema_{window}"] = out[price_col].ewm(span=window, adjust=False).mean()
     return out
+
+def add_continuous_session_vwap(
+    df: pd.DataFrame,
+    price_mode: str = "typical",
+    session_start_hour: int = 18,
+    tz: str = "America/New_York",
+    timestamp_col: str = "timestamp",
+) -> pd.DataFrame:
+    """
+    Add a futures-style continuous session VWAP.
+
+    The VWAP resets at `session_start_hour` in local timezone, so it includes:
+    - overnight
+    - premarket
+    - regular US session
+
+    Example for CME equity index futures:
+    session_start_hour = 18 means the session runs approximately
+    from 18:00 ET to 17:59:59 ET next day.
+    """
+    out = df.copy()
+
+    ts = out[timestamp_col]
+    if ts.dt.tz is None:
+        ts_local = ts.dt.tz_localize(tz)
+    else:
+        ts_local = ts.dt.tz_convert(tz)
+    out["_ts_local"] = ts_local
+
+    # Build continuous session date by shifting all bars from session_start_hour or later to next calendar day.
+    session_date = out["_ts_local"].dt.date
+    mask_next_session = out["_ts_local"].dt.hour >= session_start_hour
+    session_date = session_date.where(~mask_next_session, (out["_ts_local"] + pd.Timedelta(days=1)).dt.date)
+    out["continuous_session_date"] = session_date
+
+    if price_mode == "close":
+        price = out["close"]
+    elif price_mode == "typical":
+        price = (out["high"] + out["low"] + out["close"]) / 3.0
+    else:
+        raise ValueError("price_mode must be 'close' or 'typical'.")
+
+    volume = out["volume"].fillna(0.0)
+    pv = price * volume
+
+    cumulative_pv = pv.groupby(out["continuous_session_date"]).cumsum()
+    cumulative_volume = volume.groupby(out["continuous_session_date"]).cumsum()
+
+    out["continuous_session_vwap"] = np.where(
+        cumulative_volume > 0,
+        cumulative_pv / cumulative_volume,
+        np.nan,
+    )
+
+    out = out.drop(columns=["_ts_local"])
+    return out

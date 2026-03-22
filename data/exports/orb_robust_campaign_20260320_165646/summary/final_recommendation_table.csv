@@ -1,0 +1,4 @@
+candidate,improves_overall_metric_count,oos_check_passed,year_stability_passed,beats_baseline,overall_sharpe,overall_profit_factor,overall_expectancy,overall_abs_drawdown
+b_atr_q20_q90,4,True,True,True,1.089292114958305,1.294468896713615,25.470812182741117,2083.5
+b_atr_ge_q30,4,True,True,True,0.8020248696195836,1.2058767449778687,19.20775095298602,2298.5
+a_ratio_q10_q90,4,True,True,True,0.7645205544254566,1.1839777424676883,16.807563959955505,2080.0

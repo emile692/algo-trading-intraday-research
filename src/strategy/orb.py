@@ -16,6 +16,7 @@ _SIDE_MODE_ALIASES = {
     "long_only": "long",
     "short_only": "short",
 }
+_DIRECTION_FILTER_MODES = {"none", "vwap_only", "ema_only", "vwap_and_ema"}
 
 
 def _normalize_side_mode(side_mode: str) -> str:
@@ -46,6 +47,9 @@ class ORBStrategy:
     atr_max: float | None = None
     atr_regime: str = "none"
     direction_filter_mode: str = "none"
+    vwap_confirmation: bool = False
+    vwap_min_distance_ticks: int = 0
+    vwap_column: str = "session_vwap"
     ema_length: int | None = None
     filter_price_col: str = "close"
 
@@ -70,8 +74,43 @@ class ORBStrategy:
             return False
         return True
 
-    def _passes_direction_filter(self, row: pd.Series, signal: int) -> bool:
+    def _ensure_ema_column(self, df: pd.DataFrame) -> pd.DataFrame:
+        if self.ema_length is None:
+            return df
+
+        ema_col = f"ema_{self.ema_length}"
+        if ema_col not in df.columns:
+            if self.filter_price_col not in df.columns:
+                raise ValueError(
+                    f"Missing filter price column '{self.filter_price_col}' required for EMA calculation."
+                )
+            df = df.copy()
+            df[ema_col] = df[self.filter_price_col].ewm(span=self.ema_length, adjust=False).mean()
+        return df
+
+    def _effective_direction_filter_mode(self) -> str:
         mode = self.direction_filter_mode
+        if mode not in _DIRECTION_FILTER_MODES:
+            raise ValueError(
+                "direction_filter_mode must be one of none, vwap_only, ema_only, vwap_and_ema."
+            )
+
+        if not self.vwap_confirmation:
+            return mode
+
+        if mode == "none":
+            return "vwap_only"
+        if mode == "ema_only":
+            return "vwap_and_ema"
+        return mode
+
+    def _vwap_confirmation_buffer(self) -> float:
+        if self.vwap_min_distance_ticks < 0:
+            raise ValueError("vwap_min_distance_ticks must be >= 0.")
+        return self.vwap_min_distance_ticks * self.tick_size
+
+    def _passes_direction_filter(self, row: pd.Series, signal: int) -> bool:
+        mode = self._effective_direction_filter_mode()
         if mode == "none":
             return True
 
@@ -79,11 +118,11 @@ class ORBStrategy:
         if pd.isna(price):
             return False
 
-        comparisons: list[tuple[str, float]] = []
+        comparisons: list[tuple[str, float, float]] = []
         if mode in ("vwap_only", "vwap_and_ema"):
-            if "session_vwap" not in row.index:
-                raise ValueError("Missing 'session_vwap' column required by the strategy.")
-            comparisons.append(("session_vwap", row["session_vwap"]))
+            if self.vwap_column not in row.index:
+                raise ValueError(f"Missing '{self.vwap_column}' column required by the strategy.")
+            comparisons.append((self.vwap_column, row[self.vwap_column], self._vwap_confirmation_buffer()))
 
         if mode in ("ema_only", "vwap_and_ema"):
             if self.ema_length is None:
@@ -91,20 +130,20 @@ class ORBStrategy:
             ema_col = f"ema_{self.ema_length}"
             if ema_col not in row.index:
                 raise ValueError(f"Missing EMA column '{ema_col}' required by the strategy.")
-            comparisons.append((ema_col, row[ema_col]))
+            comparisons.append((ema_col, row[ema_col], 0.0))
 
-        for _, reference_price in comparisons:
+        for _, reference_price, min_gap in comparisons:
             if pd.isna(reference_price):
                 return False
-            if signal == 1 and price <= reference_price:
+            if signal == 1 and price <= reference_price + min_gap:
                 return False
-            if signal == -1 and price >= reference_price:
+            if signal == -1 and price >= reference_price - min_gap:
                 return False
         return True
 
     def generate_signals(self, df: pd.DataFrame) -> pd.DataFrame:
         """Generate ORB entry signals based on OR high/low breaks."""
-        out = df.copy()
+        out = self._ensure_ema_column(df.copy())
         out["signal"] = 0
         out["raw_signal"] = 0
         out["atr_filter_pass"] = True
@@ -124,8 +163,8 @@ class ORBStrategy:
             or_expiry = session_start + pd.Timedelta(minutes=self.or_minutes)
             eligible = session_df["timestamp"] >= or_expiry
             valid_or = session_df["or_high"].notna() & session_df["or_low"].notna()
-            long_break = eligible & valid_or & (session_df["close"] > session_df["or_high"] + buffer)
-            short_break = eligible & valid_or & (session_df["close"] < session_df["or_low"] - buffer)
+            long_break = eligible & valid_or & (session_df["close"] >= session_df["or_high"] + buffer)
+            short_break = eligible & valid_or & (session_df["close"] <= session_df["or_low"] - buffer)
 
             raw_signal = pd.Series(0, index=session_df.index, dtype=int)
             if side_mode in ("both", "long"):
@@ -151,29 +190,35 @@ class ORBStrategy:
                     atr_pass &= atr_values <= self.atr_max
 
             direction_pass = pd.Series(True, index=session_df.index, dtype=bool)
-            if self.direction_filter_mode != "none":
+            direction_filter_mode = self._effective_direction_filter_mode()
+            if direction_filter_mode != "none":
+                if self.filter_price_col not in session_df.columns:
+                    raise ValueError(
+                        f"Missing filter price column '{self.filter_price_col}' required by the strategy."
+                    )
+
                 price = session_df[self.filter_price_col]
                 direction_pass = price.notna()
-                reference_columns: list[str] = []
+                reference_columns: list[tuple[str, float]] = []
 
-                if self.direction_filter_mode in ("vwap_only", "vwap_and_ema"):
-                    if "session_vwap" not in session_df.columns:
-                        raise ValueError("Missing 'session_vwap' column required by the strategy.")
-                    reference_columns.append("session_vwap")
+                if direction_filter_mode in ("vwap_only", "vwap_and_ema"):
+                    if self.vwap_column not in session_df.columns:
+                        raise ValueError(f"Missing '{self.vwap_column}' column required by the strategy.")
+                    reference_columns.append((self.vwap_column, self._vwap_confirmation_buffer()))
 
-                if self.direction_filter_mode in ("ema_only", "vwap_and_ema"):
+                if direction_filter_mode in ("ema_only", "vwap_and_ema"):
                     if self.ema_length is None:
                         raise ValueError("ema_length must be provided when an EMA filter is enabled.")
                     ema_col = f"ema_{self.ema_length}"
                     if ema_col not in session_df.columns:
                         raise ValueError(f"Missing EMA column '{ema_col}' required by the strategy.")
-                    reference_columns.append(ema_col)
+                    reference_columns.append((ema_col, 0.0))
 
-                for ref_col in reference_columns:
+                for ref_col, min_gap in reference_columns:
                     reference_price = session_df[ref_col]
                     valid_reference = reference_price.notna()
-                    long_ok = raw_signal.ne(1) | (valid_reference & (price > reference_price))
-                    short_ok = raw_signal.ne(-1) | (valid_reference & (price < reference_price))
+                    long_ok = raw_signal.ne(1) | (valid_reference & (price > reference_price + min_gap))
+                    short_ok = raw_signal.ne(-1) | (valid_reference & (price < reference_price - min_gap))
                     direction_pass &= long_ok & short_ok
 
             filter_pass = candidate_mask & atr_pass & direction_pass

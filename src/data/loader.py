@@ -53,6 +53,9 @@ def load_ohlcv_file(path: Path | str, timezone: str = DEFAULT_TIMEZONE) -> pd.Da
     if suffix == ".csv":
         return load_ohlcv_csv(file_path, timezone=timezone)
     if suffix == ".parquet":
-        return _normalize_ohlcv_frame(pd.read_parquet(file_path), timezone=timezone)
+        df = pd.read_parquet(file_path)
+        if df.index.name == 'timestamp' or 'timestamp' not in df.columns:
+            df = df.reset_index()
+        return _normalize_ohlcv_frame(df, timezone=timezone)
 
     raise ValueError(f"Unsupported OHLCV file format: {file_path.suffix}")

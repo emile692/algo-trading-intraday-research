@@ -295,6 +295,14 @@ def compute_metrics(
     traded_days = int(pd.Index(pd.to_datetime(trades["session_date"]).dt.date).nunique())
     percent_of_days_traded = float(traded_days / n_sessions) if n_sessions > 0 else 0.0
 
+    time_exit_trades = trades[trades["exit_reason"] == "time_exit"]
+    time_exit_win = time_exit_trades["net_pnl_usd"] > 0
+    time_exit_loss = time_exit_trades["net_pnl_usd"] < 0
+    time_exit_count = int(len(time_exit_trades))
+    time_exit_win_rate = float(time_exit_win.mean()) if time_exit_count > 0 else 0.0
+    time_exit_loss_rate = float(time_exit_loss.mean()) if time_exit_count > 0 else 0.0
+    time_exit_pnl = float(time_exit_trades["net_pnl_usd"].sum()) if time_exit_count > 0 else 0.0
+
     metrics: dict[str, float | int | bool | str] = {
         "n_trades": int(len(trades)),
         "win_rate": float((pnl > 0).mean()),
@@ -315,7 +323,12 @@ def compute_metrics(
         "worst_day": float(daily.min()) if not daily.empty else 0.0,
         "stop_hit_rate": float((trades["exit_reason"] == "stop").mean()),
         "target_hit_rate": float((trades["exit_reason"] == "target").mean()),
-        "eod_exit_rate": float(trades["exit_reason"].isin(["time_exit", "eod_exit"]).mean()),
+        "time_exit_rate": float((trades["exit_reason"] == "time_exit").mean()),
+        "time_exit_count": time_exit_count,
+        "time_exit_win_rate": time_exit_win_rate,
+        "time_exit_loss_rate": time_exit_loss_rate,
+        "time_exit_pnl_usd": time_exit_pnl,
+        "eod_exit_rate": float(trades["exit_reason"].isin(["eod_exit"]).mean()),
         "proportion_filtered_out": float(filtered_out_count / raw_signal_count) if raw_signal_count > 0 else 0.0,
         "trade_count_after_filters": int(len(trades)),
         "percent_of_days_traded": percent_of_days_traded,

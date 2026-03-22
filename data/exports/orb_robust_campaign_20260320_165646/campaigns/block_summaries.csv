@@ -1,0 +1,5 @@
+block,best_variant,best_phase3_score,best_profit_factor,best_sharpe,best_expectancy,best_max_drawdown,best_n_trades,conclusion
+A_or_width_over_atr,a_ratio_q10_q90,0.14178973233045558,1.1839777424676883,0.7645205544254566,16.807563959955505,-2080.0,899,signal credible
+B_atr_regime,b_atr_q20_q90,0.4618093969299236,1.294468896713615,1.089292114958305,25.470812182741117,-2083.5,788,signal credible
+C_breakout_structure,c_vwap_slope_atr_q40_q95,0.09730935328354538,1.2151113540101106,0.7258748459488041,19.13776337115073,-3346.5,617,pas convaincant
+D_price_vwap_distance,d_price_vwap_dist_atr_q30_q85,0.135887807565718,1.2016257698786912,0.6889668153744428,18.301779935275082,-2074.5,618,pas convaincant

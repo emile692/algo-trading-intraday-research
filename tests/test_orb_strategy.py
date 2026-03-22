@@ -22,6 +22,7 @@ def test_orb_strategy_uses_opening_time_for_or_expiry() -> None:
             "session_date": timestamps.normalize().date,
             "or_high": [100.0] * len(timestamps),
             "or_low": [95.0] * len(timestamps),
+            "close": [99.0, 99.0, 99.0, 99.0, 99.0, 99.0, 101.0, 101.0],
             "high": [99.0, 99.0, 99.0, 99.0, 99.0, 99.0, 101.0, 101.0],
             "low": [96.0] * len(timestamps),
         }
@@ -68,6 +69,113 @@ def test_orb_strategy_can_filter_and_wait_for_later_breakout() -> None:
         atr_max=2.0,
         direction_filter_mode="vwap_and_ema",
         ema_length=20,
+    )
+    out = strategy.generate_signals(df)
+
+    first_break = out.loc[out["timestamp"] == pd.Timestamp("2024-01-02 09:31:00")].iloc[0]
+    second_break = out.loc[out["timestamp"] == pd.Timestamp("2024-01-02 09:32:00")].iloc[0]
+
+    assert first_break["raw_signal"] == 1
+    assert first_break["signal"] == 0
+    assert bool(first_break["filtered_out"]) is True
+    assert second_break["raw_signal"] == 1
+    assert second_break["signal"] == 1
+
+
+def test_orb_strategy_computes_missing_ema_column_automatically() -> None:
+    timestamps = pd.to_datetime(
+        [
+            "2024-01-02 09:30:00",
+            "2024-01-02 09:31:00",
+            "2024-01-02 09:32:00",
+        ]
+    )
+    df = pd.DataFrame(
+        {
+            "timestamp": timestamps,
+            "session_date": timestamps.normalize().date,
+            "or_high": [100.0] * len(timestamps),
+            "or_low": [95.0] * len(timestamps),
+            "high": [99.0, 101.0, 101.2],
+            "low": [96.0, 96.0, 96.0],
+            "close": [99.0, 99.0, 101.2],
+            "session_vwap": [99.4, 101.4, 100.8],
+        }
+    )
+
+    strategy = ORBStrategy(
+        or_minutes=1,
+        opening_time="09:30:00",
+        direction_filter_mode="ema_only",
+        ema_length=3,
+    )
+    out = strategy.generate_signals(df)
+
+    assert "ema_3" in out.columns
+    assert out["ema_3"].notna().any()
+
+
+def test_orb_strategy_supports_explicit_vwap_confirmation() -> None:
+    timestamps = pd.to_datetime(
+        [
+            "2024-01-02 09:30:00",
+            "2024-01-02 09:31:00",
+            "2024-01-02 09:32:00",
+        ]
+    )
+    df = pd.DataFrame(
+        {
+            "timestamp": timestamps,
+            "session_date": timestamps.normalize().date,
+            "or_high": [100.0] * len(timestamps),
+            "or_low": [95.0] * len(timestamps),
+            "close": [99.0, 101.0, 101.2],
+            "session_vwap": [99.4, 101.4, 100.8],
+        }
+    )
+
+    strategy = ORBStrategy(
+        or_minutes=1,
+        opening_time="09:30:00",
+        vwap_confirmation=True,
+    )
+    out = strategy.generate_signals(df)
+
+    first_break = out.loc[out["timestamp"] == pd.Timestamp("2024-01-02 09:31:00")].iloc[0]
+    second_break = out.loc[out["timestamp"] == pd.Timestamp("2024-01-02 09:32:00")].iloc[0]
+
+    assert first_break["raw_signal"] == 1
+    assert first_break["signal"] == 0
+    assert bool(first_break["filtered_out"]) is True
+    assert second_break["raw_signal"] == 1
+    assert second_break["signal"] == 1
+
+
+def test_orb_strategy_applies_vwap_confirmation_distance_buffer() -> None:
+    timestamps = pd.to_datetime(
+        [
+            "2024-01-02 09:30:00",
+            "2024-01-02 09:31:00",
+            "2024-01-02 09:32:00",
+        ]
+    )
+    df = pd.DataFrame(
+        {
+            "timestamp": timestamps,
+            "session_date": timestamps.normalize().date,
+            "or_high": [100.0] * len(timestamps),
+            "or_low": [95.0] * len(timestamps),
+            "close": [99.0, 101.2, 101.6],
+            "session_vwap": [99.6, 100.9, 101.0],
+        }
+    )
+
+    strategy = ORBStrategy(
+        or_minutes=1,
+        opening_time="09:30:00",
+        vwap_confirmation=True,
+        vwap_min_distance_ticks=2,
+        tick_size=0.25,
     )
     out = strategy.generate_signals(df)
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from src.config.paths import RAW_DATA_DIR
+from src.config.paths import DOWNLOADED_DATA_DIR
 from src.config.settings import (
     DEFAULT_COMMISSION_PER_SIDE_USD,
     DEFAULT_INITIAL_CAPITAL_USD,
@@ -15,7 +15,7 @@ from src.config.settings import (
     DEFAULT_TICK_VALUE_USD,
 )
 
-DEFAULT_CAMPAIGN_DATASET = RAW_DATA_DIR / "MNQ_1mim.parquet"
+DEFAULT_CAMPAIGN_DATASET = DOWNLOADED_DATA_DIR / "MNQ_1mim.parquet"
 DEFAULT_OPENING_TIME = "09:30:00"
 DEFAULT_TIME_EXIT = "16:00:00"
 DEFAULT_STOP_BUFFER_TICKS = 2

@@ -1,0 +1,53 @@
+{
+  "run_timestamp": "2026-03-22T21:51:33.991820",
+  "config": {
+    "symbol": "MNQ",
+    "or_minutes": 30,
+    "direction": "both",
+    "rr_values": [
+      2.0,
+      3.0,
+      5.0,
+      10.0
+    ],
+    "is_fraction": 0.7,
+    "grid": {
+      "atr_periods": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "q_lows_pct": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "q_highs_pct": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "aggregation_rules": [
+        "majority_50",
+        "consensus_75",
+        "unanimity_100"
+      ]
+    },
+    "output_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\export\\mnq_or30_both_rr_campaign"
+  },
+  "rr_folders": {
+    "rr_2": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\export\\mnq_or30_both_rr_campaign\\rr_2",
+    "rr_3": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\export\\mnq_or30_both_rr_campaign\\rr_3",
+    "rr_5": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\export\\mnq_or30_both_rr_campaign\\rr_5",
+    "rr_10": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\export\\mnq_or30_both_rr_campaign\\rr_10"
+  }
+}

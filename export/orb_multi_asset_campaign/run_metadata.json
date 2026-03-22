@@ -1,0 +1,63 @@
+{
+  "run_timestamp": "2026-03-22T15:37:07.866595",
+  "config": {
+    "symbols": [
+      "MES",
+      "M2K"
+    ],
+    "reference_symbol": "MNQ",
+    "is_fraction": 0.7,
+    "baseline": {
+      "or_minutes": 15,
+      "opening_time": "09:30:00",
+      "direction": "long",
+      "one_trade_per_day": true,
+      "entry_buffer_ticks": 2,
+      "stop_buffer_ticks": 2,
+      "target_multiple": 2.0,
+      "vwap_confirmation": true,
+      "vwap_column": "continuous_session_vwap",
+      "time_exit": "16:00:00",
+      "account_size_usd": 50000.0,
+      "risk_per_trade_pct": 1.5,
+      "entry_on_next_open": true
+    },
+    "grid": {
+      "atr_periods": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "q_lows_pct": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "q_highs_pct": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "aggregation_rules": [
+        "majority_50",
+        "consensus_75",
+        "unanimity_100"
+      ]
+    },
+    "output_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\export\\orb_multi_asset_campaign"
+  },
+  "datasets": {
+    "MNQ": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+    "MES": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MES_c_0_1m_20260322_135702.parquet",
+    "M2K": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet"
+  }
+}

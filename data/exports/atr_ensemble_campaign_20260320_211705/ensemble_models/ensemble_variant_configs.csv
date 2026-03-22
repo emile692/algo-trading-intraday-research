@@ -1,0 +1,7 @@
+strategy_id,strategy_group,zone,score_column,threshold,aggregation,n_submodels,selection_column
+baseline_no_atr,baseline,none,,,none,0,
+point_q25_q90,point_model,point_model,,,single_point,1,pass__point_q25_q90
+point_q30_q90,point_model,point_model_secondary,,,single_point_avg,1,pass__point_q30_q90
+ensemble__narrow_q25_30__q90_95__majority_50,ensemble,narrow_q25_30__q90_95,score__narrow_q25_30__q90_95,0.5,majority_50,4,
+ensemble__narrow_q25_30__q90_95__consensus_75,ensemble,narrow_q25_30__q90_95,score__narrow_q25_30__q90_95,0.75,consensus_75,4,
+ensemble__narrow_q25_30__q90_95__consensus_100,ensemble,narrow_q25_30__q90_95,score__narrow_q25_30__q90_95,1.0,consensus_100,4,

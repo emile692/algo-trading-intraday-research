@@ -1,0 +1,5 @@
+variant,variant_label,challenge_target_return_pct,challenge_drawdown_limit_pct,challenge_target_usd,challenge_drawdown_limit_usd,challenge_horizon_days,challenge_bootstrap_paths,challenge_pass_rate,challenge_median_days_to_target,challenge_mean_days_to_target,challenge_p25_days_to_target,challenge_p75_days_to_target,historical_path_pass,historical_days_to_target
+baseline,1_baseline,0.06,0.04,3000.0,2000.0,529,5000,0.173,423.0,406.957225433526,355.0,478.0,False,
+half_after_2_losses,2_half_after_2_losses,0.06,0.04,3000.0,2000.0,529,5000,0.0,,,,,False,
+skip_day_after_3_losses,3_skip_after_3_losses,0.06,0.04,3000.0,2000.0,529,5000,0.173,423.0,406.957225433526,355.0,478.0,False,
+local_drawdown_scaling,4_local_drawdown_scaling,0.06,0.04,3000.0,2000.0,529,5000,0.0,,,,,False,

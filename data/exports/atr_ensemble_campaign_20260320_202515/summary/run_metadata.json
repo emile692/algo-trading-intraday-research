@@ -1,0 +1,31 @@
+{
+  "run_timestamp": "2026-03-20T20:26:28.202471",
+  "dataset": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\raw\\MNQ_1mim.parquet",
+  "baseline": {
+    "or_minutes": 15,
+    "opening_time": "09:30:00",
+    "direction": "long",
+    "one_trade_per_day": true,
+    "entry_buffer_ticks": 2,
+    "stop_buffer_ticks": 2,
+    "target_multiple": 2.0,
+    "vwap_confirmation": true,
+    "vwap_column": "continuous_session_vwap",
+    "time_exit": "16:00:00",
+    "account_size_usd": 50000.0,
+    "risk_per_trade_pct": 0.5,
+    "tick_size": 0.25,
+    "entry_on_next_open": true
+  },
+  "campaign_spec": {
+    "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\raw\\MNQ_1mim.parquet",
+    "is_fraction": 0.7,
+    "atr_period": 14,
+    "point_q_low_pct": 20.0,
+    "point_q_high_pct": 90.0,
+    "include_expanded_zone": true
+  },
+  "final_option": "3. Le signal d'ensemble est clairement superieur",
+  "best_ensemble_strategy_id": "ensemble__expanded_q20_25_30__q90_95__majority_50",
+  "output_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\atr_ensemble_campaign_20260320_202515"
+}
