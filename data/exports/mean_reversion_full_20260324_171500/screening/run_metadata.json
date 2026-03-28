@@ -1,0 +1,23 @@
+{
+  "run_timestamp": "2026-03-24T17:20:26.479355",
+  "datasets_by_symbol": {
+    "MNQ": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+    "MES": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MES_c_0_1m_20260322_135702.parquet",
+    "M2K": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet",
+    "MGC": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MGC_c_0_1m_20260322_155729.parquet"
+  },
+  "timeframes": [
+    {
+      "label": "5m",
+      "bar_minutes": 5,
+      "resample_rule": "5min"
+    },
+    {
+      "label": "15m",
+      "bar_minutes": 15,
+      "resample_rule": "15min"
+    }
+  ],
+  "variant_count": 28,
+  "survivor_count": 0
+}

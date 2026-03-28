@@ -1,0 +1,15 @@
+{
+  "run_timestamp": "2026-03-24T13:46:30.067017",
+  "timeframe": "1m",
+  "bar_minutes": 1,
+  "source_dataset_1m": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "resample_rule": null,
+  "vwap_price_mode": "typical",
+  "vwap_price_volume_col": null,
+  "variant_names": [
+    "paper_vwap_baseline",
+    "baseline_futures_adapted",
+    "vwap_reclaim"
+  ]
+}

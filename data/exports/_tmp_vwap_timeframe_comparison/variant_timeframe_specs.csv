@@ -1,0 +1,7 @@
+timeframe,bar_minutes,display_order,strategy_id,family,mode,execution_profile,quantity_mode,slope_lookback,atr_period,compression_length,pullback_lookback,atr_buffer,stop_buffer,max_trades_per_day,time_windows,what_changes_vs_baseline
+1m,1,1,paper_vwap_baseline,baseline,target_position,paper_reference,paper_full_notional,5,14,3,6,0.25,0.25,,full_rth,"Reference officielle: close[t-1] vs VWAP[t-1], next open, always-in-market RTH, flat overnight."
+1m,1,2,baseline_futures_adapted,baseline,target_position,repo_realistic,fixed_quantity,5,14,3,6,0.25,0.25,,full_rth,"Meme signal que la baseline paper, mais sous sizing futures fixe et couts repo_realistic."
+1m,1,3,vwap_reclaim,prop_variant,discrete,repo_realistic,fixed_quantity,5,14,4,6,0.25,0.25,3.0,full_rth,"Variante discrete reclaim simple avec pente VWAP, buffer ATR et sortie sur recross/stop/session close."
+5m,5,1,paper_vwap_baseline,baseline,target_position,paper_reference,paper_full_notional,1,3,2,2,0.25,0.25,,full_rth,"Reference officielle: close[t-1] vs VWAP[t-1], next open, always-in-market RTH, flat overnight."
+5m,5,2,baseline_futures_adapted,baseline,target_position,repo_realistic,fixed_quantity,1,3,2,2,0.25,0.25,,full_rth,"Meme signal que la baseline paper, mais sous sizing futures fixe et couts repo_realistic."
+5m,5,3,vwap_reclaim,prop_variant,discrete,repo_realistic,fixed_quantity,1,3,2,2,0.25,0.25,3.0,full_rth,"Variante discrete reclaim simple avec pente VWAP, buffer ATR et sortie sur recross/stop/session close."

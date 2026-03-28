@@ -1,0 +1,30 @@
+{
+  "run_type": "mnq_orb_intraday_pnl_overlay_campaign",
+  "baseline_is_one_trade_per_day": true,
+  "baseline_fixed_contracts": 1,
+  "overlay_bar_close_mark_to_market": true,
+  "best_variant_name": "combo_loss_0p5__profit_1p5",
+  "best_variant_family": "block_1_hard_cap",
+  "best_variant_verdict": "defensive_but_costly",
+  "best_variant_oos_net_pnl_retention_vs_baseline": 0.7059206437198675,
+  "best_variant_oos_profit_factor_delta_vs_baseline": -0.06224729832462761,
+  "best_variant_oos_expectancy_delta_vs_baseline": -8.262536873156346,
+  "best_variant_oos_max_drawdown_improvement_vs_baseline": 0.4837648438645368,
+  "best_variant_oos_worst_day_improvement_vs_baseline": 0.3049193657677192,
+  "best_variant_oos_cut_day_freq": 0.44,
+  "best_variant_oos_profit_lock_freq": 0.10857142857142857,
+  "best_variant_oos_giveback_freq": 0.0,
+  "overlay_adds_robust_value": false,
+  "overlay_value_character": "prop_defensive",
+  "phase2_with_3state_recommended": false,
+  "structural_note": "The official nominal baseline trades at most once per day, so trade-count and post-first-trade sequence rules are mostly structurally inactive.",
+  "assumptions": [
+    "baseline direction=both",
+    "baseline OR window=30m",
+    "baseline target_multiple=2.0",
+    "aggregation_rule=majority_50",
+    "fixed_contracts=1",
+    "commission_per_side_usd=0.62",
+    "slippage_ticks=1.0"
+  ]
+}

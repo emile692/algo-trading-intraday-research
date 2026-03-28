@@ -1,0 +1,39 @@
+{
+  "run_type": "mnq_orb_prop_challenge_readiness",
+  "source_run_root": "data\\exports\\mnq_orb_vvix_sizing_modulation_20260328_run",
+  "source_run_timestamp": "2026-03-28T10:52:42.882189",
+  "primary_scope": "oos",
+  "common_rolling_start_count": 282,
+  "challenge_rules": {
+    "name": "prop_50k_main",
+    "description": "50K-style prop challenge with profit target, daily loss, and trailing drawdown.",
+    "account_size_usd": 50000.0,
+    "profit_target_usd": 3000.0,
+    "max_trading_days": 35,
+    "daily_loss_limit_usd": 1000.0,
+    "static_max_loss_usd": null,
+    "trailing_drawdown_usd": 2000.0,
+    "trailing_drawdown_locks_at_start_balance": false,
+    "cut_day_on_daily_loss": true,
+    "near_daily_limit_buffer_frac": 0.1,
+    "near_global_limit_buffer_frac": 0.1,
+    "notes": "Daily loss is modeled with end-of-day audited PnL and capped at the limit when the limit is hit. Trailing drawdown uses prior closed-equity high-watermark logic."
+  },
+  "challenge_best_variant": "baseline_3state",
+  "challenge_best_risk_profile": "assertive",
+  "funded_best_variant": "baseline_3state",
+  "funded_best_risk_profile": "base",
+  "vvix_modulator_improves_challenge_business": true,
+  "use_split_configuration": false,
+  "recommended_launch_risk_profile": "assertive",
+  "recommended_launch_variant": "baseline_3state",
+  "stress_flip_detected": false,
+  "launch_readiness": "not_defendable_yet",
+  "launch_defendable": false,
+  "assumptions": [
+    "Challenge readiness uses common OOS rolling starts only; no new alpha search is performed.",
+    "Risk profiles use a compact global exposure multiplier layered on top of the already-validated overlay behavior.",
+    "Slippage stress is applied from audited trade logs using the repo instrument tick value and nominal slippage baseline.",
+    "Funded follow-up is a light post-pass lens, not a full commercial funded-account model."
+  ]
+}

@@ -1,0 +1,3 @@
+timeframe,bar_minutes,strategy_id,oos_net_pnl,oos_profit_factor,oos_sharpe_ratio,oos_max_drawdown,oos_total_trades,pnl_slip_x2,pf_slip_x2,positive_oos_splits,challenge_success_rate_standard,top_5_day_contribution_pct,final_bucket
+1m,1,paper_vwap_baseline,-2376.5,0.7662880464178591,-0.7066732810483942,-2518.5,613,-2989.5,0.7205291203141068,0,0.0,-0.9370923627182832,reference_officielle
+5m,5,paper_vwap_baseline,-3239.5,0.9788696105929163,-0.23176485399542818,-7327.0,3881,-7120.5,0.9544426494345719,0,0.0,-2.8490507794412716,reference_officielle

@@ -1,0 +1,9 @@
+{
+  "run_timestamp": "2026-03-23T00:25:52.630068",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "symbol": "MNQ",
+  "session_count_total": 1747,
+  "session_count_is": 1222,
+  "session_count_oos": 525,
+  "best_variant_name": "vwap_pullback_continuation"
+}

@@ -1,0 +1,60 @@
+{
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "reference_variant": {
+    "name": "vwap_pullback_continuation",
+    "family": "prop_variant",
+    "mode": "discrete",
+    "execution_profile": "repo_realistic",
+    "initial_capital_usd": 50000.0,
+    "quantity_mode": "fixed_quantity",
+    "fixed_quantity": 1,
+    "time_windows": [],
+    "slope_lookback": 5,
+    "slope_threshold": 0.0,
+    "atr_period": 14,
+    "atr_buffer": 0.3,
+    "stop_buffer": 0.3,
+    "compression_length": 3,
+    "pullback_lookback": 8,
+    "confirmation_threshold": 0.0,
+    "max_trades_per_day": 3,
+    "max_losses_per_day": null,
+    "daily_stop_threshold_usd": null,
+    "consecutive_losses_threshold": null,
+    "deleverage_after_losing_streak": 1.0,
+    "risk_per_trade_pct": null,
+    "exit_on_vwap_recross": true,
+    "use_partial_exit": false,
+    "partial_exit_r_multiple": 1.0,
+    "keep_runner_until_close": true,
+    "notes": "Trend continuation after a contained pullback inside a valid VWAP regime."
+  },
+  "symbol": "MNQ",
+  "instrument": {
+    "symbol": "MNQ",
+    "asset_class": "futures",
+    "tick_size": 0.25,
+    "tick_value_usd": 0.5,
+    "point_value_usd": 2.0,
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks": 1
+  },
+  "execution_model": {
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks": 1,
+    "tick_size": 0.25
+  },
+  "session_assumptions": {
+    "session_start": "09:30:00",
+    "session_end": "16:00:00",
+    "flat_overnight": true,
+    "discrete_entries_execute_next_open": true
+  },
+  "audit_notes": {
+    "source_best_run_metadata": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\vwap_full_smoke_v2\\summary\\run_metadata.json",
+    "source_best_variant_name": "vwap_pullback_continuation",
+    "legacy_discovery_run_had_same_bar_execution": true,
+    "compression_length_inactive_for_pullback_continuation": true,
+    "partial_exit_logic_active": false
+  }
+}

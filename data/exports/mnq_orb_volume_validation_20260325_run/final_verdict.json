@@ -1,0 +1,25 @@
+{
+  "run_type": "mnq_orb_volume_validation",
+  "baseline_variant_name": "baseline_fixed_nominal_atr",
+  "volume_edge_standalone": false,
+  "tentative_volume_signal_detected": true,
+  "edge_character": "selection_filter",
+  "phase2_volume_plus_3state_recommended": false,
+  "best_variant_name": "regime_mid__volume_percentile_prev_20",
+  "best_variant_verdict": "mixed_positive",
+  "best_variant_block": "regime_classifier",
+  "best_variant_feature_name": "volume_percentile_prev_20",
+  "best_variant_oos_trade_coverage_vs_baseline": 0.7142857142857143,
+  "best_variant_oos_net_pnl_retention_vs_baseline": 0.8419370773086803,
+  "best_variant_oos_sharpe_delta_vs_baseline": -0.013994883080659104,
+  "best_variant_oos_expectancy_delta_vs_baseline": 4.406766917293247,
+  "best_variant_oos_hit_rate_delta_vs_baseline": -0.010526315789473717,
+  "best_variant_oos_stop_hit_rate_delta_vs_baseline": 0.02105263157894735,
+  "best_variant_oos_max_drawdown_improvement_vs_baseline": 0.08491276200672475,
+  "assumptions": [
+    "baseline direction=long",
+    "baseline OR window=30m",
+    "aggregation_rule=majority_50",
+    "fixed_contracts=1"
+  ]
+}

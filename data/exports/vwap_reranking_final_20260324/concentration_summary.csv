@@ -1,0 +1,9 @@
+strategy_id,role,top_3_day_contribution_pct,top_5_day_contribution_pct,pnl_excluding_top_3_days,pnl_excluding_top_5_days,pnl_excluding_best_month,concentration_verdict
+paper_vwap_baseline,paper_baseline_reference,-0.7319587628865979,-0.9370923627182832,-4116.0,-4603.5,-2376.5,forte dependance aux meilleurs jours
+baseline_futures_adapted,realistic_baseline_reference,-0.27658035224267824,-0.41203911590081327,-25586.5,-28301.5,-22736.0,forte dependance aux meilleurs jours
+vwap_baseline_regime_filtered,candidate,-0.13695674509401007,-0.21159971231891503,-11066.0,-11792.5,-11520.0,forte dependance aux meilleurs jours
+vwap_baseline_trade_capped,candidate,-1.6247598133406533,-2.6022508921218774,-4781.0,-6561.5,-3816.5,forte dependance aux meilleurs jours
+vwap_baseline_with_killswitch,candidate,-2.6166902404526167,-4.174446016030174,-3835.5,-5487.5,-2139.5,forte dependance aux meilleurs jours
+vwap_reclaim,candidate,7.5271308665326355,8.116325806832903,-985.9464285714275,-1074.9464285714275,-529.4464285714275,forte dependance aux meilleurs jours
+vwap_reclaim_with_prop_overlay,candidate,0.0,0.0,0.0,0.0,0.0,dependance moderee aux outliers
+vwap_time_filtered_baseline,candidate,-0.5286960411541042,-0.7568776560053679,-17087.0,-19637.5,-14540.5,forte dependance aux meilleurs jours

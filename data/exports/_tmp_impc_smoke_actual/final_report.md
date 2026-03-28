@@ -1,0 +1,75 @@
+# Intraday Momentum Pullback Continuation (IMPC) Validation
+
+## Methodology
+
+- Independent IMPC strategy built from scratch on top of the repo execution assumptions, without changing ORB / VCEB / overlay research modules.
+- Universe: `MNQ, MES, M2K, MGC`.
+- Source data: 1-minute intraday futures data, resampled deterministically to 5-minute OHLCV bars.
+- Session filter: RTH only `09:30:00` -> `16:00:00`.
+- Allowed entry window: `09:45:00` -> `15:30:00`.
+- V1 logic only: directional bias, valid pullback, continuation trigger on close with next-open execution.
+- Grid discipline: 24 variants only, using EMA pairs `(8,21)` and `(12,34)`, coupled slope/pullback pairs `(3,3)` and `(5,5)`, `pb_min_atr` in `{0.3, 0.5}`, and `target_r` in `{1.5, 2.0, 2.5}`.
+- Fixed parameters: ATR `48`, `pb_max_atr=1.2`, structural stop buffer `0.10 * ATR`, time stop `60` minutes.
+- IS/OOS split: chronological `70%` / `30%` per instrument.
+
+## Data Coverage
+
+- `MNQ`: source `MNQ_c_0_1m_20260321_094501.parquet`, resampled `MNQ_c_0_5m_20260321_094501.parquet`, analysed sessions `61`.
+- `MES`: source `MES_c_0_1m_20260322_135702.parquet`, resampled `MES_c_0_5m_20260322_135702.parquet`, analysed sessions `61`.
+- `M2K`: source `M2K_c_0_1m_20260322_134808.parquet`, resampled `M2K_c_0_5m_20260322_134808.parquet`, analysed sessions `61`.
+- `MGC`: source `MGC_c_0_1m_20260322_155729.parquet`, resampled `MGC_c_0_5m_20260322_155729.parquet`, analysed sessions `57`.
+
+## Cross-Asset Screening
+
+```text
+                      variant_name  ema_fast  ema_slow  slope_lookback  pullback_lookback  pb_min_atr  target_r  asset_count  oos_positive_assets  oos_profit_factor_gt_1_assets  oos_total_trades  oos_total_net_pnl  oos_median_profit_factor  oos_median_sharpe  oos_mean_expectancy  oos_median_win_rate  oos_worst_max_drawdown  oos_median_holding_minutes  oos_median_time_in_market_pct  oos_median_top_5_day_contribution_pct best_asset_symbol  best_asset_oos_total_trades  best_asset_oos_net_pnl  best_asset_oos_profit_factor  best_asset_oos_sharpe  best_asset_oos_average_trade  best_asset_oos_top_5_day_contribution_pct  best_asset_oos_pnl_excluding_top_5_days worst_asset_symbol  worst_asset_oos_net_pnl  portfolio_pass  mono_asset_pass  pass_screening  screening_score
+impc_ef12_es34_sl3_pb3_pm0p3_tr2p5        12        34               3                  3         0.3       2.5            4                    3                              3                72         416.457031                  1.212592           1.281596             6.107383             0.433036             -603.789062                       51.25                       0.101290                               2.443644               MNQ                           20              822.415104                      1.968177               5.628469                     41.120755                                   1.302169                              -248.508333                MES              -491.063802           False            False           False         0.104177
+impc_ef12_es34_sl3_pb3_pm0p5_tr2p5        12        34               3                  3         0.5       2.5            4                    3                              3                72         416.457031                  1.212592           1.281596             6.107383             0.433036             -603.789062                       51.25                       0.101290                               2.443644               MNQ                           20              822.415104                      1.968177               5.628469                     41.120755                                   1.302169                              -248.508333                MES              -491.063802           False            False           False         0.104177
+ impc_ef8_es21_sl5_pb5_pm0p3_tr1p5         8        21               5                  5         0.3       1.5            4                    2                              2                14         242.332812                  1.413953           0.136471            17.699653             0.416667             -130.047917                       46.25                       0.021892                               1.195492               MNQ                            4              162.058333                      2.246143               1.945592                     40.514583                                   1.802476                              -130.047917                MGC               -42.310417           False            False           False        -0.325412
+ impc_ef8_es21_sl5_pb5_pm0p5_tr1p5         8        21               5                  5         0.5       1.5            4                    2                              2                14         242.332812                  1.413953           0.136471            17.699653             0.416667             -130.047917                       46.25                       0.021892                               1.195492               MNQ                            4              162.058333                      2.246143               1.945592                     40.514583                                   1.802476                              -130.047917                MGC               -42.310417           False            False           False        -0.325412
+impc_ef12_es34_sl5_pb5_pm0p3_tr2p5        12        34               5                  5         0.3       2.5            4                    2                              2                17          96.210417                  0.890832          -0.898626             5.211704             0.366667             -220.131250                       42.50                       0.029802                               0.851843               MES                            4              120.330729                      3.693814               3.629866                     30.082682                                   1.038804                                -4.669271                MGC               -75.189583           False            False           False        -0.339636
+impc_ef12_es34_sl5_pb5_pm0p5_tr2p5        12        34               5                  5         0.5       2.5            4                    2                              2                17          96.210417                  0.890832          -0.898626             5.211704             0.366667             -220.131250                       42.50                       0.029802                               0.851843               MES                            4              120.330729                      3.693814               3.629866                     30.082682                                   1.038804                                -4.669271                MGC               -75.189583           False            False           False        -0.339636
+impc_ef12_es34_sl5_pb5_pm0p3_tr2p0        12        34               5                  5         0.3       2.0            4                    2                              2                17          54.619271                  0.758507          -1.197065             3.340480             0.366667             -220.131250                       42.50                       0.028790                               0.849483               MES                            4              136.997396                      4.066927               3.643404                     34.249349                                   1.034083                                -4.669271                MGC               -75.189583           False            False           False        -0.541101
+impc_ef12_es34_sl5_pb5_pm0p5_tr2p0        12        34               5                  5         0.5       2.0            4                    2                              2                17          54.619271                  0.758507          -1.197065             3.340480             0.366667             -220.131250                       42.50                       0.028790                               0.849483               MES                            4              136.997396                      4.066927               3.643404                     34.249349                                   1.034083                                -4.669271                MGC               -75.189583           False            False           False        -0.541101
+ impc_ef8_es21_sl5_pb5_pm0p3_tr2p0         8        21               5                  5         0.3       2.0            4                    1                              1                14          84.219792                  0.614910          -1.369634             8.359115             0.416667             -130.047917                       48.75                       0.023242                               0.832441               MES                            3              181.666667                           inf               4.727992                     60.555556                                   1.000000                                 0.000000                MGC               -42.310417           False            False           False        -0.793191
+ impc_ef8_es21_sl5_pb5_pm0p5_tr2p0         8        21               5                  5         0.5       2.0            4                    1                              1                14          84.219792                  0.614910          -1.369634             8.359115             0.416667             -130.047917                       48.75                       0.023242                               0.832441               MES                            3              181.666667                           inf               4.727992                     60.555556                                   1.000000                                 0.000000                MGC               -42.310417           False            False           False        -0.793191
+ impc_ef8_es21_sl5_pb5_pm0p3_tr2p5         8        21               5                  5         0.3       2.5            4                    1                              1                14          67.553125                  0.614910          -1.369634             6.970226             0.416667             -130.047917                       48.75                       0.024254                               0.832441               MES                            3              165.000000                           inf               4.829294                     55.000000                                   1.000000                                 0.000000                MGC               -42.310417           False            False           False        -0.807267
+ impc_ef8_es21_sl5_pb5_pm0p5_tr2p5         8        21               5                  5         0.5       2.5            4                    1                              1                14          67.553125                  0.614910          -1.369634             6.970226             0.416667             -130.047917                       48.75                       0.024254                               0.832441               MES                            3              165.000000                           inf               4.829294                     55.000000                                   1.000000                                 0.000000                MGC               -42.310417           False            False           False        -0.807267
+```
+
+## Mono-Asset Candidates
+
+```text
+No mono-asset candidate rows.
+```
+
+## Survivor Validation
+
+```text
+                      variant_name  ema_fast  ema_slow  slope_lookback  pullback_lookback  pb_min_atr  target_r  screening_score             candidate_class cross_asset_character  asset_count  oos_positive_assets  oos_total_trades  oos_total_net_pnl  oos_median_profit_factor  oos_median_sharpe  oos_median_top_5_day_contribution_pct best_asset_symbol  best_asset_oos_total_trades  best_asset_oos_net_pnl  best_asset_oos_profit_factor  best_asset_oos_sharpe  best_asset_oos_top_5_day_contribution_pct  best_asset_oos_pnl_excluding_top_5_days  best_asset_stress_positive_rows  best_asset_stress_total_rows  best_asset_worst_stress_oos_net_pnl  best_asset_worst_stress_oos_profit_factor  best_asset_positive_years  best_asset_year_count  best_asset_worst_year_net_pnl  median_mfe_r  median_mae_r  pct_trades_reaching_1r_mfe
+impc_ef12_es34_sl3_pb3_pm0p3_tr2p5        12        34               3                  3         0.3       2.5         0.104177 candidat_v2_sous_conditions           cross_asset            4                    3                72         416.457031                  1.212592           1.281596                               2.443644               MNQ                           20              822.415104                      1.968177               5.628469                                   1.302169                              -248.508333                                2                             2                           789.915104                                   1.912462                          1                      1                     822.415104      0.825141     -0.773892                    0.388889
+impc_ef12_es34_sl3_pb3_pm0p5_tr2p5        12        34               3                  3         0.5       2.5         0.104177 candidat_v2_sous_conditions           cross_asset            4                    3                72         416.457031                  1.212592           1.281596                               2.443644               MNQ                           20              822.415104                      1.968177               5.628469                                   1.302169                              -248.508333                                2                             2                           789.915104                                   1.912462                          1                      1                     822.415104      0.825141     -0.773892                    0.388889
+```
+
+## Research Verdict
+
+- Verdict: `candidat_v2_sous_conditions`.
+- Best variant: `impc_ef12_es34_sl3_pb3_pm0p3_tr2p5`.
+- Cross-asset read: `cross_asset`.
+- Best asset: `MNQ`.
+- OOS positive assets: `3`.
+- OOS total trades: `72`.
+- OOS total net PnL: `416.46` USD.
+- Best-asset OOS PF / Sharpe: `1.97` / `5.63`.
+- Conclusion: Il existe un signal exploitable, mais il reste trop sensible aux couts, trop concentre, ou trop peu fourni pour valider une V1 defendable.
+
+## Export Inventory
+
+- `screening_summary.csv`
+- `instrument_variant_summary.csv`
+- `oos_yearly_summary.csv`
+- `stress_test_summary.csv`
+- `survivor_validation_summary.csv`
+- `mono_asset_candidates_summary.csv`
+- `final_report.md`
+- `final_verdict.json`

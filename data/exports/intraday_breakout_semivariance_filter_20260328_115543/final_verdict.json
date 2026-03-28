@@ -1,0 +1,11 @@
+{
+  "credible_overlay": false,
+  "best_variant_name": "three_state_modulation__60m__t95__m25",
+  "best_variant_family": "three_state_modulation",
+  "best_variant_horizon": "60m",
+  "best_variant_oos_sharpe_delta_vs_baseline": 0.14264568413353418,
+  "best_variant_oos_max_drawdown_improvement_vs_baseline": -0.16912397662963385,
+  "best_variant_oos_trade_retention_vs_baseline": 0.9107373868046572,
+  "assets_with_value_on_best_variant": 1,
+  "m2k_helped_more_than_others": true
+}

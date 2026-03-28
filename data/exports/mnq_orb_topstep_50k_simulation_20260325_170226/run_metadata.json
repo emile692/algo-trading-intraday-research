@@ -1,0 +1,32 @@
+{
+  "run_timestamp": "2026-03-25T17:05:59.218339",
+  "source_run_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\mnq_orb_regime_filter_sizing_20260325_150405",
+  "primary_scope": "oos",
+  "bootstrap_paths": 2000,
+  "bootstrap_block_size": 5,
+  "overall_verdict": "la consistency target ne change pas la hierarchie; nominal reste meilleur sur l'historique reel, sizing_3state domine le bootstrap et la survivabilite simulee",
+  "rulesets": [
+    {
+      "name": "topstepx_50k_main_35d",
+      "description": "Main scenario with 35 traded-day expiry.",
+      "starting_balance_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "trailing_mll_usd": 2000.0,
+      "consistency_share_limit": 0.5,
+      "max_traded_days": 35,
+      "lock_at_starting_balance": false,
+      "notes": "Trailing MLL stays 2,000 below the running high-watermark; no breakeven lock is added."
+    },
+    {
+      "name": "topstepx_50k_extended_60d",
+      "description": "Longer horizon to separate risk geometry from speed / expiry pressure.",
+      "starting_balance_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "trailing_mll_usd": 2000.0,
+      "consistency_share_limit": 0.5,
+      "max_traded_days": 60,
+      "lock_at_starting_balance": false,
+      "notes": "Same Topstep-style risk rules, but with a longer traded-day horizon."
+    }
+  ]
+}

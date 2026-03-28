@@ -1,0 +1,4 @@
+diagnostic_name,threshold_usd,breach_days,breach_freq,effective_behavioral_change,explanation,reference_variant
+daily_loss_limit_500,500.0,420,0.24041213508872353,False,No intraday effect with one trade per day and no trailing daily-stop engine.,nominal
+daily_loss_limit_750,750.0,10,0.005724098454493417,False,No intraday effect with one trade per day and no trailing daily-stop engine.,nominal
+daily_loss_limit_1000,1000.0,0,0.0,False,No intraday effect with one trade per day and no trailing daily-stop engine.,nominal

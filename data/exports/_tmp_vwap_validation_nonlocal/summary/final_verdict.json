@@ -1,0 +1,14 @@
+{
+  "statistical_robustness": "Le run de decouverte historique n'est pas defendable tel quel a cause d'une fuite temporelle discrete entree-close/same-bar; le rerun corrige ne montre plus qu'un edge tres faible.",
+  "execution_robustness": "Le profil se degrade vite des qu'on stresse l'execution.",
+  "parametric_robustness": "La topologie locale reste etroite ou fragile.",
+  "temporal_robustness": "Le resultat reste tres dependant du split choisi.",
+  "prop_firm_viability": "La strategie reste trop fragile pour un challenge prop en l'etat.",
+  "concentration_verdict": "forte dependance aux meilleurs jours",
+  "cross_instrument_verdict": null,
+  "overall_category": "non defendable en l'etat",
+  "nominal_oos_net_pnl": 1240.7464285714595,
+  "nominal_oos_profit_factor": 1.018289775506456,
+  "nominal_oos_sharpe_ratio": 0.13506830204348877,
+  "nominal_overall_net_pnl": 3948.664285714367
+}

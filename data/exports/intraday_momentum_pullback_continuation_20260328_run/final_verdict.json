@@ -1,0 +1,26 @@
+{
+  "research_verdict": "non_defendable",
+  "best_variant_name": "impc_ef12_es34_sl5_pb5_pm0p3_tr2p5",
+  "best_variant_parameters": {
+    "ema_fast": 12,
+    "ema_slow": 34,
+    "slope_lookback": 5,
+    "pullback_lookback": 5,
+    "pb_min_atr": 0.3,
+    "target_r": 2.5
+  },
+  "cross_asset_character": "dead",
+  "oos_positive_assets": 0,
+  "oos_total_trades": 997,
+  "oos_total_net_pnl": -6126.713541666197,
+  "best_asset_symbol": "MES",
+  "best_asset_oos_total_trades": 225,
+  "best_asset_oos_net_pnl": -792.8437500000064,
+  "best_asset_oos_profit_factor": 0.8367897021384715,
+  "best_asset_oos_sharpe": -0.6245005592878456,
+  "best_asset_positive_years": 1,
+  "best_asset_year_count": 3,
+  "robust_mono_asset_candidate_exists": false,
+  "portfolio_candidate_exists": false,
+  "reason": "La meilleure configuration reste trop fragile OOS apres couts pour etre defendable."
+}

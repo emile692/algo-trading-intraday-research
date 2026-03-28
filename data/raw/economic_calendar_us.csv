@@ -1,0 +1,11 @@
+event_name,country,date,time,impact,actual,forecast,previous
+FOMC Meeting Minutes,United States,2026-01-07,14:00,Medium,,,
+Consumer Price Index YoY,United States,2026-01-14,08:30,High,2.9%,2.8%,2.7%
+Core Consumer Price Index MoM,United States,2026-01-14,08:30,High,0.3%,0.3%,0.2%
+Retail Sales MoM,United States,2026-01-15,08:30,Medium,0.4%,0.2%,0.1%
+Core PCE Price Index MoM,United States,2026-01-30,08:30,High,0.3%,0.2%,0.2%
+Non Farm Payrolls,United States,2026-02-06,08:30,High,195K,175K,165K
+ISM Manufacturing PMI,United States,2026-03-02,10:00,Medium,51.3,50.8,50.9
+FOMC Rate Decision,United States,2026-03-18,14:00,High,,,
+Fed Chair Powell Speaks,United States,2026-03-20,13:00,High,,,
+GDP QoQ,United States,2026-03-26,,Medium,2.0%,2.1%,2.2%

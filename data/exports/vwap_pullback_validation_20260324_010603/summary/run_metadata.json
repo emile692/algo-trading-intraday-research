@@ -1,0 +1,17 @@
+{
+  "run_timestamp": "2026-03-24T01:27:23.237398",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "reference_variant_name": "vwap_pullback_continuation",
+  "active_phases": [
+    "challenge",
+    "concentration",
+    "cross",
+    "local",
+    "nominal",
+    "notebook",
+    "representative",
+    "splits",
+    "stress"
+  ],
+  "output_dir": "data\\exports\\vwap_pullback_validation_20260324_010603"
+}

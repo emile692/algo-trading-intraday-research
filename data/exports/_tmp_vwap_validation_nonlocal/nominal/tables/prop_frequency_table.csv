@@ -1,0 +1,14 @@
+metric,value
+days_below_neg_0p25r_freq,0.5798511734401832
+days_below_neg_0p5r_freq,0.5512306811677161
+days_below_neg_1r_freq,0.47681740125930167
+red_streak_ge_2_freq,0.56
+red_streak_ge_3_freq,0.3288888888888889
+red_streak_ge_4_freq,0.18888888888888888
+red_streak_ge_5_freq,0.11555555555555555
+trade_loss_streak_ge_3_freq,0.6177884615384616
+trade_loss_streak_ge_4_freq,0.4579326923076923
+trade_loss_streak_ge_5_freq,0.34375
+trade_loss_streak_ge_6_freq,0.2536057692307692
+daily_loss_limit_breach_freq,0.0
+trailing_drawdown_breach_freq,0.5231825987406984

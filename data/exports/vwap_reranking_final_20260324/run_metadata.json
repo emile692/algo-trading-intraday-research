@@ -1,0 +1,16 @@
+{
+  "run_timestamp": "2026-03-24T10:22:36.939943",
+  "mode": "notebook",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "variant_names": [
+    "paper_vwap_baseline",
+    "baseline_futures_adapted",
+    "vwap_time_filtered_baseline",
+    "vwap_baseline_trade_capped",
+    "vwap_baseline_regime_filtered",
+    "vwap_baseline_with_killswitch",
+    "vwap_reclaim",
+    "vwap_reclaim_with_prop_overlay"
+  ],
+  "output_dir": "data\\exports\\vwap_reranking_final_20260324"
+}

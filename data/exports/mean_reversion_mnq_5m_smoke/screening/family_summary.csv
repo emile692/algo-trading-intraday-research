@@ -1,0 +1,4 @@
+family,total_variants,pass_screening_count,best_name,best_oos_profit_factor,best_oos_sharpe_ratio,screening_verdict
+opening_stretch_fade,1,0,mnq_5m_opening_stretch_or_mid_fade,0.37224895593993806,-0.7006949363892504,famille morte
+streak_exhaustion_reversion,1,0,mnq_5m_streak4_vwap_snapback,0.0,0.0,famille morte
+vwap_extension_reversion,1,0,mnq_5m_vwap_ext_atr_filtered,0.9103841391175476,-0.4518607567769554,famille morte

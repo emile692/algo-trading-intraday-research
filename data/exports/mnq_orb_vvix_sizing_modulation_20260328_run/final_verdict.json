@@ -1,0 +1,76 @@
+{
+  "run_type": "mnq_orb_vvix_sizing_modulation_validation",
+  "primary_feature_name": "vvix_pct_63_t1",
+  "hard_filter_reference_variant_name": "filter_drop_low__vvix_pct_63_t1",
+  "sizing_variant_name": "sizing_3state_realized_vol_ratio_15_60",
+  "primary_vvix_modulator_variant_name": "candidate_low_penalty_025__vvix_pct_63_t1",
+  "primary_vvix_modulator_family": "low_vvix_penalty",
+  "primary_vvix_modulator_feature_name": "vvix_pct_63_t1",
+  "primary_combined_variant_name": "candidate_low_penalty_025__vvix_pct_63_t1",
+  "primary_combination_mode": "multiplicative",
+  "vvix_modulator_better_than_nominal": true,
+  "vvix_modulator_better_than_3state": false,
+  "vvix_modulator_better_than_hard_filter": true,
+  "vvix_better_as_modulator_than_hard_filter": true,
+  "combined_vvix_modulator_and_3state_better_than_3state": false,
+  "combined_vvix_modulator_and_3state_better_than_hard_filter_3state": true,
+  "oos_baseline_nominal_sharpe": 1.9523943018485976,
+  "oos_baseline_3state_sharpe": 2.62380613662637,
+  "oos_baseline_vvix_modulator_sharpe": 2.344868608245843,
+  "oos_baseline_3state_vvix_modulator_sharpe": 2.405019288373023,
+  "oos_vvix_modulator_sharpe_delta_vs_nominal": 0.39247430639724534,
+  "oos_vvix_modulator_profit_factor_delta_vs_nominal": 0.16104254024818765,
+  "oos_vvix_modulator_max_drawdown_improvement_vs_nominal": -0.523266483156377,
+  "oos_vvix_modulator_vs_3state_sharpe_delta": -0.2789375283805269,
+  "oos_vvix_modulator_vs_3state_profit_factor_delta": -0.032860942941121074,
+  "oos_vvix_modulator_vs_3state_max_drawdown_improvement": 0.023527434669355515,
+  "oos_combined_vs_3state_sharpe_delta": -0.21878684825334682,
+  "oos_combined_vs_3state_profit_factor_delta": 0.053881593649171444,
+  "oos_combined_vs_3state_max_drawdown_improvement": 0.2836736408705151,
+  "oos_modulator_vs_hard_filter_sharpe_delta": 0.18147675998496338,
+  "oos_combined_vs_hard_filter_3state_sharpe_delta": 0.15988254652215916,
+  "oos_interaction_excess_sharpe_delta": -0.6112611546505922,
+  "oos_interaction_excess_profit_factor_delta": -0.1071609465990162,
+  "oos_interaction_excess_expectancy_delta": -76.16786798825932,
+  "oos_interaction_excess_max_drawdown_improvement": 0.96578843885175,
+  "oos_hard_filter_nominal_sharpe": 2.1633918482608796,
+  "oos_hard_filter_3state_sharpe": 2.245136741850864,
+  "primary_mechanism": "drawdown_reduction",
+  "recommendation": "keep_as_defensive_modulator_only",
+  "primary_bucket_bounds": {
+    "low": {
+      "lower_bound": 0.015873015873015872,
+      "upper_bound": 0.2698412698412698
+    },
+    "mid": {
+      "lower_bound": 0.2698412698412698,
+      "upper_bound": 0.6349206349206349
+    },
+    "high": {
+      "lower_bound": 0.6349206349206349,
+      "upper_bound": 1.0
+    }
+  },
+  "coverage_summary": {
+    "selected_sessions_before_overlay_coverage": 1134,
+    "sessions_with_vvix_context": 1120,
+    "sessions_with_sizing_context": 1134,
+    "common_campaign_sessions": 1120,
+    "excluded_selected_sessions_no_vvix_context": 14,
+    "excluded_selected_sessions_no_sizing_context": 0,
+    "campaign_is_sessions": 787,
+    "campaign_oos_sessions": 333
+  },
+  "assumptions": [
+    "baseline direction=both",
+    "baseline OR window=30m",
+    "aggregation_rule=majority_50",
+    "fixed_contracts=1",
+    "primary_feature=vvix_pct_63_t1",
+    "hard_filter_reference=filter_drop_low__vvix_pct_63_t1",
+    "sizing_variant=sizing_3state_realized_vol_ratio_15_60",
+    "VVIX daily inputs remain strictly t-1.",
+    "VVIX modulation buckets are calibrated on IS only and then frozen.",
+    "3-state sizing overlay is reused from the validated export without recalibration on OOS."
+  ]
+}

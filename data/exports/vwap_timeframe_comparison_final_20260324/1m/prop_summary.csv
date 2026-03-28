@@ -1,0 +1,4 @@
+strategy_id,role,worst_daily_loss_usd,red_days_freq,days_below_neg_0p25r_freq,days_below_neg_0p5r_freq,days_below_neg_1r_freq,worst_losing_trades_streak,worst_losing_days_streak,max_drawdown,daily_loss_limit_breach_freq,trailing_drawdown_breach_freq,avg_trades_per_day,max_trades_per_day,challenge_success_rate_standard,challenge_bust_rate_standard,prop_verdict
+paper_vwap_baseline,paper_baseline_reference,-1380.0,0.9695238095238096,,,,51,4,-2518.5,0.0019047619047619048,0.940952380952381,1.1676190476190476,53,0.0,0.0,non defendable
+baseline_futures_adapted,realistic_baseline_reference,-1931.5,0.539047619047619,,,,52,8,-20185.0,0.011428571428571429,0.8723809523809524,16.426666666666666,53,0.0,0.0,non defendable
+vwap_reclaim,candidate,-161.89285714285506,0.9904761904761905,0.022857142857142857,0.015238095238095238,0.011428571428571429,5,1,-750.4464285714275,0.0,0.0,0.03619047619047619,1,0.0,0.0,potentiellement compatible sous contraintes prudentes

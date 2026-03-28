@@ -1,0 +1,17 @@
+{
+  "research_verdict": "non_defendable",
+  "best_variant_name": "vceb_n8_ct15_tr2p2",
+  "best_variant_parameters": {
+    "box_lookback": 8,
+    "compression_threshold": 15.0,
+    "target_r": 2.2
+  },
+  "cross_asset_character": "mono_asset",
+  "oos_positive_assets": 1,
+  "oos_total_trades": 53,
+  "oos_total_net_pnl": 168.65312500000982,
+  "worst_stress_oos_net_pnl": -326.34895833333303,
+  "median_mfe_r": 0.655367231638418,
+  "median_mae_r": -0.9285714285714286,
+  "reason": "The best observed configuration stays too fragile cross-asset, too sparse, or too cost-sensitive for a defendable V2."
+}

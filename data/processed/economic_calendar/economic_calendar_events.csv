@@ -1,0 +1,11 @@
+event_name_raw,event_type,event_group,country,impact,importance_score,is_high_impact,actual,forecast,previous,source_timezone,event_ts_original,event_ts_local,event_ts_utc,event_date_local,event_time_local,event_weekday_local,has_precise_time,date_raw,time_raw
+FOMC Meeting Minutes,FOMC_MINUTES,fed,US,Medium,2,False,,,,America/New_York,2026-01-07 14:00:00,2026-01-07 14:00:00-05:00,2026-01-07 19:00:00+00:00,2026-01-07,14:00:00,Wednesday,True,2026-01-07,14:00
+Core Consumer Price Index MoM,CORE_CPI,inflation,US,High,3,True,0.3%,0.3%,0.2%,America/New_York,2026-01-14 08:30:00,2026-01-14 08:30:00-05:00,2026-01-14 13:30:00+00:00,2026-01-14,08:30:00,Wednesday,True,2026-01-14,08:30
+Consumer Price Index YoY,CPI,inflation,US,High,3,True,2.9%,2.8%,2.7%,America/New_York,2026-01-14 08:30:00,2026-01-14 08:30:00-05:00,2026-01-14 13:30:00+00:00,2026-01-14,08:30:00,Wednesday,True,2026-01-14,08:30
+Retail Sales MoM,RETAIL_SALES,activity,US,Medium,2,False,0.4%,0.2%,0.1%,America/New_York,2026-01-15 08:30:00,2026-01-15 08:30:00-05:00,2026-01-15 13:30:00+00:00,2026-01-15,08:30:00,Thursday,True,2026-01-15,08:30
+Core PCE Price Index MoM,CORE_PCE,inflation,US,High,3,True,0.3%,0.2%,0.2%,America/New_York,2026-01-30 08:30:00,2026-01-30 08:30:00-05:00,2026-01-30 13:30:00+00:00,2026-01-30,08:30:00,Friday,True,2026-01-30,08:30
+Non Farm Payrolls,NFP,labor,US,High,3,True,195K,175K,165K,America/New_York,2026-02-06 08:30:00,2026-02-06 08:30:00-05:00,2026-02-06 13:30:00+00:00,2026-02-06,08:30:00,Friday,True,2026-02-06,08:30
+ISM Manufacturing PMI,ISM_MANUFACTURING,activity,US,Medium,2,False,51.3,50.8,50.9,America/New_York,2026-03-02 10:00:00,2026-03-02 10:00:00-05:00,2026-03-02 15:00:00+00:00,2026-03-02,10:00:00,Monday,True,2026-03-02,10:00
+FOMC Rate Decision,FOMC,fed,US,High,3,True,,,,America/New_York,2026-03-18 14:00:00,2026-03-18 14:00:00-04:00,2026-03-18 18:00:00+00:00,2026-03-18,14:00:00,Wednesday,True,2026-03-18,14:00
+Fed Chair Powell Speaks,POWELL_SPEECH,fed,US,High,3,True,,,,America/New_York,2026-03-20 13:00:00,2026-03-20 13:00:00-04:00,2026-03-20 17:00:00+00:00,2026-03-20,13:00:00,Friday,True,2026-03-20,13:00
+GDP QoQ,GDP,growth,US,Medium,2,False,2.0%,2.1%,2.2%,America/New_York,,,,2026-03-26,,Thursday,False,2026-03-26,

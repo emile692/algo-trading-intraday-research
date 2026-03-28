@@ -1,0 +1,4 @@
+strategy_id,role,top_3_day_contribution_pct,top_5_day_contribution_pct,pnl_excluding_top_3_days,pnl_excluding_top_5_days,pnl_excluding_best_month,concentration_verdict
+paper_vwap_baseline,paper_baseline_reference,-0.7319587628865979,-0.9370923627182832,-4116.0,-4603.5,-2376.5,forte dependance aux meilleurs jours
+baseline_futures_adapted,realistic_baseline_reference,-0.27658035224267824,-0.41203911590081327,-25586.5,-28301.5,-22736.0,forte dependance aux meilleurs jours
+vwap_reclaim,candidate,7.5271308665326355,8.116325806832903,-985.9464285714275,-1074.9464285714275,-529.4464285714275,forte dependance aux meilleurs jours

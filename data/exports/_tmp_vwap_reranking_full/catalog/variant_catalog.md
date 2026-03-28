@@ -1,0 +1,13 @@
+# Variant Catalog
+
+```text
+ display_order                    strategy_id                         role            mode execution_profile                          time_windows  max_trades_per_day  daily_stop_threshold_usd                                                                                 what_changes_vs_baseline
+             1            paper_vwap_baseline     paper_baseline_reference target_position   paper_reference                              full_rth                 NaN                       NaN          Reference officielle: close[t-1] vs VWAP[t-1], next open, always-in-market RTH, flat overnight.
+             2       baseline_futures_adapted realistic_baseline_reference target_position    repo_realistic                              full_rth                 NaN                       NaN                Meme signal que la baseline paper, mais sous sizing futures fixe et couts repo_realistic.
+             3    vwap_time_filtered_baseline                    candidate target_position    repo_realistic 09:35:00->11:30:00|15:00:00->15:50:00                 NaN                       NaN     Baseline paper gatee par une fenetre horaire simple pour n'autoriser que certaines entrees et flips.
+             4     vwap_baseline_trade_capped                    candidate target_position    repo_realistic                              full_rth                 6.0                       NaN                                  Baseline paper avec plafond dur sur le nombre de flips/trades par jour.
+             5  vwap_baseline_regime_filtered                    candidate target_position    repo_realistic                              full_rth                 8.0                       NaN                Baseline paper gatee par un filtre de pente VWAP et un filtre simple de distance au VWAP.
+             6  vwap_baseline_with_killswitch                    candidate target_position    repo_realistic                              full_rth                12.0                     750.0        Baseline paper avec kill switches journaliers simples: pertes max, stop daily, plafond de trades.
+             7                   vwap_reclaim                    candidate        discrete    repo_realistic                              full_rth                 3.0                       NaN   Variante discrete reclaim simple avec pente VWAP, buffer ATR et sortie sur recross/stop/session close.
+             8 vwap_reclaim_with_prop_overlay                    candidate        discrete    repo_realistic 09:35:00->11:30:00|15:00:00->15:50:00                 2.0                     500.0 Variante reclaim simple avec overlay prop: fenetres horaires, cap de trades, daily stop et deleveraging.
+```

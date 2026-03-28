@@ -1,0 +1,2 @@
+scope,top_1_day_contribution_pct,top_3_day_contribution_pct,top_5_day_contribution_pct,top_10_day_contribution_pct,pnl_excluding_top_1_day,pnl_excluding_top_3_days,pnl_excluding_top_5_days,pnl_excluding_best_month,verdict
+overall,0.45463474990637864,1.2337589745537583,1.7680960831239156,2.895140852331565,2153.4642857143626,-923.0357142856374,-3032.953571428494,822.5571428572148,forte dependance aux meilleurs jours

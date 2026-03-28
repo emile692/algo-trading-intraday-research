@@ -1,0 +1,4 @@
+strategy_id,positive_oos_splits,total_splits,mean_oos_net_pnl,mean_oos_profit_factor,mean_oos_sharpe_ratio,worst_oos_split_net_pnl,best_oos_split_net_pnl,pass_fail_splits
+paper_vwap_baseline,0,4,-5460.125,0.5853485023322378,-0.9507297982085116,-12137.5,0.0,False
+baseline_futures_adapted,0,4,-22906.875,0.8936102175497538,-1.5212529643971267,-29804.0,-16787.5,False
+vwap_reclaim,1,4,-38.69642857142753,0.973630160688747,-0.02924798721919252,-117.94642857142753,151.05357142857247,False

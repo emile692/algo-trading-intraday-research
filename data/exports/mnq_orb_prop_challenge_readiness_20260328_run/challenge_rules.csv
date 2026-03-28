@@ -1,0 +1,2 @@
+name,description,account_size_usd,profit_target_usd,max_trading_days,daily_loss_limit_usd,static_max_loss_usd,trailing_drawdown_usd,trailing_drawdown_locks_at_start_balance,cut_day_on_daily_loss,near_daily_limit_buffer_frac,near_global_limit_buffer_frac,notes
+prop_50k_main,"50K-style prop challenge with profit target, daily loss, and trailing drawdown.",50000.0,3000.0,35,1000.0,,2000.0,False,True,0.1,0.1,Daily loss is modeled with end-of-day audited PnL and capped at the limit when the limit is hit. Trailing drawdown uses prior closed-equity high-watermark logic.

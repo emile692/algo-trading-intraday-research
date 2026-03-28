@@ -1,0 +1,15 @@
+{
+  "run_timestamp": "2026-03-24T14:48:19.978284",
+  "datasets_by_symbol": {
+    "MNQ": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet"
+  },
+  "timeframes": [
+    {
+      "label": "5m",
+      "bar_minutes": 5,
+      "resample_rule": "5min"
+    }
+  ],
+  "variant_count": 28,
+  "survivor_count": 0
+}

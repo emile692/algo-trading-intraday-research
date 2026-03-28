@@ -12,7 +12,7 @@ class ExecutionModel:
     """Simple fixed commission + fixed slippage model."""
 
     commission_per_side_usd: float = DEFAULT_COMMISSION_PER_SIDE_USD
-    slippage_ticks: int = DEFAULT_SLIPPAGE_TICKS
+    slippage_ticks: float = float(DEFAULT_SLIPPAGE_TICKS)
     tick_size: float = DEFAULT_TICK_SIZE
 
     def apply_slippage(self, price: float, direction: int, is_entry: bool) -> float:

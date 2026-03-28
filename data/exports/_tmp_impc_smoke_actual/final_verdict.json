@@ -1,0 +1,26 @@
+{
+  "research_verdict": "candidat_v2_sous_conditions",
+  "best_variant_name": "impc_ef12_es34_sl3_pb3_pm0p3_tr2p5",
+  "best_variant_parameters": {
+    "ema_fast": 12,
+    "ema_slow": 34,
+    "slope_lookback": 3,
+    "pullback_lookback": 3,
+    "pb_min_atr": 0.3,
+    "target_r": 2.5
+  },
+  "cross_asset_character": "cross_asset",
+  "oos_positive_assets": 3,
+  "oos_total_trades": 72,
+  "oos_total_net_pnl": 416.4570312500248,
+  "best_asset_symbol": "MNQ",
+  "best_asset_oos_total_trades": 20,
+  "best_asset_oos_net_pnl": 822.4151041666701,
+  "best_asset_oos_profit_factor": 1.9681772084530604,
+  "best_asset_oos_sharpe": 5.6284686582476455,
+  "best_asset_positive_years": 1,
+  "best_asset_year_count": 1,
+  "robust_mono_asset_candidate_exists": false,
+  "portfolio_candidate_exists": false,
+  "reason": "Il existe un signal exploitable, mais il reste trop sensible aux couts, trop concentre, ou trop peu fourni pour valider une V1 defendable."
+}

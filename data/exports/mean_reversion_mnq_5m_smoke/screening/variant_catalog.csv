@@ -1,0 +1,29 @@
+display_order,name,family,symbol,timeframe,fixed_quantity,max_trades_per_day,min_oos_trades,target_source,stop_atr_multiple,timeout_bars,notes
+1,mnq_5m_vwap_ext_atr_filtered,vwap_extension_reversion,MNQ,5m,1,2,25,session_vwap,1.1,5,MNQ excess fade only when extension is large but intraday trend pressure stays moderate.
+2,mnq_5m_opening_stretch_or_mid_fade,opening_stretch_fade,MNQ,5m,1,1,18,or_midpoint,1.1,4,Preferred MNQ fade: first impulse after the open is faded only when trend-day evidence stays weak.
+3,mnq_5m_streak4_vwap_snapback,streak_exhaustion_reversion,MNQ,5m,1,2,20,ema_20,0.95,3,"MNQ short-run exhaustion scalp, only when already extended away from session anchor."
+4,mnq_15m_vwap_ext_atr_filtered,vwap_extension_reversion,MNQ,15m,1,2,18,session_vwap,1.1,4,MNQ excess fade only when extension is large but intraday trend pressure stays moderate.
+5,mnq_15m_opening_stretch_or_mid_fade,opening_stretch_fade,MNQ,15m,1,1,14,or_midpoint,1.1,4,Preferred MNQ fade: first impulse after the open is faded only when trend-day evidence stays weak.
+6,mnq_15m_streak4_vwap_snapback,streak_exhaustion_reversion,MNQ,15m,1,2,16,ema_20,0.95,3,"MNQ short-run exhaustion scalp, only when already extended away from session anchor."
+7,mes_5m_vwap_ext_zscore,vwap_extension_reversion,MES,5m,2,2,30,session_vwap,1.0,6,MES anchor reversion with z-score threshold and mild anti-trend guardrails.
+8,mes_5m_bollinger_20x2_immediate,bollinger_zscore_reversion,MES,5m,1,2,28,rolling_mean_20,1.0,6,Classic MES Bollinger fade retained only in low directional pressure regimes.
+9,mes_5m_bollinger_30x2p5_reentry,bollinger_zscore_reversion,MES,5m,1,2,24,rolling_mean_30,1.1,7,"MES reentry inside wide bands, favored over immediate catch-the-falling-knife variants."
+10,mes_5m_rsi3_exit_extreme,rsi_stochastic_contrarian,MES,5m,1,2,18,ema_20,1.0,4,"Fast RSI fade around session anchor, only after the oscillator exits the extreme zone."
+11,mes_15m_vwap_ext_zscore,vwap_extension_reversion,MES,15m,1,2,20,session_vwap,1.0,5,MES anchor reversion with z-score threshold and mild anti-trend guardrails.
+12,mes_15m_bollinger_20x2_immediate,bollinger_zscore_reversion,MES,15m,1,2,18,rolling_mean_20,1.0,5,Classic MES Bollinger fade retained only in low directional pressure regimes.
+13,mes_15m_bollinger_30x2p5_reentry,bollinger_zscore_reversion,MES,15m,1,2,16,rolling_mean_30,1.1,6,"MES reentry inside wide bands, favored over immediate catch-the-falling-knife variants."
+14,mes_15m_rsi3_exit_extreme,rsi_stochastic_contrarian,MES,15m,1,2,18,ema_20,1.0,4,"Fast RSI fade around session anchor, only after the oscillator exits the extreme zone."
+15,m2k_5m_keltner_ema20_1p5,keltner_band_snapback,M2K,5m,1,2,20,ema_20,1.0,5,M2K snapback after first close outside the adaptive Keltner envelope.
+16,m2k_5m_keltner_ema30_2p0_2closes,keltner_band_snapback,M2K,5m,1,2,16,ema_30,1.1,6,M2K two-close outside-band snapback to avoid overtrading weak single-bar pokes.
+17,m2k_5m_opening_stretch_open_fade,opening_stretch_fade,M2K,5m,1,1,16,session_open,1.05,4,M2K opening stretch fade kept only when follow-through volume is not explosive.
+18,m2k_5m_streak3_local_mean,streak_exhaustion_reversion,M2K,5m,1,2,18,rolling_mean_20,0.95,3,"M2K streak fade toward local mean, especially after a short impulsive run."
+19,m2k_15m_keltner_ema20_1p5,keltner_band_snapback,M2K,15m,1,2,20,ema_20,1.0,5,M2K snapback after first close outside the adaptive Keltner envelope.
+20,m2k_15m_keltner_ema30_2p0_2closes,keltner_band_snapback,M2K,15m,1,2,16,ema_30,1.1,6,M2K two-close outside-band snapback to avoid overtrading weak single-bar pokes.
+21,m2k_15m_opening_stretch_open_fade,opening_stretch_fade,M2K,15m,1,1,16,session_open,1.05,4,M2K opening stretch fade kept only when follow-through volume is not explosive.
+22,m2k_15m_streak3_local_mean,streak_exhaustion_reversion,M2K,15m,1,2,18,rolling_mean_20,0.95,3,"M2K streak fade toward local mean, especially after a short impulsive run."
+23,mgc_5m_vwap_ext_structural,vwap_extension_reversion,MGC,5m,1,2,18,session_vwap,1.15,6,MGC 5m structural excess fade kept very selective because gold trends cleanly when it moves.
+24,mgc_5m_keltner_ema30_2p0,keltner_band_snapback,MGC,5m,1,2,16,ema_30,1.1,6,Gold 5m snapback only after a cleaner two-close excursion beyond the outer Keltner band.
+25,mgc_15m_rsi5_reversal,rsi_stochastic_contrarian,MGC,15m,1,1,14,ema_30,1.15,5,"Gold 15m contrarian RSI reversal around a slow anchor, aligned with more structural mean reversion."
+26,mgc_15m_stoch_8_3_3_exit_extreme,rsi_stochastic_contrarian,MGC,15m,1,2,14,session_vwap,1.1,5,Gold 15m stochastic pullback fade after the oscillator leaves the extreme zone.
+27,mgc_15m_keltner_ema30_2p5,keltner_band_snapback,MGC,15m,1,2,12,ema_30,1.15,5,Gold 15m snapback after a structural displacement beyond a wide ATR envelope.
+28,mgc_15m_bollinger_30x2p5_reentry,bollinger_zscore_reversion,MGC,15m,1,2,12,rolling_mean_30,1.15,6,Wide-band MGC 15m reentry used as a structural gold-style mean reversion block.

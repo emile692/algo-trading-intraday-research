@@ -1,0 +1,3 @@
+name,family,symbol,timeframe,source,validation_verdict,validation_score
+orb_MNQ_5m,orb_reference,MNQ,5m,orb_reference,reference,0.9597370900514266
+orb_MGC_5m,orb_reference,MGC,5m,orb_reference,reference,3.352875138048249

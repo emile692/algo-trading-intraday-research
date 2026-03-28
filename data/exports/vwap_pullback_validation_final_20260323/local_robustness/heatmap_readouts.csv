@@ -1,0 +1,5 @@
+verdict,stable_neighbor_share,reference_sharpe_rank_pct,comment,pair_name
+stable localement,0.6666666666666666,0.3333333333333333,La case de reference reste entouree d'un plateau OOS globalement positif.,slope_threshold_x_atr_buffer
+instable / pic etroit,0.2222222222222222,0.1111111111111111,La reference n'est soutenue que par peu de voisins OOS credibles. L'optimum apparait isole.,pullback_length_x_confirmation_threshold
+stable localement,1.0,1.0,La case de reference reste entouree d'un plateau OOS globalement positif.,open_window_end_x_max_trades
+moderetement stable,0.5,0.1111111111111111,"Le voisinage n'est pas vide, mais la robustesse locale reste inegale.",daily_stop_threshold_x_consecutive_losses_proxy

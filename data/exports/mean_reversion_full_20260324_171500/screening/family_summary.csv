@@ -1,0 +1,7 @@
+family,total_variants,pass_screening_count,best_name,best_oos_profit_factor,best_oos_sharpe_ratio,screening_verdict
+bollinger_zscore_reversion,5,0,mes_5m_bollinger_20x2_immediate,inf,1.198828399194896,famille morte
+keltner_band_snapback,6,0,m2k_5m_keltner_ema30_2p0_2closes,0.42850982907898144,0.0,famille morte
+opening_stretch_fade,4,0,m2k_5m_opening_stretch_open_fade,0.9364016181444971,-0.07704466861029685,famille morte
+rsi_stochastic_contrarian,4,0,mes_15m_rsi3_exit_extreme,0.9305506553839613,0.0,famille morte
+streak_exhaustion_reversion,4,0,m2k_5m_streak3_local_mean,inf,0.9814876719661363,famille morte
+vwap_extension_reversion,5,0,mnq_15m_vwap_ext_atr_filtered,3.024648924678377,0.8684565485217044,famille morte

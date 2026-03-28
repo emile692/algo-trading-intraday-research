@@ -1,0 +1,11 @@
+{
+  "credible_overlay": false,
+  "best_variant_name": "adverse_hard_skip__30m__t85",
+  "best_variant_family": "adverse_hard_skip",
+  "best_variant_horizon": "30m",
+  "best_variant_oos_sharpe_delta_vs_baseline": 0.07156749421660247,
+  "best_variant_oos_max_drawdown_improvement_vs_baseline": -0.09126540779136127,
+  "best_variant_oos_trade_retention_vs_baseline": 0.8667529107373868,
+  "assets_with_value_on_best_variant": 2,
+  "m2k_helped_more_than_others": true
+}

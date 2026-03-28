@@ -28,12 +28,15 @@ def _validate_backtest_inputs(
     tick_size: float,
     max_leverage: float | None,
     account_size_usd: float | None,
+    entry_delay_bars: int,
 ) -> None:
     """Validate non-risk backtest inputs."""
     if stop_buffer_ticks < 0:
         raise ValueError("stop_buffer_ticks must be non-negative.")
     if tick_size <= 0:
         raise ValueError("tick_size must be strictly positive.")
+    if entry_delay_bars < 0:
+        raise ValueError("entry_delay_bars must be non-negative.")
     if max_leverage is not None and max_leverage <= 0:
         raise ValueError("max_leverage must be strictly positive when provided.")
     if max_leverage is not None and account_size_usd is None:
@@ -87,6 +90,7 @@ def run_backtest(
     account_size_usd: float | None = None,
     risk_per_trade_pct: float | None = None,
     entry_on_next_open: bool = True,
+    entry_delay_bars: int = 0,
     max_leverage: float | None = None,
 ) -> pd.DataFrame:
     """Run a straightforward signal-driven single-position backtest."""
@@ -96,6 +100,7 @@ def run_backtest(
         tick_size=execution_model.tick_size,
         max_leverage=max_leverage,
         account_size_usd=account_size_usd,
+        entry_delay_bars=entry_delay_bars,
     )
 
     trades = []
@@ -124,14 +129,17 @@ def run_backtest(
             if pd.isna(or_high) or pd.isna(or_low):
                 continue
 
-            entry_idx = signal_idx + 1 if entry_on_next_open else signal_idx
+            base_entry_idx = signal_idx + 1 if entry_on_next_open else signal_idx
+            entry_idx = base_entry_idx + entry_delay_bars
             if entry_idx >= len(session_df):
                 continue
 
             entry_row = session_df.loc[entry_idx]
-            raw_entry = entry_row["open"] if entry_on_next_open else row["close"]
+            delayed_entry = entry_delay_bars > 0
+            use_open_entry = entry_on_next_open or delayed_entry
+            raw_entry = entry_row["open"] if use_open_entry else row["close"]
             entry_price = execution_model.apply_slippage(raw_entry, direction, is_entry=True)
-            entry_time = entry_row["timestamp"] if entry_on_next_open else row["timestamp"]
+            entry_time = entry_row["timestamp"] if use_open_entry else row["timestamp"]
 
             if direction == 1:
                 stop_price = float(or_low) - stop_buffer_points
@@ -176,7 +184,7 @@ def run_backtest(
             notional_usd = quantity * entry_price * point_value
             leverage_used = notional_usd / account_size_usd if account_size_usd is not None else None
 
-            exit_scan_start = entry_idx if entry_on_next_open else entry_idx + 1
+            exit_scan_start = entry_idx if use_open_entry else entry_idx + 1
             if exit_scan_start >= len(session_df):
                 continue
 

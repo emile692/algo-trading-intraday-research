@@ -1,0 +1,43 @@
+{
+  "paper_baseline_reference_strategy_id": "paper_vwap_baseline",
+  "realistic_baseline_strategy_id": "baseline_futures_adapted",
+  "paper_baseline_oos_net_pnl": -3239.5,
+  "paper_baseline_oos_profit_factor": 0.9788696105929163,
+  "realistic_baseline_oos_net_pnl": -3239.5,
+  "realistic_baseline_oos_profit_factor": 0.9788696105929163,
+  "survivor_count": 0,
+  "top_candidate": null,
+  "global_verdict": "Aucune variante n'est assez robuste pour meriter une validation approfondie supplementaire.",
+  "variant_verdicts": [
+    {
+      "strategy_id": "paper_vwap_baseline",
+      "role": "paper_baseline_reference",
+      "final_bucket": "reference_officielle",
+      "elimination_reason": "Ancre officielle de comparaison, non candidate au reranking.",
+      "prop_verdict": "non defendable",
+      "concentration_verdict": "forte dependance aux meilleurs jours"
+    },
+    {
+      "strategy_id": "baseline_futures_adapted",
+      "role": "realistic_baseline_reference",
+      "final_bucket": "baseline_realiste_de_reference",
+      "elimination_reason": "Baseline economique de reference pour juger si une variante apporte vraiment mieux.",
+      "prop_verdict": "non defendable",
+      "concentration_verdict": "forte dependance aux meilleurs jours"
+    },
+    {
+      "strategy_id": "vwap_reclaim",
+      "role": "candidate",
+      "final_bucket": "eliminee immediatement",
+      "elimination_reason": "Ne survit pas au filtre nominal OOS ou au stress slippage x2.",
+      "prop_verdict": "non defendable",
+      "concentration_verdict": "forte dependance aux meilleurs jours"
+    }
+  ],
+  "answers": {
+    "paper_baseline_confirms_exploitable_under_costs": false,
+    "any_variant_robustly_beats_realistic_baseline": false,
+    "at_least_one_candidate_deserves_deeper_validation": false,
+    "recommended_next_action": "abandonner cette famille de variantes pour le moment"
+  }
+}

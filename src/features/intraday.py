@@ -16,22 +16,33 @@ def add_intraday_features(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def add_session_vwap(df: pd.DataFrame, price_mode: str = "typical") -> pd.DataFrame:
+def add_session_vwap(
+    df: pd.DataFrame,
+    price_mode: str = "typical",
+    price_volume_col: str | None = None,
+) -> pd.DataFrame:
     """Add an intraday VWAP column that resets each session."""
     out = df.copy()
     if "session_date" not in out.columns:
         out["session_date"] = out["timestamp"].dt.date
 
-    if price_mode == "close":
+    volume = out["volume"].fillna(0.0)
+
+    if price_volume_col is not None:
+        if price_volume_col not in out.columns:
+            raise ValueError(f"Missing precomputed price-volume column '{price_volume_col}'.")
+        pv = pd.to_numeric(out[price_volume_col], errors="coerce").fillna(0.0)
+    elif price_mode == "close":
         price = out["close"]
+        pv = price * volume
     elif price_mode == "typical":
         price = (out["high"] + out["low"] + out["close"]) / 3.0
+        pv = price * volume
     else:
         raise ValueError("price_mode must be 'close' or 'typical'.")
 
-    pv = price * out["volume"].fillna(0.0)
     cumulative_pv = pv.groupby(out["session_date"]).cumsum()
-    cumulative_volume = out["volume"].fillna(0.0).groupby(out["session_date"]).cumsum()
+    cumulative_volume = volume.groupby(out["session_date"]).cumsum()
     out["session_vwap"] = np.where(cumulative_volume > 0, cumulative_pv / cumulative_volume, np.nan)
     return out
 

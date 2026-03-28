@@ -71,10 +71,15 @@ def resample_ohlcv(
     rule: str,
     label: str = "left",
     closed: str = "left",
+    aggregation_overrides: dict[str, str] | None = None,
 ) -> pd.DataFrame:
     """Resample OHLCV bars with proper aggregation and metadata preservation."""
     out = _ensure_timestamp_index(df)
     agg = _build_aggregation_map(out)
+    if aggregation_overrides:
+        for column, method in aggregation_overrides.items():
+            if column in out.columns:
+                agg[column] = str(method)
     result = out.resample(rule, label=label, closed=closed).agg(agg)
     required = [col for col in ["open", "high", "low", "close"] if col in result.columns]
     if required:

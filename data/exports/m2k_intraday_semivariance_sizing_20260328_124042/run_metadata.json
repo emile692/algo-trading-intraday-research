@@ -1,0 +1,173 @@
+{
+  "analysis_symbol": "M2K",
+  "baseline_config": {
+    "aggregation_rule": "majority_50",
+    "baseline": {
+      "account_size_usd": 50000.0,
+      "direction": "long",
+      "entry_buffer_ticks": 2,
+      "entry_on_next_open": true,
+      "one_trade_per_day": true,
+      "opening_time": "09:30:00",
+      "or_minutes": 15,
+      "risk_per_trade_pct": 1.5,
+      "stop_buffer_ticks": 2,
+      "target_multiple": 2.0,
+      "time_exit": "16:00:00",
+      "vwap_column": "continuous_session_vwap",
+      "vwap_confirmation": true
+    },
+    "dataset_path": null,
+    "grid": {
+      "aggregation_rules": [
+        "majority_50",
+        "consensus_75",
+        "unanimity_100"
+      ],
+      "atr_periods": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "q_highs_pct": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "q_lows_pct": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    "source_note": "Final audited leak-free M2K ensemble validation notebook baseline.",
+    "source_reference": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\notebooks\\orb_M2K_final_ensemble_validation.ipynb",
+    "symbol": "M2K",
+    "timeframe": "1m"
+  },
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet",
+  "selected_session_count": 810,
+  "spec": {
+    "baseline_config": {
+      "aggregation_rule": "majority_50",
+      "baseline": {
+        "account_size_usd": 50000.0,
+        "direction": "long",
+        "entry_buffer_ticks": 2,
+        "entry_on_next_open": true,
+        "one_trade_per_day": true,
+        "opening_time": "09:30:00",
+        "or_minutes": 15,
+        "risk_per_trade_pct": 1.5,
+        "stop_buffer_ticks": 2,
+        "target_multiple": 2.0,
+        "time_exit": "16:00:00",
+        "vwap_column": "continuous_session_vwap",
+        "vwap_confirmation": true
+      },
+      "dataset_path": null,
+      "grid": {
+        "aggregation_rules": [
+          "majority_50",
+          "consensus_75",
+          "unanimity_100"
+        ],
+        "atr_periods": [
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ],
+        "q_highs_pct": [
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "q_lows_pct": [
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ]
+      },
+      "source_note": "Final audited leak-free M2K ensemble validation notebook baseline.",
+      "source_reference": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\notebooks\\orb_M2K_final_ensemble_validation.ipynb",
+      "symbol": "M2K",
+      "timeframe": "1m"
+    },
+    "conditional_feature_keys": [
+      "rs_minus_share_pct",
+      "rs_ratio_pct"
+    ],
+    "context_keys": [
+      "wide_or",
+      "opening_gap",
+      "high_atr"
+    ],
+    "downside_feature_keys": [
+      "rs_minus_pct",
+      "rs_minus_share_pct",
+      "rs_ratio_pct"
+    ],
+    "downside_multipliers": [
+      0.75,
+      0.5
+    ],
+    "downside_thresholds": [
+      0.85,
+      0.9,
+      0.95
+    ],
+    "is_fraction": 0.7,
+    "min_is_trade_count": 60,
+    "min_percentile_history": 60,
+    "min_trade_retention": 0.7,
+    "output_root": null,
+    "percentile_history": 252,
+    "reference_skip_feature_keys": [
+      "rs_minus_pct"
+    ],
+    "reference_skip_horizons": [
+      "60m",
+      "session"
+    ],
+    "reference_skip_thresholds": [
+      0.9,
+      0.95
+    ],
+    "semivariance_horizons": [
+      "30m",
+      "60m",
+      "90m",
+      "session"
+    ],
+    "three_state_low_threshold": 0.25,
+    "three_state_pairs": [
+      [
+        1.1,
+        0.75
+      ],
+      [
+        1.25,
+        0.5
+      ]
+    ]
+  },
+  "variant_count": 293
+}

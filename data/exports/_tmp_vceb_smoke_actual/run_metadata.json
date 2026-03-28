@@ -1,0 +1,20 @@
+{
+  "run_timestamp": "2026-03-28T13:02:52.408260",
+  "symbols": [
+    "MNQ",
+    "MES",
+    "M2K",
+    "MGC"
+  ],
+  "variant_count": 12,
+  "survivor_count": 2,
+  "start_date": "2025-01-01",
+  "end_date": "2025-06-30",
+  "output_root": "data\\exports\\_tmp_vceb_smoke_actual",
+  "source_datasets": {
+    "MNQ": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+    "MES": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MES_c_0_1m_20260322_135702.parquet",
+    "M2K": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet",
+    "MGC": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MGC_c_0_1m_20260322_155729.parquet"
+  }
+}

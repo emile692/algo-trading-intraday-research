@@ -1,0 +1,60 @@
+{
+  "run_timestamp": "2026-03-25T15:56:43.559333",
+  "source_run_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\mnq_orb_regime_filter_sizing_20260325_150405",
+  "primary_scope": "oos",
+  "source_is_fraction": 0.7,
+  "bootstrap_paths": 2000,
+  "bootstrap_block_size": 5,
+  "random_seed": 42,
+  "rulesets": [
+    {
+      "name": "classic_static_30d",
+      "family": "classic_fixed_drawdown",
+      "resembles": "Topstep-like fixed target challenge",
+      "description": "Fixed target with static max loss, realized daily limit, and 30 traded-day expiry.",
+      "account_size_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "max_traded_days": 30,
+      "daily_loss_limit_usd": 1000.0,
+      "static_max_loss_usd": 2000.0,
+      "trailing_drawdown_usd": null,
+      "near_limit_buffer_frac": 0.2,
+      "near_fail_buffer_frac": 0.1,
+      "half_target_frac": 0.5,
+      "notes": "Stylized fixed-drawdown evaluation; daily rule is enforced on realized daily PnL only."
+    },
+    {
+      "name": "trailing_strict_35d",
+      "family": "trailing_drawdown",
+      "resembles": "Trailing-DD evaluation family",
+      "description": "Fixed target with end-of-day trailing drawdown, daily limit, and 35 traded-day expiry.",
+      "account_size_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "max_traded_days": 35,
+      "daily_loss_limit_usd": 1000.0,
+      "static_max_loss_usd": null,
+      "trailing_drawdown_usd": 2000.0,
+      "near_limit_buffer_frac": 0.2,
+      "near_fail_buffer_frac": 0.1,
+      "half_target_frac": 0.5,
+      "notes": "Trailing floor = peak equity minus trailing allowance, updated on end-of-day realized equity."
+    },
+    {
+      "name": "static_permissive_45d",
+      "family": "static_drawdown",
+      "resembles": "Static-DD permissive evaluation family",
+      "description": "Fixed target with wider static max loss, no daily limit, and 45 traded-day expiry.",
+      "account_size_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "max_traded_days": 45,
+      "daily_loss_limit_usd": null,
+      "static_max_loss_usd": 2500.0,
+      "trailing_drawdown_usd": null,
+      "near_limit_buffer_frac": 0.2,
+      "near_fail_buffer_frac": 0.1,
+      "half_target_frac": 0.5,
+      "notes": "Useful to test whether the hierarchy changes once daily stop pressure is relaxed."
+    }
+  ],
+  "overall_verdict": "la hierarchie depend du ruleset"
+}

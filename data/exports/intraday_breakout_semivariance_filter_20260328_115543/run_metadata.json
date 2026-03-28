@@ -1,0 +1,259 @@
+{
+  "run_timestamp": "2026-03-28T12:01:34.989567",
+  "spec": {
+    "symbols": [
+      "MNQ",
+      "MES",
+      "MGC",
+      "M2K"
+    ],
+    "is_fraction": 0.7,
+    "semivariance_horizons": [
+      "30m",
+      "60m",
+      "90m",
+      "session"
+    ],
+    "percentile_thresholds": [
+      0.8,
+      0.85,
+      0.9,
+      0.95
+    ],
+    "downsizing_multipliers": [
+      0.75,
+      0.5,
+      0.25,
+      0.0
+    ],
+    "percentile_history": 252,
+    "min_percentile_history": 60,
+    "output_root": null,
+    "asset_baselines": {
+      "MNQ": {
+        "symbol": "MNQ",
+        "source_reference": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\mnq_orb_vix_vvix_validation_20260327_run\\run_metadata.json",
+        "source_note": "Most recent audited leak-free official MNQ OR30 both-direction baseline reused by the VIX/VVIX validation campaign.",
+        "baseline": {
+          "or_minutes": 30,
+          "opening_time": "09:30:00",
+          "direction": "both",
+          "one_trade_per_day": true,
+          "entry_buffer_ticks": 2,
+          "stop_buffer_ticks": 2,
+          "target_multiple": 2.0,
+          "vwap_confirmation": true,
+          "vwap_column": "continuous_session_vwap",
+          "time_exit": "16:00:00",
+          "account_size_usd": 50000.0,
+          "risk_per_trade_pct": 1.5,
+          "entry_on_next_open": true
+        },
+        "grid": {
+          "atr_periods": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_lows_pct": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_highs_pct": [
+            90,
+            91,
+            92,
+            93,
+            94,
+            95
+          ],
+          "aggregation_rules": [
+            "majority_50",
+            "consensus_75",
+            "unanimity_100"
+          ]
+        },
+        "aggregation_rule": "majority_50",
+        "timeframe": "1m",
+        "dataset_path": null
+      },
+      "MES": {
+        "symbol": "MES",
+        "source_reference": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\notebooks\\orb_MES_final_ensemble_validation.ipynb",
+        "source_note": "Final MES ensemble validation notebook baseline.",
+        "baseline": {
+          "or_minutes": 15,
+          "opening_time": "09:30:00",
+          "direction": "long",
+          "one_trade_per_day": true,
+          "entry_buffer_ticks": 2,
+          "stop_buffer_ticks": 2,
+          "target_multiple": 2.0,
+          "vwap_confirmation": true,
+          "vwap_column": "continuous_session_vwap",
+          "time_exit": "16:00:00",
+          "account_size_usd": 50000.0,
+          "risk_per_trade_pct": 1.5,
+          "entry_on_next_open": true
+        },
+        "grid": {
+          "atr_periods": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_lows_pct": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_highs_pct": [
+            90,
+            91,
+            92,
+            93,
+            94,
+            95
+          ],
+          "aggregation_rules": [
+            "majority_50",
+            "consensus_75",
+            "unanimity_100"
+          ]
+        },
+        "aggregation_rule": "majority_50",
+        "timeframe": "1m",
+        "dataset_path": null
+      },
+      "MGC": {
+        "symbol": "MGC",
+        "source_reference": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\notebooks\\orb_MGC_final_ensemble_validation.ipynb",
+        "source_note": "Final MGC ensemble validation notebook baseline.",
+        "baseline": {
+          "or_minutes": 30,
+          "opening_time": "09:30:00",
+          "direction": "long",
+          "one_trade_per_day": true,
+          "entry_buffer_ticks": 2,
+          "stop_buffer_ticks": 2,
+          "target_multiple": 2.0,
+          "vwap_confirmation": true,
+          "vwap_column": "continuous_session_vwap",
+          "time_exit": "16:00:00",
+          "account_size_usd": 50000.0,
+          "risk_per_trade_pct": 1.5,
+          "entry_on_next_open": true
+        },
+        "grid": {
+          "atr_periods": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_lows_pct": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_highs_pct": [
+            95,
+            96,
+            97,
+            98,
+            99,
+            100
+          ],
+          "aggregation_rules": [
+            "majority_50",
+            "consensus_75",
+            "unanimity_100"
+          ]
+        },
+        "aggregation_rule": "majority_50",
+        "timeframe": "1m",
+        "dataset_path": null
+      },
+      "M2K": {
+        "symbol": "M2K",
+        "source_reference": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\notebooks\\orb_M2K_final_ensemble_validation.ipynb",
+        "source_note": "Final M2K ensemble validation notebook baseline.",
+        "baseline": {
+          "or_minutes": 15,
+          "opening_time": "09:30:00",
+          "direction": "long",
+          "one_trade_per_day": true,
+          "entry_buffer_ticks": 2,
+          "stop_buffer_ticks": 2,
+          "target_multiple": 2.0,
+          "vwap_confirmation": true,
+          "vwap_column": "continuous_session_vwap",
+          "time_exit": "16:00:00",
+          "account_size_usd": 50000.0,
+          "risk_per_trade_pct": 1.5,
+          "entry_on_next_open": true
+        },
+        "grid": {
+          "atr_periods": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_lows_pct": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ],
+          "q_highs_pct": [
+            90,
+            91,
+            92,
+            93,
+            94,
+            95
+          ],
+          "aggregation_rules": [
+            "majority_50",
+            "consensus_75",
+            "unanimity_100"
+          ]
+        },
+        "aggregation_rule": "majority_50",
+        "timeframe": "1m",
+        "dataset_path": null
+      }
+    }
+  },
+  "portfolio_common_sessions": 1139,
+  "portfolio_is_sessions": 797,
+  "portfolio_oos_sessions": 342
+}

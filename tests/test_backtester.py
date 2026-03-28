@@ -27,8 +27,30 @@ def _build_trade_df() -> pd.DataFrame:
     )
 
 
+def _build_delayed_entry_df() -> pd.DataFrame:
+    timestamp = pd.to_datetime(["2024-01-02 09:32:00", "2024-01-02 09:33:00", "2024-01-02 09:34:00"])
+    return pd.DataFrame(
+        {
+            "timestamp": timestamp,
+            "session_date": timestamp.normalize().date,
+            "signal": [1, 0, 0],
+            "or_high": [101.0, 101.0, 101.0],
+            "or_low": [99.0, 99.0, 99.0],
+            "or_width": [2.0, 2.0, 2.0],
+            "open": [100.0, 100.0, 101.0],
+            "close": [100.0, 100.5, 101.0],
+            "high": [100.0, 100.5, 101.0],
+            "low": [100.0, 99.25, 100.0],
+        }
+    )
+
+
 def test_backtester_runs() -> None:
-    df = load_ohlcv_csv(DOWNLOADED_DATA_DIR / "NQ_1min_sample.csv")
+    sample_path = DOWNLOADED_DATA_DIR / "NQ_1min_sample.csv"
+    if not sample_path.exists():
+        pytest.skip("sample CSV fixture not available in this environment")
+
+    df = load_ohlcv_csv(sample_path)
     df = add_intraday_features(df)
     df = compute_opening_range(df, or_minutes=2)
     df["signal"] = 0
@@ -126,3 +148,44 @@ def test_backtester_applies_leverage_cap_after_risk_sizing() -> None:
     assert trade["quantity"] == 4
     assert trade["notional_usd"] == pytest.approx(4 * 100.25 * 20.0)
     assert trade["leverage_used"] == pytest.approx((4 * 100.25 * 20.0) / 10_000.0)
+
+
+def test_backtester_supports_fractional_slippage_ticks() -> None:
+    trades = run_backtest(
+        _build_trade_df(),
+        execution_model=ExecutionModel(slippage_ticks=1.5, tick_size=0.25),
+        tick_value_usd=5.0,
+        stop_buffer_ticks=1,
+        time_exit="09:35",
+    )
+
+    assert len(trades) == 1
+    trade = trades.iloc[0]
+    assert trade["entry_price"] == pytest.approx(100.375)
+    assert trade["exit_price"] == pytest.approx(98.375)
+
+
+def test_backtester_can_delay_entry_by_additional_bars() -> None:
+    baseline = run_backtest(
+        _build_delayed_entry_df(),
+        execution_model=ExecutionModel(slippage_ticks=0, tick_size=0.25),
+        tick_value_usd=5.0,
+        stop_buffer_ticks=1,
+        time_exit="09:35",
+    )
+    delayed = run_backtest(
+        _build_delayed_entry_df(),
+        execution_model=ExecutionModel(slippage_ticks=0, tick_size=0.25),
+        tick_value_usd=5.0,
+        stop_buffer_ticks=1,
+        time_exit="09:35",
+        entry_delay_bars=1,
+    )
+
+    assert len(baseline) == 1
+    assert len(delayed) == 1
+    assert baseline.iloc[0]["entry_time"] == pd.Timestamp("2024-01-02 09:33:00")
+    assert delayed.iloc[0]["entry_time"] == pd.Timestamp("2024-01-02 09:34:00")
+    assert baseline.iloc[0]["entry_price"] == pytest.approx(100.0)
+    assert delayed.iloc[0]["entry_price"] == pytest.approx(101.0)
+    assert delayed.iloc[0]["target_price"] > baseline.iloc[0]["target_price"]

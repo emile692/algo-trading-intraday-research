@@ -1,0 +1,26 @@
+{
+  "research_verdict": "non_defendable",
+  "best_variant_name": "impc_ef8_es21_sl3_pb3_pm0p5_tr1p5",
+  "best_variant_parameters": {
+    "ema_fast": 8,
+    "ema_slow": 21,
+    "slope_lookback": 3,
+    "pullback_lookback": 3,
+    "pb_min_atr": 0.5,
+    "target_r": 1.5
+  },
+  "cross_asset_character": "dead",
+  "oos_positive_assets": 0,
+  "oos_total_trades": 517,
+  "oos_total_net_pnl": -5282.457291666799,
+  "best_asset_symbol": "M2K",
+  "best_asset_oos_total_trades": 134,
+  "best_asset_oos_net_pnl": -928.6651041665709,
+  "best_asset_oos_profit_factor": 0.550390292464697,
+  "best_asset_oos_sharpe": -3.4459237209713014,
+  "best_asset_positive_years": 0,
+  "best_asset_year_count": 2,
+  "robust_mono_asset_candidate_exists": false,
+  "portfolio_candidate_exists": false,
+  "reason": "La meilleure configuration reste trop fragile OOS apres couts pour etre defendable."
+}
