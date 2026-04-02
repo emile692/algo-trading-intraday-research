@@ -1,0 +1,43 @@
+{
+  "run_dir": "data\\exports\\volume_climax_pullback_v3_run\\volume_climax_pullback_v3_20260402_184702",
+  "symbols": [
+    "MNQ",
+    "MES",
+    "M2K",
+    "MGC"
+  ],
+  "variant_count_by_symbol": {
+    "MNQ": 48,
+    "MES": 48,
+    "M2K": 48,
+    "MGC": 114
+  },
+  "generated_at_utc": "2026-04-02T18:58:42.332513",
+  "v2_reference_dir": "data\\exports\\volume_climax_pullback_v2_run\\volume_climax_pullback_v2_20260401_214553",
+  "max_workers": 1,
+  "verdict": {
+    "global_conclusion": "strategie prete pour paper trading cible",
+    "ready_assets": 4,
+    "viable_assets": 4,
+    "clean_survivors_total": 241,
+    "mgc_regime_value": "positive",
+    "verdict_by_symbol": {
+      "MNQ": {
+        "verdict": "recommandee",
+        "recommended_variant_name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2"
+      },
+      "MES": {
+        "verdict": "recommandee",
+        "recommended_variant_name": "dynamic_exit_mixed_ts4_vq0p95_bf0p6_ra1p5"
+      },
+      "M2K": {
+        "verdict": "recommandee",
+        "recommended_variant_name": "dynamic_exit_atr_target_1p0_ts4_vq0p95_bf0p5_ra1p2"
+      },
+      "MGC": {
+        "verdict": "recommandee",
+        "recommended_variant_name": "regime_filtered_ema_mild_atr_20_80_compression_off_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2"
+      }
+    }
+  }
+}

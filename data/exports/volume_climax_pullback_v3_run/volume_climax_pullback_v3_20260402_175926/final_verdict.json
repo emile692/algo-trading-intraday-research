@@ -1,0 +1,25 @@
+{
+  "global_conclusion": "strategie prete pour paper trading cible",
+  "ready_assets": 4,
+  "viable_assets": 4,
+  "clean_survivors_total": 241,
+  "mgc_regime_value": "positive",
+  "verdict_by_symbol": {
+    "MNQ": {
+      "verdict": "recommandee",
+      "recommended_variant_name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2"
+    },
+    "MES": {
+      "verdict": "recommandee",
+      "recommended_variant_name": "dynamic_exit_mixed_ts4_vq0p95_bf0p6_ra1p5"
+    },
+    "M2K": {
+      "verdict": "recommandee",
+      "recommended_variant_name": "dynamic_exit_atr_target_1p0_ts4_vq0p95_bf0p5_ra1p2"
+    },
+    "MGC": {
+      "verdict": "recommandee",
+      "recommended_variant_name": "regime_filtered_ema_mild_atr_20_80_compression_off_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2"
+    }
+  }
+}

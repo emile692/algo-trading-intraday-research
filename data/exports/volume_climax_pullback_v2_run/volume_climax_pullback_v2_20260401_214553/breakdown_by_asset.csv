@@ -1,0 +1,5 @@
+symbol,total_v2_variants,live_variant_count,dead_variant_count,true_improvement_count,median_delta_oos_sharpe_vs_v1,median_delta_oos_expectancy_vs_v1,best_variant_name,best_family,best_entry_mode,best_exit_mode,best_oos_sharpe,best_oos_net_pnl,best_delta_oos_sharpe_vs_v1
+MGC,116,80,36,16,0.11582215310177624,2.536906975050128,regime_filtered_trend_ema50_medium_vq0p975_bf0p5_ra1p2,regime_filtered,next_open,fixed_rr,0.791538977135051,927.5000000000409,0.7276032437138958
+MES,116,19,97,13,1.1286421240482563,-0.21375811688311686,dynamic_exit_mixed_ts4_vq0p95_bf0p6_ra1p2,dynamic_exit,next_open,mixed,1.2417727765390711,1283.7187499999982,3.0638959966053454
+M2K,116,33,83,13,1.0004155107950818,2.7336176717598186,dynamic_exit_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2,dynamic_exit,next_open,atr_fraction,1.5152407522377243,956.6500000000781,2.9505308003548634
+MNQ,116,30,86,10,0.6714295344814352,-0.4656517094017092,dynamic_exit_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2,dynamic_exit,next_open,atr_fraction,1.2978922401031374,2743.9999999999927,2.3833700742516823

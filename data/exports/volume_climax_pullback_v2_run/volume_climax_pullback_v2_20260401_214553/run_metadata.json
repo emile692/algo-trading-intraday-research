@@ -1,0 +1,21 @@
+{
+  "run_dir": "data\\exports\\volume_climax_pullback_v2_run\\volume_climax_pullback_v2_20260401_214553",
+  "symbols": [
+    "MNQ",
+    "MES",
+    "M2K",
+    "MGC"
+  ],
+  "variant_count_v2": 116,
+  "generated_at_utc": "2026-04-01T22:30:11.254345",
+  "verdict": {
+    "verdict": "exploitable_sous_conditions",
+    "reason": "A few V2 variants improve the V1 benchmark with positive OOS behavior across more than one asset.",
+    "best_variant_name": "dynamic_exit_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2",
+    "best_asset_symbol": "MGC",
+    "regime_filters_improve_sharpe": true,
+    "delayed_entries_improve_expectancy": false,
+    "positive_assets_with_true_improvement": 4,
+    "true_improvement_count": 52
+  }
+}
