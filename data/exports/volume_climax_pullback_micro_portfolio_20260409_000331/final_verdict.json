@@ -1,0 +1,9 @@
+{
+  "recommended_portfolio_variant": "MNQ_M2K_MES__equal_weight_notional__core_default",
+  "prop_safe_portfolio_variant": "MNQ_M2K_MES__equal_weight_risk_budget__conservative_mix",
+  "aggressive_portfolio_variant": "MNQ_M2K_MES__capped_overlay__core_default",
+  "best_single_portfolio_variant": "M2K_only__standalone__core_default",
+  "best_pair_portfolio_variant": "M2K_MES__equal_weight_notional__core_default",
+  "best_three_way_portfolio_variant": "MNQ_M2K_MES__equal_weight_notional__core_default",
+  "final_verdict": "retenir_MNQ_plus_M2K_plus_MES"
+}

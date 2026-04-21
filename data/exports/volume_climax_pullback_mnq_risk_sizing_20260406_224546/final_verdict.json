@@ -1,0 +1,6 @@
+{
+  "final_verdict": "retenir_avec_pref",
+  "recommended_variant": "risk_pct_0p0025__max_contracts_3__skip_trade_if_too_small_true",
+  "aggressive_variant": "risk_pct_0p0100__max_contracts_15__skip_trade_if_too_small_true",
+  "prop_safe_variant": "risk_pct_0p0025__max_contracts_3__skip_trade_if_too_small_true"
+}

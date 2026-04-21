@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-04-08T23:31:39.023348",
+  "symbol": "MGC",
+  "dataset_path": null,
+  "reference_v3_dir": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_v3_run\\volume_climax_pullback_v3_20260402_184702",
+  "resolved_base_alpha_variant_name": "regime_filtered_ema_mild_atr_20_80_compression_off_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2",
+  "resolved_base_alpha_variant": {
+    "name": "regime_filtered_ema_mild_atr_20_80_compression_off_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2",
+    "family": "regime_filtered",
+    "timeframe": "1h",
+    "volume_quantile": 0.95,
+    "volume_lookback": 50,
+    "min_body_fraction": 0.5,
+    "min_range_atr": 1.2,
+    "trend_ema_window": 50,
+    "ema_slope_threshold": 0.06,
+    "atr_percentile_low": 0.2,
+    "atr_percentile_high": 0.8,
+    "compression_ratio_max": null,
+    "entry_mode": "next_open",
+    "pullback_fraction": null,
+    "confirmation_window": null,
+    "exit_mode": "atr_fraction",
+    "rr_target": 1.0,
+    "atr_target_multiple": 1.0,
+    "time_stop_bars": 3,
+    "trailing_atr_multiple": 0.5,
+    "session_overlay": "all_rth"
+  },
+  "initial_capital_usd": 50000.0,
+  "risk_pcts": [
+    0.0075,
+    0.008,
+    0.0085,
+    0.009,
+    0.0095,
+    0.01,
+    0.0105
+  ],
+  "max_contracts_grid": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "skip_trade_if_too_small": true,
+  "session_count_full": 3128,
+  "session_count_is": 2189,
+  "session_count_oos": 939,
+  "variant_count": 37,
+  "recommended_cluster_id": null,
+  "best_previous_winner_alias": "best_previous_winner",
+  "best_previous_winner_grid_name": "risk_pct_0p0100__max_contracts_3__skip_trade_if_too_small_true",
+  "verdict": {
+    "final_verdict": "retenir_une_unique_variante",
+    "recommended_variant": "risk_pct_0p0100__max_contracts_3__skip_trade_if_too_small_true",
+    "punctual_oos_winner": "risk_pct_0p0100__max_contracts_3__skip_trade_if_too_small_true",
+    "prop_safe_variant": null,
+    "aggressive_variant": "risk_pct_0p0100__max_contracts_3__skip_trade_if_too_small_true",
+    "recommended_cluster_id": null
+  }
+}

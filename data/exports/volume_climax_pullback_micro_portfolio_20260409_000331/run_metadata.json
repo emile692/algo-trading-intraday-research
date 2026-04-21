@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-04-09T00:03:45.353758",
+  "initial_capital_usd": 50000.0,
+  "portfolio_risk_cap_usd": 250.0,
+  "motor_configs": {
+    "MNQ_default": {
+      "symbol": "MNQ",
+      "config_label": "default",
+      "campaign_variant_name": "risk_pct_0p0015__max_contracts_4__skip_trade_if_too_small_true",
+      "risk_pct_decimal": 0.0015,
+      "max_contracts": 4,
+      "export_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_mnq_risk_sizing_refinement_20260406_231223",
+      "notes": "MNQ default retained from the local refinement campaign."
+    },
+    "MNQ_alt_perf": {
+      "symbol": "MNQ",
+      "config_label": "alt_perf",
+      "campaign_variant_name": "risk_pct_0p0025__max_contracts_3__skip_trade_if_too_small_true",
+      "risk_pct_decimal": 0.0025,
+      "max_contracts": 3,
+      "export_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_mnq_risk_sizing_refinement_20260406_231223",
+      "notes": "MNQ alternate performance-biased variant requested by the user."
+    },
+    "M2K_default": {
+      "symbol": "M2K",
+      "config_label": "default",
+      "campaign_variant_name": "risk_pct_0p0030__max_contracts_6__skip_trade_if_too_small_true",
+      "risk_pct_decimal": 0.003,
+      "max_contracts": 6,
+      "export_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_m2k_risk_sizing_refinement_20260408_232832",
+      "notes": "M2K default retained from the local refinement campaign."
+    },
+    "M2K_alt_conservative": {
+      "symbol": "M2K",
+      "config_label": "alt_conservative",
+      "campaign_variant_name": "risk_pct_0p0030__max_contracts_5__skip_trade_if_too_small_true",
+      "risk_pct_decimal": 0.003,
+      "max_contracts": 5,
+      "export_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_m2k_risk_sizing_refinement_20260408_232832",
+      "notes": "M2K conservative alternate inside the same refined zone."
+    },
+    "MES_default": {
+      "symbol": "MES",
+      "config_label": "default",
+      "campaign_variant_name": "risk_pct_0p0020__max_contracts_6__skip_trade_if_too_small_true",
+      "risk_pct_decimal": 0.002,
+      "max_contracts": 6,
+      "export_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_mes_risk_sizing_refinement_20260408_232832",
+      "notes": "MES default chosen from the robust zone as the strongest prop-score point."
+    },
+    "MES_alt_conservative": {
+      "symbol": "MES",
+      "config_label": "alt_conservative",
+      "campaign_variant_name": "risk_pct_0p0015__max_contracts_5__skip_trade_if_too_small_true",
+      "risk_pct_decimal": 0.0015,
+      "max_contracts": 5,
+      "export_root": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_mes_risk_sizing_refinement_20260408_232832",
+      "notes": "MES conservative alternate inside the robust zone with lower drawdown."
+    }
+  },
+  "portfolio_variant_count": 17,
+  "portfolio_variants": [
+    "MNQ_only__standalone__core_default",
+    "M2K_only__standalone__core_default",
+    "MES_only__standalone__core_default",
+    "MNQ_M2K__equal_weight_notional__core_default",
+    "MNQ_M2K__equal_weight_risk_budget__core_default",
+    "MNQ_M2K__capped_overlay__core_default",
+    "MNQ_MES__equal_weight_notional__core_default",
+    "MNQ_MES__equal_weight_risk_budget__core_default",
+    "MNQ_MES__capped_overlay__core_default",
+    "M2K_MES__equal_weight_notional__core_default",
+    "M2K_MES__equal_weight_risk_budget__core_default",
+    "M2K_MES__capped_overlay__core_default",
+    "MNQ_M2K_MES__equal_weight_notional__core_default",
+    "MNQ_M2K_MES__equal_weight_risk_budget__core_default",
+    "MNQ_M2K_MES__capped_overlay__core_default",
+    "MNQ_M2K_MES__equal_weight_risk_budget__mnq_alt_perf",
+    "MNQ_M2K_MES__equal_weight_risk_budget__conservative_mix"
+  ],
+  "verdict": {
+    "recommended_portfolio_variant": "MNQ_M2K_MES__equal_weight_notional__core_default",
+    "prop_safe_portfolio_variant": "MNQ_M2K_MES__equal_weight_risk_budget__conservative_mix",
+    "aggressive_portfolio_variant": "MNQ_M2K_MES__capped_overlay__core_default",
+    "best_single_portfolio_variant": "M2K_only__standalone__core_default",
+    "best_pair_portfolio_variant": "M2K_MES__equal_weight_notional__core_default",
+    "best_three_way_portfolio_variant": "MNQ_M2K_MES__equal_weight_notional__core_default",
+    "final_verdict": "retenir_MNQ_plus_M2K_plus_MES"
+  }
+}

@@ -10,6 +10,7 @@ from src.analytics.volume_climax_pullback_v3_campaign import run_campaign as run
 from src.engine.execution_model import ExecutionModel
 from src.engine.volume_climax_pullback_v2_backtester import run_volume_climax_pullback_v2_backtest
 from src.engine.vwap_backtester import InstrumentDetails
+from src.risk.position_sizing import RiskPercentPositionSizing
 from src.strategy.volume_climax_pullback_v2 import (
     VolumeClimaxPullbackV2Variant,
     build_volume_climax_pullback_v2_signal_frame,
@@ -311,6 +312,67 @@ def test_backtester_supports_mixed_partial_then_trailing_exit() -> None:
     trade = trades.iloc[0]
     assert str(trade["exit_reason"]) == "mixed_trailing_stop"
     assert round(float(trade["pnl_points"]), 4) == 0.75
+
+
+def test_backtester_can_keep_risk_sizing_capital_constant() -> None:
+    timestamps = pd.date_range("2024-01-02 09:30:00", periods=4, freq="1h", tz="America/New_York")
+    signal_df = pd.DataFrame(
+        {
+            "timestamp": timestamps,
+            "session_date": [timestamps[0].date()] * 4,
+            "open": [100.0, 100.8, 100.0, 100.8],
+            "high": [100.2, 101.2, 100.2, 101.2],
+            "low": [99.8, 100.6, 99.8, 100.6],
+            "close": [100.1, 101.0, 100.1, 101.0],
+            "signal": [1, 0, 1, 0],
+            "setup_reference_close": [100.0, pd.NA, 100.0, pd.NA],
+            "setup_reference_range": [2.0, pd.NA, 2.0, pd.NA],
+            "setup_stop_reference_long": [99.0, pd.NA, 99.0, pd.NA],
+            "setup_stop_reference_short": [pd.NA, pd.NA, pd.NA, pd.NA],
+            "setup_reference_atr": [2.0, pd.NA, 2.0, pd.NA],
+            "setup_reference_vwap": [101.0, pd.NA, 101.0, pd.NA],
+            "setup_signal_time": [
+                timestamps[0] - pd.Timedelta(hours=1),
+                pd.NaT,
+                timestamps[2] - pd.Timedelta(hours=1),
+                pd.NaT,
+            ],
+        }
+    )
+    variant = _base_variant(name="constant_capital_test", exit_mode="fixed_rr", rr_target=1.0)
+    execution = ExecutionModel(commission_per_side_usd=0.0, slippage_ticks=0, tick_size=0.25)
+
+    compounded = run_volume_climax_pullback_v2_backtest(
+        signal_df,
+        variant,
+        execution,
+        _instrument(),
+        position_sizing=RiskPercentPositionSizing(
+            initial_capital_usd=50_000.0,
+            risk_pct=0.10,
+            max_contracts=100_000,
+            skip_trade_if_too_small=True,
+        ),
+    ).trades
+    constant = run_volume_climax_pullback_v2_backtest(
+        signal_df,
+        variant,
+        execution,
+        _instrument(),
+        position_sizing=RiskPercentPositionSizing(
+            initial_capital_usd=50_000.0,
+            risk_pct=0.10,
+            max_contracts=100_000,
+            skip_trade_if_too_small=True,
+            compound_realized_pnl=False,
+        ),
+    ).trades
+
+    assert len(compounded) == 2
+    assert len(constant) == 2
+    assert list(compounded["quantity"]) == [5_000, 5_500]
+    assert list(constant["quantity"]) == [5_000, 5_000]
+    assert list(constant["account_size_usd"]) == [50_000.0, 50_000.0]
 
 
 def test_v2_campaign_smoke_outputs_requested_files(tmp_path: Path) -> None:

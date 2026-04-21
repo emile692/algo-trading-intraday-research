@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-04-08T23:18:18.821006",
+  "symbol": "M2K",
+  "dataset_path": null,
+  "reference_v3_dir": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_v3_run\\volume_climax_pullback_v3_20260402_184702",
+  "resolved_base_alpha_variant_name": "dynamic_exit_atr_target_1p0_ts4_vq0p95_bf0p5_ra1p2",
+  "resolved_base_alpha_variant": {
+    "name": "dynamic_exit_atr_target_1p0_ts4_vq0p95_bf0p5_ra1p2",
+    "family": "dynamic_exit",
+    "timeframe": "1h",
+    "volume_quantile": 0.95,
+    "volume_lookback": 50,
+    "min_body_fraction": 0.5,
+    "min_range_atr": 1.2,
+    "trend_ema_window": null,
+    "ema_slope_threshold": null,
+    "atr_percentile_low": null,
+    "atr_percentile_high": null,
+    "compression_ratio_max": null,
+    "entry_mode": "next_open",
+    "pullback_fraction": null,
+    "confirmation_window": null,
+    "exit_mode": "atr_fraction",
+    "rr_target": 1.0,
+    "atr_target_multiple": 1.0,
+    "time_stop_bars": 4,
+    "trailing_atr_multiple": 0.5,
+    "session_overlay": "all_rth"
+  },
+  "initial_capital_usd": 50000.0,
+  "risk_pcts": [
+    0.0025,
+    0.005,
+    0.0075,
+    0.01
+  ],
+  "max_contracts_grid": [
+    3,
+    5,
+    10,
+    15
+  ],
+  "skip_flags": [
+    true,
+    false
+  ],
+  "session_count_full": 1747,
+  "session_count_is": 1222,
+  "session_count_oos": 525,
+  "variant_count": 33,
+  "verdict": {
+    "final_verdict": "ne_pas_retenir",
+    "recommended_variant": null,
+    "aggressive_variant": "risk_pct_0p0100__max_contracts_15__skip_trade_if_too_small_true",
+    "prop_safe_variant": "risk_pct_0p0025__max_contracts_3__skip_trade_if_too_small_true"
+  }
+}

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
@@ -11,12 +11,47 @@ import pandas as pd
 from src.engine.execution_model import ExecutionModel
 from src.engine.trade_log import empty_trade_log, trade_to_record
 from src.engine.vwap_backtester import InstrumentDetails
+from src.risk.position_sizing import (
+    PositionSizingConfig,
+    PositionSizingDecision,
+    compounds_realized_pnl,
+    initial_capital_from_sizing,
+    resolve_position_size,
+    validate_position_sizing,
+)
 from src.strategy.volume_climax_pullback_v2 import VolumeClimaxPullbackV2Variant
 
 
 @dataclass(frozen=True)
 class VolumeClimaxPullbackV2BacktestResult:
     trades: pd.DataFrame
+    sizing_decisions: pd.DataFrame = field(default_factory=pd.DataFrame)
+
+
+SIZING_DECISION_COLUMNS = [
+    "variant_name",
+    "session_date",
+    "entry_time",
+    "entry_signal_time",
+    "direction",
+    "entry_price",
+    "initial_stop_price",
+    "position_sizing_mode",
+    "capital_before_trade_usd",
+    "risk_pct",
+    "risk_budget_usd",
+    "stop_distance_points",
+    "risk_per_contract_usd",
+    "contracts_raw",
+    "contracts",
+    "actual_risk_usd",
+    "notional_usd",
+    "leverage_used",
+    "max_contracts",
+    "skip_trade_if_too_small",
+    "skipped",
+    "skip_reason",
+]
 
 
 def _float_or_nan(value: Any) -> float:
@@ -33,6 +68,10 @@ def _float_or_nan(value: Any) -> float:
 
 def _bool_or_false(value: Any) -> bool:
     return bool(value) if value is not None and not pd.isna(value) else False
+
+
+def _empty_sizing_decision_log() -> pd.DataFrame:
+    return pd.DataFrame(columns=SIZING_DECISION_COLUMNS)
 
 
 def _entry_market_fill(execution_model: ExecutionModel, raw_price: float, direction: int) -> float:
@@ -81,50 +120,102 @@ def _resolve_target_price(
     raise ValueError(f"Unsupported exit_mode '{variant.exit_mode}'.")
 
 
-def _trade_record(
-    trade_id: int,
+def _append_sizing_decision(
+    sizing_decisions: list[dict[str, Any]],
+    *,
+    variant: VolumeClimaxPullbackV2Variant,
     session_date: Any,
-    direction: int,
-    quantity: float,
     entry_time: pd.Timestamp,
     entry_signal_time: pd.Timestamp | None,
+    direction: int,
     entry_price: float,
-    stop_price: float,
-    target_price: float | None,
+    initial_stop_price: float | None,
+    decision: PositionSizingDecision | None = None,
+    skip_reason: str | None = None,
+    position_sizing_mode: str | None = None,
+) -> None:
+    record = {column: np.nan for column in SIZING_DECISION_COLUMNS}
+    record.update(
+        {
+            "variant_name": variant.name,
+            "session_date": session_date,
+            "entry_time": entry_time,
+            "entry_signal_time": entry_signal_time,
+            "direction": "long" if int(direction) == 1 else "short",
+            "entry_price": float(entry_price),
+            "initial_stop_price": float(initial_stop_price) if initial_stop_price is not None and np.isfinite(initial_stop_price) else np.nan,
+            "position_sizing_mode": position_sizing_mode,
+            "skipped": True,
+            "skip_reason": skip_reason,
+        }
+    )
+    if initial_stop_price is not None and np.isfinite(initial_stop_price):
+        record["stop_distance_points"] = abs(float(entry_price) - float(initial_stop_price))
+    if decision is not None:
+        record.update(
+            {
+                "position_sizing_mode": decision.position_sizing_mode,
+                "capital_before_trade_usd": decision.capital_before_trade_usd,
+                "risk_pct": decision.risk_pct,
+                "risk_budget_usd": decision.risk_budget_usd,
+                "stop_distance_points": decision.stop_distance_points,
+                "risk_per_contract_usd": decision.risk_per_contract_usd,
+                "contracts_raw": decision.contracts_raw,
+                "contracts": int(decision.contracts),
+                "actual_risk_usd": decision.actual_risk_usd,
+                "notional_usd": decision.notional_usd,
+                "leverage_used": decision.leverage_used,
+                "max_contracts": decision.max_contracts,
+                "skip_trade_if_too_small": decision.skip_trade_if_too_small,
+                "skipped": bool(decision.skipped),
+                "skip_reason": decision.skip_reason,
+            }
+        )
+    sizing_decisions.append(record)
+
+
+def _trade_record(
+    trade_id: int,
     exit_time: pd.Timestamp,
     exit_price: float,
     exit_reason: str,
-    risk_usd: float,
     instrument: InstrumentDetails,
     execution_model: ExecutionModel,
     variant: VolumeClimaxPullbackV2Variant,
-    bars_held: int,
+    open_trade: dict[str, Any],
 ) -> dict[str, Any]:
-    pnl_points = (float(exit_price) - float(entry_price)) * int(direction) * float(quantity)
-    gross = pnl_points * float(instrument.point_value_usd)
-    fees = execution_model.round_trip_fees(quantity=1)
+    direction = int(open_trade["direction"])
+    quantity = int(open_trade["quantity"])
+    entry_price = float(open_trade["entry_price"])
+    pnl_points = (float(exit_price) - float(entry_price)) * direction
+    gross = pnl_points * float(instrument.point_value_usd) * float(quantity)
+    fees = execution_model.round_trip_fees(quantity=quantity)
     net = gross - fees
+    capital_before_trade = _float_or_nan(open_trade.get("account_size_usd"))
+    capital_after_trade = capital_before_trade + float(net) if np.isfinite(capital_before_trade) else np.nan
     record = trade_to_record(
         trade_id,
         {
-            "session_date": session_date,
+            "session_date": open_trade["session_date"],
             "direction": "long" if direction == 1 else "short",
-            "quantity": float(quantity),
-            "entry_time": entry_time,
+            "quantity": int(quantity),
+            "entry_time": open_trade["entry_time"],
             "entry_price": float(entry_price),
-            "stop_price": float(stop_price),
-            "target_price": float(target_price) if target_price is not None and np.isfinite(target_price) else np.nan,
+            "stop_price": float(open_trade["stop_price"]),
+            "target_price": float(open_trade["target_price"])
+            if np.isfinite(_float_or_nan(open_trade.get("target_price")))
+            else np.nan,
             "exit_time": exit_time,
             "exit_price": float(exit_price),
             "exit_reason": exit_reason,
-            "account_size_usd": np.nan,
-            "risk_per_trade_pct": np.nan,
-            "risk_budget_usd": np.nan,
-            "risk_per_contract_usd": float(risk_usd),
-            "actual_risk_usd": float(risk_usd),
-            "trade_risk_usd": float(risk_usd),
-            "notional_usd": float(entry_price) * float(instrument.point_value_usd),
-            "leverage_used": np.nan,
+            "account_size_usd": capital_before_trade,
+            "risk_per_trade_pct": _float_or_nan(open_trade.get("risk_per_trade_pct")),
+            "risk_budget_usd": _float_or_nan(open_trade.get("risk_budget_usd")),
+            "risk_per_contract_usd": _float_or_nan(open_trade.get("risk_per_contract_usd")),
+            "actual_risk_usd": _float_or_nan(open_trade.get("actual_risk_usd")),
+            "trade_risk_usd": _float_or_nan(open_trade.get("trade_risk_usd")),
+            "notional_usd": _float_or_nan(open_trade.get("notional_usd")),
+            "leverage_used": _float_or_nan(open_trade.get("leverage_used")),
             "pnl_points": float(pnl_points),
             "pnl_ticks": float(pnl_points / instrument.tick_size) if instrument.tick_size > 0 else np.nan,
             "pnl_usd": float(gross),
@@ -133,8 +224,16 @@ def _trade_record(
         },
     )
     record["variant_name"] = variant.name
-    record["entry_signal_time"] = entry_signal_time
-    record["bars_held"] = int(bars_held)
+    record["entry_signal_time"] = open_trade.get("entry_signal_time")
+    record["bars_held"] = int(open_trade["bars_held"])
+    record["position_sizing_mode"] = open_trade.get("position_sizing_mode")
+    record["risk_pct_decimal"] = _float_or_nan(open_trade.get("risk_pct"))
+    record["stop_distance_points"] = _float_or_nan(open_trade.get("stop_distance_points"))
+    record["contracts_raw"] = _float_or_nan(open_trade.get("contracts_raw"))
+    record["max_contracts"] = _float_or_nan(open_trade.get("max_contracts"))
+    record["skip_trade_if_too_small"] = open_trade.get("skip_trade_if_too_small")
+    record["capital_after_trade_usd"] = capital_after_trade
+    record["initial_stop_price"] = _float_or_nan(open_trade.get("initial_stop_price"))
     return record
 
 
@@ -144,8 +243,10 @@ def _build_open_trade(
     direction: int,
     entry_price: float,
     variant: VolumeClimaxPullbackV2Variant,
-    execution_model: ExecutionModel,
     instrument: InstrumentDetails,
+    position_sizing: PositionSizingConfig | None,
+    capital_before_trade_usd: float | None,
+    sizing_decisions: list[dict[str, Any]],
 ) -> dict[str, Any] | None:
     stop_col = "setup_stop_reference_long" if direction == 1 else "setup_stop_reference_short"
     stop_price = _float_or_nan(row.get(stop_col))
@@ -154,12 +255,37 @@ def _build_open_trade(
     entry_time = pd.Timestamp(row["timestamp"])
     signal_time_raw = row.get("setup_signal_time")
     entry_signal_time = pd.Timestamp(signal_time_raw) if pd.notna(signal_time_raw) else None
+    session_date = row.get("session_date")
 
     if not np.isfinite(stop_price):
+        _append_sizing_decision(
+            sizing_decisions,
+            variant=variant,
+            session_date=session_date,
+            entry_time=entry_time,
+            entry_signal_time=entry_signal_time,
+            direction=direction,
+            entry_price=float(entry_price),
+            initial_stop_price=None,
+            skip_reason="invalid_initial_stop",
+            position_sizing_mode="unresolved",
+        )
         return None
 
     risk_points = (float(entry_price) - float(stop_price)) * int(direction)
     if risk_points <= 0:
+        _append_sizing_decision(
+            sizing_decisions,
+            variant=variant,
+            session_date=session_date,
+            entry_time=entry_time,
+            entry_signal_time=entry_signal_time,
+            direction=direction,
+            entry_price=float(entry_price),
+            initial_stop_price=float(stop_price),
+            skip_reason="non_positive_stop_distance",
+            position_sizing_mode="unresolved",
+        )
         return None
 
     target_price, partial_target_price, trailing_offset = _resolve_target_price(
@@ -171,27 +297,74 @@ def _build_open_trade(
         reference_vwap=float(reference_vwap),
     )
     if variant.exit_mode != "mixed" and target_price is None:
+        _append_sizing_decision(
+            sizing_decisions,
+            variant=variant,
+            session_date=session_date,
+            entry_time=entry_time,
+            entry_signal_time=entry_signal_time,
+            direction=direction,
+            entry_price=float(entry_price),
+            initial_stop_price=float(stop_price),
+            skip_reason="invalid_target",
+            position_sizing_mode="unresolved",
+        )
         return None
 
-    risk_usd = float(risk_points * instrument.point_value_usd + execution_model.round_trip_fees(quantity=1))
+    sizing = resolve_position_size(
+        config=position_sizing,
+        capital_before_trade_usd=capital_before_trade_usd,
+        entry_price=float(entry_price),
+        initial_stop_price=float(stop_price),
+        point_value_usd=float(instrument.point_value_usd),
+    )
+    _append_sizing_decision(
+        sizing_decisions,
+        variant=variant,
+        session_date=session_date,
+        entry_time=entry_time,
+        entry_signal_time=entry_signal_time,
+        direction=direction,
+        entry_price=float(entry_price),
+        initial_stop_price=float(stop_price),
+        decision=sizing,
+    )
+    if sizing.skipped or int(sizing.contracts) < 1:
+        return None
+
     return {
         "entry_time": entry_time,
         "entry_signal_time": entry_signal_time,
         "entry_price": float(entry_price),
         "direction": int(direction),
+        "quantity": int(sizing.contracts),
         "stop_price": float(stop_price),
+        "initial_stop_price": float(stop_price),
         "target_price": float(target_price) if target_price is not None else np.nan,
         "partial_target_price": float(partial_target_price) if partial_target_price is not None else np.nan,
         "trailing_offset": float(trailing_offset) if trailing_offset is not None else np.nan,
         "time_stop_bars": int(variant.time_stop_bars),
         "bars_held": 0,
-        "risk_usd": risk_usd,
+        "account_size_usd": float(sizing.capital_before_trade_usd) if sizing.capital_before_trade_usd is not None else np.nan,
+        "risk_per_trade_pct": float(sizing.risk_pct * 100.0) if sizing.risk_pct is not None else np.nan,
+        "risk_pct": float(sizing.risk_pct) if sizing.risk_pct is not None else np.nan,
+        "risk_budget_usd": float(sizing.risk_budget_usd) if sizing.risk_budget_usd is not None else np.nan,
+        "risk_per_contract_usd": float(sizing.risk_per_contract_usd) if sizing.risk_per_contract_usd is not None else np.nan,
+        "actual_risk_usd": float(sizing.actual_risk_usd) if sizing.actual_risk_usd is not None else np.nan,
+        "trade_risk_usd": float(sizing.actual_risk_usd) if sizing.actual_risk_usd is not None else np.nan,
+        "notional_usd": float(sizing.notional_usd) if sizing.notional_usd is not None else np.nan,
+        "leverage_used": float(sizing.leverage_used) if sizing.leverage_used is not None else np.nan,
+        "position_sizing_mode": sizing.position_sizing_mode,
+        "contracts_raw": float(sizing.contracts_raw) if sizing.contracts_raw is not None else np.nan,
+        "stop_distance_points": float(sizing.stop_distance_points) if sizing.stop_distance_points is not None else np.nan,
+        "max_contracts": float(sizing.max_contracts) if sizing.max_contracts is not None else np.nan,
+        "skip_trade_if_too_small": sizing.skip_trade_if_too_small,
         "reference_atr": float(reference_atr) if np.isfinite(reference_atr) else np.nan,
         "partial_filled": False,
         "remaining_fraction": 1.0,
         "realized_weighted_pnl_points": 0.0,
         "last_close": _float_or_nan(row.get("close")),
-        "session_date": row.get("session_date"),
+        "session_date": session_date,
     }
 
 
@@ -269,47 +442,30 @@ def _entry_row_from_pending_setup(current_row: pd.Series, pending_setup: dict[st
 def _finalize_trade(
     trades: list[dict[str, Any]],
     trade_id: int,
-    session_date: Any,
-    direction: int,
-    entry_time: pd.Timestamp,
-    entry_signal_time: pd.Timestamp | None,
-    entry_price: float,
-    stop_price: float,
-    target_price: float | None,
     exit_time: pd.Timestamp,
     raw_exit_price: float,
     exit_reason: str,
-    risk_usd: float,
-    bars_held: int,
-    remaining_fraction: float,
-    realized_weighted_pnl_points: float,
     execution_model: ExecutionModel,
     instrument: InstrumentDetails,
     variant: VolumeClimaxPullbackV2Variant,
+    open_trade: dict[str, Any],
 ) -> int:
+    direction = int(open_trade["direction"])
+    entry_price = float(open_trade["entry_price"])
     fill_exit = float(execution_model.apply_slippage(raw_exit_price, direction, is_entry=False))
-    weighted_final_points = float(remaining_fraction) * (fill_exit - float(entry_price)) * int(direction)
-    total_weighted_points = float(realized_weighted_pnl_points) + weighted_final_points
+    weighted_final_points = float(open_trade["remaining_fraction"]) * (fill_exit - float(entry_price)) * int(direction)
+    total_weighted_points = float(open_trade["realized_weighted_pnl_points"]) + weighted_final_points
     effective_exit_price = float(entry_price) + (float(total_weighted_points) * int(direction))
     trades.append(
         _trade_record(
             trade_id=trade_id,
-            session_date=session_date,
-            direction=direction,
-            quantity=1.0,
-            entry_time=entry_time,
-            entry_signal_time=entry_signal_time,
-            entry_price=float(entry_price),
-            stop_price=float(stop_price),
-            target_price=target_price,
             exit_time=exit_time,
             exit_price=effective_exit_price,
             exit_reason=exit_reason,
-            risk_usd=float(risk_usd),
             instrument=instrument,
             execution_model=execution_model,
             variant=variant,
-            bars_held=bars_held,
+            open_trade=open_trade,
         )
     )
     return trade_id + 1
@@ -320,10 +476,15 @@ def run_volume_climax_pullback_v2_backtest(
     variant: VolumeClimaxPullbackV2Variant,
     execution_model: ExecutionModel,
     instrument: InstrumentDetails,
+    position_sizing: PositionSizingConfig | None = None,
 ) -> VolumeClimaxPullbackV2BacktestResult:
+    validate_position_sizing(position_sizing)
     trades: list[dict[str, Any]] = []
+    sizing_decisions: list[dict[str, Any]] = []
     open_trade: dict[str, Any] | None = None
     trade_id = 1
+    capital_before_trade_usd = initial_capital_from_sizing(position_sizing)
+    compound_realized_pnl = compounds_realized_pnl(position_sizing)
 
     for session_date, sdf in signal_df.groupby("session_date", sort=True):
         sdf = sdf.sort_values("timestamp").reset_index(drop=True)
@@ -360,49 +521,33 @@ def run_volume_climax_pullback_v2_backtest(
 
                         if stop_hit and partial_hit:
                             trade_id = _finalize_trade(
-                                trades,
-                                trade_id,
-                                session_date,
-                                direction,
-                                open_trade["entry_time"],
-                                open_trade.get("entry_signal_time"),
-                                float(open_trade["entry_price"]),
-                                float(open_trade["stop_price"]),
-                                partial_target_price if np.isfinite(partial_target_price) else None,
-                                timestamp,
-                                float(open_trade["stop_price"]),
-                                "stop_ambiguous_first",
-                                float(open_trade["risk_usd"]),
-                                int(open_trade["bars_held"]),
-                                float(open_trade["remaining_fraction"]),
-                                float(open_trade["realized_weighted_pnl_points"]),
-                                execution_model,
-                                instrument,
-                                variant,
+                                trades=trades,
+                                trade_id=trade_id,
+                                exit_time=timestamp,
+                                raw_exit_price=float(open_trade["stop_price"]),
+                                exit_reason="stop_ambiguous_first",
+                                execution_model=execution_model,
+                                instrument=instrument,
+                                variant=variant,
+                                open_trade=open_trade,
                             )
+                            if compound_realized_pnl and capital_before_trade_usd is not None:
+                                capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                             open_trade = None
                         elif stop_hit:
                             trade_id = _finalize_trade(
-                                trades,
-                                trade_id,
-                                session_date,
-                                direction,
-                                open_trade["entry_time"],
-                                open_trade.get("entry_signal_time"),
-                                float(open_trade["entry_price"]),
-                                float(open_trade["stop_price"]),
-                                partial_target_price if np.isfinite(partial_target_price) else None,
-                                timestamp,
-                                float(open_trade["stop_price"]),
-                                "stop",
-                                float(open_trade["risk_usd"]),
-                                int(open_trade["bars_held"]),
-                                float(open_trade["remaining_fraction"]),
-                                float(open_trade["realized_weighted_pnl_points"]),
-                                execution_model,
-                                instrument,
-                                variant,
+                                trades=trades,
+                                trade_id=trade_id,
+                                exit_time=timestamp,
+                                raw_exit_price=float(open_trade["stop_price"]),
+                                exit_reason="stop",
+                                execution_model=execution_model,
+                                instrument=instrument,
+                                variant=variant,
+                                open_trade=open_trade,
                             )
+                            if compound_realized_pnl and capital_before_trade_usd is not None:
+                                capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                             open_trade = None
                         elif partial_hit:
                             open_trade["realized_weighted_pnl_points"] = float(
@@ -417,119 +562,79 @@ def run_volume_climax_pullback_v2_backtest(
 
                             if int(open_trade["bars_held"]) >= int(open_trade["time_stop_bars"]):
                                 trade_id = _finalize_trade(
-                                    trades,
-                                    trade_id,
-                                    session_date,
-                                    direction,
-                                    open_trade["entry_time"],
-                                    open_trade.get("entry_signal_time"),
-                                    float(open_trade["entry_price"]),
-                                    float(open_trade["stop_price"]),
-                                    float(partial_target_price),
-                                    timestamp,
-                                    close,
-                                    "mixed_partial_time_stop",
-                                    float(open_trade["risk_usd"]),
-                                    int(open_trade["bars_held"]),
-                                    float(open_trade["remaining_fraction"]),
-                                    float(open_trade["realized_weighted_pnl_points"]),
-                                    execution_model,
-                                    instrument,
-                                    variant,
+                                    trades=trades,
+                                    trade_id=trade_id,
+                                    exit_time=timestamp,
+                                    raw_exit_price=close,
+                                    exit_reason="mixed_partial_time_stop",
+                                    execution_model=execution_model,
+                                    instrument=instrument,
+                                    variant=variant,
+                                    open_trade=open_trade,
                                 )
+                                if compound_realized_pnl and capital_before_trade_usd is not None:
+                                    capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                                 open_trade = None
                             elif idx == last_idx:
                                 trade_id = _finalize_trade(
-                                    trades,
-                                    trade_id,
-                                    session_date,
-                                    direction,
-                                    open_trade["entry_time"],
-                                    open_trade.get("entry_signal_time"),
-                                    float(open_trade["entry_price"]),
-                                    float(open_trade["stop_price"]),
-                                    float(partial_target_price),
-                                    timestamp,
-                                    close,
-                                    "mixed_partial_eod_flat",
-                                    float(open_trade["risk_usd"]),
-                                    int(open_trade["bars_held"]),
-                                    float(open_trade["remaining_fraction"]),
-                                    float(open_trade["realized_weighted_pnl_points"]),
-                                    execution_model,
-                                    instrument,
-                                    variant,
+                                    trades=trades,
+                                    trade_id=trade_id,
+                                    exit_time=timestamp,
+                                    raw_exit_price=close,
+                                    exit_reason="mixed_partial_eod_flat",
+                                    execution_model=execution_model,
+                                    instrument=instrument,
+                                    variant=variant,
+                                    open_trade=open_trade,
                                 )
+                                if compound_realized_pnl and capital_before_trade_usd is not None:
+                                    capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                                 open_trade = None
                     else:
                         if stop_hit:
                             trade_id = _finalize_trade(
-                                trades,
-                                trade_id,
-                                session_date,
-                                direction,
-                                open_trade["entry_time"],
-                                open_trade.get("entry_signal_time"),
-                                float(open_trade["entry_price"]),
-                                float(open_trade["stop_price"]),
-                                _float_or_nan(open_trade.get("partial_target_price")),
-                                timestamp,
-                                float(open_trade["stop_price"]),
-                                "mixed_trailing_stop",
-                                float(open_trade["risk_usd"]),
-                                int(open_trade["bars_held"]),
-                                float(open_trade["remaining_fraction"]),
-                                float(open_trade["realized_weighted_pnl_points"]),
-                                execution_model,
-                                instrument,
-                                variant,
+                                trades=trades,
+                                trade_id=trade_id,
+                                exit_time=timestamp,
+                                raw_exit_price=float(open_trade["stop_price"]),
+                                exit_reason="mixed_trailing_stop",
+                                execution_model=execution_model,
+                                instrument=instrument,
+                                variant=variant,
+                                open_trade=open_trade,
                             )
+                            if compound_realized_pnl and capital_before_trade_usd is not None:
+                                capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                             open_trade = None
                         elif int(open_trade["bars_held"]) >= int(open_trade["time_stop_bars"]):
                             trade_id = _finalize_trade(
-                                trades,
-                                trade_id,
-                                session_date,
-                                direction,
-                                open_trade["entry_time"],
-                                open_trade.get("entry_signal_time"),
-                                float(open_trade["entry_price"]),
-                                float(open_trade["stop_price"]),
-                                _float_or_nan(open_trade.get("partial_target_price")),
-                                timestamp,
-                                close,
-                                "mixed_partial_time_stop",
-                                float(open_trade["risk_usd"]),
-                                int(open_trade["bars_held"]),
-                                float(open_trade["remaining_fraction"]),
-                                float(open_trade["realized_weighted_pnl_points"]),
-                                execution_model,
-                                instrument,
-                                variant,
+                                trades=trades,
+                                trade_id=trade_id,
+                                exit_time=timestamp,
+                                raw_exit_price=close,
+                                exit_reason="mixed_partial_time_stop",
+                                execution_model=execution_model,
+                                instrument=instrument,
+                                variant=variant,
+                                open_trade=open_trade,
                             )
+                            if compound_realized_pnl and capital_before_trade_usd is not None:
+                                capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                             open_trade = None
                         elif idx == last_idx:
                             trade_id = _finalize_trade(
-                                trades,
-                                trade_id,
-                                session_date,
-                                direction,
-                                open_trade["entry_time"],
-                                open_trade.get("entry_signal_time"),
-                                float(open_trade["entry_price"]),
-                                float(open_trade["stop_price"]),
-                                _float_or_nan(open_trade.get("partial_target_price")),
-                                timestamp,
-                                close,
-                                "mixed_partial_eod_flat",
-                                float(open_trade["risk_usd"]),
-                                int(open_trade["bars_held"]),
-                                float(open_trade["remaining_fraction"]),
-                                float(open_trade["realized_weighted_pnl_points"]),
-                                execution_model,
-                                instrument,
-                                variant,
+                                trades=trades,
+                                trade_id=trade_id,
+                                exit_time=timestamp,
+                                raw_exit_price=close,
+                                exit_reason="mixed_partial_eod_flat",
+                                execution_model=execution_model,
+                                instrument=instrument,
+                                variant=variant,
+                                open_trade=open_trade,
                             )
+                            if compound_realized_pnl and capital_before_trade_usd is not None:
+                                capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                             open_trade = None
                 else:
                     stop_hit = (low <= float(open_trade["stop_price"])) if direction == 1 else (high >= float(open_trade["stop_price"]))
@@ -555,26 +660,18 @@ def run_volume_climax_pullback_v2_backtest(
 
                     if exit_price is not None:
                         trade_id = _finalize_trade(
-                            trades,
-                            trade_id,
-                            session_date,
-                            direction,
-                            open_trade["entry_time"],
-                            open_trade.get("entry_signal_time"),
-                            float(open_trade["entry_price"]),
-                            float(open_trade["stop_price"]),
-                            _float_or_nan(open_trade.get("target_price")),
-                            timestamp,
-                            float(exit_price),
-                            str(exit_reason),
-                            float(open_trade["risk_usd"]),
-                            int(open_trade["bars_held"]),
-                            float(open_trade["remaining_fraction"]),
-                            float(open_trade["realized_weighted_pnl_points"]),
-                            execution_model,
-                            instrument,
-                            variant,
+                            trades=trades,
+                            trade_id=trade_id,
+                            exit_time=timestamp,
+                            raw_exit_price=float(exit_price),
+                            exit_reason=str(exit_reason),
+                            execution_model=execution_model,
+                            instrument=instrument,
+                            variant=variant,
+                            open_trade=open_trade,
                         )
+                        if compound_realized_pnl and capital_before_trade_usd is not None:
+                            capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
                         open_trade = None
 
                 if open_trade is not None:
@@ -589,8 +686,10 @@ def run_volume_climax_pullback_v2_backtest(
                     direction=int(pending_setup["direction"]),
                     entry_price=_entry_market_fill(execution_model, open_, int(pending_setup["direction"])),
                     variant=variant,
-                    execution_model=execution_model,
                     instrument=instrument,
+                    position_sizing=position_sizing,
+                    capital_before_trade_usd=capital_before_trade_usd,
+                    sizing_decisions=sizing_decisions,
                 )
                 pending_setup = None
                 if open_trade is not None:
@@ -625,8 +724,10 @@ def run_volume_climax_pullback_v2_backtest(
                     direction=direction,
                     entry_price=_entry_market_fill(execution_model, open_, direction),
                     variant=variant,
-                    execution_model=execution_model,
                     instrument=instrument,
+                    position_sizing=position_sizing,
+                    capital_before_trade_usd=capital_before_trade_usd,
+                    sizing_decisions=sizing_decisions,
                 )
                 continue
 
@@ -650,8 +751,10 @@ def run_volume_climax_pullback_v2_backtest(
                     direction=direction,
                     entry_price=float(limit_fill),
                     variant=variant,
-                    execution_model=execution_model,
                     instrument=instrument,
+                    position_sizing=position_sizing,
+                    capital_before_trade_usd=capital_before_trade_usd,
+                    sizing_decisions=sizing_decisions,
                 )
                 continue
 
@@ -689,10 +792,23 @@ def run_volume_climax_pullback_v2_backtest(
             raise ValueError(f"Unsupported entry_mode '{variant.entry_mode}'.")
 
     trades_df = pd.DataFrame(trades) if trades else empty_trade_log()
+    sizing_df = pd.DataFrame(sizing_decisions) if sizing_decisions else _empty_sizing_decision_log()
     if "variant_name" not in trades_df.columns:
         trades_df["variant_name"] = pd.Series(dtype=object)
     if "entry_signal_time" not in trades_df.columns:
         trades_df["entry_signal_time"] = pd.Series(dtype="datetime64[ns]")
     if "bars_held" not in trades_df.columns:
         trades_df["bars_held"] = pd.Series(dtype=float)
-    return VolumeClimaxPullbackV2BacktestResult(trades=trades_df)
+    for column in (
+        "position_sizing_mode",
+        "risk_pct_decimal",
+        "stop_distance_points",
+        "contracts_raw",
+        "max_contracts",
+        "skip_trade_if_too_small",
+        "capital_after_trade_usd",
+        "initial_stop_price",
+    ):
+        if column not in trades_df.columns:
+            trades_df[column] = pd.Series(dtype=float if column not in {"position_sizing_mode", "skip_trade_if_too_small"} else object)
+    return VolumeClimaxPullbackV2BacktestResult(trades=trades_df, sizing_decisions=sizing_df)

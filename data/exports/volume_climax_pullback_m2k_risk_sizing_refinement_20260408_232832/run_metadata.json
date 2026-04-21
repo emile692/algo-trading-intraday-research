@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-04-08T23:30:23.048930",
+  "symbol": "M2K",
+  "dataset_path": null,
+  "reference_v3_dir": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\volume_climax_pullback_v3_run\\volume_climax_pullback_v3_20260402_184702",
+  "resolved_base_alpha_variant_name": "dynamic_exit_atr_target_1p0_ts4_vq0p95_bf0p5_ra1p2",
+  "resolved_base_alpha_variant": {
+    "name": "dynamic_exit_atr_target_1p0_ts4_vq0p95_bf0p5_ra1p2",
+    "family": "dynamic_exit",
+    "timeframe": "1h",
+    "volume_quantile": 0.95,
+    "volume_lookback": 50,
+    "min_body_fraction": 0.5,
+    "min_range_atr": 1.2,
+    "trend_ema_window": null,
+    "ema_slope_threshold": null,
+    "atr_percentile_low": null,
+    "atr_percentile_high": null,
+    "compression_ratio_max": null,
+    "entry_mode": "next_open",
+    "pullback_fraction": null,
+    "confirmation_window": null,
+    "exit_mode": "atr_fraction",
+    "rr_target": 1.0,
+    "atr_target_multiple": 1.0,
+    "time_stop_bars": 4,
+    "trailing_atr_multiple": 0.5,
+    "session_overlay": "all_rth"
+  },
+  "initial_capital_usd": 50000.0,
+  "risk_pcts": [
+    0.0015,
+    0.002,
+    0.0025,
+    0.003,
+    0.0035,
+    0.004
+  ],
+  "max_contracts_grid": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "skip_trade_if_too_small": true,
+  "session_count_full": 1747,
+  "session_count_is": 1222,
+  "session_count_oos": 525,
+  "variant_count": 32,
+  "recommended_cluster_id": 2,
+  "best_previous_winner_alias": "best_previous_winner",
+  "best_previous_winner_grid_name": "risk_pct_0p0025__max_contracts_3__skip_trade_if_too_small_true",
+  "verdict": {
+    "final_verdict": "retenir_une_zone_parametrique",
+    "recommended_variant": "risk_pct_0p0030__max_contracts_6__skip_trade_if_too_small_true",
+    "punctual_oos_winner": "risk_pct_0p0030__max_contracts_6__skip_trade_if_too_small_true",
+    "prop_safe_variant": "risk_pct_0p0030__max_contracts_6__skip_trade_if_too_small_true",
+    "aggressive_variant": "risk_pct_0p0040__max_contracts_6__skip_trade_if_too_small_true",
+    "recommended_cluster_id": 2
+  }
+}

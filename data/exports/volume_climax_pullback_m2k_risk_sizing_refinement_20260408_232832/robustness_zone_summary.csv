@@ -1,0 +1,3 @@
+cluster_id,cluster_size,center_risk_pct,center_max_contracts,risk_pct_min,risk_pct_max,max_contracts_min,max_contracts_max,mean_oos_net_pnl_usd,mean_oos_sharpe,mean_oos_max_drawdown_usd,mean_oos_prop_score,best_variant_name,best_variant_prop_score,is_recommended_cluster
+2,2,0.003,5.5,0.003,0.003,5,6,5195.4000000003925,1.747057470720669,660.049999999971,6.203047412162768,risk_pct_0p0030__max_contracts_6__skip_trade_if_too_small_true,6.348901042029539,True
+1,2,0.002,5.5,0.002,0.002,5,6,4250.650000000341,1.7006144551501081,537.2499999999786,6.0897516987842755,risk_pct_0p0020__max_contracts_6__skip_trade_if_too_small_true,6.151251677914687,False

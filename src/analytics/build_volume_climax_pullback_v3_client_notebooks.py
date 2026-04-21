@@ -152,7 +152,9 @@ if str(ROOT) not in sys.path:
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.graph_objects as go
 from IPython.display import Markdown, display
+from plotly.subplots import make_subplots
 
 from src.analytics.orb_notebook_utils import (
     build_scope_readout_markdown,
@@ -628,36 +630,58 @@ if COMPARE_TO_BUY_HOLD:
 
 vline_x = None if oos_start_date is None else pd.to_datetime(oos_start_date).to_pydatetime()
 
-def build_curve_figure(title: str, traces: list[dict]) -> None:
-    fig, axes = plt.subplots(2, 1, figsize=(16, 9), sharex=True, gridspec_kw={{"height_ratios": [3, 1]}})
+def build_curve_figure_plotly(title: str, traces: list[dict]) -> None:
+    fig = make_subplots(
+        rows=2,
+        cols=1,
+        shared_xaxes=True,
+        vertical_spacing=0.08,
+        row_heights=[0.70, 0.30],
+        subplot_titles=("Equity Curve (USD)", "Drawdown (%)"),
+    )
     for trace in traces:
-        axes[0].plot(
-            trace["curve"]["timestamp"],
-            trace["curve"]["equity"],
-            label=curve_stats_line(trace["name"], trace["curve"], trace["metrics_row"]),
-            linewidth=2.2,
-            color=trace["color"],
+        fig.add_trace(
+            go.Scatter(
+                x=trace["curve"]["timestamp"],
+                y=trace["curve"]["equity"],
+                mode="lines",
+                name=curve_stats_line(trace["name"], trace["curve"], trace["metrics_row"]),
+                line=dict(width=2.6, color=trace["color"]),
+            ),
+            row=1,
+            col=1,
         )
-        axes[1].plot(
-            trace["curve"]["timestamp"],
-            trace["curve"]["drawdown_pct"],
-            linewidth=1.5,
-            linestyle="--",
-            color=trace["color"],
+        fig.add_trace(
+            go.Scatter(
+                x=trace["curve"]["timestamp"],
+                y=trace["curve"]["drawdown_pct"],
+                mode="lines",
+                name=f"DD {{trace['name']}}",
+                showlegend=False,
+                line=dict(width=1.5, color=trace["color"], dash="dot"),
+            ),
+            row=2,
+            col=1,
         )
     if vline_x is not None:
-        axes[0].axvline(vline_x, linestyle="--", color="firebrick", linewidth=1.2)
-        axes[1].axvline(vline_x, linestyle="--", color="firebrick", linewidth=1.2)
-    axes[0].set_title(title)
-    axes[0].set_ylabel("Equity (USD)")
-    axes[1].set_ylabel("Drawdown %")
-    axes[1].set_xlabel("Date")
-    axes[0].legend(loc="upper left", bbox_to_anchor=(0.0, -0.18), frameon=False)
-    plt.tight_layout()
-    plt.show()
+        fig.add_vline(x=vline_x, line_dash="dash", line_color="firebrick", line_width=1.2, row=1, col=1)
+        fig.add_vline(x=vline_x, line_dash="dash", line_color="firebrick", line_width=1.2, row=2, col=1)
+    fig.update_layout(
+        template="plotly_dark",
+        width=1800,
+        height=950,
+        title=title,
+        hovermode="x unified",
+        legend=dict(orientation="h", yanchor="bottom", y=-0.24, xanchor="left", x=0.0),
+        margin=dict(l=70, r=40, t=90, b=140),
+    )
+    fig.update_yaxes(title_text="Equity (USD)", row=1, col=1)
+    fig.update_yaxes(title_text="Drawdown %", row=2, col=1)
+    fig.update_xaxes(title_text="Time", row=2, col=1)
+    fig.show()
 
-build_curve_figure(f"{{SYMBOL}} - full sample", full_traces)
-build_curve_figure(f"{{SYMBOL}} - OOS only", oos_traces)
+build_curve_figure_plotly(f"{{SYMBOL}} - full sample", full_traces)
+build_curve_figure_plotly(f"{{SYMBOL}} - OOS only", oos_traces)
 
 display(Markdown(build_scope_readout_markdown(
     full_curve=active_bundle["curve_full"],

@@ -155,6 +155,7 @@ def _evaluate_experiment(
     bootstrap_paths: int,
     random_seed: int,
     keep_details: bool = False,
+    max_leverage: float | None = None,
 ) -> tuple[dict[str, object], dict[str, object] | None]:
     candidate_df = context.candidate_base_df
     ensemble = experiment.baseline_ensemble
@@ -218,6 +219,7 @@ def _evaluate_experiment(
         execution_model=ExecutionModel(),
         baseline=experiment.baseline_entry,
         exit_cfg=experiment.exit,
+        max_leverage=max_leverage,
     )
 
     overall = compute_extended_metrics(
