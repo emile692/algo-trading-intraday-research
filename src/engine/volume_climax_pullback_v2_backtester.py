@@ -28,6 +28,138 @@ class VolumeClimaxPullbackV2BacktestResult:
     sizing_decisions: pd.DataFrame = field(default_factory=pd.DataFrame)
 
 
+def run_volume_climax_pullback_v2_backtest_hybrid_1m(
+    signal_df: pd.DataFrame,
+    minute_df: pd.DataFrame,
+    variant: VolumeClimaxPullbackV2Variant,
+    execution_model: ExecutionModel,
+    instrument: InstrumentDetails,
+    entry_timing: str = "next_execution_bar_open",
+    protective_orders_active_from: str = "after_entry_fill",
+) -> VolumeClimaxPullbackV2BacktestResult:
+    """Hybrid backtest: 1H signal path with 1-minute execution path.
+
+    This implementation preserves the existing alpha/signal construction and only changes
+    fill/exit simulation to use minute bars.
+    """
+    if variant.entry_mode != "next_open":
+        raise ValueError("Hybrid v1 currently supports variant.entry_mode='next_open' only.")
+    if entry_timing not in {"next_execution_bar_open", "same_timestamp_execution_open"}:
+        raise ValueError(f"Unsupported entry_timing '{entry_timing}'.")
+    if protective_orders_active_from not in {"after_entry_fill", "next_execution_bar"}:
+        raise ValueError(f"Unsupported protective_orders_active_from '{protective_orders_active_from}'.")
+
+    minute = minute_df.copy()
+    minute["timestamp"] = pd.to_datetime(minute["timestamp"], errors="coerce")
+    minute = minute.sort_values("timestamp").reset_index(drop=True)
+    minute_idx = minute.set_index("timestamp", drop=False)
+
+    trades: list[dict[str, Any]] = []
+    for row in signal_df.loc[pd.to_numeric(signal_df.get("signal"), errors="coerce").fillna(0).ne(0)].itertuples(index=False):
+        direction = int(getattr(row, "signal"))
+        setup_start = pd.Timestamp(getattr(row, "setup_signal_time"))
+        signal_actionable_time = setup_start + pd.Timedelta(hours=1)
+
+        if entry_timing == "same_timestamp_execution_open":
+            candidates = minute.loc[minute["timestamp"] >= signal_actionable_time]
+        else:
+            candidates = minute.loc[minute["timestamp"] > signal_actionable_time]
+        if candidates.empty:
+            continue
+        entry_bar = candidates.iloc[0]
+        entry_time = pd.Timestamp(entry_bar["timestamp"])
+        entry_raw = float(entry_bar["open"])
+        entry_price = float(execution_model.apply_slippage(entry_raw, direction, is_entry=True))
+
+        tmp_row = {
+            "session_date": getattr(row, "session_date", pd.Timestamp(entry_time).date()),
+            "entry_signal_time": getattr(row, "timestamp", pd.NaT),
+            "setup_signal_time": setup_start,
+            "setup_stop_reference_long": getattr(row, "setup_stop_reference_long", np.nan),
+            "setup_stop_reference_short": getattr(row, "setup_stop_reference_short", np.nan),
+            "setup_reference_atr": getattr(row, "setup_reference_atr", np.nan),
+            "setup_reference_vwap": getattr(row, "setup_reference_vwap", np.nan),
+            "setup_reference_range": getattr(row, "setup_reference_range", np.nan),
+            "timestamp": entry_time,
+        }
+        open_trade = _build_open_trade(
+            row=tmp_row,
+            direction=direction,
+            entry_price=entry_price,
+            variant=variant,
+            instrument=instrument,
+            position_sizing=None,
+            capital_before_trade_usd=None,
+            sizing_decisions=[],
+        )
+        if open_trade is None:
+            continue
+        open_trade["entry_time"] = entry_time
+
+        protect_from = entry_time if protective_orders_active_from == "after_entry_fill" else entry_time + pd.Timedelta(minutes=1)
+        max_hold = pd.Timedelta(hours=int(variant.time_stop_bars))
+        time_stop_at = entry_time + max_hold
+        post = minute_idx.loc[minute_idx.index >= entry_time]
+        if post.empty:
+            continue
+        exit_time = None
+        exit_price = None
+        exit_reason = None
+        for _, m in post.iterrows():
+            ts = pd.Timestamp(m["timestamp"])
+            if ts >= protect_from:
+                low = float(m["low"])
+                high = float(m["high"])
+                stop_hit = low <= float(open_trade["stop_price"]) if direction == 1 else high >= float(open_trade["stop_price"])
+                target_hit = high >= float(open_trade["target_price"]) if direction == 1 else low <= float(open_trade["target_price"])
+                if stop_hit and target_hit:
+                    exit_time, exit_price, exit_reason = ts, float(open_trade["stop_price"]), "stop_ambiguous_first_1m"
+                    break
+                if stop_hit:
+                    exit_time, exit_price, exit_reason = ts, float(open_trade["stop_price"]), "stop_1m"
+                    break
+                if target_hit:
+                    exit_time, exit_price, exit_reason = ts, float(open_trade["target_price"]), "target_1m"
+                    break
+            if ts >= time_stop_at:
+                exit_time, exit_price, exit_reason = ts, float(m["close"]), "time_stop_1m"
+                break
+        if exit_time is None:
+            last = post.iloc[-1]
+            exit_time, exit_price, exit_reason = pd.Timestamp(last["timestamp"]), float(last["close"]), "eod_flat_1m"
+
+        rec = _trade_record(
+            trade_id=len(trades) + 1,
+            exit_time=exit_time,
+            exit_price=exit_price,
+            exit_reason=exit_reason,
+            instrument=instrument,
+            execution_model=execution_model,
+            variant=variant,
+            open_trade=open_trade,
+        )
+        rec.update(
+            {
+                "symbol": instrument.symbol,
+                "setup_bar_label_time": setup_start,
+                "setup_bar_start_time": setup_start,
+                "setup_bar_close_time": signal_actionable_time,
+                "signal_actionable_time": signal_actionable_time,
+                "entry_time": entry_time,
+                "entry_timing": entry_timing,
+                "protective_orders_active_from": protective_orders_active_from,
+                "protective_orders_active_at": protect_from,
+                "time_stop_at": time_stop_at,
+                "source_execution_timeframe": "1min",
+                "bars_held_1m": int(max(0, ((exit_time - entry_time).total_seconds() // 60) + 1)),
+                "minutes_held": float(max(0.0, (exit_time - entry_time).total_seconds() / 60.0)),
+            }
+        )
+        trades.append(rec)
+
+    return VolumeClimaxPullbackV2BacktestResult(trades=pd.DataFrame(trades) if trades else empty_trade_log(), sizing_decisions=_empty_sizing_decision_log())
+
+
 SIZING_DECISION_COLUMNS = [
     "variant_name",
     "session_date",
