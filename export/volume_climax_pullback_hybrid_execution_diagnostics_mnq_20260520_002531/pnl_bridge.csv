@@ -1,0 +1,11 @@
+bridge_component,amount
+baseline_net_pnl,7535.1249999999745
+removed_or_missing_trades_effect,-1936.449999999997
+entry_price_effect,-609.6499999999978
+stop_before_target_effect,-6187.3999999999905
+target_not_reached_effect,89.87500000000364
+time_stop_effect,-323.3249999999971
+eod_effect,-116.40000000000143
+ambiguous_stop_first_effect,0.0
+residual_unexplained,-127.5
+hybrid_net_pnl,-1675.7250000000058

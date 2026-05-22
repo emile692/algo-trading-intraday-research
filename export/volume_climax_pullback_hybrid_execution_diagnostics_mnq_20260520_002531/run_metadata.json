@@ -1,0 +1,103 @@
+{
+  "generated_at": "2026-05-20T00:26:46.928821",
+  "comparison_dir": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109",
+  "output_dir": "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531",
+  "symbol": "MNQ",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "python_version": "3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "matching_info": {
+    "baseline_key": {
+      "key_columns": [
+        "setup_id"
+      ],
+      "method": "signal_time",
+      "confidence": "high"
+    },
+    "hybrid_after_key": {
+      "key_columns": [
+        "setup_id"
+      ],
+      "method": "signal_time",
+      "confidence": "high"
+    },
+    "hybrid_next_key": {
+      "key_columns": [
+        "setup_id"
+      ],
+      "method": "signal_time",
+      "confidence": "high"
+    },
+    "matching_confidence": "high",
+    "uncertain_matches": 0,
+    "baseline_only": 48,
+    "hybrid_only": 8
+  },
+  "variant_name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2",
+  "verdict": "Alpha partially survives but requires intrabar-aware risk geometry.",
+  "verdict_context": {
+    "baseline_biased": true,
+    "top_divergence_cause": "winner_to_loser",
+    "best_recalibration_net_pnl": 510.5249999999869,
+    "best_recalibration_stop_multiplier": 0.75,
+    "best_recalibration_target_multiplier": 2.0,
+    "recovered_with_recalibration": true
+  },
+  "plots": [
+    "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531\\pnl_bridge.png",
+    "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531\\divergence_type_bar.png",
+    "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531\\exit_reason_transition_heatmap.png",
+    "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531\\delta_pnl_distribution.png",
+    "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531\\mfe_vs_mae_scatter.png",
+    "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531\\stop_target_recalibration_heatmap.png",
+    "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002531\\cumulative_pnl_baseline_vs_hybrid.png"
+  ],
+  "skipped_sensitivity_configs": [
+    "F_hybrid_next_execution_bar_open_but_neutral_ambiguous_skip",
+    "G_hybrid_next_execution_bar_open_but_target_first_ambiguous"
+  ],
+  "input_files": {
+    "trades_baseline_1h.csv": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\trades_baseline_1h.csv",
+      "size_bytes": 161301,
+      "mtime": "2026-05-19T22:01:22.190866",
+      "sha256": "192beb51422c37e86fce3d15f7b6c52c850d2ccc658fc55c27a0f42597d01fd6"
+    },
+    "trades_hybrid_after_entry_fill.csv": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\trades_hybrid_after_entry_fill.csv",
+      "size_bytes": 143117,
+      "mtime": "2026-05-19T22:01:22.224997",
+      "sha256": "bafee9d0244634ec28b6edc5d03b7f86971a26f9f961f37645dde845cbfb3a66"
+    },
+    "trades_hybrid_next_execution_bar.csv": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\trades_hybrid_next_execution_bar.csv",
+      "size_bytes": 143737,
+      "mtime": "2026-05-19T22:01:22.260536",
+      "sha256": "4679b9fd6646bdae9f0fb6f285ca73730a8da5d429d2dfd77c4fad0b06d6754a"
+    },
+    "trade_comparison.csv": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\trade_comparison.csv",
+      "size_bytes": 88376,
+      "mtime": "2026-05-19T22:01:22.309285",
+      "sha256": "442af363ce7a9f44a70b32e65f6baad85f47bf5a5093856fc13a131fe5884280"
+    },
+    "metrics_comparison.csv": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\metrics_comparison.csv",
+      "size_bytes": 576,
+      "mtime": "2026-05-19T22:01:22.360193",
+      "sha256": "cda0c417af635d71541560862165375c1b551d632c58920f64685935ada7c2ac"
+    }
+  },
+  "minute_data_file": {
+    "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+    "size_bytes": 41219974,
+    "mtime": "2026-03-21T10:51:07.764511",
+    "sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"
+  },
+  "comparison_run_metadata_file": {
+    "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\run_metadata.json",
+    "size_bytes": 1585,
+    "mtime": "2026-05-19T22:01:22.361195",
+    "sha256": "34750c6328b3423ba7415caf0e26158e389a63f2fe82fda997ded7e33c3ad96f"
+  }
+}

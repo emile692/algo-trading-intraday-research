@@ -1,0 +1,9 @@
+portfolio_name,daily_loss_limit_breaches,max_daily_loss,max_drawdown,historical_prop_status,historical_days_to_pass,historical_days_to_fail,historical_final_profit_usd
+baseline_only,0,-744.0,-2492.5,fail,,17.0,-1984.0
+pullback_m2k_mgc_only,0,-34.249999999999545,-39.875,expire,,,13.32499999999709
+pullback_m2k_only,0,-35.99999999999909,-59.25,expire,,,47.150000000001455
+baseline_plus_pullback_equal_notional,0,-744.0,-2492.5,fail,,17.0,-1984.0
+baseline_plus_pullback_scaled_to_baseline_risk,0,-745.012619895342,-2495.892412754234,fail,,17.0,-1986.7003197209342
+baseline_plus_pullback_capped_50pct,0,-744.0,-2492.5,fail,,17.0,-1984.0
+baseline_plus_pullback_when_baseline_flat,0,-744.0,-2492.5,fail,,17.0,-1984.0
+baseline_plus_m2k_only_equal_notional,0,-744.0,-2492.5,fail,,17.0,-1984.0

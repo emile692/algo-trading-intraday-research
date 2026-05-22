@@ -1,0 +1,38 @@
+signal_time,direction,baseline_pnl,hybrid_pnl,delta_pnl,baseline_exit_reason,hybrid_exit_reason,first_touch,first_touch_time,first_touch_minutes_after_entry,mfe_ticks_1m,mae_ticks_1m,entry_price,stop_price,target_price,comment_auto
+2019-07-05 09:30:00-04:00,long,41.125,-4.0,-45.125,target,stop_1m,,,,,,7804.25,7803.75,7826.3125,Unclear from available columns.
+2019-07-08 09:30:00-04:00,long,2.5,-2.0,-4.5,time_stop,time_stop_1m,,,,,,7791.0,7777.75,7816.95,Trade decayed intraday and exited on the 1min time-stop path instead of the baseline hourly path.
+2020-04-07 09:30:00-04:00,long,199.22499999999852,-37.0,-236.22499999999852,target,stop_1m,,,,,,8138.5,8121.5,8239.6125,PnL degradation mostly explained by worse 1min entry price.
+2020-06-11 14:30:00-04:00,long,163.47499999999854,-64.0,-227.47499999999854,target,stop_1m,,,,,,9624.25,9593.75,9707.4875,PnL degradation mostly explained by worse 1min entry price.
+2020-09-02 10:30:00-04:00,long,133.17499999999927,-79.0,-212.17499999999927,target,stop_1m,,,,,,12276.75,12238.75,12344.8375,PnL degradation mostly explained by worse 1min entry price.
+2020-10-06 14:30:00-04:00,long,192.54999999999927,-83.5,-276.0499999999993,target,eod_flat_1m,,,,,,11323.75,11238.5,11421.525,Unclear from available columns.
+2020-11-10 09:30:00-05:00,long,213.47499999999852,-41.5,-254.97499999999852,target,stop_1m,,,,,,11581.75,11562.5,11689.9875,PnL degradation mostly explained by worse 1min entry price.
+2021-02-10 09:30:00-05:00,long,52.0,-85.0,-137.0,time_stop,stop_1m,,,,,,13602.5,13561.5,13655.725,Unclear from available columns.
+2021-04-20 10:30:00-04:00,long,28.5,-16.5,-45.0,time_stop,stop_1m,,,,,,13743.25,13736.5,13801.1375,Unclear from available columns.
+2021-10-01 09:30:00-04:00,long,193.82500000000076,-9.0,-202.82500000000076,target,stop_1m,,,,,,14545.5,14542.5,14643.9125,Unclear from available columns.
+2021-10-26 09:30:00-04:00,short,119.20000000000071,-46.5,-165.70000000000073,target,stop_1m,,,,,,15677.25,15699.0,15616.15,PnL degradation mostly explained by worse 1min entry price.
+2021-12-21 09:30:00-05:00,long,286.0750000000007,-53.0,-339.0750000000007,target,stop_1m,,,,,,15638.75,15613.75,15783.2875,PnL degradation mostly explained by worse 1min entry price.
+2022-01-10 09:30:00-05:00,long,262.4249999999993,-70.0,-332.4249999999993,target,stop_1m,,,,,,15228.25,15194.75,15360.9625,Unclear from available columns.
+2022-01-14 09:30:00-05:00,short,214.34999999999852,-36.0,-250.34999999999852,target,time_stop_1m,,,,,,15498.0,15601.0,15389.325,PnL degradation mostly explained by worse 1min entry price.
+2022-04-28 09:30:00-04:00,long,311.09999999999854,-4.5,-315.59999999999854,target,stop_1m,,,,,,13064.5,13063.75,13221.55,Unclear from available columns.
+2022-05-25 09:30:00-04:00,short,116.0,-16.0,-132.0,time_stop,stop_1m,,,,,,11884.5,11891.0,11733.025,PnL degradation mostly explained by worse 1min entry price.
+2022-06-21 09:30:00-04:00,short,45.5,-42.0,-87.5,time_stop,stop_1m,,,,,,11646.75,11666.25,11497.825,Unclear from available columns.
+2022-06-27 09:30:00-04:00,long,207.32500000000076,-20.0,-227.32500000000076,target,time_stop_1m,,,,,,12062.0,12020.25,12167.1625,PnL degradation mostly explained by worse 1min entry price.
+2022-07-28 09:30:00-04:00,long,197.5,-40.0,-237.5,target,stop_1m,,,,,,12470.75,12452.25,12571.0,Unclear from available columns.
+2023-01-25 09:30:00-05:00,long,158.77500000000146,-78.5,-237.27500000000146,target,stop_1m,,,,,,11652.0,11614.25,11732.8875,PnL degradation mostly explained by worse 1min entry price.
+2023-06-29 09:30:00-04:00,long,145.20000000000073,-22.5,-167.70000000000073,target,stop_1m,,,,,,15045.0,15035.25,15119.1,Unclear from available columns.
+2023-08-15 09:30:00-04:00,long,75.5,-25.5,-101.0,time_stop,stop_1m,,,,,,15124.25,15113.0,15207.6125,Unclear from available columns.
+2023-10-19 09:30:00-04:00,long,165.54999999999927,-4.0,-169.54999999999927,target,stop_1m,,,,,,15003.5,15003.0,15087.775,Unclear from available columns.
+2023-12-04 09:30:00-05:00,long,140.65000000000146,-18.5,-159.15000000000146,target,stop_1m,,,,,,15754.5,15746.75,15826.325,PnL degradation mostly explained by worse 1min entry price.
+2023-12-05 09:30:00-05:00,short,29.0,-83.5,-112.5,time_stop,stop_1m,,,,,,15896.5,15936.75,15821.3875,Unclear from available columns.
+2023-12-20 14:30:00-05:00,long,132.0749999999971,-50.5,-182.5749999999971,target,stop_1m,,,,,,16811.75,16788.0,16879.2875,PnL degradation mostly explained by worse 1min entry price.
+2023-12-29 10:30:00-05:00,long,87.57499999999709,-31.0,-118.57499999999709,target,stop_1m,,,,,,16954.0,16940.0,16999.2875,PnL degradation mostly explained by worse 1min entry price.
+2024-01-05 09:30:00-05:00,short,149.125,-48.0,-197.125,target,stop_1m,,,,,,16533.0,16555.5,16456.9375,PnL degradation mostly explained by worse 1min entry price.
+2024-05-14 09:30:00-04:00,short,101.44999999999708,-7.0,-108.44999999999708,target,stop_1m,,,,,,18369.5,18371.5,18317.275,Unclear from available columns.
+2024-07-18 10:30:00-04:00,long,242.5,-36.0,-278.5,target,stop_1m,,,,,,19832.75,19816.25,19955.5,PnL degradation mostly explained by worse 1min entry price.
+2024-09-24 09:30:00-04:00,long,269.47499999999854,-42.0,-311.47499999999854,target,stop_1m,,,,,,19983.25,19963.75,20119.4875,Unclear from available columns.
+2025-01-10 09:30:00-05:00,long,154.0,-113.5,-267.5,time_stop,time_stop_1m,,,,,,21012.75,20874.75,21170.025,Trade decayed intraday and exited on the 1min time-stop path instead of the baseline hourly path.
+2025-02-28 09:30:00-05:00,short,343.90000000000146,-11.5,-355.40000000000146,target,stop_1m,,,,,,20754.75,20759.0,20581.3,PnL degradation mostly explained by worse 1min entry price.
+2025-07-22 09:30:00-04:00,long,126.47499999999854,-5.5,-131.97499999999854,target,time_stop_1m,,,,,,23187.75,23105.0,23252.4875,PnL degradation mostly explained by worse 1min entry price.
+2025-08-20 09:30:00-04:00,long,170.75,-60.5,-231.25,target,stop_1m,,,,,,23092.0,23063.25,23178.875,Unclear from available columns.
+2025-12-04 09:30:00-05:00,long,57.5,-158.0,-215.5,time_stop,stop_1m,,,,,,25597.5,25520.0,25702.4375,PnL degradation mostly explained by worse 1min entry price.
+2026-02-26 09:30:00-05:00,long,227.77500000000143,-43.0,-270.77500000000146,target,stop_1m,,,,,,24905.0,24885.0,25020.3875,Unclear from available columns.

@@ -1,0 +1,9 @@
+portfolio_name,incremental_net_pnl_vs_baseline,incremental_sharpe_vs_baseline,incremental_sortino_vs_baseline,incremental_max_drawdown_vs_baseline,incremental_monthly_hit_rate_vs_baseline
+baseline_only,0.0,0.0,0.0,0.0,0.0
+pullback_m2k_mgc_only,-24500.674999999996,-1.2000163830499233,-1.9957061180756177,5885.625000000007,-0.36000000000000004
+pullback_m2k_only,-24762.849999999995,-2.371382350579981,-2.6730344214705153,5795.250000000007,-0.52
+baseline_plus_pullback_equal_notional,213.32500000000437,0.019989727988933836,0.02812630635505453,72.625,0.0
+baseline_plus_pullback_scaled_to_baseline_risk,247.2522919793846,0.019989727988933836,0.02812630635505453,64.62492853853473,0.0
+baseline_plus_pullback_capped_50pct,106.66250000000218,0.01009810993633975,0.014412348071436654,36.3125,0.0
+baseline_plus_pullback_when_baseline_flat,0.0,0.0,0.0,0.0,0.0
+baseline_plus_m2k_only_equal_notional,-48.84999999999491,-0.003788331309399595,-0.007482025777464152,-33.75,0.0

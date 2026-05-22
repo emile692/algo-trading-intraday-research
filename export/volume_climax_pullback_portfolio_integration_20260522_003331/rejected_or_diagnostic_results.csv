@@ -1,0 +1,2 @@
+portfolio_name,label,deployable,notes
+baseline_plus_pullback_when_baseline_flat,diagnostic_only_if_timestamp_precision_required,True,"This rule is safe on days where baseline trade_count == 0, but does not attempt intraday mutual exclusion beyond that."

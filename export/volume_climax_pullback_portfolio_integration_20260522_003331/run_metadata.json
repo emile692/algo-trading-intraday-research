@@ -1,0 +1,23 @@
+{
+  "timestamp": "20260522_003331",
+  "pullback_export": {
+    "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\export\\volume_climax_pullback_survivor_audit_20260521_091448",
+    "size_bytes": 4096,
+    "mtime": "2026-05-21T09:46:01.771259"
+  },
+  "baseline_daily_pnl_path": {
+    "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\exports\\mnq_orb_vvix_sizing_modulation_20260328_run\\variants\\baseline_3state\\daily_results.csv",
+    "size_bytes": 73525,
+    "mtime": "2026-03-28T10:52:42.347036"
+  },
+  "python_version": "3.10.5",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "smoke": false,
+  "train_window_end": "2023-12-31",
+  "oos_window_start": "2024-01-01",
+  "fixed_pullback_portfolio": "m2k_mgc_equal_weight",
+  "fixed_pullback_m2k_only_portfolio": "m2k_only",
+  "bootstrap_paths": 500,
+  "bootstrap_block_size": 5,
+  "random_seed": 7
+}

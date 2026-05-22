@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-05-20T10:41:06.731074",
+  "symbol": "MNQ",
+  "diagnostics_dir": "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002723",
+  "validation_dir": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109",
+  "output_dir": "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "python_version": "3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "variant": {
+    "name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2",
+    "family": "dynamic_exit",
+    "timeframe": "1h",
+    "volume_quantile": 0.95,
+    "volume_lookback": 50,
+    "min_body_fraction": 0.5,
+    "min_range_atr": 1.2,
+    "trend_ema_window": null,
+    "ema_slope_threshold": null,
+    "atr_percentile_low": null,
+    "atr_percentile_high": null,
+    "compression_ratio_max": null,
+    "entry_mode": "next_open",
+    "pullback_fraction": null,
+    "confirmation_window": null,
+    "exit_mode": "atr_fraction",
+    "rr_target": 1.0,
+    "atr_target_multiple": 1.0,
+    "time_stop_bars": 2,
+    "trailing_atr_multiple": 0.5,
+    "session_overlay": "all_rth"
+  },
+  "is_end_date": "2023-12-31",
+  "oos_start_date": "2024-01-01",
+  "grid_size": 420,
+  "selected_config_count": 10,
+  "current_hybrid_config_id": "none_sm1p00_tm1p00_d0",
+  "verdict": "Reject: alpha does not survive realistic execution.",
+  "plots": [
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_net_pnl_stop_target_delay_0_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_robust_score_stop_target_delay_0_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_net_pnl_stop_target_delay_5_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_robust_score_stop_target_delay_5_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_net_pnl_stop_target_delay_10_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_robust_score_stop_target_delay_10_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_net_pnl_stop_target_delay_15_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_robust_score_stop_target_delay_15_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_net_pnl_stop_target_delay_30_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_is_robust_score_stop_target_delay_30_filter_none.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\heatmap_oos_net_pnl_stop_target_selected_family.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\cumulative_pnl_current_hybrid_vs_best_candidate.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\selected_configs_is_vs_oos_bar.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\subperiod_net_pnl_best_candidate.png",
+    "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\stop_target_neighborhood_stability.png"
+  ],
+  "input_files": {
+    "diagnostics_run_metadata": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_diagnostics_mnq_20260520_002723\\run_metadata.json",
+      "size_bytes": 4941,
+      "mtime": "2026-05-20T00:28:39.366006"
+    },
+    "validation_run_metadata": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\run_metadata.json",
+      "size_bytes": 1585,
+      "mtime": "2026-05-19T22:01:22.361195"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+config_name,execution_timeframe,entry_timing,protective_orders_active_from,ambiguous_policy,entry_delay_minutes,trades,net_pnl,winrate,avg_trade,profit_factor,max_drawdown,sharpe_if_available,pnl_vs_baseline,pnl_vs_hybrid_after
+A_baseline_1h,1h,n/a,n/a,n/a,0,315,7535.1249999999745,0.35555555555555557,23.921031746031666,1.7279259044582886,-790.0,,0.0,9210.84999999998
+B_hybrid_after_entry_fill,1min,next_execution_bar_open,after_entry_fill,stop_first,0,275,-1675.7250000000058,0.24,-6.093545454545476,0.8508212409863789,-2251.8250000000044,,-9210.84999999998,0.0
+C_hybrid_next_execution_bar,1min,next_execution_bar_open,next_execution_bar,stop_first,0,275,-1567.2750000000087,0.24363636363636362,-5.69918181818185,0.8603888295029388,-2143.3750000000073,,-9102.399999999983,108.44999999999709
+D_hybrid_same_timestamp_after_entry_fill,1min,same_timestamp_execution_open,after_entry_fill,stop_first,0,324,-2601.0750000000025,0.20987654320987653,-8.028009259259267,0.789403692008744,-2975.800000000001,,-10136.199999999977,-925.3499999999967
+E_hybrid_same_timestamp_next_execution_bar,1min,same_timestamp_execution_open,next_execution_bar,stop_first,0,324,-2161.7750000000033,0.2191358024691358,-6.672145061728405,0.8246166639623558,-2536.500000000002,,-9696.899999999978,-486.04999999999745
+H_hybrid_delayed_entry_5min,1min,next_execution_bar_open,after_entry_fill,stop_first,5,241,-463.4500000000153,0.2946058091286307,-1.9230290456432169,0.9535411758809067,-1685.550000000003,,-7998.57499999999,1212.2749999999905
+I_hybrid_delayed_entry_15min,1min,next_execution_bar_open,after_entry_fill,stop_first,15,221,-619.3000000000102,0.3257918552036199,-2.80226244343896,0.9406999569109963,-1571.375,,-8154.424999999985,1056.4249999999956

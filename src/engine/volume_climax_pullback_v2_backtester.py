@@ -53,6 +53,10 @@ SIZING_DECISION_COLUMNS = [
     "skip_reason",
 ]
 
+SUPPORTED_EXECUTION_TIMEFRAMES = {"1h", "1min"}
+SUPPORTED_ENTRY_TIMINGS = {"next_execution_bar_open", "same_timestamp_execution_open"}
+SUPPORTED_PROTECTIVE_ORDER_ACTIVATION = {"after_entry_fill", "next_execution_bar", "next_signal_bar"}
+
 
 def _float_or_nan(value: Any) -> float:
     if value is None:
@@ -72,6 +76,141 @@ def _bool_or_false(value: Any) -> bool:
 
 def _empty_sizing_decision_log() -> pd.DataFrame:
     return pd.DataFrame(columns=SIZING_DECISION_COLUMNS)
+
+
+def _ensure_trade_columns(trades_df: pd.DataFrame) -> pd.DataFrame:
+    dtype_map: dict[str, str] = {
+        "variant_name": "object",
+        "entry_signal_time": "datetime64[ns]",
+        "bars_held": "float64",
+        "position_sizing_mode": "object",
+        "risk_pct_decimal": "float64",
+        "stop_distance_points": "float64",
+        "contracts_raw": "float64",
+        "max_contracts": "float64",
+        "skip_trade_if_too_small": "object",
+        "capital_after_trade_usd": "float64",
+        "initial_stop_price": "float64",
+        "symbol": "object",
+        "setup_bar_label_time": "datetime64[ns]",
+        "setup_bar_start_time": "datetime64[ns]",
+        "setup_bar_close_time": "datetime64[ns]",
+        "signal_actionable_time": "datetime64[ns]",
+        "entry_timing": "object",
+        "protective_orders_active_from": "object",
+        "protective_orders_active_at": "datetime64[ns]",
+        "time_stop_at": "datetime64[ns]",
+        "source_execution_timeframe": "object",
+        "bars_held_1m": "float64",
+        "minutes_held": "float64",
+        "holding_minutes": "float64",
+    }
+    out = trades_df.copy()
+    for column, dtype in dtype_map.items():
+        if column not in out.columns:
+            out[column] = pd.Series(dtype=dtype)
+    return out
+
+
+def _validate_backtest_options(
+    *,
+    execution_timeframe: str,
+    entry_timing: str,
+    protective_orders_active_from: str,
+    minute_df: pd.DataFrame | None,
+) -> None:
+    if execution_timeframe not in SUPPORTED_EXECUTION_TIMEFRAMES:
+        raise ValueError(
+            f"Unsupported execution_timeframe '{execution_timeframe}'. "
+            f"Supported values: {sorted(SUPPORTED_EXECUTION_TIMEFRAMES)}."
+        )
+
+    if entry_timing not in SUPPORTED_ENTRY_TIMINGS:
+        raise ValueError(
+            f"Unsupported entry_timing '{entry_timing}'. "
+            f"Supported values: {sorted(SUPPORTED_ENTRY_TIMINGS)}."
+        )
+
+    if protective_orders_active_from not in SUPPORTED_PROTECTIVE_ORDER_ACTIVATION:
+        raise ValueError(
+            f"Unsupported protective_orders_active_from '{protective_orders_active_from}'. "
+            f"Supported values: {sorted(SUPPORTED_PROTECTIVE_ORDER_ACTIVATION)}."
+        )
+
+    if execution_timeframe == "1min":
+        if minute_df is None:
+            raise ValueError("minute_df is required when execution_timeframe='1min'.")
+        if protective_orders_active_from == "next_signal_bar":
+            raise NotImplementedError(
+                "protective_orders_active_from='next_signal_bar' is reserved for a future version. "
+                "Use 'after_entry_fill' or 'next_execution_bar' for hybrid 1min execution."
+            )
+
+
+def _prepare_execution_minute_frame(minute_df: pd.DataFrame) -> pd.DataFrame:
+    out = minute_df.copy()
+    out["timestamp"] = pd.to_datetime(out["timestamp"], errors="coerce")
+    out = out.dropna(subset=["timestamp"]).sort_values("timestamp").reset_index(drop=True)
+    if "session_date" not in out.columns:
+        out["session_date"] = out["timestamp"].dt.date
+    else:
+        out["session_date"] = pd.to_datetime(out["session_date"], errors="coerce").dt.date
+        missing_mask = pd.isna(out["session_date"])
+        if missing_mask.any():
+            out.loc[missing_mask, "session_date"] = out.loc[missing_mask, "timestamp"].dt.date
+    return out
+
+
+def _resolve_execution_bar_index(
+    session_minutes: pd.DataFrame,
+    actionable_time: pd.Timestamp,
+    entry_timing: str,
+) -> int | None:
+    timestamps = pd.to_datetime(session_minutes["timestamp"], errors="coerce")
+    if entry_timing == "next_execution_bar_open":
+        eligible = timestamps > actionable_time
+    else:
+        eligible = timestamps >= actionable_time
+    indices = np.flatnonzero(eligible.to_numpy(dtype=bool))
+    if len(indices) == 0:
+        return None
+    return int(indices[0])
+
+
+def _protective_orders_active_at(
+    *,
+    session_minutes: pd.DataFrame,
+    entry_idx: int,
+    entry_time: pd.Timestamp,
+    protective_orders_active_from: str,
+) -> pd.Timestamp | pd.NaT:
+    if protective_orders_active_from == "after_entry_fill":
+        return entry_time
+    if protective_orders_active_from == "next_execution_bar":
+        if entry_idx + 1 >= len(session_minutes):
+            return pd.NaT
+        return pd.Timestamp(session_minutes.iloc[entry_idx + 1]["timestamp"])
+    raise NotImplementedError(
+        "protective_orders_active_from='next_signal_bar' is not implemented for hybrid 1min execution."
+    )
+
+
+def _set_hybrid_holding_fields(
+    open_trade: dict[str, Any],
+    *,
+    entry_idx: int,
+    exit_idx: int,
+    exit_time: pd.Timestamp,
+) -> None:
+    bars_held_1m = max(int(exit_idx) - int(entry_idx) + 1, 1)
+    minutes_held = max(
+        int((pd.Timestamp(exit_time) - pd.Timestamp(open_trade["entry_time"])) / pd.Timedelta(minutes=1)),
+        0,
+    )
+    open_trade["bars_held_1m"] = int(bars_held_1m)
+    open_trade["bars_held"] = int(bars_held_1m)
+    open_trade["minutes_held"] = int(minutes_held)
+    open_trade["holding_minutes"] = float(minutes_held)
 
 
 def _entry_market_fill(execution_model: ExecutionModel, raw_price: float, direction: int) -> float:
@@ -234,6 +373,24 @@ def _trade_record(
     record["skip_trade_if_too_small"] = open_trade.get("skip_trade_if_too_small")
     record["capital_after_trade_usd"] = capital_after_trade
     record["initial_stop_price"] = _float_or_nan(open_trade.get("initial_stop_price"))
+    record["symbol"] = instrument.symbol
+    record["setup_bar_label_time"] = open_trade.get("setup_bar_label_time")
+    record["setup_bar_start_time"] = open_trade.get("setup_bar_start_time")
+    record["setup_bar_close_time"] = open_trade.get("setup_bar_close_time")
+    record["signal_actionable_time"] = open_trade.get("signal_actionable_time")
+    record["entry_timing"] = open_trade.get("entry_timing")
+    record["protective_orders_active_from"] = open_trade.get("protective_orders_active_from")
+    record["protective_orders_active_at"] = open_trade.get("protective_orders_active_at")
+    record["time_stop_at"] = open_trade.get("time_stop_at")
+    record["source_execution_timeframe"] = open_trade.get("source_execution_timeframe")
+    record["bars_held_1m"] = _float_or_nan(open_trade.get("bars_held_1m"))
+    record["minutes_held"] = _float_or_nan(open_trade.get("minutes_held"))
+    holding_minutes = _float_or_nan(open_trade.get("holding_minutes"))
+    if np.isfinite(holding_minutes):
+        record["holding_minutes"] = holding_minutes
+    else:
+        delta_minutes = (pd.Timestamp(exit_time) - pd.Timestamp(open_trade["entry_time"])) / pd.Timedelta(minutes=1)
+        record["holding_minutes"] = float(delta_minutes) if pd.notna(delta_minutes) else np.nan
     return record
 
 
@@ -247,12 +404,15 @@ def _build_open_trade(
     position_sizing: PositionSizingConfig | None,
     capital_before_trade_usd: float | None,
     sizing_decisions: list[dict[str, Any]],
+    entry_time_override: pd.Timestamp | None = None,
+    extra_fields: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     stop_col = "setup_stop_reference_long" if direction == 1 else "setup_stop_reference_short"
     stop_price = _float_or_nan(row.get(stop_col))
     reference_atr = _float_or_nan(row.get("setup_reference_atr"))
     reference_vwap = _float_or_nan(row.get("setup_reference_vwap"))
-    entry_time = pd.Timestamp(row["timestamp"])
+    signal_actionable_time = pd.Timestamp(row["timestamp"])
+    entry_time = pd.Timestamp(entry_time_override) if entry_time_override is not None else signal_actionable_time
     signal_time_raw = row.get("setup_signal_time")
     entry_signal_time = pd.Timestamp(signal_time_raw) if pd.notna(signal_time_raw) else None
     session_date = row.get("session_date")
@@ -332,7 +492,7 @@ def _build_open_trade(
     if sizing.skipped or int(sizing.contracts) < 1:
         return None
 
-    return {
+    open_trade = {
         "entry_time": entry_time,
         "entry_signal_time": entry_signal_time,
         "entry_price": float(entry_price),
@@ -365,7 +525,22 @@ def _build_open_trade(
         "realized_weighted_pnl_points": 0.0,
         "last_close": _float_or_nan(row.get("close")),
         "session_date": session_date,
+        "setup_bar_label_time": entry_signal_time,
+        "setup_bar_start_time": entry_signal_time,
+        "setup_bar_close_time": signal_actionable_time if entry_signal_time is not None else pd.NaT,
+        "signal_actionable_time": signal_actionable_time,
+        "entry_timing": "next_signal_bar_open_1h",
+        "protective_orders_active_from": "next_signal_bar",
+        "protective_orders_active_at": signal_actionable_time + pd.Timedelta(hours=1),
+        "time_stop_at": entry_time + pd.Timedelta(hours=int(variant.time_stop_bars)),
+        "source_execution_timeframe": "1h",
+        "bars_held_1m": np.nan,
+        "minutes_held": np.nan,
+        "holding_minutes": np.nan,
     }
+    if extra_fields:
+        open_trade.update(extra_fields)
+    return open_trade
 
 
 def _confirmation_triggered(
@@ -471,14 +646,253 @@ def _finalize_trade(
     return trade_id + 1
 
 
+def _run_volume_climax_pullback_v2_backtest_hybrid_1m(
+    *,
+    signal_df: pd.DataFrame,
+    minute_df: pd.DataFrame,
+    variant: VolumeClimaxPullbackV2Variant,
+    execution_model: ExecutionModel,
+    instrument: InstrumentDetails,
+    position_sizing: PositionSizingConfig | None,
+    entry_timing: str,
+    protective_orders_active_from: str,
+) -> VolumeClimaxPullbackV2BacktestResult:
+    if variant.entry_mode != "next_open":
+        raise NotImplementedError(
+            "Hybrid 1min execution currently supports only variant.entry_mode='next_open'."
+        )
+
+    minute_frame = _prepare_execution_minute_frame(minute_df)
+    if minute_frame.empty:
+        return VolumeClimaxPullbackV2BacktestResult(
+            trades=empty_trade_log(),
+            sizing_decisions=_empty_sizing_decision_log(),
+        )
+
+    trades: list[dict[str, Any]] = []
+    sizing_decisions: list[dict[str, Any]] = []
+    trade_id = 1
+    capital_before_trade_usd = initial_capital_from_sizing(position_sizing)
+    compound_realized_pnl = compounds_realized_pnl(position_sizing)
+    last_exit_time: pd.Timestamp | None = None
+
+    minute_sessions = {
+        session_date: session.sort_values("timestamp").reset_index(drop=True)
+        for session_date, session in minute_frame.groupby("session_date", sort=True)
+    }
+    signal_events = signal_df.loc[pd.to_numeric(signal_df.get("signal"), errors="coerce").fillna(0.0).ne(0)].copy()
+    signal_events = signal_events.sort_values("timestamp").reset_index(drop=True)
+
+    for signal_row in signal_events.itertuples(index=False):
+        signal_series = pd.Series(signal_row._asdict())
+        session_date = signal_series.get("session_date")
+        if session_date not in minute_sessions:
+            continue
+
+        session_minutes = minute_sessions[session_date]
+        actionable_time = pd.Timestamp(signal_series["timestamp"])
+        entry_idx = _resolve_execution_bar_index(
+            session_minutes=session_minutes,
+            actionable_time=actionable_time,
+            entry_timing=entry_timing,
+        )
+        if entry_idx is None:
+            continue
+
+        entry_bar = session_minutes.iloc[entry_idx]
+        entry_time = pd.Timestamp(entry_bar["timestamp"])
+        if last_exit_time is not None and entry_time <= last_exit_time:
+            continue
+
+        direction = int(_float_or_nan(signal_series.get("signal")))
+        if direction == 0:
+            continue
+
+        entry_price = _entry_market_fill(execution_model, _float_or_nan(entry_bar.get("open")), direction)
+        open_trade = _build_open_trade(
+            row=signal_series,
+            direction=direction,
+            entry_price=entry_price,
+            variant=variant,
+            instrument=instrument,
+            position_sizing=position_sizing,
+            capital_before_trade_usd=capital_before_trade_usd,
+            sizing_decisions=sizing_decisions,
+            entry_time_override=entry_time,
+            extra_fields={
+                "last_close": _float_or_nan(entry_bar.get("close")),
+                "setup_bar_label_time": pd.Timestamp(signal_series["setup_signal_time"])
+                if pd.notna(signal_series.get("setup_signal_time"))
+                else pd.NaT,
+                "setup_bar_start_time": pd.Timestamp(signal_series["setup_signal_time"])
+                if pd.notna(signal_series.get("setup_signal_time"))
+                else pd.NaT,
+                "setup_bar_close_time": actionable_time,
+                "signal_actionable_time": actionable_time,
+                "entry_timing": entry_timing,
+                "protective_orders_active_from": protective_orders_active_from,
+                "protective_orders_active_at": _protective_orders_active_at(
+                    session_minutes=session_minutes,
+                    entry_idx=entry_idx,
+                    entry_time=entry_time,
+                    protective_orders_active_from=protective_orders_active_from,
+                ),
+                "time_stop_at": entry_time + pd.Timedelta(hours=int(variant.time_stop_bars)),
+                "source_execution_timeframe": "1min",
+                "bars_held_1m": np.nan,
+                "minutes_held": np.nan,
+                "holding_minutes": np.nan,
+            },
+        )
+        if open_trade is None:
+            continue
+
+        for minute_idx in range(entry_idx, len(session_minutes)):
+            minute_bar = session_minutes.iloc[minute_idx]
+            timestamp = pd.Timestamp(minute_bar["timestamp"])
+            open_ = _float_or_nan(minute_bar.get("open"))
+            high = _float_or_nan(minute_bar.get("high"))
+            low = _float_or_nan(minute_bar.get("low"))
+            close = _float_or_nan(minute_bar.get("close"))
+            protective_active_at = open_trade.get("protective_orders_active_at")
+            protective_active = pd.notna(protective_active_at) and timestamp >= pd.Timestamp(protective_active_at)
+
+            if variant.exit_mode == "mixed" and _bool_or_false(open_trade.get("partial_filled")):
+                open_trade["stop_price"] = _trail_stop_from_last_close(
+                    direction=direction,
+                    stop_price=float(open_trade["stop_price"]),
+                    trailing_offset=_float_or_nan(open_trade.get("trailing_offset")),
+                    last_close=_float_or_nan(open_trade.get("last_close")),
+                )
+
+            exit_price: float | None = None
+            exit_reason: str | None = None
+
+            if variant.exit_mode == "mixed":
+                stop_hit = protective_active and (
+                    (low <= float(open_trade["stop_price"])) if direction == 1 else (high >= float(open_trade["stop_price"]))
+                )
+
+                if not _bool_or_false(open_trade.get("partial_filled")):
+                    partial_target_price = _float_or_nan(open_trade.get("partial_target_price"))
+                    partial_hit = protective_active and (
+                        (high >= partial_target_price) if direction == 1 else (low <= partial_target_price)
+                    )
+
+                    if stop_hit and partial_hit:
+                        exit_price = float(open_trade["stop_price"])
+                        exit_reason = "stop_ambiguous_first_1m"
+                    elif stop_hit:
+                        exit_price = float(open_trade["stop_price"])
+                        exit_reason = "stop_1m"
+                    elif partial_hit:
+                        open_trade["realized_weighted_pnl_points"] = float(
+                            open_trade["realized_weighted_pnl_points"]
+                        ) + 0.5 * (float(partial_target_price) - float(open_trade["entry_price"])) * direction
+                        open_trade["remaining_fraction"] = 0.5
+                        open_trade["partial_filled"] = True
+                        if direction == 1:
+                            open_trade["stop_price"] = max(float(open_trade["stop_price"]), float(open_trade["entry_price"]))
+                        else:
+                            open_trade["stop_price"] = min(float(open_trade["stop_price"]), float(open_trade["entry_price"]))
+
+                else:
+                    if stop_hit:
+                        exit_price = float(open_trade["stop_price"])
+                        exit_reason = "mixed_trailing_stop_1m"
+
+                if exit_reason is None and timestamp >= pd.Timestamp(open_trade["time_stop_at"]):
+                    exit_price = close
+                    exit_reason = "mixed_partial_time_stop_1m" if _bool_or_false(open_trade.get("partial_filled")) else "time_stop_1m"
+                elif exit_reason is None and minute_idx == len(session_minutes) - 1:
+                    exit_price = close
+                    exit_reason = "mixed_partial_eod_flat_1m" if _bool_or_false(open_trade.get("partial_filled")) else "eod_flat_1m"
+            else:
+                stop_hit = protective_active and (
+                    (low <= float(open_trade["stop_price"])) if direction == 1 else (high >= float(open_trade["stop_price"]))
+                )
+                target_hit = protective_active and (
+                    (high >= float(open_trade["target_price"])) if direction == 1 else (low <= float(open_trade["target_price"]))
+                )
+                if stop_hit and target_hit:
+                    exit_price = float(open_trade["stop_price"])
+                    exit_reason = "stop_ambiguous_first_1m"
+                elif stop_hit:
+                    exit_price = float(open_trade["stop_price"])
+                    exit_reason = "stop_1m"
+                elif target_hit:
+                    exit_price = float(open_trade["target_price"])
+                    exit_reason = "target_1m"
+                elif timestamp >= pd.Timestamp(open_trade["time_stop_at"]):
+                    exit_price = close
+                    exit_reason = "time_stop_1m"
+                elif minute_idx == len(session_minutes) - 1:
+                    exit_price = close
+                    exit_reason = "eod_flat_1m"
+
+            open_trade["last_close"] = close
+
+            if exit_price is None or exit_reason is None:
+                continue
+
+            _set_hybrid_holding_fields(
+                open_trade,
+                entry_idx=entry_idx,
+                exit_idx=minute_idx,
+                exit_time=timestamp,
+            )
+            trade_id = _finalize_trade(
+                trades=trades,
+                trade_id=trade_id,
+                exit_time=timestamp,
+                raw_exit_price=float(exit_price),
+                exit_reason=exit_reason,
+                execution_model=execution_model,
+                instrument=instrument,
+                variant=variant,
+                open_trade=open_trade,
+            )
+            if compound_realized_pnl and capital_before_trade_usd is not None:
+                capital_before_trade_usd += float(trades[-1]["net_pnl_usd"])
+            last_exit_time = pd.Timestamp(trades[-1]["exit_time"])
+            break
+
+    trades_df = _ensure_trade_columns(pd.DataFrame(trades) if trades else empty_trade_log())
+    sizing_df = pd.DataFrame(sizing_decisions) if sizing_decisions else _empty_sizing_decision_log()
+    return VolumeClimaxPullbackV2BacktestResult(trades=trades_df, sizing_decisions=sizing_df)
+
+
 def run_volume_climax_pullback_v2_backtest(
     signal_df: pd.DataFrame,
     variant: VolumeClimaxPullbackV2Variant,
     execution_model: ExecutionModel,
     instrument: InstrumentDetails,
     position_sizing: PositionSizingConfig | None = None,
+    *,
+    execution_timeframe: str = "1h",
+    minute_df: pd.DataFrame | None = None,
+    entry_timing: str = "next_execution_bar_open",
+    protective_orders_active_from: str = "after_entry_fill",
 ) -> VolumeClimaxPullbackV2BacktestResult:
     validate_position_sizing(position_sizing)
+    _validate_backtest_options(
+        execution_timeframe=execution_timeframe,
+        entry_timing=entry_timing,
+        protective_orders_active_from=protective_orders_active_from,
+        minute_df=minute_df,
+    )
+    if execution_timeframe == "1min":
+        return _run_volume_climax_pullback_v2_backtest_hybrid_1m(
+            signal_df=signal_df,
+            minute_df=minute_df if minute_df is not None else pd.DataFrame(),
+            variant=variant,
+            execution_model=execution_model,
+            instrument=instrument,
+            position_sizing=position_sizing,
+            entry_timing=entry_timing,
+            protective_orders_active_from=protective_orders_active_from,
+        )
+
     trades: list[dict[str, Any]] = []
     sizing_decisions: list[dict[str, Any]] = []
     open_trade: dict[str, Any] | None = None
@@ -791,24 +1205,6 @@ def run_volume_climax_pullback_v2_backtest(
 
             raise ValueError(f"Unsupported entry_mode '{variant.entry_mode}'.")
 
-    trades_df = pd.DataFrame(trades) if trades else empty_trade_log()
+    trades_df = _ensure_trade_columns(pd.DataFrame(trades) if trades else empty_trade_log())
     sizing_df = pd.DataFrame(sizing_decisions) if sizing_decisions else _empty_sizing_decision_log()
-    if "variant_name" not in trades_df.columns:
-        trades_df["variant_name"] = pd.Series(dtype=object)
-    if "entry_signal_time" not in trades_df.columns:
-        trades_df["entry_signal_time"] = pd.Series(dtype="datetime64[ns]")
-    if "bars_held" not in trades_df.columns:
-        trades_df["bars_held"] = pd.Series(dtype=float)
-    for column in (
-        "position_sizing_mode",
-        "risk_pct_decimal",
-        "stop_distance_points",
-        "contracts_raw",
-        "max_contracts",
-        "skip_trade_if_too_small",
-        "capital_after_trade_usd",
-        "initial_stop_price",
-    ):
-        if column not in trades_df.columns:
-            trades_df[column] = pd.Series(dtype=float if column not in {"position_sizing_mode", "skip_trade_if_too_small"} else object)
     return VolumeClimaxPullbackV2BacktestResult(trades=trades_df, sizing_decisions=sizing_df)

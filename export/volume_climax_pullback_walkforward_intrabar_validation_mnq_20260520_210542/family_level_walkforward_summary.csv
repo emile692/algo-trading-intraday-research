@@ -1,0 +1,5 @@
+family,avg_rank_train,times_selected,stitched_test_net_pnl_if_selected,fixed_oracle_warning,median_test_pnl_across_configs,pct_configs_positive_test,pct_configs_pf_above_1
+delay_only,39.355555555555554,4,472.84999999999854,descriptive_only_test_stats,-18.4375,0.4722222222222222,0.4722222222222222
+delay_stop_zone,84.1923076923077,1,-1258.375,descriptive_only_test_stats,-66.375,0.34423076923076923,0.4076923076923077
+sanity_anti_overfit,70.1,0,0.0,descriptive_only_test_stats,145.5,0.65,0.65
+benchmark_current_hybrid,131.8,0,0.0,descriptive_only_test_stats,-148.52500000000146,0.4,0.4

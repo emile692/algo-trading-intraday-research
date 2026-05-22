@@ -1,0 +1,39 @@
+{
+  "run_timestamp": "2026-05-22T17:26:44.133287",
+  "config": {
+    "symbols": [
+      "MNQ",
+      "MES",
+      "M2K",
+      "MGC"
+    ],
+    "start_date": "2018-01-01",
+    "end_date": "2026-12-31",
+    "output_root": "export",
+    "processed_dir": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet",
+    "dataset_paths": null,
+    "smoke": false,
+    "opening_time": "09:30:00",
+    "or_minutes": 15,
+    "entry_buffer_ticks": 2,
+    "stop_buffer_ticks": 2,
+    "target_multiple": 2.0,
+    "direction": "long",
+    "one_trade_per_day": true,
+    "vwap_confirmation": true,
+    "vwap_column": "continuous_session_vwap",
+    "time_exit": "16:00:00",
+    "account_size_usd": 50000.0,
+    "risk_per_trade_pct": 0.5,
+    "entry_on_next_open": true,
+    "smoke_max_sessions": 40
+  },
+  "datasets": {
+    "MNQ": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+    "MES": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MES_c_0_1m_20260322_135702.parquet",
+    "M2K": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet",
+    "MGC": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MGC_c_0_1m_20260322_155729.parquet"
+  },
+  "export_dir": "export\\orb_opposite_breakout_invalidation_20260522_164300",
+  "policy_count": 37
+}

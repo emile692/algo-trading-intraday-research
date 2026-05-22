@@ -1,0 +1,16 @@
+entity_type,entity_id,day_of_week,pnl,trades
+sleeve,M2K,Friday,20.900000000006003,10
+sleeve,M2K,Monday,124.12500000000364,5
+sleeve,M2K,Thursday,-19.999999999997726,6
+sleeve,M2K,Tuesday,371.3750000000073,11
+sleeve,M2K,Wednesday,-21.624999999994543,7
+sleeve,MGC,Friday,130.70000000000618,5
+sleeve,MGC,Monday,-83.49999999999909,3
+sleeve,MGC,Thursday,-98.49999999999,5
+sleeve,MGC,Tuesday,652.4999999999886,5
+sleeve,MGC,Wednesday,615.9999999999945,5
+sleeve,MNQ,Friday,-776.1500000000015,27
+sleeve,MNQ,Monday,276.875,10
+sleeve,MNQ,Thursday,870.0,27
+sleeve,MNQ,Tuesday,-866.4749999999985,25
+sleeve,MNQ,Wednesday,-382.375,27

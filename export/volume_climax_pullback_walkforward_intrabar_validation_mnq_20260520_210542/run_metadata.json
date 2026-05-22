@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-05-20T21:16:07.722900",
+  "symbol": "MNQ",
+  "phase2_dir": "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154",
+  "validation_dir": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109",
+  "output_dir": "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "python_version": "3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "variant": {
+    "name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2",
+    "family": "dynamic_exit",
+    "timeframe": "1h",
+    "volume_quantile": 0.95,
+    "volume_lookback": 50,
+    "min_body_fraction": 0.5,
+    "min_range_atr": 1.2,
+    "trend_ema_window": null,
+    "ema_slope_threshold": null,
+    "atr_percentile_low": null,
+    "atr_percentile_high": null,
+    "compression_ratio_max": null,
+    "entry_mode": "next_open",
+    "pullback_fraction": null,
+    "confirmation_window": null,
+    "exit_mode": "atr_fraction",
+    "rr_target": 1.0,
+    "atr_target_multiple": 1.0,
+    "time_stop_bars": 2,
+    "trailing_atr_multiple": 0.5,
+    "session_overlay": "all_rth"
+  },
+  "fold_count": 5,
+  "fixed_candidate_config_id": "require_no_stop_zone_touch_before_entry_sm1p00_tm2p50_d5_stop_zone_0p75",
+  "current_hybrid_config_id": "none_sm1p00_tm1p00_d0",
+  "verdict": "Reject: no reliable walk-forward edge.",
+  "plots": [
+    "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542\\walkforward_stitched_cumulative_pnl.png",
+    "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542\\fold_test_pnl_bar.png",
+    "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542\\selected_config_by_fold.png",
+    "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542\\train_score_vs_test_pnl_scatter.png",
+    "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542\\family_test_distribution.png",
+    "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542\\fixed_candidate_fold_pnl.png",
+    "export\\volume_climax_pullback_walkforward_intrabar_validation_mnq_20260520_210542\\benchmark_vs_walkforward_cumulative.png"
+  ],
+  "input_files": {
+    "phase2_run_metadata": {
+      "path": "export\\volume_climax_pullback_intrabar_recalibration_mnq_20260520_101154\\run_metadata.json",
+      "size_bytes": 4172,
+      "mtime": "2026-05-20T10:41:06.743085"
+    },
+    "validation_run_metadata": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\run_metadata.json",
+      "size_bytes": 1585,
+      "mtime": "2026-05-19T22:01:22.361195"
+    },
+    "validation_metrics_comparison": {
+      "path": "export\\volume_climax_pullback_hybrid_execution_validation_mnq_20260519_220109\\metrics_comparison.csv",
+      "size_bytes": 576,
+      "mtime": "2026-05-19T22:01:22.360193"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+total_test_trades,total_test_net_pnl,test_profit_factor,test_winrate,avg_trade,max_drawdown,pnl_to_maxdd,number_of_folds,positive_folds,negative_folds,pass_rate,selected_config_diversity,selected_family_counts,benchmark_current_hybrid_net_pnl_over_same_test_windows,improvement_vs_current_hybrid
+116,-785.5250000000015,0.8787699905472922,0.35344827586206895,-6.771767241379323,-2299.4000000000015,-0.34162172740715013,5,2,3,0.2,3,"{""delay_only"": 4, ""delay_stop_zone"": 1}",-362.0250000000051,-423.49999999999636

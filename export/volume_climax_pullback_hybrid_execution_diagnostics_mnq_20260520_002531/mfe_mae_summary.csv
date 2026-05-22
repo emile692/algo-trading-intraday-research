@@ -1,0 +1,8 @@
+bucket,count,median_mfe_ticks,median_mae_ticks,avg_mfe_ticks,avg_mae_ticks,p25_mfe_ticks,p75_mfe_ticks,p25_mae_ticks,p75_mae_ticks,median_time_to_mfe_minutes,median_time_to_mae_minutes
+all trades,323,160.0,212.0,262.97818181818184,284.9309090909091,76.0,371.0,90.0,405.0,44.0,41.0
+baseline winners,112,439.0,72.5,482.6734693877551,111.58163265306122,252.5,648.0,30.0,136.25,87.5,8.0
+baseline losers,211,94.0,327.0,141.33898305084745,380.909604519774,48.0,177.0,185.0,498.0,16.0,74.0
+winner_to_loser,37,380.0,149.0,423.6216216216216,178.54054054054055,251.0,538.0,92.0,261.0,86.0,18.0
+same_outcome_minor_delta,0,,,,,,,,,,
+intrabar_stop_before_target,0,,,,,,,,,,
+target_not_reached_on_1min_path,6,367.0,235.5,308.1666666666667,298.5,151.0,439.75,67.75,459.5,14.5,40.5

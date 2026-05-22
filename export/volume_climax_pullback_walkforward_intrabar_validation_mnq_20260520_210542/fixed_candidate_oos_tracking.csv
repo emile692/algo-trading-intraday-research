@@ -1,0 +1,6 @@
+fold_id,config_id,test_trades,test_net_pnl,test_profit_factor,test_winrate,test_avg_trade,test_max_drawdown
+fold_1,require_no_stop_zone_touch_before_entry_sm1p00_tm2p50_d5_stop_zone_0p75,21,78.125,1.0539164941338854,0.3333333333333333,3.7202380952380953,-490.0
+fold_2,require_no_stop_zone_touch_before_entry_sm1p00_tm2p50_d5_stop_zone_0p75,18,358.3125,1.5991847826086956,0.2222222222222222,19.90625,-343.5
+fold_3,require_no_stop_zone_touch_before_entry_sm1p00_tm2p50_d5_stop_zone_0p75,22,665.0,1.6952430737062205,0.45454545454545453,30.227272727272727,-441.0
+fold_4,require_no_stop_zone_touch_before_entry_sm1p00_tm2p50_d5_stop_zone_0p75,25,-206.5,0.865909090909091,0.36,-8.26,-815.5
+fold_5,require_no_stop_zone_touch_before_entry_sm1p00_tm2p50_d5_stop_zone_0p75,3,570.0,15.430379746835444,0.6666666666666666,190.0,-39.5

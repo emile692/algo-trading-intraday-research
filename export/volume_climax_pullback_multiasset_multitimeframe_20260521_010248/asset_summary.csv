@@ -1,0 +1,5 @@
+symbol,best_timeframe_is_only,best_timeframe_wfa,selected_configs_count,oos_pass_count,wfa_verdict,net_pnl_stitched,pf_stitched,positive_folds,main_failure_mode
+M2K,15min,1H,6,1,weak_watchlist,314.20000000003483,1.3335456475584313,4,unstable_params
+MES,15min,15min,9,0,reject,0.0,inf,0,negative_raw_edge
+MGC,30min,1H,7,3,reject,748.0000000000132,3.8387096774195864,2,unstable_params
+MNQ,1H,30min,5,1,reject,-482.5249999999978,0.7503427758375383,1,negative_raw_edge

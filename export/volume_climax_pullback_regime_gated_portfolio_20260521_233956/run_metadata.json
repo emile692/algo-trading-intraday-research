@@ -1,0 +1,77 @@
+{
+  "timestamp": "20260521_233956",
+  "symbols": [
+    "M2K",
+    "MGC",
+    "MNQ"
+  ],
+  "signal_timeframe": "1H",
+  "execution_timeframe": "1min",
+  "smoke": false,
+  "skip_negative_control": false,
+  "max_regime_rules": 36,
+  "survivor_audit_dir": "export\\volume_climax_pullback_survivor_audit_20260521_091448",
+  "python_version": "3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "data_audits": {
+    "M2K": {
+      "symbol": "M2K",
+      "signal_timeframe": "1H",
+      "execution_timeframe": "1min",
+      "source_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet",
+      "first_timestamp": "2019-05-05 18:01:00-04:00",
+      "last_timestamp": "2026-03-20 09:29:00-04:00",
+      "rows_1m": 2232652,
+      "rows_rth": 667935,
+      "rows_signal": 12035,
+      "timezone": "America/New_York",
+      "estimated_cost_per_trade": 2.5,
+      "variant_name": "dynamic_exit_atr_target_1p0_ts4_vq0p95_bf0p5_ra1p2"
+    },
+    "MGC": {
+      "symbol": "MGC",
+      "signal_timeframe": "1H",
+      "execution_timeframe": "1min",
+      "source_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MGC_c_0_1m_20260322_155729.parquet",
+      "first_timestamp": "2010-10-03 19:26:00-04:00",
+      "last_timestamp": "2026-03-20 16:59:00-04:00",
+      "rows_1m": 1648698,
+      "rows_rth": 523029,
+      "rows_signal": 16737,
+      "timezone": "America/New_York",
+      "estimated_cost_per_trade": 2.5,
+      "variant_name": "regime_filtered_ema_mild_atr_20_80_compression_off_atr_target_1p0_ts3_vq0p95_bf0p5_ra1p2"
+    },
+    "MNQ": {
+      "symbol": "MNQ",
+      "signal_timeframe": "1H",
+      "execution_timeframe": "1min",
+      "source_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+      "first_timestamp": "2019-05-05 18:03:00-04:00",
+      "last_timestamp": "2026-03-20 09:29:00-04:00",
+      "rows_1m": 2401697,
+      "rows_rth": 671037,
+      "rows_signal": 12035,
+      "timezone": "America/New_York",
+      "estimated_cost_per_trade": 2.5,
+      "variant_name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2"
+    }
+  },
+  "input_files": {
+    "M2K": {
+      "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet",
+      "size_bytes": 34541702,
+      "mtime": "2026-03-22T15:09:33.309778"
+    },
+    "MGC": {
+      "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MGC_c_0_1m_20260322_155729.parquet",
+      "size_bytes": 25743155,
+      "mtime": "2026-03-22T17:00:14.724805"
+    },
+    "MNQ": {
+      "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+      "size_bytes": 41219974,
+      "mtime": "2026-03-21T10:51:07.764511"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+result_type,name,deployable,reason,net_pnl,profit_factor,positive_folds
+posthoc_positive_baseline,m2k_only_baseline,False,baseline_or_posthoc_reference_only,474.77500000002465,1.9134680134680884,4
+posthoc_positive_baseline,mgc_only_baseline,False,baseline_or_posthoc_reference_only,1217.2000000000003,3.4891615541923406,2
+posthoc_positive_baseline,raw_m2k_mgc_equal_weight,False,baseline_or_posthoc_reference_only,845.9875000000125,2.677298636926977,4

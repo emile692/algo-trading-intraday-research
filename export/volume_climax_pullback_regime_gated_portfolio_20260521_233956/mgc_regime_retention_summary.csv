@@ -1,0 +1,6 @@
+fold_id,selected_rule_id,mgc_train_trades_base,mgc_train_trades_retained,mgc_train_retention_rate,mgc_test_trades_base,mgc_test_trades_retained,mgc_test_retention_rate,mgc_test_pnl_base,mgc_test_pnl_retained,allocation_scheme
+fold_1,always_on__conditional_equal_weight,4,4,1.0,0,0,0.0,0.0,0.0,conditional_equal_weight
+fold_2,always_on__conditional_equal_weight,4,4,1.0,3,3,1.0,-48.49999999999227,-48.49999999999227,conditional_equal_weight
+fold_3,atr_pct_mid_q30_q70__conditional_inverse_vol,30,12,0.4,7,4,0.5714285714285714,-5.2999999999883585,108.20000000000618,conditional_inverse_vol
+fold_4,atr_pct_mid_q20_q80__conditional_equal_weight,35,22,0.6285714285714286,11,6,0.5454545454545454,562.0000000000027,313.99999999999636,conditional_equal_weight
+fold_5,atr_pct_mid_q20_q80__conditional_equal_weight,46,29,0.6304347826086957,2,1,0.5,708.9999999999782,492.4999999999909,conditional_equal_weight

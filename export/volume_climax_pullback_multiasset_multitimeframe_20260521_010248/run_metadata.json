@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-05-21T02:28:29.062413",
+  "symbols": [
+    "MNQ",
+    "MES",
+    "M2K",
+    "MGC"
+  ],
+  "signal_timeframes": [
+    "15min",
+    "30min",
+    "1H"
+  ],
+  "execution_timeframe": "1min",
+  "output_dir": "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248",
+  "python_version": "3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "plots": [
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\heatmap_oos_pf_by_symbol_timeframe.png",
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\selected_configs_oos_bar.png",
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\heatmap_wfa_pnl_by_symbol_timeframe.png",
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\walkforward_pnl_by_fold.png",
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\train_score_vs_test_pnl_scatter_all.png",
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\portfolio_cumulative_pnl.png",
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\asset_correlation_heatmap.png",
+    "export\\volume_climax_pullback_multiasset_multitimeframe_20260521_010248\\timeframe_comparison_boxplot.png"
+  ],
+  "input_files": {
+    "MNQ": {
+      "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+      "size_bytes": 41219974,
+      "mtime": "2026-03-21T10:51:07.764511"
+    },
+    "MES": {
+      "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MES_c_0_1m_20260322_135702.parquet",
+      "size_bytes": 37277907,
+      "mtime": "2026-03-22T15:08:17.420722"
+    },
+    "M2K": {
+      "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\M2K_c_0_1m_20260322_134808.parquet",
+      "size_bytes": 34541702,
+      "mtime": "2026-03-22T15:09:33.309778"
+    },
+    "MGC": {
+      "path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MGC_c_0_1m_20260322_155729.parquet",
+      "size_bytes": 25743155,
+      "mtime": "2026-03-22T17:00:14.724805"
+    }
+  }
+}

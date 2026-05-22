@@ -1,0 +1,10 @@
+config_name,symbol,bucket,trade_count,net_pnl,avg_trade,win_rate
+allow_reclaim_after_opposite_breakout_conservative__buffer_0__require_vwap_true,MNQ,reclaim_trade,1,-140.5,-140.5,0.0
+allow_reclaim_after_opposite_breakout_conservative__buffer_0__require_vwap_true,MNQ,trade_without_prior_downside_breakout,3,36.0,12.0,0.3333333333333333
+allow_reclaim_after_opposite_breakout_strict__buffer_0__reclaim_1,MNQ,reclaim_trade,1,-140.5,-140.5,0.0
+allow_reclaim_after_opposite_breakout_strict__buffer_0__reclaim_1,MNQ,trade_without_prior_downside_breakout,3,36.0,12.0,0.3333333333333333
+baseline_no_opposite_invalidation,MNQ,trade_without_prior_downside_breakout,4,-104.5,-26.125,0.25
+invalidate_on_opposite_close_1m__buffer_0,MNQ,trade_without_prior_downside_breakout,3,36.0,12.0,0.3333333333333333
+invalidate_on_opposite_close_5m__buffer_0,MNQ,trade_without_prior_downside_breakout,3,36.0,12.0,0.3333333333333333
+invalidate_on_opposite_n_closes_1m__buffer_0__confirm_2,MNQ,trade_without_prior_downside_breakout,3,36.0,12.0,0.3333333333333333
+invalidate_on_opposite_touch__buffer_0,MNQ,trade_without_prior_downside_breakout,3,36.0,12.0,0.3333333333333333

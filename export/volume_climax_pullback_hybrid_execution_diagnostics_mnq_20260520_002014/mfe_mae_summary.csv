@@ -1,0 +1,8 @@
+bucket,count,median_mfe_ticks,median_mae_ticks,avg_mfe_ticks,avg_mae_ticks,p25_mfe_ticks,p75_mfe_ticks,p25_mae_ticks,p75_mae_ticks,median_time_to_mfe_minutes,median_time_to_mae_minutes
+all trades,323,,,,,,,,,,
+baseline winners,112,,,,,,,,,,
+baseline losers,211,,,,,,,,,,
+winner_to_loser,37,,,,,,,,,,
+same_outcome_minor_delta,0,,,,,,,,,,
+intrabar_stop_before_target,0,,,,,,,,,,
+target_not_reached_on_1min_path,19,,,,,,,,,,

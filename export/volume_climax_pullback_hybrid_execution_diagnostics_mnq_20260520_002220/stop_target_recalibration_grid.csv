@@ -1,0 +1,26 @@
+stop_multiplier,target_multiplier,trades,net_pnl,winrate,avg_trade,profit_factor,max_drawdown_if_reconstructable,median_holding_minutes,comment
+0.75,0.75,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+0.75,1.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+0.75,1.25,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+0.75,1.5,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+0.75,2.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.0,0.75,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.0,1.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.0,1.25,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.0,1.5,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.0,2.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.25,0.75,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.25,1.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.25,1.25,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.25,1.5,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.25,2.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.5,0.75,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.5,1.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.5,1.25,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.5,1.5,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+1.5,2.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+2.0,0.75,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+2.0,1.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+2.0,1.25,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+2.0,1.5,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.
+2.0,2.0,275,0.0,0.0,,inf,,120.0,Ex-post 1min replay with fixed alpha and stop-first ambiguity convention.

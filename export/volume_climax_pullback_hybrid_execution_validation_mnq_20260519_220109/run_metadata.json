@@ -1,0 +1,49 @@
+{
+  "symbol": "MNQ",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "generated_at": "2026-05-19T22:01:22.360192",
+  "variant_name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2",
+  "variant": {
+    "name": "dynamic_exit_atr_target_1p0_ts2_vq0p95_bf0p5_ra1p2",
+    "family": "dynamic_exit",
+    "timeframe": "1h",
+    "volume_quantile": 0.95,
+    "volume_lookback": 50,
+    "min_body_fraction": 0.5,
+    "min_range_atr": 1.2,
+    "trend_ema_window": null,
+    "ema_slope_threshold": null,
+    "atr_percentile_low": null,
+    "atr_percentile_high": null,
+    "compression_ratio_max": null,
+    "entry_mode": "next_open",
+    "pullback_fraction": null,
+    "confirmation_window": null,
+    "exit_mode": "atr_fraction",
+    "rr_target": 1.0,
+    "atr_target_multiple": 1.0,
+    "time_stop_bars": 2,
+    "trailing_atr_multiple": 0.5,
+    "session_overlay": "all_rth"
+  },
+  "execution_scenarios": [
+    {
+      "label": "baseline_1h",
+      "execution_timeframe": "1h"
+    },
+    {
+      "label": "hybrid_after_entry_fill",
+      "execution_timeframe": "1min",
+      "entry_timing": "next_execution_bar_open",
+      "protective_orders_active_from": "after_entry_fill"
+    },
+    {
+      "label": "hybrid_next_execution_bar",
+      "execution_timeframe": "1min",
+      "entry_timing": "next_execution_bar_open",
+      "protective_orders_active_from": "next_execution_bar"
+    }
+  ],
+  "signal_rows": 12035,
+  "minute_rows_rth": 671037
+}
