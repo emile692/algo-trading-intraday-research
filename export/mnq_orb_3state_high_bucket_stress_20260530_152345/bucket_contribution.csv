@@ -1,0 +1,13 @@
+bucket_label,oos_bucket_net_pnl_usd,variant_name,high_multiplier
+low,4649.5,high_0p75,0.75
+mid,22672.0,high_0p75,0.75
+high,1504.5,high_0p75,0.75
+low,4649.5,high_0p5,0.5
+mid,22672.0,high_0p5,0.5
+high,491.0,high_0p5,0.5
+low,4649.5,high_0p25,0.25
+mid,22672.0,high_0p25,0.25
+high,637.5,high_0p25,0.25
+low,4649.5,high_0p0,0.0
+mid,22672.0,high_0p0,0.0
+high,0.0,high_0p0,0.0

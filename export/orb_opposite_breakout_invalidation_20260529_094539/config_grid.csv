@@ -1,0 +1,18 @@
+name,description,policy_family,opposite_confirmation,opposite_breakout_buffer_ticks,opposite_breakout_confirm_bars,require_reclaim_vwap,require_reclaim_or_low_close,reclaim_confirm_bars,strategy_tag
+baseline_no_opposite_invalidation,Prod-like MNQ baseline without opposite-breakout invalidation.,baseline,none,0,1,False,False,1,orb_long_only
+invalidate_on_opposite_touch__buffer_0,Invalidate the day on any downside touch through OR low.,invalidate_for_day,touch,0,1,False,False,1,orb_long_only
+invalidate_on_opposite_touch__buffer_1,Invalidate the day on downside touch through OR low minus 1 tick.,invalidate_for_day,touch,1,1,False,False,1,orb_long_only
+invalidate_on_opposite_touch__buffer_2,Invalidate the day on downside touch through OR low minus 2 ticks.,invalidate_for_day,touch,2,1,False,False,1,orb_long_only
+invalidate_on_opposite_close_1m__buffer_0,Invalidate on first 1m close below OR low.,invalidate_for_day,close_1m,0,1,False,False,1,orb_long_only
+invalidate_on_opposite_close_1m__buffer_1,Invalidate on first 1m close below OR low minus 1 tick.,invalidate_for_day,close_1m,1,1,False,False,1,orb_long_only
+invalidate_on_opposite_close_1m__buffer_2,Invalidate on first 1m close below OR low minus 2 ticks.,invalidate_for_day,close_1m,2,1,False,False,1,orb_long_only
+invalidate_on_opposite_n_closes_1m__buffer_0__confirm_2,Invalidate after 2 consecutive 1m closes below OR low.,invalidate_for_day,n_closes_1m,0,2,False,False,1,orb_long_only
+invalidate_on_opposite_n_closes_1m__buffer_1__confirm_2,Invalidate after 2 consecutive 1m closes below OR low minus 1 tick.,invalidate_for_day,n_closes_1m,1,2,False,False,1,orb_long_only
+invalidate_on_opposite_n_closes_1m__buffer_2__confirm_2,Invalidate after 2 consecutive 1m closes below OR low minus 2 ticks.,invalidate_for_day,n_closes_1m,2,2,False,False,1,orb_long_only
+invalidate_on_opposite_n_closes_1m__buffer_2__confirm_3,Invalidate after 3 consecutive 1m closes below OR low minus 2 ticks.,invalidate_for_day,n_closes_1m,2,3,False,False,1,orb_long_only
+invalidate_on_opposite_close_5m__buffer_0,Invalidate on first completed 5m close below OR low.,invalidate_for_day,close_5m,0,1,False,False,1,orb_long_only
+invalidate_on_opposite_close_5m__buffer_1,Invalidate on first completed 5m close below OR low minus 1 tick.,invalidate_for_day,close_5m,1,1,False,False,1,orb_long_only
+invalidate_on_opposite_close_5m__buffer_2,Invalidate on first completed 5m close below OR low minus 2 ticks.,invalidate_for_day,close_5m,2,1,False,False,1,orb_long_only
+invalidate_on_opposite_close_5m__buffer_4,Invalidate on first completed 5m close below OR low minus 4 ticks.,invalidate_for_day,close_5m,4,1,False,False,1,orb_long_only
+allow_reclaim_after_opposite_breakout_conservative__buffer_0__require_vwap_false,Allow a later long after OR low reclaim without VWAP reclaim.,reclaim_conservative,touch,0,1,False,True,1,failed_breakdown_reclaim_long
+allow_reclaim_after_opposite_breakout_conservative__buffer_0__require_vwap_true,Allow a later long after OR low reclaim and VWAP reclaim.,reclaim_conservative,touch,0,1,True,True,1,failed_breakdown_reclaim_long

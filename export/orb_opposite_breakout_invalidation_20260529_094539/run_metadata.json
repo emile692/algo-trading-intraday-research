@@ -1,0 +1,51 @@
+{
+  "run_timestamp": "2026-05-29T09:50:49.020908",
+  "config": {
+    "symbols": [
+      "MNQ"
+    ],
+    "start_date": "2018-01-01",
+    "end_date": "2026-12-31",
+    "output_root": "export",
+    "processed_dir": "C:\\Data\\Perso\\algo-trading-intraday-research\\data\\processed\\parquet",
+    "dataset_paths": null,
+    "smoke": false,
+    "opening_time": "09:30:00",
+    "or_minutes": 30,
+    "entry_buffer_ticks": 2,
+    "stop_buffer_ticks": 2,
+    "target_multiple": 2.0,
+    "direction": "long",
+    "one_trade_per_day": true,
+    "vwap_confirmation": true,
+    "vwap_column": "continuous_session_vwap",
+    "time_exit": "16:00:00",
+    "account_size_usd": 50000.0,
+    "risk_per_trade_pct": 1.5,
+    "entry_on_next_open": true,
+    "smoke_max_sessions": 40,
+    "max_configs": null,
+    "config_filter": null,
+    "use_cache": true,
+    "refresh_cache": false,
+    "cache_root": "C:\\Data\\Perso\\algo-trading-intraday-research\\.cache\\research\\orb_opposite_breakout_invalidation",
+    "resume": false,
+    "fast": false,
+    "profile": true,
+    "write_trades_detail": true,
+    "write_daily_returns": true,
+    "commission_per_side_usd_override": 0.62,
+    "slippage_ticks_override": 1.0,
+    "session_selection_path": "C:\\Data\\Perso\\algo-trading-intraday-research\\data\\exports\\mnq_orb_vix_vvix_validation_20260327_run\\variants\\baseline_fixed_nominal_atr\\controls.csv",
+    "session_selection_label": "baseline_fixed_nominal_atr controls",
+    "prod_mnq_only": true,
+    "cache_namespace": "mnq_prod"
+  },
+  "datasets": {
+    "MNQ": "C:\\Data\\Perso\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet"
+  },
+  "export_dir": "export\\orb_opposite_breakout_invalidation_20260529_094539",
+  "policy_count": 17,
+  "run_status": "completed",
+  "runtime_seconds": 309.101891099941
+}

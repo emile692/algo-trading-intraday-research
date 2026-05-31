@@ -7,10 +7,14 @@ import pandas as pd
 from src.analytics.orb_opposite_breakout_invalidation_campaign import (
     CampaignConfig,
     OppositeBreakoutInvalidationSpec,
+    _read_dataframe_with_fallback,
+    _write_dataframe_with_fallback,
     apply_opposite_invalidation_filter,
+    build_fast_policy_grid,
     classify_first_breakout,
     detect_opening_range,
     run_campaign,
+    select_policy_grid,
 )
 
 
@@ -314,6 +318,47 @@ def test_no_signal_is_emitted_after_definitive_invalidation() -> None:
     assert int(filtered["signal"].sum()) == 0
 
 
+def test_max_configs_limits_selected_grid() -> None:
+    config = CampaignConfig(symbols=("MNQ",), max_configs=3)
+
+    selected = select_policy_grid(config)
+
+    assert len(selected) == 3
+    assert selected[0].name == "baseline_no_opposite_invalidation"
+
+
+def test_config_filter_keeps_matching_configs_only() -> None:
+    config = CampaignConfig(symbols=("MNQ",), config_filter="invalidate_on_opposite_close_1m")
+
+    selected = select_policy_grid(config)
+
+    assert selected
+    assert all("invalidate_on_opposite_close_1m" in spec.name for spec in selected)
+
+
+def test_fast_grid_contains_baseline_and_key_families() -> None:
+    names = [spec.name for spec in build_fast_policy_grid()]
+
+    assert "baseline_no_opposite_invalidation" in names
+    assert any("invalidate_on_opposite_touch" in name for name in names)
+    assert any("invalidate_on_opposite_close_1m" in name for name in names)
+    assert any("invalidate_on_opposite_n_closes_1m" in name for name in names)
+    assert any("invalidate_on_opposite_close_5m" in name for name in names)
+    assert any("allow_reclaim_after_opposite_breakout_conservative" in name for name in names)
+
+
+def test_cache_frame_write_then_read(tmp_path: Path) -> None:
+    frame = pd.DataFrame({"a": [1, 2], "b": ["x", "y"]})
+    parquet_path = tmp_path / "cache.parquet"
+    csv_path = tmp_path / "cache.csv"
+
+    written_path = _write_dataframe_with_fallback(frame, parquet_path, csv_path)
+    restored = _read_dataframe_with_fallback(parquet_path, csv_path)
+
+    assert written_path.exists()
+    pd.testing.assert_frame_equal(restored, frame)
+
+
 def test_smoke_campaign_produces_expected_files(tmp_path: Path) -> None:
     dataset_path = tmp_path / "MNQ_c_0_1m_smoke.parquet"
     _smoke_dataset(dataset_path)
@@ -322,6 +367,7 @@ def test_smoke_campaign_produces_expected_files(tmp_path: Path) -> None:
         symbols=("MNQ",),
         dataset_paths={"MNQ": dataset_path},
         output_root=output_root,
+        cache_root=tmp_path / "cache",
         smoke=True,
         start_date="2024-01-01",
         end_date="2024-12-31",
@@ -348,3 +394,61 @@ def test_smoke_campaign_produces_expected_files(tmp_path: Path) -> None:
 
     for filename in expected:
         assert (export_dir / filename).exists(), filename
+
+
+def test_resume_skips_completed_configs_and_reuses_export_dir(tmp_path: Path) -> None:
+    dataset_path = tmp_path / "MNQ_c_0_1m_resume.parquet"
+    _smoke_dataset(dataset_path, sessions=10)
+    output_root = tmp_path / "export"
+    cache_root = tmp_path / "cache"
+
+    first = run_campaign(
+        CampaignConfig(
+            symbols=("MNQ",),
+            dataset_paths={"MNQ": dataset_path},
+            output_root=output_root,
+            cache_root=cache_root,
+            smoke=True,
+            max_configs=2,
+            start_date="2024-01-01",
+            end_date="2024-12-31",
+        )
+    )
+    second = run_campaign(
+        CampaignConfig(
+            symbols=("MNQ",),
+            dataset_paths={"MNQ": dataset_path},
+            output_root=output_root,
+            cache_root=cache_root,
+            smoke=True,
+            max_configs=2,
+            resume=True,
+            start_date="2024-01-01",
+            end_date="2024-12-31",
+        )
+    )
+
+    assert first["output_dir"] == second["output_dir"]
+    checkpoint = pd.read_csv(first["output_dir"] / "checkpoint_results_by_symbol.csv")
+    assert len(checkpoint) == 2
+
+
+def test_partial_report_mentions_run_status_and_checkpoints(tmp_path: Path) -> None:
+    dataset_path = tmp_path / "MNQ_c_0_1m_partial.parquet"
+    _smoke_dataset(dataset_path, sessions=10)
+    result = run_campaign(
+        CampaignConfig(
+            symbols=("MNQ",),
+            dataset_paths={"MNQ": dataset_path},
+            output_root=tmp_path / "export",
+            cache_root=tmp_path / "cache",
+            smoke=False,
+            max_configs=1,
+            start_date="2024-01-01",
+            end_date="2024-12-31",
+        )
+    )
+
+    report = (result["output_dir"] / "final_report.md").read_text(encoding="utf-8")
+    assert "Run status: `partial`" in report
+    assert "Checkpoint results by symbol" in report

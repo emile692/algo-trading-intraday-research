@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import math
+import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
@@ -36,6 +38,18 @@ DEFAULT_OPENING_TIME = "09:30:00"
 DEFAULT_TIME_EXIT = "16:00:00"
 FAILED_BREAKDOWN_RECLAIM_TAG = "failed_breakdown_reclaim_long"
 BASELINE_TAG = "orb_long_only"
+DEFAULT_CACHE_ROOT = REPO_ROOT / ".cache" / "research" / "orb_opposite_breakout_invalidation"
+DEFAULT_MNQ_PROD_SELECTION_ROOT = REPO_ROOT / "data" / "exports" / "mnq_orb_vix_vvix_validation_20260327_run"
+LOGGER = logging.getLogger(__name__)
+FULL_TOUCH_BUFFERS = (0, 1, 2, 4)
+FULL_CLOSE_BUFFERS = (0, 1, 2, 4)
+FULL_NCLOSE_BUFFERS = (0, 1, 2)
+FULL_NCLOSE_CONFIRMS = (2, 3, 5)
+FULL_CLOSE5_BUFFERS = (0, 1, 2, 4)
+FULL_RECLAIM_BUFFERS = (0, 1, 2)
+FULL_RECLAIM_VWAP_VALUES = (True, False)
+FULL_STRICT_BUFFERS = (0, 1, 2)
+FULL_STRICT_CONFIRMS = (1, 2, 3)
 
 
 @dataclass(frozen=True)
@@ -79,6 +93,22 @@ class CampaignConfig:
     risk_per_trade_pct: float = 0.50
     entry_on_next_open: bool = True
     smoke_max_sessions: int = 40
+    max_configs: int | None = None
+    config_filter: str | None = None
+    use_cache: bool = True
+    refresh_cache: bool = False
+    cache_root: Path = DEFAULT_CACHE_ROOT
+    resume: bool = False
+    fast: bool = False
+    profile: bool = False
+    write_trades_detail: bool = True
+    write_daily_returns: bool = True
+    commission_per_side_usd_override: float | None = None
+    slippage_ticks_override: float | None = None
+    session_selection_path: Path | None = None
+    session_selection_label: str | None = None
+    prod_mnq_only: bool = False
+    cache_namespace: str = "default"
 
 
 @dataclass
@@ -91,6 +121,48 @@ class PreparedAssetData:
     feature_df: pd.DataFrame
     candidate_signal_df: pd.DataFrame
     session_dates: list[pd.Timestamp]
+    session_event_features: pd.DataFrame
+    baseline_result: dict[str, pd.DataFrame | dict[str, Any]]
+
+
+@dataclass(frozen=True)
+class CampaignPaths:
+    output_dir: Path
+    cache_dir: Path
+    checkpoint_results_by_symbol: Path
+    checkpoint_results_by_config: Path
+    checkpoint_trades_by_config: Path
+    checkpoint_session_summary: Path
+    checkpoint_daily_returns: Path
+    runtime_profile_csv: Path
+    runtime_profile_md: Path
+
+
+@dataclass
+class RuntimeProfiler:
+    enabled: bool
+    rows: list[dict[str, Any]]
+
+    def record(
+        self,
+        *,
+        phase: str,
+        seconds: float,
+        symbol: str | None = None,
+        config_name: str | None = None,
+        detail: str | None = None,
+    ) -> None:
+        if not self.enabled:
+            return
+        self.rows.append(
+            {
+                "phase": phase,
+                "symbol": symbol,
+                "config_name": config_name,
+                "detail": detail,
+                "seconds": float(seconds),
+            }
+        )
 
 
 def _normalize_timeframe_tag(timeframe: str | None) -> str | None:
@@ -140,15 +212,15 @@ def build_policy_grid(smoke: bool = False) -> list[OppositeBreakoutInvalidationS
         )
     ]
 
-    touch_buffers = (0,) if smoke else (0, 1, 2, 4)
-    close_buffers = (0,) if smoke else (0, 1, 2, 4)
-    nclose_buffers = (0,) if smoke else (0, 1, 2)
-    nclose_confirms = (2,) if smoke else (2, 3, 5)
-    close5_buffers = (0,) if smoke else (0, 1, 2, 4)
-    reclaim_buffers = (0,) if smoke else (0, 1, 2)
-    reclaim_vwap_values = (True,) if smoke else (True, False)
-    strict_buffers = (0,) if smoke else (0, 1, 2)
-    strict_confirms = (1,) if smoke else (1, 2, 3)
+    touch_buffers = (0,) if smoke else FULL_TOUCH_BUFFERS
+    close_buffers = (0,) if smoke else FULL_CLOSE_BUFFERS
+    nclose_buffers = (0,) if smoke else FULL_NCLOSE_BUFFERS
+    nclose_confirms = (2,) if smoke else FULL_NCLOSE_CONFIRMS
+    close5_buffers = (0,) if smoke else FULL_CLOSE5_BUFFERS
+    reclaim_buffers = (0,) if smoke else FULL_RECLAIM_BUFFERS
+    reclaim_vwap_values = (True,) if smoke else FULL_RECLAIM_VWAP_VALUES
+    strict_buffers = (0,) if smoke else FULL_STRICT_BUFFERS
+    strict_confirms = (1,) if smoke else FULL_STRICT_CONFIRMS
 
     for buffer_ticks in touch_buffers:
         specs.append(
@@ -238,11 +310,341 @@ def build_policy_grid(smoke: bool = False) -> list[OppositeBreakoutInvalidationS
     return specs
 
 
+def build_fast_policy_grid() -> list[OppositeBreakoutInvalidationSpec]:
+    """Return a small but informative exploratory grid."""
+    return [
+        OppositeBreakoutInvalidationSpec(
+            name="baseline_no_opposite_invalidation",
+            description="Current behavior: downside break before long does not invalidate the day.",
+            policy_family="baseline",
+            opposite_confirmation="none",
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_touch__buffer_0",
+            description="Invalidate the day as soon as a 1m low breaks below OR low.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=0,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_touch__buffer_2",
+            description="Invalidate the day as soon as a 1m low breaks below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_1m__buffer_0",
+            description="Invalidate the day on the first 1m close below OR low.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_1m",
+            opposite_breakout_buffer_ticks=0,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_1m__buffer_2",
+            description="Invalidate the day on the first 1m close below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_1m",
+            opposite_breakout_buffer_ticks=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_n_closes_1m__buffer_2__confirm_2",
+            description="Invalidate after 2 consecutive 1m closes below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="n_closes_1m",
+            opposite_breakout_buffer_ticks=2,
+            opposite_breakout_confirm_bars=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_n_closes_1m__buffer_2__confirm_3",
+            description="Invalidate after 3 consecutive 1m closes below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="n_closes_1m",
+            opposite_breakout_buffer_ticks=2,
+            opposite_breakout_confirm_bars=3,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_5m__buffer_2",
+            description="Invalidate on a completed 5m close below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_5m",
+            opposite_breakout_buffer_ticks=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="allow_reclaim_after_opposite_breakout_conservative__buffer_2__require_vwap_true",
+            description="Reclaim OR low close then VWAP before allowing a later long.",
+            policy_family="reclaim_conservative",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=2,
+            require_reclaim_vwap=True,
+            require_reclaim_or_low_close=True,
+            reclaim_confirm_bars=1,
+            strategy_tag=FAILED_BREAKDOWN_RECLAIM_TAG,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="allow_reclaim_after_opposite_breakout_conservative__buffer_2__require_vwap_false",
+            description="Reclaim OR low close before allowing a later long.",
+            policy_family="reclaim_conservative",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=2,
+            require_reclaim_vwap=False,
+            require_reclaim_or_low_close=True,
+            reclaim_confirm_bars=1,
+            strategy_tag=FAILED_BREAKDOWN_RECLAIM_TAG,
+        ),
+    ]
+
+
+def build_prod_mnq_policy_grid() -> list[OppositeBreakoutInvalidationSpec]:
+    """Return a compact prod-oriented MNQ grid."""
+    return [
+        OppositeBreakoutInvalidationSpec(
+            name="baseline_no_opposite_invalidation",
+            description="Prod-like MNQ baseline without opposite-breakout invalidation.",
+            policy_family="baseline",
+            opposite_confirmation="none",
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_touch__buffer_0",
+            description="Invalidate the day on any downside touch through OR low.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=0,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_touch__buffer_1",
+            description="Invalidate the day on downside touch through OR low minus 1 tick.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=1,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_touch__buffer_2",
+            description="Invalidate the day on downside touch through OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_1m__buffer_0",
+            description="Invalidate on first 1m close below OR low.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_1m",
+            opposite_breakout_buffer_ticks=0,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_1m__buffer_1",
+            description="Invalidate on first 1m close below OR low minus 1 tick.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_1m",
+            opposite_breakout_buffer_ticks=1,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_1m__buffer_2",
+            description="Invalidate on first 1m close below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_1m",
+            opposite_breakout_buffer_ticks=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_n_closes_1m__buffer_0__confirm_2",
+            description="Invalidate after 2 consecutive 1m closes below OR low.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="n_closes_1m",
+            opposite_breakout_buffer_ticks=0,
+            opposite_breakout_confirm_bars=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_n_closes_1m__buffer_1__confirm_2",
+            description="Invalidate after 2 consecutive 1m closes below OR low minus 1 tick.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="n_closes_1m",
+            opposite_breakout_buffer_ticks=1,
+            opposite_breakout_confirm_bars=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_n_closes_1m__buffer_2__confirm_2",
+            description="Invalidate after 2 consecutive 1m closes below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="n_closes_1m",
+            opposite_breakout_buffer_ticks=2,
+            opposite_breakout_confirm_bars=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_n_closes_1m__buffer_2__confirm_3",
+            description="Invalidate after 3 consecutive 1m closes below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="n_closes_1m",
+            opposite_breakout_buffer_ticks=2,
+            opposite_breakout_confirm_bars=3,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_5m__buffer_0",
+            description="Invalidate on first completed 5m close below OR low.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_5m",
+            opposite_breakout_buffer_ticks=0,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_5m__buffer_1",
+            description="Invalidate on first completed 5m close below OR low minus 1 tick.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_5m",
+            opposite_breakout_buffer_ticks=1,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_5m__buffer_2",
+            description="Invalidate on first completed 5m close below OR low minus 2 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_5m",
+            opposite_breakout_buffer_ticks=2,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="invalidate_on_opposite_close_5m__buffer_4",
+            description="Invalidate on first completed 5m close below OR low minus 4 ticks.",
+            policy_family="invalidate_for_day",
+            opposite_confirmation="close_5m",
+            opposite_breakout_buffer_ticks=4,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="allow_reclaim_after_opposite_breakout_conservative__buffer_0__require_vwap_false",
+            description="Allow a later long after OR low reclaim without VWAP reclaim.",
+            policy_family="reclaim_conservative",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=0,
+            require_reclaim_vwap=False,
+            require_reclaim_or_low_close=True,
+            reclaim_confirm_bars=1,
+            strategy_tag=FAILED_BREAKDOWN_RECLAIM_TAG,
+        ),
+        OppositeBreakoutInvalidationSpec(
+            name="allow_reclaim_after_opposite_breakout_conservative__buffer_0__require_vwap_true",
+            description="Allow a later long after OR low reclaim and VWAP reclaim.",
+            policy_family="reclaim_conservative",
+            opposite_confirmation="touch",
+            opposite_breakout_buffer_ticks=0,
+            require_reclaim_vwap=True,
+            require_reclaim_or_low_close=True,
+            reclaim_confirm_bars=1,
+            strategy_tag=FAILED_BREAKDOWN_RECLAIM_TAG,
+        ),
+    ]
+
+
+def select_policy_grid(config: CampaignConfig) -> list[OppositeBreakoutInvalidationSpec]:
+    """Resolve the final config grid after CLI filters."""
+    if config.prod_mnq_only:
+        specs = build_prod_mnq_policy_grid()
+    elif config.fast:
+        specs = build_fast_policy_grid()
+    else:
+        specs = build_policy_grid(smoke=config.smoke)
+
+    if config.config_filter:
+        needle = str(config.config_filter).strip().lower()
+        specs = [spec for spec in specs if needle in spec.name.lower()]
+    if config.max_configs is not None:
+        specs = specs[: max(0, int(config.max_configs))]
+    return specs
+
+
 def _make_output_dir(output_root: Path) -> Path:
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     path = output_root / f"orb_opposite_breakout_invalidation_{timestamp}"
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+
+def _resolve_output_dir(output_root: Path, resume: bool) -> Path:
+    if resume and output_root.exists():
+        candidates = sorted(
+            [
+                path
+                for path in output_root.glob("orb_opposite_breakout_invalidation_*")
+                if path.is_dir()
+            ]
+        )
+        if candidates:
+            return candidates[-1]
+    return _make_output_dir(output_root)
+
+
+def _build_campaign_paths(config: CampaignConfig) -> CampaignPaths:
+    output_dir = _resolve_output_dir(Path(config.output_root), resume=bool(config.resume))
+    cache_dir = Path(config.cache_root)
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    return CampaignPaths(
+        output_dir=output_dir,
+        cache_dir=cache_dir,
+        checkpoint_results_by_symbol=output_dir / "checkpoint_results_by_symbol.csv",
+        checkpoint_results_by_config=output_dir / "checkpoint_results_by_config.csv",
+        checkpoint_trades_by_config=output_dir / "checkpoint_trades_by_config.csv",
+        checkpoint_session_summary=output_dir / "checkpoint_session_summary.csv",
+        checkpoint_daily_returns=output_dir / "checkpoint_daily_returns.csv",
+        runtime_profile_csv=output_dir / "runtime_profile.csv",
+        runtime_profile_md=output_dir / "runtime_profile.md",
+    )
+
+
+def _configure_logging() -> None:
+    if logging.getLogger().handlers:
+        return
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+
+
+def _cache_file_stem(symbol: str, suffix: str, smoke: bool = False, namespace: str = "default") -> str:
+    prefix = f"{symbol.upper()}_smoke" if smoke else symbol.upper()
+    if namespace and namespace != "default":
+        prefix = f"{prefix}_{namespace}"
+    return f"{prefix}_{suffix}"
+
+
+def _cache_frame_paths(
+    cache_dir: Path,
+    symbol: str,
+    suffix: str,
+    smoke: bool = False,
+    namespace: str = "default",
+) -> tuple[Path, Path]:
+    stem = _cache_file_stem(symbol, suffix, smoke=smoke, namespace=namespace)
+    return cache_dir / f"{stem}.parquet", cache_dir / f"{stem}.csv"
+
+
+def _write_dataframe_with_fallback(df: pd.DataFrame, parquet_path: Path, csv_path: Path) -> Path:
+    try:
+        df.to_parquet(parquet_path, index=False)
+        if csv_path.exists():
+            csv_path.unlink()
+        return parquet_path
+    except Exception:
+        df.to_csv(csv_path, index=False)
+        return csv_path
+
+
+def _read_dataframe_with_fallback(parquet_path: Path, csv_path: Path) -> pd.DataFrame:
+    if parquet_path.exists():
+        try:
+            return pd.read_parquet(parquet_path)
+        except Exception:
+            pass
+    if csv_path.exists():
+        return pd.read_csv(csv_path)
+    raise FileNotFoundError(f"Missing cache files: {parquet_path} / {csv_path}")
+
+
+def _read_optional_csv(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    return pd.read_csv(path)
+
+
+def _dedupe_rows(df: pd.DataFrame, subset: list[str]) -> pd.DataFrame:
+    if df.empty:
+        return df
+    keep_subset = [column for column in subset if column in df.columns]
+    if not keep_subset:
+        return df
+    return df.drop_duplicates(subset=keep_subset, keep="last").reset_index(drop=True)
 
 
 def _serialize(value: object) -> object:
@@ -263,6 +665,19 @@ def _serialize(value: object) -> object:
     if isinstance(value, (list, tuple)):
         return [_serialize(item) for item in value]
     return value
+
+
+def _as_timestamp(value: object) -> pd.Timestamp | pd.NaT:
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return pd.NaT
+    timestamp = pd.Timestamp(value)
+    return timestamp if not pd.isna(timestamp) else pd.NaT
+
+
+def _event_column(prefix: str, buffer_ticks: int, confirm_bars: int | None = None) -> str:
+    if confirm_bars is None:
+        return f"{prefix}__buffer_{int(buffer_ticks)}"
+    return f"{prefix}__buffer_{int(buffer_ticks)}__confirm_{int(confirm_bars)}"
 
 
 def detect_opening_range(df_1m: pd.DataFrame, config: CampaignConfig) -> pd.DataFrame:
@@ -381,35 +796,334 @@ def _build_strategy(config: CampaignConfig, tick_size: float) -> ORBStrategy:
     )
 
 
+def _post_or_view(session_df: pd.DataFrame) -> pd.DataFrame:
+    return session_df.loc[session_df["eligible_post_or"]].sort_values("timestamp").copy()
+
+
+def _build_session_event_features(
+    symbol: str,
+    candidate_signal_df: pd.DataFrame,
+    config: CampaignConfig,
+    tick_size: float,
+) -> pd.DataFrame:
+    rows: list[dict[str, Any]] = []
+    touch_buffers = sorted(set(FULL_TOUCH_BUFFERS) | set(FULL_RECLAIM_BUFFERS) | set(FULL_STRICT_BUFFERS))
+    close_buffers = FULL_CLOSE_BUFFERS
+    nclose_buffers = FULL_NCLOSE_BUFFERS
+    nclose_confirms = FULL_NCLOSE_CONFIRMS
+    close5_buffers = FULL_CLOSE5_BUFFERS
+    strict_confirms = FULL_STRICT_CONFIRMS
+
+    for session_date, session_df in candidate_signal_df.groupby("session_date", sort=True):
+        session_df = session_df.sort_values("timestamp")
+        post = _post_or_view(session_df)
+        or_high = session_df["or_high"].dropna()
+        or_low = session_df["or_low"].dropna()
+        baseline_candidates = session_df.loc[(session_df["raw_signal"] == 1) & (session_df["filter_pass"])].copy()
+        row: dict[str, Any] = {
+            "symbol": symbol,
+            "session_date": pd.Timestamp(session_date),
+            "or_high": float(or_high.iloc[0]) if not or_high.empty else np.nan,
+            "or_low": float(or_low.iloc[0]) if not or_low.empty else np.nan,
+            "or_built_at": _find_first_true(session_df["eligible_post_or"], session_df["timestamp"]),
+            "baseline_candidate_idx": int(baseline_candidates.index[0]) if not baseline_candidates.empty else pd.NA,
+            "baseline_candidate_ts": baseline_candidates["timestamp"].iloc[0] if not baseline_candidates.empty else pd.NaT,
+            "baseline_raw_signal_count": int((session_df["raw_signal"] == 1).sum()),
+            "baseline_filtered_signal_count": int(len(baseline_candidates)),
+        }
+        if post.empty or or_high.empty or or_low.empty:
+            row.update(
+                {
+                    "first_breakout_direction": "no_opening_range",
+                    "first_breakout_at": pd.NaT,
+                    "first_breakout_price": np.nan,
+                    "first_upside_touch_at": pd.NaT,
+                }
+            )
+            rows.append(row)
+            continue
+
+        session_or_high = float(or_high.iloc[0])
+        session_or_low = float(or_low.iloc[0])
+        long_trigger = session_or_high + float(config.entry_buffer_ticks) * float(tick_size)
+        row["first_upside_touch_at"] = _find_first_true(post["high"] >= long_trigger, post["timestamp"])
+
+        first_downside_buffer0 = pd.NaT
+        for buffer_ticks in touch_buffers:
+            threshold = session_or_low - float(buffer_ticks) * float(tick_size)
+            ts = _find_first_true(post["low"] <= threshold, post["timestamp"])
+            row[_event_column("first_downside_touch_at", buffer_ticks)] = ts
+            if buffer_ticks == 0:
+                first_downside_buffer0 = ts
+
+        for buffer_ticks in close_buffers:
+            threshold = session_or_low - float(buffer_ticks) * float(tick_size)
+            row[_event_column("first_downside_close_1m_at", buffer_ticks)] = _find_first_true(
+                post["close"] <= threshold,
+                post["timestamp"],
+            )
+
+        for buffer_ticks in nclose_buffers:
+            threshold = session_or_low - float(buffer_ticks) * float(tick_size)
+            below = (post["close"] <= threshold).astype(int)
+            streak = below.groupby((below == 0).cumsum()).cumsum()
+            for confirm_bars in nclose_confirms:
+                row[_event_column("first_downside_n_closes_1m_at", buffer_ticks, confirm_bars)] = _find_first_true(
+                    streak >= int(confirm_bars),
+                    post["timestamp"],
+                )
+
+        completed_close = _completed_5m_close_map(post)
+        for buffer_ticks in close5_buffers:
+            threshold = session_or_low - float(buffer_ticks) * float(tick_size)
+            row[_event_column("first_downside_close_5m_at", buffer_ticks)] = _find_first_true(
+                completed_close <= threshold,
+                post["timestamp"],
+            )
+
+        upside_ts = _as_timestamp(row["first_upside_touch_at"])
+        downside_ts = _as_timestamp(first_downside_buffer0)
+        if pd.isna(upside_ts) and pd.isna(downside_ts):
+            row["first_breakout_direction"] = "no_breakout"
+            row["first_breakout_at"] = pd.NaT
+            row["first_breakout_price"] = np.nan
+        elif pd.notna(downside_ts) and (pd.isna(upside_ts) or downside_ts <= upside_ts):
+            row["first_breakout_direction"] = "first_breakout_downside"
+            row["first_breakout_at"] = downside_ts
+            row["first_breakout_price"] = session_or_low
+        else:
+            row["first_breakout_direction"] = "first_breakout_upside"
+            row["first_breakout_at"] = upside_ts
+            row["first_breakout_price"] = long_trigger
+
+        vwap_col = config.vwap_column if config.vwap_column in post.columns else "session_vwap"
+        for buffer_ticks in FULL_RECLAIM_BUFFERS:
+            downside_break_ts = _as_timestamp(row[_event_column("first_downside_touch_at", buffer_ticks)])
+            if pd.isna(downside_break_ts):
+                row[_event_column("reclaim_or_low_close_at", buffer_ticks)] = pd.NaT
+                row[_event_column("reclaim_vwap_at", buffer_ticks)] = pd.NaT
+                continue
+            after_downside = post.loc[post["timestamp"] > downside_break_ts]
+            reclaim_or_low_ts = _find_first_true(after_downside["close"] >= session_or_low, after_downside["timestamp"])
+            row[_event_column("reclaim_or_low_close_at", buffer_ticks)] = reclaim_or_low_ts
+            if pd.isna(reclaim_or_low_ts):
+                row[_event_column("reclaim_vwap_at", buffer_ticks)] = pd.NaT
+                continue
+            after_reclaim = after_downside.loc[after_downside["timestamp"] > reclaim_or_low_ts]
+            row[_event_column("reclaim_vwap_at", buffer_ticks)] = _find_first_true(
+                after_reclaim["close"] > after_reclaim[vwap_col],
+                after_reclaim["timestamp"],
+            )
+
+        for buffer_ticks in FULL_STRICT_BUFFERS:
+            downside_break_ts = _as_timestamp(row[_event_column("first_downside_touch_at", buffer_ticks)])
+            for confirm_bars in strict_confirms:
+                inside_column = _event_column("strict_reclaim_inside_at", buffer_ticks, confirm_bars)
+                vwap_column = _event_column("strict_reclaim_vwap_at", buffer_ticks, confirm_bars)
+                if pd.isna(downside_break_ts):
+                    row[inside_column] = pd.NaT
+                    row[vwap_column] = pd.NaT
+                    continue
+                after_downside = post.loc[post["timestamp"] > downside_break_ts]
+                inside_mask = (after_downside["close"] >= session_or_low) & (after_downside["close"] <= session_or_high)
+                inside_streak = inside_mask.astype(int).groupby((inside_mask == 0).cumsum()).cumsum()
+                inside_ts = _find_first_true(inside_streak >= int(confirm_bars), after_downside["timestamp"])
+                row[inside_column] = inside_ts
+                if pd.isna(inside_ts):
+                    row[vwap_column] = pd.NaT
+                    continue
+                after_inside = after_downside.loc[after_downside["timestamp"] > inside_ts]
+                row[vwap_column] = _find_first_true(
+                    after_inside["close"] > after_inside[vwap_col],
+                    after_inside["timestamp"],
+                )
+        rows.append(row)
+
+    return pd.DataFrame(rows)
+
+
+def _build_baseline_signal_df(candidate_signal_df: pd.DataFrame, session_event_features: pd.DataFrame) -> pd.DataFrame:
+    out = candidate_signal_df.copy()
+    out["signal"] = 0
+    selected = session_event_features["baseline_candidate_idx"].dropna().astype(int).tolist()
+    if selected:
+        out.loc[selected, "signal"] = 1
+    return out
+
+
+def _load_selected_sessions(selection_path: Path | None) -> tuple[set[object], str | None]:
+    if selection_path is None:
+        return set(), None
+    path = Path(selection_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Session selection file not found: {path}")
+    controls = pd.read_csv(path)
+    if "session_date" not in controls.columns:
+        raise ValueError(f"Session selection file must contain session_date: {path}")
+    selected_mask = pd.Series(True, index=controls.index, dtype=bool)
+    if "selected" in controls.columns:
+        selected_mask &= controls["selected"].fillna(False).astype(bool)
+    if "selected_by_baseline_atr" in controls.columns:
+        selected_mask &= controls["selected_by_baseline_atr"].fillna(False).astype(bool)
+    if "skip_trade" in controls.columns:
+        selected_mask &= ~controls["skip_trade"].fillna(False).astype(bool)
+    selected_dates = set(pd.to_datetime(controls.loc[selected_mask, "session_date"]).dt.date.tolist())
+    return selected_dates, str(path)
+
+
 def _prepare_asset_data(symbol: str, config: CampaignConfig) -> PreparedAssetData:
     if config.dataset_paths and symbol in config.dataset_paths:
         dataset_path = Path(config.dataset_paths[symbol])
     else:
         dataset_path = resolve_processed_dataset(symbol, processed_dir=config.processed_dir, timeframe="1m")
+    instrument_spec = get_instrument_spec(symbol)
+    tick_size = float(instrument_spec["tick_size"])
+    cache_dir = Path(config.cache_root)
+    base_parquet, base_csv = _cache_frame_paths(
+        cache_dir,
+        symbol,
+        "base_bars",
+        smoke=config.smoke,
+        namespace=config.cache_namespace,
+    )
+    event_parquet, event_csv = _cache_frame_paths(
+        cache_dir,
+        symbol,
+        "session_event_features",
+        smoke=config.smoke,
+        namespace=config.cache_namespace,
+    )
 
-    raw = clean_ohlcv(load_ohlcv_file(dataset_path))
+    start_load = time.perf_counter()
+    use_cache = bool(config.use_cache and not config.refresh_cache)
+    feat_full: pd.DataFrame
+    event_full: pd.DataFrame | None = None
+    if use_cache and (base_parquet.exists() or base_csv.exists()):
+        LOGGER.info("[%s] loading precomputed session features...", symbol)
+        feat_full = _read_dataframe_with_fallback(base_parquet, base_csv)
+        if event_parquet.exists() or event_csv.exists():
+            event_full = _read_dataframe_with_fallback(event_parquet, event_csv)
+    else:
+        raw = clean_ohlcv(load_ohlcv_file(dataset_path)).reset_index(drop=True)
+        feat_full = detect_opening_range(raw, config)
+        feat_full = add_session_vwap(feat_full)
+        feat_full = add_continuous_session_vwap(feat_full, session_start_hour=18)
+
     if config.start_date:
-        raw = raw.loc[raw["timestamp"] >= pd.Timestamp(config.start_date, tz="America/New_York")]
+        feat_full = feat_full.loc[feat_full["timestamp"] >= pd.Timestamp(config.start_date, tz="America/New_York")]
     if config.end_date:
-        raw = raw.loc[raw["timestamp"] <= pd.Timestamp(config.end_date, tz="America/New_York") + pd.Timedelta(days=1)]
-    raw = raw.reset_index(drop=True)
-    if raw.empty:
+        feat_full = feat_full.loc[
+            feat_full["timestamp"] <= pd.Timestamp(config.end_date, tz="America/New_York") + pd.Timedelta(days=1)
+        ]
+    if feat_full.empty:
         raise ValueError(f"No rows left for {symbol} after date filtering.")
-
-    feat = detect_opening_range(raw, config)
-    feat = add_session_vwap(feat)
-    feat = add_continuous_session_vwap(feat, session_start_hour=18)
 
     if config.smoke:
         keep_sessions = (
-            pd.Index(pd.to_datetime(feat["session_date"])).sort_values().unique()[-int(config.smoke_max_sessions) :]
+            pd.Index(pd.to_datetime(feat_full["session_date"])).sort_values().unique()[-int(config.smoke_max_sessions) :]
         )
-        feat = feat.loc[pd.to_datetime(feat["session_date"]).isin(keep_sessions)].copy()
+        feat_full = feat_full.loc[pd.to_datetime(feat_full["session_date"]).isin(keep_sessions)].copy()
 
-    instrument_spec = get_instrument_spec(symbol)
-    strategy = _build_strategy(config, tick_size=float(instrument_spec["tick_size"]))
+    selected_sessions, selection_label = _load_selected_sessions(config.session_selection_path)
+    if selected_sessions:
+        feat_full = feat_full.loc[pd.to_datetime(feat_full["session_date"]).dt.date.isin(selected_sessions)].copy()
+        LOGGER.info("[%s] applying session selection from %s (%s sessions)", symbol, selection_label, len(selected_sessions))
+
+    feat = feat_full.copy()
+    strategy = _build_strategy(config, tick_size=tick_size)
     candidate_signal_df = strategy.generate_signals(feat)
     candidate_signal_df["signal"] = 0
+
+    if event_full is None:
+        event_full = _build_session_event_features(symbol, candidate_signal_df, config, tick_size)
+        if config.use_cache:
+            _write_dataframe_with_fallback(feat.copy(), base_parquet, base_csv)
+            _write_dataframe_with_fallback(event_full.copy(), event_parquet, event_csv)
+    elif "session_date" in event_full.columns:
+        event_full["session_date"] = pd.to_datetime(event_full["session_date"])
+
+    session_dates = pd.Index(pd.to_datetime(candidate_signal_df["session_date"])).sort_values().unique().tolist()
+    session_event_features = event_full.loc[pd.to_datetime(event_full["session_date"]).isin(session_dates)].copy()
+    session_event_features = session_event_features.sort_values("session_date").reset_index(drop=True)
+
+    baseline_signal_df = _build_baseline_signal_df(candidate_signal_df, session_event_features)
+    baseline_trades = _run_backtest_for_symbol(baseline_signal_df, config=config, instrument_spec=instrument_spec)
+    if not baseline_trades.empty:
+        baseline_trades = baseline_trades.copy()
+        baseline_trades["symbol"] = symbol
+        baseline_trades["config_name"] = "baseline_no_opposite_invalidation"
+        baseline_trades["policy_family"] = "baseline"
+        baseline_trades["strategy_tag"] = BASELINE_TAG
+
+    baseline_summary = session_event_features.loc[
+        :,
+        [
+            "session_date",
+            "symbol",
+            "baseline_candidate_ts",
+            "first_breakout_direction",
+            "first_upside_touch_at",
+            _event_column("first_downside_touch_at", 0),
+        ],
+    ].copy()
+    baseline_summary = baseline_summary.rename(
+        columns={
+            "baseline_candidate_ts": "selected_signal_ts",
+            "first_breakout_direction": "first_breakout_side",
+            "first_upside_touch_at": "first_upside_touch_ts",
+            _event_column("first_downside_touch_at", 0): "first_downside_break_ts",
+        }
+    )
+    baseline_summary["session_date"] = pd.to_datetime(baseline_summary["session_date"]).dt.date
+    baseline_summary["policy_name"] = "baseline_no_opposite_invalidation"
+    baseline_summary["strategy_tag"] = BASELINE_TAG
+    baseline_summary["invalidated_for_day"] = False
+    baseline_summary["invalidated_at"] = pd.NaT
+    baseline_summary["reclaim_or_low_ts"] = pd.NaT
+    baseline_summary["reclaim_vwap_ts"] = pd.NaT
+    baseline_summary["selected_signal_type"] = np.where(
+        baseline_summary["selected_signal_ts"].notna(),
+        "baseline",
+        "none",
+    )
+    baseline_summary["trade_taken"] = baseline_summary["selected_signal_ts"].notna()
+    baseline_summary["is_reclaim_trade"] = False
+
+    baseline_trades = baseline_trades.merge(
+        baseline_summary[
+            [
+                "session_date",
+                "first_breakout_side",
+                "invalidated_for_day",
+                "invalidated_at",
+                "selected_signal_type",
+                "is_reclaim_trade",
+            ]
+        ],
+        on="session_date",
+        how="left",
+    ) if not baseline_trades.empty else baseline_trades
+
+    baseline_daily = _daily_pnl(baseline_trades, session_dates).rename("daily_pnl").reset_index()
+    baseline_daily = baseline_daily.rename(columns={"index": "session_date"})
+    baseline_daily["session_date"] = pd.to_datetime(baseline_daily["session_date"])
+    baseline_daily["symbol"] = symbol
+    baseline_daily["config_name"] = "baseline_no_opposite_invalidation"
+
+    baseline_metrics = _metrics_row(
+        trades=baseline_trades,
+        signal_df=baseline_signal_df,
+        session_summary=baseline_summary,
+        session_dates=session_dates,
+        config=config,
+        symbol=symbol,
+        spec=OppositeBreakoutInvalidationSpec(
+            name="baseline_no_opposite_invalidation",
+            description="Current behavior: downside break before long does not invalidate the day.",
+            policy_family="baseline",
+            opposite_confirmation="none",
+        ),
+    )
 
     session_dates = sorted(pd.to_datetime(candidate_signal_df["session_date"]).unique().tolist())
     return PreparedAssetData(
@@ -419,6 +1133,15 @@ def _prepare_asset_data(symbol: str, config: CampaignConfig) -> PreparedAssetDat
         feature_df=feat,
         candidate_signal_df=candidate_signal_df,
         session_dates=session_dates,
+        session_event_features=session_event_features,
+        baseline_result={
+            "metrics": baseline_metrics,
+            "trades": baseline_trades,
+            "session_summary": baseline_summary,
+            "daily": baseline_daily,
+            "signal_df": baseline_signal_df,
+            "prepare_elapsed_seconds": time.perf_counter() - start_load,
+        },
     )
 
 
@@ -661,8 +1384,14 @@ def _run_backtest_for_symbol(
     instrument_spec: dict[str, Any],
 ) -> pd.DataFrame:
     execution_model = ExecutionModel(
-        commission_per_side_usd=float(instrument_spec["commission_per_side_usd"]),
-        slippage_ticks=float(instrument_spec["slippage_ticks"]),
+        commission_per_side_usd=float(
+            instrument_spec["commission_per_side_usd"]
+            if config.commission_per_side_usd_override is None
+            else config.commission_per_side_usd_override
+        ),
+        slippage_ticks=float(
+            instrument_spec["slippage_ticks"] if config.slippage_ticks_override is None else config.slippage_ticks_override
+        ),
         tick_size=float(instrument_spec["tick_size"]),
     )
     return run_backtest(
@@ -783,40 +1512,258 @@ def _metrics_row(
     }
 
 
+def _downside_event_from_features(row: pd.Series, spec: OppositeBreakoutInvalidationSpec) -> pd.Timestamp | pd.NaT:
+    if spec.opposite_confirmation == "none":
+        return pd.NaT
+    if spec.opposite_confirmation == "touch":
+        return _as_timestamp(row.get(_event_column("first_downside_touch_at", spec.opposite_breakout_buffer_ticks)))
+    if spec.opposite_confirmation == "close_1m":
+        return _as_timestamp(row.get(_event_column("first_downside_close_1m_at", spec.opposite_breakout_buffer_ticks)))
+    if spec.opposite_confirmation == "n_closes_1m":
+        return _as_timestamp(
+            row.get(
+                _event_column(
+                    "first_downside_n_closes_1m_at",
+                    spec.opposite_breakout_buffer_ticks,
+                    spec.opposite_breakout_confirm_bars,
+                )
+            )
+        )
+    if spec.opposite_confirmation == "close_5m":
+        return _as_timestamp(row.get(_event_column("first_downside_close_5m_at", spec.opposite_breakout_buffer_ticks)))
+    raise ValueError(f"Unsupported opposite confirmation mode '{spec.opposite_confirmation}'.")
+
+
+def _session_summary_from_features(
+    prepared: PreparedAssetData,
+    spec: OppositeBreakoutInvalidationSpec,
+) -> pd.DataFrame:
+    session_rows: list[dict[str, Any]] = []
+    for _, feature_row in prepared.session_event_features.iterrows():
+        upside_touch_ts = _as_timestamp(feature_row.get("first_upside_touch_at"))
+        downside_break_ts = _downside_event_from_features(feature_row, spec)
+        if pd.notna(downside_break_ts) and (pd.isna(upside_touch_ts) or downside_break_ts <= upside_touch_ts):
+            first_breakout_side = "first_breakout_downside"
+        elif pd.notna(upside_touch_ts):
+            first_breakout_side = "first_breakout_upside"
+        else:
+            first_breakout_side = "no_breakout"
+
+        baseline_candidate_ts = _as_timestamp(feature_row.get("baseline_candidate_ts"))
+        selected_signal_ts = pd.NaT
+        selected_signal_type = "none"
+        invalidated_for_day = False
+        invalidated_at = pd.NaT
+        reclaim_or_low_ts = pd.NaT
+        reclaim_vwap_ts = pd.NaT
+        is_reclaim_trade = False
+
+        if spec.policy_family == "baseline":
+            selected_signal_ts = baseline_candidate_ts
+            selected_signal_type = "baseline" if pd.notna(selected_signal_ts) else "none"
+        elif spec.policy_family == "invalidate_for_day":
+            if pd.notna(downside_break_ts):
+                invalidated_for_day = True
+                invalidated_at = downside_break_ts
+            if pd.notna(baseline_candidate_ts) and (pd.isna(downside_break_ts) or baseline_candidate_ts < downside_break_ts):
+                selected_signal_ts = baseline_candidate_ts
+                selected_signal_type = "pre_invalidation_long"
+        elif spec.policy_family == "reclaim_conservative":
+            if pd.isna(downside_break_ts):
+                selected_signal_ts = baseline_candidate_ts
+                selected_signal_type = "baseline_no_downside_break" if pd.notna(selected_signal_ts) else "none"
+            elif pd.notna(baseline_candidate_ts) and baseline_candidate_ts < downside_break_ts:
+                selected_signal_ts = baseline_candidate_ts
+                selected_signal_type = "upside_before_downside"
+            else:
+                reclaim_or_low_ts = _as_timestamp(
+                    feature_row.get(_event_column("reclaim_or_low_close_at", spec.opposite_breakout_buffer_ticks))
+                )
+                if spec.require_reclaim_vwap:
+                    reclaim_vwap_ts = _as_timestamp(
+                        feature_row.get(_event_column("reclaim_vwap_at", spec.opposite_breakout_buffer_ticks))
+                    )
+                else:
+                    reclaim_vwap_ts = reclaim_or_low_ts
+                if pd.notna(reclaim_vwap_ts) and pd.notna(baseline_candidate_ts) and baseline_candidate_ts > reclaim_vwap_ts:
+                    selected_signal_ts = baseline_candidate_ts
+                    selected_signal_type = "reclaim_long"
+                    is_reclaim_trade = True
+        elif spec.policy_family == "reclaim_strict":
+            if pd.isna(downside_break_ts):
+                selected_signal_ts = baseline_candidate_ts
+                selected_signal_type = "baseline_no_downside_break" if pd.notna(selected_signal_ts) else "none"
+            elif pd.notna(baseline_candidate_ts) and baseline_candidate_ts < downside_break_ts:
+                selected_signal_ts = baseline_candidate_ts
+                selected_signal_type = "upside_before_downside"
+            else:
+                reclaim_or_low_ts = _as_timestamp(
+                    feature_row.get(
+                        _event_column(
+                            "strict_reclaim_inside_at",
+                            spec.opposite_breakout_buffer_ticks,
+                            spec.reclaim_confirm_bars,
+                        )
+                    )
+                )
+                reclaim_vwap_ts = _as_timestamp(
+                    feature_row.get(
+                        _event_column(
+                            "strict_reclaim_vwap_at",
+                            spec.opposite_breakout_buffer_ticks,
+                            spec.reclaim_confirm_bars,
+                        )
+                    )
+                )
+                if pd.notna(reclaim_vwap_ts) and pd.notna(baseline_candidate_ts) and baseline_candidate_ts > reclaim_vwap_ts:
+                    selected_signal_ts = baseline_candidate_ts
+                    selected_signal_type = "reclaim_long"
+                    is_reclaim_trade = True
+        else:
+            raise ValueError(f"Unsupported policy family '{spec.policy_family}'.")
+
+        session_rows.append(
+            {
+                "session_date": pd.Timestamp(feature_row["session_date"]).date(),
+                "policy_name": spec.name,
+                "strategy_tag": spec.strategy_tag,
+                "symbol": prepared.symbol,
+                "config_name": spec.name,
+                "first_breakout_side": first_breakout_side,
+                "first_upside_touch_ts": upside_touch_ts,
+                "first_downside_break_ts": downside_break_ts,
+                "invalidated_for_day": bool(invalidated_for_day),
+                "invalidated_at": invalidated_at,
+                "reclaim_or_low_ts": reclaim_or_low_ts,
+                "reclaim_vwap_ts": reclaim_vwap_ts,
+                "selected_signal_ts": selected_signal_ts,
+                "selected_signal_type": selected_signal_type,
+                "trade_taken": pd.notna(selected_signal_ts),
+                "is_reclaim_trade": bool(is_reclaim_trade),
+            }
+        )
+    return pd.DataFrame(session_rows)
+
+
+def _signal_frame_from_session_summary(prepared: PreparedAssetData, session_summary: pd.DataFrame) -> pd.DataFrame:
+    out = prepared.candidate_signal_df.copy()
+    out["signal"] = 0
+    out["invalidated_for_day"] = False
+    out["is_reclaim_trade"] = False
+    out["reclaim_ready"] = False
+    out["policy_blocked_candidate"] = False
+    summary_index = session_summary.copy()
+    summary_index["session_date"] = pd.to_datetime(summary_index["session_date"]).dt.date
+    summary_index = summary_index.set_index("session_date")
+    for session_date, session_df in out.groupby("session_date", sort=True):
+        session_key = pd.Timestamp(session_date).date()
+        if session_key not in summary_index.index:
+            continue
+        summary_row = summary_index.loc[session_key]
+        selected_ts = _as_timestamp(summary_row["selected_signal_ts"])
+        invalidated_at = _as_timestamp(summary_row["invalidated_at"])
+        reclaim_or_low_ts = _as_timestamp(summary_row["reclaim_or_low_ts"])
+        passing = session_df.loc[(session_df["raw_signal"] == 1) & (session_df["filter_pass"])].copy()
+        if pd.notna(selected_ts):
+            selected_idx = passing.index[passing["timestamp"] == selected_ts]
+            if len(selected_idx) > 0:
+                out.loc[int(selected_idx[0]), "signal"] = 1
+                out.loc[int(selected_idx[0]), "is_reclaim_trade"] = bool(summary_row["is_reclaim_trade"])
+        if pd.notna(reclaim_or_low_ts):
+            out.loc[session_df.index[session_df["timestamp"] >= reclaim_or_low_ts], "reclaim_ready"] = True
+        if pd.notna(invalidated_at):
+            out.loc[session_df.index[session_df["timestamp"] >= invalidated_at], "invalidated_for_day"] = True
+        blocked = passing.copy()
+        if pd.notna(selected_ts):
+            blocked = blocked.loc[blocked["timestamp"] != selected_ts]
+        if pd.notna(invalidated_at):
+            blocked = blocked.loc[blocked["timestamp"] >= invalidated_at]
+        if pd.notna(reclaim_or_low_ts) and bool(summary_row["is_reclaim_trade"]):
+            blocked = passing.loc[passing["timestamp"] <= _as_timestamp(summary_row["reclaim_vwap_ts"])]
+        if not blocked.empty:
+            out.loc[blocked.index, "policy_blocked_candidate"] = True
+    return out
+
+
 def run_single_asset_config(
     prepared: PreparedAssetData,
     spec: OppositeBreakoutInvalidationSpec,
     config: CampaignConfig,
 ) -> dict[str, pd.DataFrame | dict[str, Any]]:
     """Run one asset / one policy pair."""
-    tick_size = float(prepared.instrument_spec["tick_size"])
-    filtered_signal_df, session_summary = apply_opposite_invalidation_filter(
-        candidate_signal_df=prepared.candidate_signal_df,
-        spec=spec,
-        config=config,
-        tick_size=tick_size,
-    )
-    trades = _run_backtest_for_symbol(filtered_signal_df, config=config, instrument_spec=prepared.instrument_spec)
-    if not trades.empty:
-        trades = trades.copy()
-        trades["symbol"] = prepared.symbol
-        trades["config_name"] = spec.name
-        trades["policy_family"] = spec.policy_family
-        trades["strategy_tag"] = spec.strategy_tag
-        trades = trades.merge(
-            session_summary[
-                [
-                    "session_date",
-                    "first_breakout_side",
-                    "invalidated_for_day",
-                    "invalidated_at",
-                    "selected_signal_type",
-                    "is_reclaim_trade",
+    if spec.name == "baseline_no_opposite_invalidation":
+        baseline = prepared.baseline_result
+        baseline_summary = pd.DataFrame(baseline["session_summary"]).copy()
+        baseline_summary["config_name"] = spec.name
+        return {
+            "metrics": dict(baseline["metrics"]),
+            "trades": pd.DataFrame(baseline["trades"]).copy(),
+            "session_summary": baseline_summary,
+            "daily": pd.DataFrame(baseline["daily"]).copy(),
+            "signal_df": pd.DataFrame(baseline["signal_df"]).copy(),
+        }
+
+    session_summary = _session_summary_from_features(prepared, spec)
+    filtered_signal_df = _signal_frame_from_session_summary(prepared, session_summary)
+
+    if spec.policy_family == "invalidate_for_day":
+        baseline_trades = pd.DataFrame(prepared.baseline_result["trades"]).copy()
+        allowed_sessions = session_summary.loc[session_summary["selected_signal_ts"].notna(), "session_date"]
+        allowed_index = pd.Index(pd.to_datetime(allowed_sessions))
+        trades = baseline_trades.loc[pd.to_datetime(baseline_trades["session_date"]).isin(allowed_index)].copy()
+        if not trades.empty:
+            trades["config_name"] = spec.name
+            trades["policy_family"] = spec.policy_family
+            trades["strategy_tag"] = spec.strategy_tag
+            trades = trades.drop(
+                columns=[
+                    column
+                    for column in [
+                        "first_breakout_side",
+                        "invalidated_for_day",
+                        "invalidated_at",
+                        "selected_signal_type",
+                        "is_reclaim_trade",
+                    ]
+                    if column in trades.columns
                 ]
-            ],
-            on="session_date",
-            how="left",
-        )
+            )
+            trades = trades.merge(
+                session_summary[
+                    [
+                        "session_date",
+                        "first_breakout_side",
+                        "invalidated_for_day",
+                        "invalidated_at",
+                        "selected_signal_type",
+                        "is_reclaim_trade",
+                    ]
+                ],
+                on="session_date",
+                how="left",
+            )
+    else:
+        trades = _run_backtest_for_symbol(filtered_signal_df, config=config, instrument_spec=prepared.instrument_spec)
+        if not trades.empty:
+            trades = trades.copy()
+            trades["symbol"] = prepared.symbol
+            trades["config_name"] = spec.name
+            trades["policy_family"] = spec.policy_family
+            trades["strategy_tag"] = spec.strategy_tag
+            trades = trades.merge(
+                session_summary[
+                    [
+                        "session_date",
+                        "first_breakout_side",
+                        "invalidated_for_day",
+                        "invalidated_at",
+                        "selected_signal_type",
+                        "is_reclaim_trade",
+                    ]
+                ],
+                on="session_date",
+                how="left",
+            )
     metrics_row = _metrics_row(
         trades=trades,
         signal_df=filtered_signal_df,
@@ -826,9 +1773,6 @@ def run_single_asset_config(
         symbol=prepared.symbol,
         spec=spec,
     )
-    session_summary = session_summary.copy()
-    session_summary["symbol"] = prepared.symbol
-    session_summary["config_name"] = spec.name
     signal_daily = _daily_pnl(trades, prepared.session_dates).rename("daily_pnl").reset_index()
     signal_daily = signal_daily.rename(columns={"index": "session_date"})
     signal_daily["session_date"] = pd.to_datetime(signal_daily["session_date"])
@@ -1136,6 +2080,63 @@ def build_summary_tables(campaign_result: dict[str, Any]) -> dict[str, pd.DataFr
     }
 
 
+def _write_checkpoint_state(
+    paths: CampaignPaths,
+    *,
+    results_by_symbol: pd.DataFrame,
+    results_by_config: pd.DataFrame,
+    trades_by_config: pd.DataFrame,
+    session_summary: pd.DataFrame,
+    daily_returns_by_config: pd.DataFrame,
+    runtime_profile: pd.DataFrame | None = None,
+) -> None:
+    results_by_symbol.to_csv(paths.checkpoint_results_by_symbol, index=False)
+    results_by_config.to_csv(paths.checkpoint_results_by_config, index=False)
+    trades_by_config.to_csv(paths.checkpoint_trades_by_config, index=False)
+    session_summary.to_csv(paths.checkpoint_session_summary, index=False)
+    daily_returns_by_config.to_csv(paths.checkpoint_daily_returns, index=False)
+    if runtime_profile is not None:
+        runtime_profile.to_csv(paths.runtime_profile_csv, index=False)
+
+
+def _load_checkpoint_state(paths: CampaignPaths) -> dict[str, pd.DataFrame]:
+    state = {
+        "results_by_symbol": _read_optional_csv(paths.checkpoint_results_by_symbol),
+        "results_by_config": _read_optional_csv(paths.checkpoint_results_by_config),
+        "trades_by_config": _read_optional_csv(paths.checkpoint_trades_by_config),
+        "session_summary": _read_optional_csv(paths.checkpoint_session_summary),
+        "daily_returns_by_config": _read_optional_csv(paths.checkpoint_daily_returns),
+        "runtime_profile": _read_optional_csv(paths.runtime_profile_csv),
+    }
+    for key in ("trades_by_config", "session_summary", "daily_returns_by_config"):
+        if "session_date" in state[key].columns:
+            state[key]["session_date"] = pd.to_datetime(state[key]["session_date"])
+    return state
+
+
+def _runtime_profile_frame(profiler: RuntimeProfiler) -> pd.DataFrame:
+    return pd.DataFrame(profiler.rows) if profiler.rows else pd.DataFrame(columns=["phase", "symbol", "config_name", "detail", "seconds"])
+
+
+def _write_runtime_profile_markdown(path: Path, runtime_profile: pd.DataFrame) -> None:
+    if runtime_profile.empty:
+        path.write_text("# Runtime profile\n\nNo profiling data collected.\n", encoding="utf-8")
+        return
+    totals = runtime_profile.groupby("phase", dropna=False)["seconds"].sum().sort_values(ascending=False)
+    top_configs = (
+        runtime_profile.dropna(subset=["config_name"])
+        .groupby(["symbol", "config_name"], dropna=False)["seconds"]
+        .sum()
+        .sort_values(ascending=False)
+        .head(10)
+    )
+    lines = ["# Runtime profile", "", "## Phase totals", ""]
+    lines.extend([f"- {phase}: {seconds:.3f}s" for phase, seconds in totals.items()])
+    lines.extend(["", "## Slowest symbol/config pairs", ""])
+    lines.extend([f"- {symbol} / {config_name}: {seconds:.3f}s" for (symbol, config_name), seconds in top_configs.items()])
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+
+
 def _yaml_policy_snippet(row: pd.Series) -> str:
     if str(row["strategy_tag"]) == FAILED_BREAKDOWN_RECLAIM_TAG:
         return (
@@ -1174,6 +2175,11 @@ def write_markdown_report(
         (ranking["policy_family"] == "invalidate_for_day")
         & (ranking["config_name"] != "baseline_no_opposite_invalidation")
     ].head(1)
+    run_status = str(campaign_result.get("run_status", "completed"))
+    configs_completed = int(campaign_result.get("configs_completed", len(campaign_result.get("config_grid", []))))
+    configs_total = int(campaign_result.get("configs_total", len(campaign_result.get("config_grid", []))))
+    limitations = campaign_result.get("limitations", [])
+    checkpoint_paths = campaign_result.get("checkpoint_paths", {})
 
     verdict = "inconclusive"
     if best_row is not None:
@@ -1237,6 +2243,8 @@ def write_markdown_report(
         f"- Symbols tested: `{', '.join(campaign_result['config'].symbols)}`",
         f"- Period requested: `{campaign_result['config'].start_date}` -> `{campaign_result['config'].end_date}`",
         f"- Policies tested: {len(campaign_result['config_grid'])}",
+        f"- Run status: `{run_status}`",
+        f"- Configs completed: {configs_completed}/{configs_total}",
         f"- Verdict: **{verdict}**",
         "",
         "## 2. Verdict clair",
@@ -1300,8 +2308,17 @@ def write_markdown_report(
             "```yaml",
             reclaim_yaml.rstrip(),
             "```",
+            "",
+            "## 11. Run traceability",
+            "",
+            f"- Checkpoint results by symbol: `{checkpoint_paths.get('results_by_symbol', 'n/a')}`",
+            f"- Checkpoint results by config: `{checkpoint_paths.get('results_by_config', 'n/a')}`",
+            f"- Checkpoint trades by config: `{checkpoint_paths.get('trades_by_config', 'n/a')}`",
         ]
     )
+    if limitations:
+        lines.extend(["", "## 12. Limitations", ""])
+        lines.extend([f"- {item}" for item in limitations])
     report_path = output_dir / "final_report.md"
     report_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
     return report_path
@@ -1309,80 +2326,224 @@ def write_markdown_report(
 
 def run_campaign(config: CampaignConfig) -> dict[str, Any]:
     """Execute the full campaign and export all required artifacts."""
-    output_dir = _make_output_dir(Path(config.output_root))
-    policy_grid = build_policy_grid(smoke=config.smoke)
+    _configure_logging()
+    started_at = time.perf_counter()
+    profiler = RuntimeProfiler(enabled=bool(config.profile), rows=[])
+    paths = _build_campaign_paths(config)
+    policy_grid = select_policy_grid(config)
+    config_grid_df = pd.DataFrame([asdict(spec) for spec in policy_grid])
+
+    if not policy_grid:
+        raise ValueError("No campaign configs selected after applying filters.")
+
+    checkpoint_state = _load_checkpoint_state(paths) if config.resume else {
+        "results_by_symbol": pd.DataFrame(),
+        "results_by_config": pd.DataFrame(),
+        "trades_by_config": pd.DataFrame(),
+        "session_summary": pd.DataFrame(),
+        "daily_returns_by_config": pd.DataFrame(),
+        "runtime_profile": pd.DataFrame(),
+    }
+    if config.resume and not checkpoint_state["runtime_profile"].empty:
+        profiler.rows.extend(checkpoint_state["runtime_profile"].to_dict(orient="records"))
+
+    prepare_start = time.perf_counter()
     prepared_assets = [_prepare_asset_data(symbol, config) for symbol in config.symbols]
+    profiler.record(phase="preprocessing/session_features", seconds=time.perf_counter() - prepare_start, detail="all_symbols")
 
-    metrics_rows: list[dict[str, Any]] = []
-    trades_frames: list[pd.DataFrame] = []
-    daily_frames: list[pd.DataFrame] = []
-    session_frames: list[pd.DataFrame] = []
+    results_by_symbol = checkpoint_state["results_by_symbol"].copy()
+    trades_by_config = checkpoint_state["trades_by_config"].copy()
+    daily_returns_by_config = checkpoint_state["daily_returns_by_config"].copy()
+    session_summary = checkpoint_state["session_summary"].copy()
 
-    for spec in policy_grid:
-        for prepared in prepared_assets:
-            result = run_single_asset_config(prepared=prepared, spec=spec, config=config)
-            metrics_rows.append(result["metrics"])
-            trades_frames.append(result["trades"])
-            daily_frames.append(result["daily"])
-            session_frames.append(result["session_summary"])
+    completed_pairs: set[tuple[str, str]] = set()
+    if not results_by_symbol.empty and {"symbol", "config_name"}.issubset(results_by_symbol.columns):
+        completed_pairs = set(results_by_symbol[["symbol", "config_name"]].itertuples(index=False, name=None))
 
-    results_by_symbol = pd.DataFrame(metrics_rows)
-    trades_by_config = pd.concat(trades_frames, ignore_index=True) if trades_frames else pd.DataFrame()
-    daily_returns_by_config = pd.concat(daily_frames, ignore_index=True) if daily_frames else pd.DataFrame()
-    session_summary = pd.concat(session_frames, ignore_index=True) if session_frames else pd.DataFrame()
-    invalidated_days = session_summary.loc[session_summary["invalidated_for_day"]].copy()
-    results_by_year = _results_by_year(trades_by_config, session_summary, config)
+    total_pairs = len(policy_grid) * len(prepared_assets)
+    completed_before = len(completed_pairs)
+    completed_now = completed_before
+    limitations: list[str] = []
+    try:
+        for symbol_index, prepared in enumerate(prepared_assets, start=1):
+            LOGGER.info("[%s] preparing %s/%s from %s", prepared.symbol, symbol_index, len(prepared_assets), prepared.dataset_path)
+            for config_index, spec in enumerate(policy_grid, start=1):
+                pair = (prepared.symbol, spec.name)
+                if config.resume and pair in completed_pairs:
+                    LOGGER.info("[%s] %s/%s %s skipped via resume", prepared.symbol, config_index, len(policy_grid), spec.name)
+                    continue
+
+                pair_start = time.perf_counter()
+                result = run_single_asset_config(prepared=prepared, spec=spec, config=config)
+                elapsed = time.perf_counter() - pair_start
+                profiler.record(
+                    phase="backtest/evaluation",
+                    seconds=elapsed,
+                    symbol=prepared.symbol,
+                    config_name=spec.name,
+                )
+
+                metrics_row = pd.DataFrame([result["metrics"]])
+                result_trades = pd.DataFrame(result["trades"]).copy()
+                result_daily = pd.DataFrame(result["daily"]).copy()
+                result_session_summary = pd.DataFrame(result["session_summary"]).copy()
+
+                results_by_symbol = pd.concat([results_by_symbol, metrics_row], ignore_index=True)
+                results_by_symbol = _dedupe_rows(results_by_symbol, ["symbol", "config_name"])
+                trades_by_config = pd.concat([trades_by_config, result_trades], ignore_index=True)
+                trades_by_config = _dedupe_rows(trades_by_config, ["symbol", "config_name", "session_date", "entry_time"])
+                daily_returns_by_config = pd.concat([daily_returns_by_config, result_daily], ignore_index=True)
+                daily_returns_by_config = _dedupe_rows(daily_returns_by_config, ["symbol", "config_name", "session_date"])
+                session_summary = pd.concat([session_summary, result_session_summary], ignore_index=True)
+                session_summary = _dedupe_rows(session_summary, ["symbol", "config_name", "session_date"])
+
+                results_by_config = _aggregate_config_results(results_by_symbol, trades_by_config, session_summary, config)
+                runtime_profile = _runtime_profile_frame(profiler)
+
+                write_start = time.perf_counter()
+                _write_checkpoint_state(
+                    paths,
+                    results_by_symbol=results_by_symbol,
+                    results_by_config=results_by_config,
+                    trades_by_config=trades_by_config,
+                    session_summary=session_summary,
+                    daily_returns_by_config=daily_returns_by_config,
+                    runtime_profile=runtime_profile,
+                )
+                write_elapsed = time.perf_counter() - write_start
+                profiler.record(
+                    phase="writing_exports",
+                    seconds=write_elapsed,
+                    symbol=prepared.symbol,
+                    config_name=spec.name,
+                    detail="checkpoint",
+                )
+
+                completed_now += 1
+                remaining = max(total_pairs - completed_now, 0)
+                avg_seconds = (time.perf_counter() - started_at) / max(completed_now - completed_before, 1)
+                eta_seconds = remaining * avg_seconds
+                LOGGER.info(
+                    "[%s] %s/%s %s done in %.2fs | ETA %.1fs | export %s",
+                    prepared.symbol,
+                    config_index,
+                    len(policy_grid),
+                    spec.name,
+                    elapsed,
+                    eta_seconds,
+                    paths.output_dir,
+                )
+    except KeyboardInterrupt:
+        limitations.append("Run interrupted before all symbol/config pairs completed.")
+
+    results_by_symbol = _dedupe_rows(results_by_symbol, ["symbol", "config_name"])
+    trades_by_config = _dedupe_rows(trades_by_config, ["symbol", "config_name", "session_date", "entry_time"])
+    daily_returns_by_config = _dedupe_rows(daily_returns_by_config, ["symbol", "config_name", "session_date"])
+    session_summary = _dedupe_rows(session_summary, ["symbol", "config_name", "session_date"])
+
     results_by_config = _aggregate_config_results(results_by_symbol, trades_by_config, session_summary, config)
+    invalidated_days = session_summary.loc[session_summary["invalidated_for_day"]].copy() if not session_summary.empty else pd.DataFrame()
+    results_by_year = _results_by_year(trades_by_config, session_summary, config)
     ranking_robust = results_by_config.sort_values(
         ["robust_score", "oos_2024_2026_Sharpe", "oos_2024_2026_net_pnl"],
         ascending=[False, False, False],
-    ).reset_index(drop=True)
+    ).reset_index(drop=True) if not results_by_config.empty else pd.DataFrame()
     baseline_decomposition = _baseline_trade_decomposition(trades_by_config, session_summary)
     opposite_breakout_trade_decomposition = _trade_decomposition(trades_by_config)
+    runtime_profile = _runtime_profile_frame(profiler)
+    _write_runtime_profile_markdown(paths.runtime_profile_md, runtime_profile)
 
     tables = {
-        "config_grid": pd.DataFrame([asdict(spec) for spec in policy_grid]),
+        "config_grid": config_grid_df,
         "results_by_symbol": results_by_symbol,
         "results_by_config": results_by_config,
         "results_by_year": results_by_year,
         "baseline_decomposition": baseline_decomposition,
         "opposite_breakout_trade_decomposition": opposite_breakout_trade_decomposition,
-        "daily_returns_by_config": daily_returns_by_config,
-        "trades_by_config": trades_by_config,
+        "daily_returns_by_config": daily_returns_by_config if config.write_daily_returns else pd.DataFrame(),
+        "trades_by_config": trades_by_config if config.write_trades_detail else pd.DataFrame(),
         "invalidated_days": invalidated_days,
         "ranking_robust": ranking_robust,
+        "runtime_profile": runtime_profile,
     }
 
     for name, df in tables.items():
-        df.to_csv(output_dir / f"{name}.csv", index=False)
+        df.to_csv(paths.output_dir / f"{name}.csv", index=False)
 
     best_config_summary = ranking_robust.iloc[0].to_dict() if not ranking_robust.empty else {}
-    best_config_path = output_dir / "best_config_summary.json"
+    best_config_path = paths.output_dir / "best_config_summary.json"
     best_config_path.write_text(json.dumps(_serialize(best_config_summary), indent=2), encoding="utf-8")
+
+    configs_completed = int(results_by_symbol["config_name"].nunique()) if not results_by_symbol.empty else 0
+    configs_total = int(len(policy_grid))
+    run_status = "completed"
+    if configs_completed < configs_total or len(results_by_symbol) < total_pairs:
+        run_status = "partial"
+        if completed_now < total_pairs:
+            limitations.append("Not all symbol/config pairs completed; resume from checkpoints to finish the run.")
+    if config.max_configs is not None:
+        run_status = "partial"
+        limitations.append(f"Run limited to the first {config.max_configs} configs by --max-configs.")
 
     metadata = {
         "run_timestamp": datetime.now().isoformat(),
         "config": _serialize(asdict(config)),
         "datasets": {prepared.symbol: str(prepared.dataset_path) for prepared in prepared_assets},
-        "export_dir": str(output_dir),
+        "export_dir": str(paths.output_dir),
         "policy_count": len(policy_grid),
+        "run_status": run_status,
+        "runtime_seconds": time.perf_counter() - started_at,
     }
-    metadata_path = output_dir / "run_metadata.json"
+    metadata_path = paths.output_dir / "run_metadata.json"
     metadata_path.write_text(json.dumps(_serialize(metadata), indent=2), encoding="utf-8")
 
     campaign_result = {
         **tables,
-        "output_dir": output_dir,
+        "output_dir": paths.output_dir,
         "config": config,
         "best_config_summary": best_config_summary,
+        "run_status": run_status,
+        "configs_completed": configs_completed,
+        "configs_total": configs_total,
+        "limitations": limitations,
+        "checkpoint_paths": {
+            "results_by_symbol": str(paths.checkpoint_results_by_symbol),
+            "results_by_config": str(paths.checkpoint_results_by_config),
+            "trades_by_config": str(paths.checkpoint_trades_by_config),
+        },
     }
-    report_path = write_markdown_report(output_dir, campaign_result)
+    report_path = write_markdown_report(paths.output_dir, campaign_result)
 
     return {
         **campaign_result,
         "best_config_summary_path": best_config_path,
         "run_metadata_path": metadata_path,
         "final_report_path": report_path,
+        "runtime_profile_path": paths.runtime_profile_csv,
+    }
+
+
+def _prod_mnq_defaults() -> dict[str, Any]:
+    controls_path = DEFAULT_MNQ_PROD_SELECTION_ROOT / "variants" / "baseline_fixed_nominal_atr" / "controls.csv"
+    return {
+        "symbols": ("MNQ",),
+        "or_minutes": 30,
+        "opening_time": "09:30:00",
+        "direction": "long",
+        "entry_buffer_ticks": 2,
+        "stop_buffer_ticks": 2,
+        "target_multiple": 2.0,
+        "vwap_confirmation": True,
+        "vwap_column": "continuous_session_vwap",
+        "time_exit": "16:00:00",
+        "account_size_usd": 50_000.0,
+        "risk_per_trade_pct": 1.5,
+        "entry_on_next_open": True,
+        "commission_per_side_usd_override": 0.62,
+        "slippage_ticks_override": 1.0,
+        "session_selection_path": controls_path if controls_path.exists() else None,
+        "session_selection_label": "baseline_fixed_nominal_atr controls" if controls_path.exists() else None,
+        "cache_namespace": "mnq_prod",
     }
 
 
@@ -1393,6 +2554,17 @@ def main() -> None:
     parser.add_argument("--start-date", type=str, default="2018-01-01")
     parser.add_argument("--end-date", type=str, default="2026-12-31")
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--fast", action="store_true")
+    parser.add_argument("--max-configs", type=int, default=None)
+    parser.add_argument("--config-filter", type=str, default=None)
+    parser.add_argument("--refresh-cache", action="store_true")
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--profile", action="store_true")
+    parser.add_argument("--cache-root", type=Path, default=DEFAULT_CACHE_ROOT)
+    parser.add_argument("--use-cache", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--write-trades-detail", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--write-daily-returns", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--prod-mnq-only", action="store_true")
     args = parser.parse_args()
 
     config = CampaignConfig(
@@ -1401,7 +2573,20 @@ def main() -> None:
         end_date=str(args.end_date) if args.end_date else None,
         output_root=Path(args.output_root),
         smoke=bool(args.smoke),
+        fast=bool(args.fast),
+        max_configs=int(args.max_configs) if args.max_configs is not None else None,
+        config_filter=str(args.config_filter) if args.config_filter else None,
+        refresh_cache=bool(args.refresh_cache),
+        resume=bool(args.resume),
+        profile=bool(args.profile),
+        cache_root=Path(args.cache_root),
+        use_cache=bool(args.use_cache),
+        write_trades_detail=bool(args.write_trades_detail),
+        write_daily_returns=bool(args.write_daily_returns),
+        prod_mnq_only=bool(args.prod_mnq_only),
     )
+    if args.prod_mnq_only:
+        config = CampaignConfig(**{**asdict(config), **_prod_mnq_defaults(), "prod_mnq_only": True})
     result = run_campaign(config)
     print(f"export_dir: {result['output_dir']}")
     print(f"final_report: {result['final_report_path']}")
