@@ -1,0 +1,16 @@
+variant_name,period_type,period_label,period_start,period_end,period_value
+median_fast15_slow_60_70_80,day,2021-05-17,2021-05-17,2021-05-17,-750.0
+median_fast15_slow_60_70_80,week,2024-06-24,2024-06-24,2024-06-28,-1704.5
+median_fast15_slow_60_70_80,month,2024-02,2024-02-01,2024-02-29,-2760.5
+median_fast15_slow_60_70_80,rolling_20d_maxdd,20d,2023-06-22,2023-07-19,-4702.5
+median_fast15_slow_60_70_80,rolling_60d_maxdd,60d,2023-01-31,2023-04-26,-6219.5
+median_plateau_compact,day,2021-05-17,2021-05-17,2021-05-17,-750.0
+median_plateau_compact,week,2024-01-22,2024-01-22,2024-01-26,-1871.5
+median_plateau_compact,month,2023-03,2023-03-01,2023-03-31,-2812.0
+median_plateau_compact,rolling_20d_maxdd,20d,2023-06-22,2023-07-19,-4440.0
+median_plateau_compact,rolling_60d_maxdd,60d,2023-01-10,2023-04-04,-6484.5
+single_15_60,day,2021-05-17,2021-05-17,2021-05-17,-750.0
+single_15_60,week,2024-06-24,2024-06-24,2024-06-28,-1704.5
+single_15_60,month,2023-03,2023-03-01,2023-03-31,-2916.0
+single_15_60,rolling_20d_maxdd,20d,2023-06-22,2023-07-19,-4056.5
+single_15_60,rolling_60d_maxdd,60d,2023-01-10,2023-04-04,-7010.5

@@ -1,0 +1,12 @@
+{
+  "run_timestamp": "2026-05-31T19:58:31.757822",
+  "variant_export_root": "export\\mnq_orb_3state_vol_sizing_variant_smoke_20260531_173822",
+  "target_variants": [
+    "single_15_60",
+    "median_fast15_slow_60_70_80",
+    "median_plateau_compact"
+  ],
+  "baseline_variant": "single_15_60",
+  "performance_variant": "median_plateau_compact",
+  "final_recommendation": "Stay with single_15_60."
+}

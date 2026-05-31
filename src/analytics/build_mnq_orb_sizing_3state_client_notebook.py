@@ -70,7 +70,12 @@ from plotly.subplots import make_subplots
 
 from src.analytics.metrics import compute_metrics
 from src.analytics.mnq_orb_prop_survivability_campaign import _rebuild_daily_results_from_trades
-from src.analytics.mnq_orb_regime_filter_sizing_campaign import _scale_nominal_trades_by_multiplier
+from src.analytics.mnq_orb_regime_filter_sizing_campaign import (
+    RegimeFeatureSpec,
+    _scale_nominal_trades_by_multiplier,
+    build_conditional_bucket_analysis,
+    build_static_regime_controls,
+)
 from src.analytics.orb_opposite_breakout_invalidation_campaign import (
     CampaignConfig as OppositeInvalidationCampaignConfig,
     OppositeBreakoutInvalidationSpec,
@@ -244,6 +249,7 @@ baseline_controls["session_date"] = pd.to_datetime(baseline_controls["session_da
 variant_controls["session_date"] = pd.to_datetime(variant_controls["session_date"], errors="coerce")
 
 baseline_config = regime_metadata["spec"]["baseline"]
+min_bucket_obs_is_threshold = int(regime_metadata["spec"].get("min_bucket_obs_is", 50))
 initial_capital = float(baseline_config["account_size_usd"])
 base_risk_pct = float(baseline_config["risk_per_trade_pct"])
 dataset_path_candidate = Path(str(regime_metadata["dataset_path"]))
@@ -320,12 +326,12 @@ opposite_invalidation_config = OppositeInvalidationCampaignConfig(
     cache_namespace="mnq_orb_sizing_client_pre_sizing_invalidation",
 )
 opposite_invalidation_spec = OppositeBreakoutInvalidationSpec(
-    name="invalidate_on_opposite_nclose2__buffer_0",
-    description="Invalidate long setup after 2 consecutive 1m closes below OR low.",
+    name="invalidate_on_opposite_n_closes_1m__buffer_2__confirm_3",
+    description="Invalidate long setup after 3 consecutive 1m closes below OR low with 2 ticks buffer.",
     policy_family="invalidate_for_day",
     opposite_confirmation="n_closes_1m",
-    opposite_breakout_buffer_ticks=0,
-    opposite_breakout_confirm_bars=2,
+    opposite_breakout_buffer_ticks=2,
+    opposite_breakout_confirm_bars=3,
 )
 opposite_prepared = prepare_opposite_invalidation_asset("MNQ", opposite_invalidation_config)
 opposite_result = run_single_asset_config(opposite_prepared, opposite_invalidation_spec, opposite_invalidation_config)
@@ -402,7 +408,7 @@ comparison_df = pd.DataFrame(
             "oos_n_trades": int(baseline_scope_df.loc[baseline_scope_df["scope"] == "oos", "n_trades"].iloc[0]),
         },
         {
-            "variant": "pre_sizing_invalidation_2closes",
+            "variant": "pre_sizing_invalidation_best_campaign",
             "overall_net_pnl": float(invalidation_scope_df.loc[invalidation_scope_df["scope"] == "overall", "net_pnl"].iloc[0]),
             "overall_sharpe": float(invalidation_scope_df.loc[invalidation_scope_df["scope"] == "overall", "sharpe"].iloc[0]),
             "overall_profit_factor": float(invalidation_scope_df.loc[invalidation_scope_df["scope"] == "overall", "profit_factor"].iloc[0]),
@@ -426,7 +432,7 @@ comparison_df = pd.DataFrame(
             "oos_n_trades": int(sizing_only_scope_df.loc[sizing_only_scope_df["scope"] == "oos", "n_trades"].iloc[0]),
         },
         {
-            "variant": "invalidation_plus_sizing_high_0p25",
+            "variant": "best_campaign_invalidation_plus_sizing_high_0p25",
             "overall_net_pnl": float(final_scope_df.loc[final_scope_df["scope"] == "overall", "net_pnl"].iloc[0]),
             "overall_sharpe": float(final_scope_df.loc[final_scope_df["scope"] == "overall", "sharpe"].iloc[0]),
             "overall_profit_factor": float(final_scope_df.loc[final_scope_df["scope"] == "overall", "profit_factor"].iloc[0]),
@@ -454,7 +460,7 @@ invalidation_blocked_sessions = int(opposite_session_summary["invalidated_for_da
 display(Markdown(f"**OOS start date:** `{oos_start_date.date()}`"))
 display(Markdown(f"**Feature retenu pour l'overlay:** `{selected_feature['feature_name']}`"))
 display(Markdown(f"**Choix high bucket retenu par la campagne de stress:** `{HIGH_BUCKET_MULTIPLIER:.2f}x`"))
-display(Markdown(f"**Pre-sizing invalidation retenue pour test:** `2 closes 1m sous OR low` | sessions invalidées `{invalidation_blocked_sessions}` | longs retirés `{invalidation_removed_long_trades}`"))
+display(Markdown(f"**Pre-sizing invalidation retenue pour test:** `3 closes 1m sous OR low avec buffer 2 ticks` | source `{opposite_invalidation_spec.name}` | sessions invalidées `{invalidation_blocked_sessions}` | longs retirés `{invalidation_removed_long_trades}`"))
 """
     )
 
@@ -467,7 +473,7 @@ Ce notebook raconte la version retenue du `3-state sizing` en lecture client:
 
 - le `mid` reste le moteur principal du PnL,
 - le `high` est conserve mais **fortement coupe** a `0.25x`,
-- on ajoute aussi le test **pre-sizing**: annuler le setup long apres `2` closes 1m sous `OR low`,
+- on ajoute aussi le test **pre-sizing**: annuler le setup long apres `3` closes 1m sous `OR low` avec `2 ticks` de buffer,
 - la calibration regime garde un cadre simple a relire et a expliquer.
 """
     )
@@ -476,15 +482,15 @@ Ce notebook raconte la version retenue du `3-state sizing` en lecture client:
 def _quick_read_cell() -> nbf.NotebookNode:
     return nbf.v4.new_code_cell(
         """nominal_oos = comparison_df.loc[comparison_df["variant"] == "nominal"].iloc[0]
-invalidation_oos = comparison_df.loc[comparison_df["variant"] == "pre_sizing_invalidation_2closes"].iloc[0]
+invalidation_oos = comparison_df.loc[comparison_df["variant"] == "pre_sizing_invalidation_best_campaign"].iloc[0]
 sizing_only_oos = comparison_df.loc[comparison_df["variant"] == "sizing_3state_retained_high_0p25"].iloc[0]
-retained_oos = comparison_df.loc[comparison_df["variant"] == "invalidation_plus_sizing_high_0p25"].iloc[0]
+retained_oos = comparison_df.loc[comparison_df["variant"] == "best_campaign_invalidation_plus_sizing_high_0p25"].iloc[0]
 
 quick_lines = [
     "### Synthese executive",
-    f"- Le filtre pre-sizing `2 closes sous OR low` retire **{invalidation_removed_long_trades}** longs et amene un Sharpe OOS de **{invalidation_oos['oos_sharpe']:.3f}**.",
+    f"- Le filtre pre-sizing `3 closes sous OR low avec buffer 2 ticks` retire **{invalidation_removed_long_trades}** longs et amene un Sharpe OOS de **{invalidation_oos['oos_sharpe']:.3f}**.",
     f"- Le `3-state` seul (`high=0.25`) monte le Sharpe OOS a **{sizing_only_oos['oos_sharpe']:.3f}**.",
-    f"- La version finale chainee `invalidation + sizing` garde **{retained_oos['oos_net_pnl_retention_vs_nominal'] * 100.0:.1f}%** du net PnL OOS du nominal.",
+    f"- La version finale chainee `best invalidation de campagne + sizing` garde **{retained_oos['oos_net_pnl_retention_vs_nominal'] * 100.0:.1f}%** du net PnL OOS du nominal.",
     f"- Le max drawdown OOS passe de **{fmt_money(nominal_oos['oos_max_drawdown'])}** a **{fmt_money(retained_oos['oos_max_drawdown'])}** sur la version finale.",
     f"- La campagne de stress classe `high=0.25` **rang #{int(chosen_stress_row['rank'])}** avec Sharpe OOS **{chosen_stress_row['oos_annualized_sharpe']:.3f}** et maxDD **{fmt_money(chosen_stress_row['oos_max_drawdown_usd'])}**.",
 ]
@@ -646,16 +652,268 @@ fig_bucket.show()
     )
 
 
+def _stability_markdown() -> nbf.NotebookNode:
+    return nbf.v4.new_markdown_cell(
+        """## 4. Stabilité Large du Couple `vol_fast x vol_slow`
+
+Cette section repond directement a la question:
+
+- est-ce que `15/60` est un point isole,
+- ou bien est-ce qu'il vit dans une vraie zone stable,
+- et que racontent les couples voisins en IS puis en OOS.
+
+Lecture:
+
+- axe `x` = fenetre **slow**
+- axe `y` = fenetre **fast**
+- la case `15/60` est marquee explicitement
+- on regarde a la fois le **score IS de selection** et le **Sharpe OOS** de l'overlay retenu
+"""
+    )
+
+
+def _stability_cell() -> nbf.NotebookNode:
+    return nbf.v4.new_code_cell(
+"""stability_fast_windows = list(range(5, 31))
+stability_slow_windows = list(range(30, 121, 5))
+stability_all_windows = sorted(set(stability_fast_windows + stability_slow_windows))
+
+minute_df = pd.read_parquet(dataset_path_candidate).copy()
+if "timestamp" not in minute_df.columns:
+    if getattr(minute_df.index, "name", None) == "timestamp":
+        minute_df = minute_df.reset_index()
+    else:
+        minute_df = minute_df.reset_index().rename(columns={minute_df.reset_index().columns[0]: "timestamp"})
+minute_df["timestamp"] = pd.to_datetime(minute_df["timestamp"], errors="coerce", utc=True)
+minute_df["close"] = pd.to_numeric(minute_df["close"], errors="coerce")
+minute_df = minute_df.dropna(subset=["timestamp", "close"]).sort_values("timestamp").reset_index(drop=True)
+close_returns = minute_df["close"].pct_change()
+
+for window in stability_all_windows:
+    minute_df[f"vol_std_{window}"] = close_returns.rolling(window).std()
+
+phase_map = variant_controls[["session_date", "phase"]].copy()
+phase_map["session_date"] = pd.to_datetime(phase_map["session_date"], errors="coerce").dt.date
+
+signal_rows = baseline_trades.copy()
+signal_rows["session_date"] = pd.to_datetime(signal_rows["session_date"], errors="coerce").dt.date
+signal_rows["entry_time"] = pd.to_datetime(signal_rows["entry_time"], errors="coerce", utc=True)
+signal_rows = signal_rows.loc[signal_rows["session_date"].isin(set(phase_map["session_date"]))].copy()
+signal_rows = signal_rows.sort_values(["session_date", "entry_time"]).drop_duplicates(subset=["session_date"], keep="first").reset_index(drop=True)
+signal_rows["signal_timestamp"] = signal_rows["entry_time"] - pd.Timedelta(minutes=1)
+signal_rows = signal_rows.merge(phase_map, on="session_date", how="left", validate="one_to_one")
+
+feature_cols = [f"vol_std_{window}" for window in stability_all_windows]
+signal_feature_rows = pd.merge_asof(
+    signal_rows.sort_values("signal_timestamp"),
+    minute_df[["timestamp", *feature_cols]].sort_values("timestamp"),
+    left_on="signal_timestamp",
+    right_on="timestamp",
+    direction="backward",
+    tolerance=pd.Timedelta(minutes=2),
+)
+signal_feature_rows["match_gap_seconds"] = (
+    signal_feature_rows["signal_timestamp"] - signal_feature_rows["timestamp"]
+).dt.total_seconds()
+
+match_rate = float(signal_feature_rows["timestamp"].notna().mean()) if len(signal_feature_rows) else 0.0
+display(Markdown(f"### Couverture des lignes signal pour la heatmap large\\n- Match signal bar: **{match_rate * 100.0:.1f}%**"))
+
+bucket_multiplier_map_retained = {
+    "low": LOW_BUCKET_MULTIPLIER,
+    "mid": MID_BUCKET_MULTIPLIER,
+    "high": HIGH_BUCKET_MULTIPLIER,
+}
+
+stability_rows = []
+for fast_window in stability_fast_windows:
+    for slow_window in stability_slow_windows:
+        if fast_window >= slow_window:
+            continue
+
+        feature_name = f"realized_vol_ratio_{fast_window}_{slow_window}"
+        regime_probe = signal_feature_rows[["session_date", "phase"]].copy()
+        regime_probe[feature_name] = (
+            pd.to_numeric(signal_feature_rows[f"vol_std_{fast_window}"], errors="coerce")
+            / pd.to_numeric(signal_feature_rows[f"vol_std_{slow_window}"], errors="coerce")
+        )
+
+        conditional_probe, feature_score_probe, assignments_probe, _ = build_conditional_bucket_analysis(
+            regime_df=regime_probe,
+            nominal_trades=baseline_trades,
+            initial_capital=initial_capital,
+            feature_specs=(
+                RegimeFeatureSpec(
+                    name=feature_name,
+                    family="volatility",
+                    description=f"Realized volatility ratio using rolling close-return stdev {fast_window} vs {slow_window} bars.",
+                    value_column=feature_name,
+                ),
+            ),
+            min_bucket_obs_is=min_bucket_obs_is_threshold,
+        )
+        if feature_score_probe.empty or feature_name not in assignments_probe:
+            continue
+
+        controls_probe = build_static_regime_controls(
+            regime_df=regime_probe,
+            feature_name=feature_name,
+            bucket_labels=assignments_probe[feature_name],
+            bucket_multipliers=bucket_multiplier_map_retained,
+        )
+        scaled_probe = _scale_nominal_trades_by_multiplier(
+            nominal_trades=baseline_trades,
+            controls=controls_probe,
+            account_size_usd=initial_capital,
+            base_risk_pct=base_risk_pct,
+            tick_value_usd=0.5,
+            point_value_usd=2.0,
+            commission_per_side_usd=1.25,
+        )
+        scaled_probe["session_date"] = pd.to_datetime(scaled_probe["session_date"], errors="coerce")
+        scaled_probe["entry_time"] = pd.to_datetime(scaled_probe["entry_time"], errors="coerce", utc=True)
+        scaled_probe["exit_time"] = pd.to_datetime(scaled_probe["exit_time"], errors="coerce", utc=True)
+        scaled_scope = build_scope_frame(scaled_probe, all_sessions, is_sessions, oos_sessions, initial_capital)
+        oos_probe = scaled_scope.loc[scaled_scope["scope"] == "oos"].iloc[0]
+
+        selected_probe = feature_score_probe.iloc[0]
+        stability_rows.append(
+            {
+                "fast_window": int(fast_window),
+                "slow_window": int(slow_window),
+                "feature_name": feature_name,
+                "feature_selection_score": float(selected_probe["feature_selection_score"]),
+                "is_score_spread": float(selected_probe["is_score_spread"]),
+                "best_bucket_is": str(selected_probe["best_bucket_is"]),
+                "worst_bucket_is": str(selected_probe["worst_bucket_is"]),
+                "valid_for_overlay": bool(selected_probe["valid_for_overlay"]),
+                "min_bucket_obs_is": int(selected_probe["min_bucket_obs_is"]),
+                "oos_sharpe_retained": float(oos_probe["sharpe"]),
+                "oos_profit_factor_retained": float(oos_probe["profit_factor"]),
+                "oos_net_pnl_retained": float(oos_probe["net_pnl"]),
+                "oos_max_drawdown_retained": float(oos_probe["max_drawdown"]),
+                "oos_trade_count_retained": int(oos_probe["n_trades"]),
+            }
+        )
+
+stability_grid = pd.DataFrame(stability_rows).sort_values(["fast_window", "slow_window"]).reset_index(drop=True)
+
+score_pivot = stability_grid.pivot(index="fast_window", columns="slow_window", values="feature_selection_score").sort_index().sort_index(axis=1)
+sharpe_pivot = stability_grid.pivot(index="fast_window", columns="slow_window", values="oos_sharpe_retained").sort_index().sort_index(axis=1)
+
+fig_stability = make_subplots(
+    rows=1,
+    cols=2,
+    subplot_titles=("Score IS de selection", "Sharpe OOS du sizing retenu"),
+    horizontal_spacing=0.10,
+)
+fig_stability.add_trace(
+    go.Heatmap(
+        z=score_pivot.values,
+        x=score_pivot.columns.tolist(),
+        y=score_pivot.index.tolist(),
+        colorscale="RdYlGn",
+        colorbar=dict(title="IS score", x=0.46),
+        hovertemplate="slow=%{x}<br>fast=%{y}<br>IS score=%{z:.3f}<extra></extra>",
+    ),
+    row=1,
+    col=1,
+)
+fig_stability.add_trace(
+    go.Heatmap(
+        z=sharpe_pivot.values,
+        x=sharpe_pivot.columns.tolist(),
+        y=sharpe_pivot.index.tolist(),
+        colorscale="RdYlGn",
+        colorbar=dict(title="OOS Sharpe", x=1.02),
+        hovertemplate="slow=%{x}<br>fast=%{y}<br>OOS Sharpe=%{z:.3f}<extra></extra>",
+    ),
+    row=1,
+    col=2,
+)
+for subplot_col in (1, 2):
+    fig_stability.add_trace(
+        go.Scatter(
+            x=[60],
+            y=[15],
+            mode="markers+text",
+            text=["15/60"],
+            textposition="middle center",
+            marker=dict(symbol="x", size=14, color="black", line=dict(width=2, color="white")),
+            showlegend=False,
+            hoverinfo="skip",
+        ),
+        row=1,
+        col=subplot_col,
+    )
+fig_stability.update_layout(
+    template=PLOT_TEMPLATE,
+    width=1350,
+    height=620,
+    title="Heatmap large vol slow x vol fast autour du ratio retenu 15/60",
+)
+fig_stability.update_xaxes(title_text="Vol slow window", row=1, col=1)
+fig_stability.update_xaxes(title_text="Vol slow window", row=1, col=2)
+fig_stability.update_yaxes(title_text="Vol fast window", row=1, col=1)
+fig_stability.update_yaxes(title_text="Vol fast window", row=1, col=2)
+fig_stability.show()
+
+local_neighborhood = (
+    stability_grid.loc[
+        stability_grid["fast_window"].between(10, 20)
+        & stability_grid["slow_window"].between(45, 75)
+    ]
+    .sort_values(["oos_sharpe_retained", "feature_selection_score"], ascending=[False, False])
+    .reset_index(drop=True)
+)
+
+anchor_row = stability_grid.loc[
+    (stability_grid["fast_window"] == 15) & (stability_grid["slow_window"] == 60)
+].iloc[0]
+
+display(Markdown("### Zoom local autour de `15/60`"))
+display(
+    local_neighborhood.loc[
+        :,
+        [
+            "fast_window",
+            "slow_window",
+            "feature_selection_score",
+            "oos_sharpe_retained",
+            "oos_net_pnl_retained",
+            "oos_max_drawdown_retained",
+            "best_bucket_is",
+            "worst_bucket_is",
+        ],
+    ].head(18).round(3)
+)
+
+display(
+    Markdown(
+        "\\n".join(
+            [
+                "### Lecture rapide de la zone `15/60`",
+                f"- Ancre `15/60`: score IS **{anchor_row['feature_selection_score']:.3f}**, Sharpe OOS **{anchor_row['oos_sharpe_retained']:.3f}**, maxDD OOS **{fmt_money(anchor_row['oos_max_drawdown_retained'])}**.",
+                f"- Mediane du voisinage local `(fast 10:20, slow 45:75)`: score IS **{local_neighborhood['feature_selection_score'].median():.3f}**, Sharpe OOS **{local_neighborhood['oos_sharpe_retained'].median():.3f}**.",
+                f"- Rang local de `15/60` sur le Sharpe OOS: **#{1 + int((local_neighborhood['oos_sharpe_retained'] > anchor_row['oos_sharpe_retained']).sum())}** sur **{len(local_neighborhood)}** couples.",
+            ]
+        )
+    )
+)
+"""
+    )
+
+
 def _performance_markdown() -> nbf.NotebookNode:
     return nbf.v4.new_markdown_cell(
-        """## 4. Performance Audit
+        """## 5. Performance Audit
 
 On compare ici quatre etages du meme moteur:
 
 - `nominal`,
-- `nominal + invalidation 2 closes sous OR low`,
+- `nominal + best invalidation de campagne`,
 - `nominal + sizing 3-state`,
-- `invalidation + sizing`.
+- `best invalidation de campagne + sizing`.
 """
     )
 
@@ -674,9 +932,9 @@ display(comparison_display)
 scope_stack = pd.concat(
     [
         compact_metric_frame(baseline_scope_df).assign(variant="nominal"),
-        compact_metric_frame(invalidation_scope_df).assign(variant="pre_sizing_invalidation_2closes"),
+        compact_metric_frame(invalidation_scope_df).assign(variant="pre_sizing_invalidation_best_campaign"),
         compact_metric_frame(sizing_only_scope_df).assign(variant="sizing_3state_retained_high_0p25"),
-        compact_metric_frame(final_scope_df).assign(variant="invalidation_plus_sizing_high_0p25"),
+        compact_metric_frame(final_scope_df).assign(variant="best_campaign_invalidation_plus_sizing_high_0p25"),
     ],
     ignore_index=True,
 )
@@ -688,7 +946,7 @@ display(scope_stack)
 
 def _equity_markdown() -> nbf.NotebookNode:
     return nbf.v4.new_markdown_cell(
-        """## 5. Courbes de Capital
+        """## 6. Courbes de Capital
 
 La lecture client doit voir:
 
@@ -711,18 +969,18 @@ def _equity_cell() -> nbf.NotebookNode:
 
 for label, curve, color in [
     ("Nominal", baseline_curve, "#2563eb"),
-    ("Invalidation 2 closes", invalidation_curve, "#d97706"),
+    ("Invalidation best campaign", invalidation_curve, "#d97706"),
     ("3-state seul", sizing_only_curve, "#7c3aed"),
-    ("Invalidation + 3-state", variant_curve, "#15803d"),
+    ("Best invalidation + 3-state", variant_curve, "#15803d"),
 ]:
     fig.add_trace(go.Scatter(x=curve["session_date"], y=curve["equity"], mode="lines", name=f"{label} full", line=dict(width=2.6, color=color)), row=1, col=1)
     fig.add_trace(go.Scatter(x=curve["session_date"], y=curve["drawdown_usd"], mode="lines", name=f"{label} full DD", showlegend=False, line=dict(width=1.8, color=color, dash="dot")), row=2, col=1)
 
 for label, curve, color in [
     ("Nominal", baseline_curve_oos, "#2563eb"),
-    ("Invalidation 2 closes", invalidation_curve_oos, "#d97706"),
+    ("Invalidation best campaign", invalidation_curve_oos, "#d97706"),
     ("3-state seul", sizing_only_curve_oos, "#7c3aed"),
-    ("Invalidation + 3-state", variant_curve_oos, "#15803d"),
+    ("Best invalidation + 3-state", variant_curve_oos, "#15803d"),
 ]:
     fig.add_trace(go.Scatter(x=curve["session_date"], y=curve["equity"], mode="lines", name=f"{label} oos", line=dict(width=2.6, color=color)), row=1, col=2)
     fig.add_trace(go.Scatter(x=curve["session_date"], y=curve["drawdown_usd"], mode="lines", name=f"{label} oos DD", showlegend=False, line=dict(width=1.8, color=color, dash="dot")), row=2, col=2)
@@ -739,7 +997,7 @@ fig.show()
 
 def _stress_markdown() -> nbf.NotebookNode:
     return nbf.v4.new_markdown_cell(
-        """## 6. Stress Test du High Bucket
+        """## 7. Stress Test du High Bucket
 
 Le `high=0.25` n'est pas arbitraire: il vient de la mini-campagne de stress sur le bucket haute vol.
 """
@@ -813,7 +1071,7 @@ fig_stress.show()
 
 def _sizing_markdown() -> nbf.NotebookNode:
     return nbf.v4.new_markdown_cell(
-        """## 7. Logique de Sizing en Pratique
+        """## 8. Logique de Sizing en Pratique
 
 Cette section montre comment l'overlay retenu se traduit trade par trade et bucket par bucket.
 """
@@ -858,7 +1116,7 @@ fig_bucket_bar.show()
 
 def _distribution_markdown() -> nbf.NotebookNode:
     return nbf.v4.new_markdown_cell(
-        """## 8. Distribution Journaliere OOS
+        """## 9. Distribution Journaliere OOS
 
 On finit avec la geometrie journaliere de la variante retenue.
 """
@@ -909,12 +1167,12 @@ display(best_worst_days)
 
 def _conclusion_markdown() -> nbf.NotebookNode:
     return nbf.v4.new_markdown_cell(
-        """## 9. Conclusion Client
+        """## 10. Conclusion Client
 
 La lecture finale doit rester simple:
 
 - le `3-state` ne change pas l'alpha,
-- l'invalidation `2 closes sous OR low` agit avant le sizing,
+- la meilleure invalidation de campagne agit avant le sizing,
 - le `mid` reste le coeur du moteur,
 - `high=0.25` est la version prudente retenue.
 """
@@ -925,12 +1183,12 @@ def _conclusion_cell() -> nbf.NotebookNode:
     return nbf.v4.new_code_cell(
         """final_lines = [
     "### Verdict simple",
-    f"- La version finale ajoute d'abord une invalidation simple du setup long: **2 closes 1m sous OR low annulent le long**.",
-    f"- Ensuite seulement vient le `3-state`, donc la sequence devient: **signal ORB -> invalidation long -> sizing regime**.",
+    f"- La version finale ajoute d'abord la meilleure invalidation de la campagne: **3 closes 1m sous OR low avec buffer 2 ticks annulent le long**.",
+    f"- Ensuite seulement vient le `3-state`, donc la sequence devient: **signal ORB -> best invalidation campaign -> sizing regime**.",
     f"- La calibration IS montre bien que `realized_vol_ratio_15_60` est le feature overlay le plus lisible et que le bucket `mid` est le vrai moteur.",
     f"- Le bucket `high` reste present mais coupe a **{HIGH_BUCKET_MULTIPLIER:.2f}x**, ce qui preserve l'exposition tactique sans laisser la haute vol dominer le drawdown.",
     f"- En OOS, la variante retenue garde **{retained_oos['oos_net_pnl_retention_vs_nominal'] * 100.0:.1f}%** du PnL du nominal avec un drawdown materially plus propre.",
-    f"- Lecture client recommandee: **version live-oriented prudente, plus defendable que l'ancien `high=0.75`, avec une hygiene supplementaire sur les longs casses sous OR avant l'overlay**.",
+    f"- Lecture client recommandee: **version live-oriented prudente, plus defendable que l'ancien `high=0.75`, avec la meilleure hygiene supplementaire identifiee par la campagne d'invalidation avant l'overlay**.",
 ]
 
 display(Markdown("\\n".join(final_lines)))
@@ -940,7 +1198,7 @@ display(Markdown("\\n".join(final_lines)))
 
 def _appendix_markdown() -> nbf.NotebookNode:
     return nbf.v4.new_markdown_cell(
-        """## 10. Appendice - Sources
+        """## 11. Appendice - Sources
 
 Le notebook reste raccorde a des exports explicites pour rester auditable.
 """
@@ -988,6 +1246,8 @@ def build_notebook(regime_export_root: Path, stress_export_root: Path) -> nbf.No
         _parameters_cell(),
         _calibration_markdown(),
         _calibration_cell(),
+        _stability_markdown(),
+        _stability_cell(),
         _performance_markdown(),
         _performance_cell(),
         _equity_markdown(),

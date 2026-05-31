@@ -945,9 +945,25 @@ def _build_session_event_features(
 def _build_baseline_signal_df(candidate_signal_df: pd.DataFrame, session_event_features: pd.DataFrame) -> pd.DataFrame:
     out = candidate_signal_df.copy()
     out["signal"] = 0
-    selected = session_event_features["baseline_candidate_idx"].dropna().astype(int).tolist()
-    if selected:
-        out.loc[selected, "signal"] = 1
+    selected = pd.Index(session_event_features["baseline_candidate_idx"].dropna().astype(int).tolist())
+    if not selected.empty:
+        existing = out.index.intersection(selected)
+        if not existing.empty:
+            out.loc[existing, "signal"] = 1
+
+        missing = selected.difference(out.index)
+        if not missing.empty and "baseline_candidate_ts" in session_event_features.columns:
+            missing_times = pd.to_datetime(
+                session_event_features.loc[
+                    session_event_features["baseline_candidate_idx"].isin(missing.tolist()),
+                    "baseline_candidate_ts",
+                ],
+                errors="coerce",
+                utc=True,
+            ).dropna()
+            if not missing_times.empty:
+                out_timestamps = pd.to_datetime(out["timestamp"], errors="coerce", utc=True)
+                out.loc[out_timestamps.isin(missing_times), "signal"] = 1
     return out
 
 

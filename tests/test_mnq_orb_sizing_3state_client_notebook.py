@@ -20,5 +20,7 @@ def test_build_notebook_contains_retained_overlay_and_heatmaps() -> None:
     sources = "\n".join(str(cell.source) for cell in notebook.cells)
     assert "realized_vol_ratio_15_60" in sources
     assert "high = 0.25x" in sources
+    assert "invalidate_on_opposite_n_closes_1m__buffer_2__confirm_3" in sources
     assert "Heatmap IS" in sources
+    assert "Heatmap large vol slow x vol fast" in sources
     assert len(notebook.cells) >= 20
