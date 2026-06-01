@@ -1,0 +1,4 @@
+scope,net_pnl,sharpe,sortino,profit_factor,expectancy,max_drawdown,n_trades,n_days_traded,pct_days_traded,worst_day,longest_losing_streak_daily,median_recovery_days,max_recovery_days,daily_loss_limit_breach_freq,days_to_profit_target,profit_target_reached_before_max_loss,max_loss_limit_buffer_usd
+overall,4581.5,0.5804249788868887,0.20884661598065832,1.350817412611509,27.9359756097561,-1632.0,164,164,0.07652823145123658,-247.5,2,39.0,694.0,0.0,1616.0,True,447.0
+is,2207.0,0.40514900462106374,0.1487796661446217,1.2241974806989029,17.515873015873016,-1632.0,126,126,0.084,-243.0,2,49.0,694.0,0.0,,False,447.0
+oos,2374.5,0.9719381068968443,0.32288293095123394,1.7384543616855854,62.48684210526316,-887.5,38,38,0.05909797822706065,-247.5,2,24.5,243.0,0.0,,False,1842.0

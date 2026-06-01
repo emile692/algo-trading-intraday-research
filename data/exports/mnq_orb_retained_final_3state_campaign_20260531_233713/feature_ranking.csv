@@ -1,0 +1,9 @@
+feature_name,family,bucket_kind,bucket_count,min_bucket_obs_is,balance_is,is_score_spread,feature_selection_score,best_bucket_is,worst_bucket_is,skip_coverage_is,valid_for_overlay
+overnight_range_pts,volatility,quantile,3,74,1.0,4.939645465534759,4.939645465534759,low,mid,0.6666666666666667,True
+realized_vol_ratio_15_60,volatility,quantile,3,74,1.0,4.362559520286032,4.362559520286032,high,mid,0.6666666666666667,True
+gap_abs_atr20,extension,quantile,3,74,1.0,4.3582108113836515,4.3582108113836515,high,low,0.6666666666666667,True
+signal_extension_over_or,extension,quantile,3,74,1.0,4.275462871669193,4.275462871669193,high,mid,0.6666666666666667,True
+opening_range_width_pts,volatility,quantile,3,73,0.9733333333333334,4.153863186325726,4.098478343841383,mid,high,0.6711711711711712,True
+atr_ratio_10_30,volatility,quantile,3,74,1.0,4.057361459381582,4.057361459381582,high,low,0.6666666666666667,True
+signal_vwap_distance_atr20,extension,quantile,3,74,1.0,4.05221287340262,4.05221287340262,high,low,0.6666666666666667,True
+weekday_name,structural,categorical,5,37,0.7551020408163265,5.123523927465763,4.496153650633221,friday,tuesday,0.7927927927927928,False

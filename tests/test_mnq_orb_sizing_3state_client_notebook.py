@@ -23,4 +23,6 @@ def test_build_notebook_contains_retained_overlay_and_heatmaps() -> None:
     assert "invalidate_on_opposite_n_closes_1m__buffer_2__confirm_3" in sources
     assert "Heatmap IS" in sources
     assert "Heatmap large vol slow x vol fast" in sources
+    assert 'pio.renderers.default = "notebook_connected"' in sources
+    assert "init_notebook_mode(connected=True)" in sources
     assert len(notebook.cells) >= 20

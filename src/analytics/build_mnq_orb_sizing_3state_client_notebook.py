@@ -8,6 +8,7 @@ from pathlib import Path
 
 import nbformat as nbf
 from nbclient import NotebookClient
+from nbconvert import HTMLExporter
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
@@ -22,6 +23,7 @@ DEFAULT_BASELINE_NAME = "nominal"
 DEFAULT_HIGH_BUCKET_MULTIPLIER = 0.25
 DEFAULT_NOTEBOOK_PATH = NOTEBOOKS_ROOT / "orb_MNQ_sizing_3state_client.ipynb"
 DEFAULT_EXECUTED_NOTEBOOK_PATH = NOTEBOOKS_ROOT / "orb_MNQ_sizing_3state_client.executed.ipynb"
+DEFAULT_EXECUTED_HTML_PATH = NOTEBOOKS_ROOT / "orb_MNQ_sizing_3state_client.executed.html"
 
 
 def find_latest_export(prefix: str, exports_root: Path = DATA_EXPORTS_ROOT) -> Path:
@@ -65,7 +67,9 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.io as pio
 from IPython.display import Markdown, display
+from plotly.offline import init_notebook_mode
 from plotly.subplots import make_subplots
 
 from src.analytics.metrics import compute_metrics
@@ -87,6 +91,9 @@ pd.set_option("display.max_columns", 300)
 pd.set_option("display.width", 240)
 
 PLOT_TEMPLATE = "plotly_white"
+init_notebook_mode(connected=True)
+pio.renderers.default = "notebook_connected"
+pio.templates.default = PLOT_TEMPLATE
 
 
 def fmt_money(value):
@@ -1286,6 +1293,17 @@ def execute_notebook(input_path: Path, output_path: Path, timeout_seconds: int =
     return output_path
 
 
+def export_notebook_html(input_path: Path, output_path: Path) -> Path:
+    notebook = nbf.read(input_path, as_version=4)
+    exporter = HTMLExporter()
+    exporter.exclude_input_prompt = True
+    exporter.exclude_output_prompt = True
+    body, _ = exporter.from_notebook_node(notebook)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(body, encoding="utf-8")
+    return output_path
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -1323,6 +1341,12 @@ def parse_args() -> argparse.Namespace:
         default=600,
         help="Notebook execution timeout in seconds.",
     )
+    parser.add_argument(
+        "--executed-html-output",
+        type=Path,
+        default=DEFAULT_EXECUTED_HTML_PATH,
+        help="Executed notebook HTML export path.",
+    )
     return parser.parse_args()
 
 
@@ -1335,6 +1359,8 @@ def main() -> int:
     if args.execute:
         executed_path = execute_notebook(output_path, args.executed_output, timeout_seconds=args.timeout_seconds)
         print(f"Executed notebook written to {executed_path}")
+        executed_html_path = export_notebook_html(executed_path, args.executed_html_output)
+        print(f"Executed notebook HTML written to {executed_html_path}")
 
     return 0
 

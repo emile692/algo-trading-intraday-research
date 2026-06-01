@@ -1,0 +1,67 @@
+{
+  "run_timestamp": "2026-05-31T23:40:33.055469",
+  "dataset_path": "D:\\Business\\Trading\\VSCODE\\algo-trading-intraday-research\\data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "campaign_type": "retained_final_3state",
+  "retained_config": {
+    "name": "full_reopt__seed__pair__comp_dynamic__weak_close__noise_area_gate",
+    "or_minutes": 15,
+    "opening_time": "09:30:00",
+    "direction": "long",
+    "one_trade_per_day": true,
+    "entry_buffer_ticks": 2,
+    "stop_buffer_ticks": 2,
+    "target_multiple": 2.0,
+    "vwap_confirmation": true,
+    "vwap_column": "continuous_session_vwap",
+    "time_exit": "16:00:00",
+    "account_size_usd": 50000.0,
+    "risk_per_trade_pct": 0.5,
+    "tick_size": 0.25,
+    "entry_on_next_open": true,
+    "atr_window": 14,
+    "q_lows_pct": [
+      20,
+      25,
+      30
+    ],
+    "q_highs_pct": [
+      90,
+      95
+    ],
+    "vote_threshold": 0.5,
+    "compression_mode": "weak_close",
+    "compression_usage": "soft_vote_bonus",
+    "compression_soft_bonus_votes": 1.0,
+    "exit_mode": "baseline",
+    "dynamic_mode": "noise_area_gate",
+    "noise_lookback": 30,
+    "noise_vm": 1.0,
+    "noise_k": 0.0,
+    "dynamic_atr_k": 0.0,
+    "dynamic_confirm_bars": 1,
+    "dynamic_schedule": "continuous_on_bar_close",
+    "dynamic_threshold_style": "max_or_high_noise"
+  },
+  "spec": {
+    "dataset_path": null,
+    "output_root": null,
+    "min_bucket_obs_is": 50,
+    "multipliers_by_rank": [
+      0.5,
+      0.75,
+      1.0
+    ],
+    "prop_constraints": {
+      "name": "topstep_50k_reference",
+      "account_size_usd": 50000.0,
+      "max_loss_limit_usd": 2000.0,
+      "daily_loss_limit_usd": 1000.0,
+      "profit_target_usd": 3000.0,
+      "monthly_subscription_cost_usd": 150.0,
+      "trading_days_per_month": 21.0,
+      "daily_loss_limit_basis": "realized_daily_pnl"
+    }
+  },
+  "selected_session_count": 298,
+  "selected_trade_count": 298
+}
