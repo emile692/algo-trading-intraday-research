@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "freeze_date": "2026-10-09",
-  "family_id": "a0_equity_index_gap_reversion",
+  "family_id": "equity_index_opening_gap_reversion",
   "status": "SHADOW_FORWARD_ONLY",
   "decision_authority": "explicit_user_freeze_2026-10-09",
   "source_phase2_spec_commit": "aa5bd8ef005a282f60517865e8ce0f347f429f49",
@@ -28,7 +28,9 @@
     "risk_unit": "trade net PnL USD divided by previous completed session Wilder ATR14 times contract point value"
   },
   "series": {
-    "A0_NQ": {
+    "nq_opening_gap_reversion": {
+      "legacy_id": "A0_NQ",
+      "display_name": "NQ Opening Gap Reversion",
       "instrument": "NQ",
       "role": "primary_shadow_forward",
       "tick_size": 0.25,
@@ -49,7 +51,9 @@
       "review_N": 361,
       "abandon_if_forward_mean_net_R_below": 0.01432912739610295
     },
-    "A0_MNQ": {
+    "mnq_opening_gap_reversion": {
+      "legacy_id": "A0_MNQ",
+      "display_name": "MNQ Opening Gap Reversion",
       "instrument": "MNQ",
       "role": "robustness_shadow_forward",
       "tick_size": 0.25,

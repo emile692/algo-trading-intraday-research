@@ -32,53 +32,68 @@
   },
   "forward_monitoring": [
     {
-      "id": "A0_NQ",
+      "id": "nq_opening_gap_reversion",
+      "legacy_id": "A0_NQ",
+      "display_name": "NQ Opening Gap Reversion",
       "instrument": "NQ",
       "status": "SHADOW_FORWARD_ONLY",
-      "spec_path": "strategy_registry/forward_monitoring/specs/a0_gap_reversion_nq_mnq.json",
-      "spec_sha256": "f4dd5989f248814f66b5313b0d11d2b9da32e84e6954ef73c50afcbae71e1764",
+      "monitoring_mode": "shadow_forward",
+      "spec_path": "strategy_registry/forward_monitoring/specs/equity_index_opening_gap_reversion.json",
+      "spec_sha256": "78d2b5ffd1b80cf192d6b486db581849be2f537b22de0752a575de9e78e03e48",
       "forward_start": "2026-03-20",
       "review_N": 361,
       "allocation": 0
     },
     {
-      "id": "A0_MNQ",
+      "id": "mnq_opening_gap_reversion",
+      "legacy_id": "A0_MNQ",
+      "display_name": "MNQ Opening Gap Reversion",
       "instrument": "MNQ",
       "status": "SHADOW_FORWARD_ONLY",
-      "spec_path": "strategy_registry/forward_monitoring/specs/a0_gap_reversion_nq_mnq.json",
-      "spec_sha256": "f4dd5989f248814f66b5313b0d11d2b9da32e84e6954ef73c50afcbae71e1764",
+      "monitoring_mode": "shadow_forward",
+      "spec_path": "strategy_registry/forward_monitoring/specs/equity_index_opening_gap_reversion.json",
+      "spec_sha256": "78d2b5ffd1b80cf192d6b486db581849be2f537b22de0752a575de9e78e03e48",
       "forward_start": "2026-03-20",
       "review_N": 486,
       "allocation": 0,
-      "relationship": "Same economic alpha as A0_NQ; not an independent sleeve."
+      "relationship": "Same economic alpha as nq_opening_gap_reversion; not an independent sleeve."
     },
     {
-      "id": "B_canonical",
+      "id": "mgc_volume_climax_confirmed_fade",
+      "legacy_id": "B_canonical",
+      "display_name": "MGC Volume-Climax Confirmed Fade",
       "instrument": "MGC",
       "status": "FORWARD_MEASUREMENT_ONLY",
+      "monitoring_mode": "shadow_forward",
       "spec_path": "strategy_registry/forward_monitoring/specs/mgc_volume_climax_tracking.json",
-      "spec_sha256": "16131f19305ba1ac21adf972b4aa8818f4189e823ee061e532c581305d4ebfb3",
+      "spec_sha256": "1dd42e9cdd256cc91ef966a3b241356e26c747879195e189e742f80dbceda8af",
       "forward_start": "2026-09-23",
       "review_N": 1734,
       "allocation": 0
     },
     {
-      "id": "B_no_volume",
+      "id": "mgc_price_climax_confirmed_fade_control",
+      "legacy_id": "B_no_volume",
+      "display_name": "MGC Price-Climax Confirmed Fade — No-Volume Control",
       "instrument": "MGC",
       "status": "FORWARD_MEASUREMENT_ONLY",
+      "monitoring_mode": "shadow_forward",
       "spec_path": "strategy_registry/forward_monitoring/specs/mgc_volume_climax_tracking.json",
-      "spec_sha256": "16131f19305ba1ac21adf972b4aa8818f4189e823ee061e532c581305d4ebfb3",
+      "spec_sha256": "1dd42e9cdd256cc91ef966a3b241356e26c747879195e189e742f80dbceda8af",
       "forward_start": "2026-09-23",
       "review_N": 41587,
       "allocation": 0,
-      "relationship": "Diagnostic price-only control for B_canonical; not a sleeve."
+      "relationship": "Diagnostic price-only control for mgc_volume_climax_confirmed_fade; not an independent sleeve."
     },
     {
-      "id": "gotobi_6j_month_end",
+      "id": "6j_month_end_pre_fix_gotobi",
+      "legacy_id": "gotobi_6j_month_end",
+      "display_name": "6J Month-End Pre-Fix Gotobi",
       "instrument": "6J",
       "status": "KEEP_FORWARD_TEST_ONLY",
-      "spec_path": "strategy_registry/forward_monitoring/specs/gotobi_6j_month_end.json",
-      "spec_sha256": "dd4c4153d81abec5dab9923726c64429567c2981058a3e3e9da3dd074567bf03",
+      "monitoring_mode": "shadow_forward",
+      "spec_path": "strategy_registry/forward_monitoring/specs/6j_month_end_pre_fix_gotobi.json",
+      "spec_sha256": "33b72a557a7fb6c79c5660fe676083d04e5229e651511c251a681f33161ba4dd",
       "forward_start": "first eligible Japanese month-end session strictly after 2026-10-03",
       "review_N": null,
       "allocation": 0
@@ -87,12 +102,12 @@
   "supersession": [
     {
       "source": "research/equity_index_gap_reversion_audit_20261007",
-      "replacement": "A0_NQ and A0_MNQ specifications in this registry",
+      "replacement": "nq_opening_gap_reversion and mnq_opening_gap_reversion specifications in this registry",
       "reason": "Phase 2 plus explicit user freeze selected exact implementations; do not separately track all four retrospective audit assets or thresholds."
     },
     {
       "source": "research/mgc_volume_climax_audit_20261007",
-      "replacement": "B_canonical and B_no_volume specifications in this registry",
+      "replacement": "mgc_volume_climax_confirmed_fade and mgc_price_climax_confirmed_fade_control specifications in this registry",
       "reason": "Phase 2 froze the two exact measurement series."
     }
   ],

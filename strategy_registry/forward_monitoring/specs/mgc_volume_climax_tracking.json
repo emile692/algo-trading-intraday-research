@@ -32,7 +32,9 @@
     "risk_unit": "trade net PnL USD divided by previous completed session Wilder ATR14 times MGC point value"
   },
   "series": {
-    "B_canonical": {
+    "mgc_volume_climax_confirmed_fade": {
+      "legacy_id": "B_canonical",
+      "display_name": "MGC Volume-Climax Confirmed Fade",
       "role": "candidate_shadow_forward",
       "rvol_threshold": 2.0,
       "rvol_definition": "current bar volume divided by median volume at the same ET slot over the prior 20 sessions",
@@ -43,7 +45,9 @@
       "review_N": 1734,
       "abandon_if_forward_mean_net_R_below": 0.003359275248673373
     },
-    "B_no_volume": {
+    "mgc_price_climax_confirmed_fade_control": {
+      "legacy_id": "B_no_volume",
+      "display_name": "MGC Price-Climax Confirmed Fade — No-Volume Control",
       "role": "diagnostic_control_not_a_separate_sleeve",
       "rvol_threshold": 0.0,
       "availability": "preserve the canonical 20-prior-session RVOL warm-up",

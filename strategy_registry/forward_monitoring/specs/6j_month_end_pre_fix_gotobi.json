@@ -1,7 +1,9 @@
 {
   "schema_version": "1.0",
   "freeze_date": "2026-10-09",
-  "series_id": "gotobi_6j_month_end",
+  "series_id": "6j_month_end_pre_fix_gotobi",
+  "legacy_id": "gotobi_6j_month_end",
+  "display_name": "6J Month-End Pre-Fix Gotobi",
   "status": "KEEP_FORWARD_TEST_ONLY",
   "status_source": "docs/RESEARCH_FAILURE_REGISTER_2026.md",
   "canonical_spec": {
