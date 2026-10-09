@@ -23,7 +23,7 @@
     "A": {
       "NQ": {
         "path": "data/processed/parquet/NQ_c_0_5m_20260321_095036.parquet",
-        "sha256": "0816cc4bb69f4ae262fe9eca476141862012887794a44417a82d3ff9c711f283",
+        "sha256": "0816cc4bb69f7ae262fe9eca476141862012887794a44417a82d3ff9c711f283",
         "role": "primary_inference"
       },
       "MNQ": {
@@ -38,7 +38,7 @@
       },
       "M2K": {
         "path": "data/processed/parquet/M2K_c_0_5m_20260322_134808.parquet",
-        "sha256": "4f044c2ba98d354c17165d1b35ed12e602b1e4dc2493b67b8a0a3648c803abf1",
+        "sha256": "4f5e1675ce9385522f07d8e1db3886ba4aa9a712fe140f45807d22c796651615",
         "role": "robustness_only"
       }
     },
