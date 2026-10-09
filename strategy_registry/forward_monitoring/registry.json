@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "common_forward_monitoring_registry_20261009",
+  "freeze_date": "2026-10-09",
+  "purpose": "Single canonical inventory for active sleeves and non-funded forward monitoring series.",
+  "status_vocabulary": {
+    "LOCKED_ACTIVE_REFERENCE": "Funded/reference portfolio membership is already frozen elsewhere and linked here without alteration.",
+    "SHADOW_FORWARD_ONLY": "Exact trading rule is frozen for prospective observation with zero allocation.",
+    "FORWARD_MEASUREMENT_ONLY": "Series is frozen to measure a mechanism or control; it is not an approved portfolio sleeve.",
+    "KEEP_FORWARD_TEST_ONLY": "Validated candidate remains outside the active portfolio pending genuinely prospective evidence."
+  },
+  "active_reference": {
+    "portfolio_id": "nine_sleeve_equal_contract_reference_20261004",
+    "status": "LOCKED_ACTIVE_REFERENCE",
+    "canonical_lock": {
+      "path": "research/locked_nine_sleeve_portfolio/locked_nine_sleeve_config.json",
+      "sha256": "832b923777b1b4f67ed3ccbe2b89f6ee50a849f85978dfaf367b07f7a75ff8b4"
+    },
+    "members": [
+      "mnq_orb_vwap_atr",
+      "mnq_volatility_breakout",
+      "mnq_compression_breakout",
+      "mnq_atr_trend_flip",
+      "mgc_volatility_breakout",
+      "mgc_gap_continuation",
+      "mbt_rolling_range_breakout",
+      "mbt_trend_pullback_ma_structure",
+      "mbt_volatility_breakout"
+    ],
+    "prospective_start_after": "2026-10-02",
+    "note": "This registry does not copy or modify the nine sleeve definitions; the linked canonical lock remains authoritative."
+  },
+  "forward_monitoring": [
+    {
+      "id": "A0_NQ",
+      "instrument": "NQ",
+      "status": "SHADOW_FORWARD_ONLY",
+      "spec_path": "strategy_registry/forward_monitoring/specs/a0_gap_reversion_nq_mnq.json",
+      "spec_sha256": "f4dd5989f248814f66b5313b0d11d2b9da32e84e6954ef73c50afcbae71e1764",
+      "forward_start": "2026-03-20",
+      "review_N": 361,
+      "allocation": 0
+    },
+    {
+      "id": "A0_MNQ",
+      "instrument": "MNQ",
+      "status": "SHADOW_FORWARD_ONLY",
+      "spec_path": "strategy_registry/forward_monitoring/specs/a0_gap_reversion_nq_mnq.json",
+      "spec_sha256": "f4dd5989f248814f66b5313b0d11d2b9da32e84e6954ef73c50afcbae71e1764",
+      "forward_start": "2026-03-20",
+      "review_N": 486,
+      "allocation": 0,
+      "relationship": "Same economic alpha as A0_NQ; not an independent sleeve."
+    },
+    {
+      "id": "B_canonical",
+      "instrument": "MGC",
+      "status": "FORWARD_MEASUREMENT_ONLY",
+      "spec_path": "strategy_registry/forward_monitoring/specs/mgc_volume_climax_tracking.json",
+      "spec_sha256": "16131f19305ba1ac21adf972b4aa8818f4189e823ee061e532c581305d4ebfb3",
+      "forward_start": "2026-09-23",
+      "review_N": 1734,
+      "allocation": 0
+    },
+    {
+      "id": "B_no_volume",
+      "instrument": "MGC",
+      "status": "FORWARD_MEASUREMENT_ONLY",
+      "spec_path": "strategy_registry/forward_monitoring/specs/mgc_volume_climax_tracking.json",
+      "spec_sha256": "16131f19305ba1ac21adf972b4aa8818f4189e823ee061e532c581305d4ebfb3",
+      "forward_start": "2026-09-23",
+      "review_N": 41587,
+      "allocation": 0,
+      "relationship": "Diagnostic price-only control for B_canonical; not a sleeve."
+    },
+    {
+      "id": "gotobi_6j_month_end",
+      "instrument": "6J",
+      "status": "KEEP_FORWARD_TEST_ONLY",
+      "spec_path": "strategy_registry/forward_monitoring/specs/gotobi_6j_month_end.json",
+      "spec_sha256": "dd4c4153d81abec5dab9923726c64429567c2981058a3e3e9da3dd074567bf03",
+      "forward_start": "first eligible Japanese month-end session strictly after 2026-10-03",
+      "review_N": null,
+      "allocation": 0
+    }
+  ],
+  "supersession": [
+    {
+      "source": "research/equity_index_gap_reversion_audit_20261007",
+      "replacement": "A0_NQ and A0_MNQ specifications in this registry",
+      "reason": "Phase 2 plus explicit user freeze selected exact implementations; do not separately track all four retrospective audit assets or thresholds."
+    },
+    {
+      "source": "research/mgc_volume_climax_audit_20261007",
+      "replacement": "B_canonical and B_no_volume specifications in this registry",
+      "reason": "Phase 2 froze the two exact measurement series."
+    }
+  ],
+  "explicit_exclusions": [
+    "All rows classified WEAK_WATCHLIST are not frozen as executable or forward sleeves.",
+    "MNQ high-volume/low-response is excluded because its final audit says not to freeze it prospectively.",
+    "Close-of-day momentum remains closed unless observed costs meet its documented reopening condition and a new prospective protocol is frozen.",
+    "Research branches classified REJECTED, NOT_ACTIONABLE, STOPPED_DATA_GATE, or NOT_FROZEN_NOT_INCLUDED are not members of this registry."
+  ],
+  "governance": {
+    "no_retuning": true,
+    "no_historical_backfill_as_forward": true,
+    "zero_allocation_means_zero_funded_position": true,
+    "promotion_requires_explicit_versioned_decision": true,
+    "never_count_control_series_or_duplicate_instruments_as_independent_alpha": true
+  }
+}

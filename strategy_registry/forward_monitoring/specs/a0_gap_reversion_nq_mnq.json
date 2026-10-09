@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "freeze_date": "2026-10-09",
+  "family_id": "a0_equity_index_gap_reversion",
+  "status": "SHADOW_FORWARD_ONLY",
+  "decision_authority": "explicit_user_freeze_2026-10-09",
+  "source_phase2_spec_commit": "aa5bd8ef005a282f60517865e8ce0f347f429f49",
+  "source_phase2_spec": "diagnostic_is/phase2_spec.json",
+  "implementation": {
+    "bar_size_minutes": 5,
+    "timezone": "America/New_York",
+    "session": "09:30 <= time < 16:00",
+    "family": "gap_reversion",
+    "gap_definition": "(current session open - previous completed RTH session close) / previous completed RTH session high-low range",
+    "absolute_gap_threshold": 0.25,
+    "signal_time": "close of bar_in_session=3, the fourth completed 5-minute bar",
+    "direction": "opposite the sign of the opening gap",
+    "entry": "open of the next 5-minute bar",
+    "target_reference": "previous completed RTH session close",
+    "executable_target": "entry + direction * abs(entry - target_reference), matching the canonical engine",
+    "stop": "entry - direction * max(abs(entry - target_reference), causal intraday ATR on the completed signal bar)",
+    "same_bar_priority": "stop_before_target",
+    "maximum_holding_bars": 24,
+    "session_end_exit": true,
+    "position_policy": "one non-overlapping position per instrument",
+    "slippage_ticks_per_side": 1,
+    "commission_usd_per_side": 1.25,
+    "risk_unit": "trade net PnL USD divided by previous completed session Wilder ATR14 times contract point value"
+  },
+  "series": {
+    "A0_NQ": {
+      "instrument": "NQ",
+      "role": "primary_shadow_forward",
+      "tick_size": 0.25,
+      "tick_value_usd": 5.0,
+      "point_value_usd": 20.0,
+      "locked_history": {
+        "path": "data/processed/parquet/NQ_c_0_5m_20260321_095036.parquet",
+        "sha256": "0816cc4bb69f7ae262fe9eca476141862012887794a44417a82d3ff9c711f283"
+      },
+      "forward_start": "2026-03-20",
+      "oos_calibration": {
+        "start": "2024-02-23",
+        "end": "2026-03-19",
+        "trades": 304,
+        "mean_net_R": 0.03607926810217086,
+        "sd_net_R": 0.32246277444144583
+      },
+      "review_N": 361,
+      "abandon_if_forward_mean_net_R_below": 0.01432912739610295
+    },
+    "A0_MNQ": {
+      "instrument": "MNQ",
+      "role": "robustness_shadow_forward",
+      "tick_size": 0.25,
+      "tick_value_usd": 0.5,
+      "point_value_usd": 2.0,
+      "locked_history": {
+        "path": "data/processed/parquet/MNQ_c_0_5m_20260321_094501.parquet",
+        "sha256": "fa9e374e6a18462eba5426f547f339c21aeaf97a0c864d9b06f253af7e665f07"
+      },
+      "forward_start": "2026-03-20",
+      "oos_calibration": {
+        "start": "2024-02-23",
+        "end": "2026-03-19",
+        "trades": 304,
+        "mean_net_R": 0.031086609010496192,
+        "sd_net_R": 0.3226894741840295
+      },
+      "review_N": 486,
+      "abandon_if_forward_mean_net_R_below": 0.0123279084805089,
+      "review_note": "N and threshold were frozen on 2026-10-09 by applying the unchanged Phase-2 power and one-sided abandonment formulas to the already-reported MNQ OOS distribution."
+    }
+  },
+  "common_forward_governance": {
+    "primary_metric": "mean net_R per completed trade",
+    "power": "one-sided alpha 10%, 80% power against zero using the locked OOS mean and standard deviation",
+    "review_timing": "one review when the series first reaches its own review_N completed forward trades",
+    "kill_switch": "after 365 elapsed calendar days, stop if cumulative net_R over trades closed in the trailing 365 calendar days is strictly negative",
+    "allocation": "zero; shadow tracking only until a separate explicit promotion decision",
+    "independence": "NQ and MNQ are two implementations of the same economic alpha and must not be counted as two independent sleeves",
+    "no_retuning": true
+  }
+}

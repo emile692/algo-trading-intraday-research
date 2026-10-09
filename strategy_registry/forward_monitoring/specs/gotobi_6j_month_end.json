@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "freeze_date": "2026-10-09",
+  "series_id": "gotobi_6j_month_end",
+  "status": "KEEP_FORWARD_TEST_ONLY",
+  "status_source": "docs/RESEARCH_FAILURE_REGISTER_2026.md",
+  "canonical_spec": {
+    "path": "research/gotobi_6j_phase1_20261003/frozen_phase1_spec.json",
+    "sha256": "59c62b56d52ca75b602a685ea6d50124809582c04b6fffebd190e46d114b97f2"
+  },
+  "phase2_execution_audit": {
+    "path": "research/gotobi_6j_phase2_20261003/DATA_AUDIT.md",
+    "sha256": "ac8e4d6bd27abf686a5772b26f8021d85a4df1b9df1d39714dda97496aaaa5f0"
+  },
+  "rule": {
+    "instrument": "6J",
+    "quantity": 1,
+    "calendar": "Phase-1 Japanese month-end calendar: last Japanese bank business day, official Japanese holidays and BOJ Dec-31 through Jan-3 closure excluded",
+    "timezone": "Asia/Tokyo",
+    "direction": "short",
+    "decision_time": "09:30",
+    "entry": "09:31 open",
+    "exit": "09:54 open before the 09:55 fixing",
+    "roll_policy": "point-in-time volume-ranked contract; reject a window whose instrument_id changes; no back adjustment",
+    "baseline_costs": {
+      "round_turn_commission_usd": 4.22,
+      "slippage_ticks_per_side": 1
+    }
+  },
+  "historical_reference": {
+    "trades": 136,
+    "gross_expectancy_usd": 31.0202,
+    "net_expectancy_usd": 14.3002,
+    "net_total_usd": 1944.83,
+    "warning": "The 2024-2026 block is retrospective because Phase 1 had already inspected the complete history."
+  },
+  "forward": {
+    "start": "first eligible Japanese month-end session strictly after 2026-10-03",
+    "allocation": "zero; shadow forward only",
+    "review_rule": null,
+    "review_note": "No frozen quantitative N/abandonment rule was found in the surviving repository artifacts. Do not invent one retrospectively; define it in a separately preregistered governance update before any promotion.",
+    "no_alternate_time_filter_or_subgroup": true,
+    "no_retuning": true
+  }
+}

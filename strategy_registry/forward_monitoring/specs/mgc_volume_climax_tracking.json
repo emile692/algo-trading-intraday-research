@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "freeze_date": "2026-10-09",
+  "family_id": "b_mgc_volume_climax_reversal",
+  "status": "FORWARD_MEASUREMENT_ONLY",
+  "source_phase2_spec_commit": "aa5bd8ef005a282f60517865e8ce0f347f429f49",
+  "source_phase2_spec": "diagnostic_is/phase2_spec.json",
+  "instrument": {
+    "symbol": "MGC",
+    "tick_size": 0.1,
+    "tick_value_usd": 1.0,
+    "point_value_usd": 10.0,
+    "commission_usd_per_side": 1.25,
+    "slippage_ticks_per_side": 1
+  },
+  "locked_history": {
+    "path": "data/processed/parquet/MGC_v_0_5m_20150101_20260923.parquet",
+    "sha256": "5dfeafb0c380089511e78d9814855d66dabb5df30cfd1795d68ffaa67740e9af"
+  },
+  "common_logic": {
+    "bar_size_minutes": 5,
+    "timezone": "America/New_York",
+    "session": "08:20 <= time < 13:30",
+    "mechanism": "volume_climax_reversal",
+    "mode": "confirmed_fade",
+    "lookback_bars": 1,
+    "absolute_move_threshold_ATR": 1.5,
+    "confirmation_bars": 1,
+    "entry": "next bar open after the opposite-direction confirmation bar",
+    "holding_bars": 6,
+    "position_policy": "one non-overlapping position",
+    "risk_unit": "trade net PnL USD divided by previous completed session Wilder ATR14 times MGC point value"
+  },
+  "series": {
+    "B_canonical": {
+      "role": "candidate_shadow_forward",
+      "rvol_threshold": 2.0,
+      "rvol_definition": "current bar volume divided by median volume at the same ET slot over the prior 20 sessions",
+      "forward_start": "2026-09-23",
+      "oos_trades": 318,
+      "oos_mean_net_R": 0.00847081330778177,
+      "oos_sd_net_R": 0.1660886900678784,
+      "review_N": 1734,
+      "abandon_if_forward_mean_net_R_below": 0.003359275248673373
+    },
+    "B_no_volume": {
+      "role": "diagnostic_control_not_a_separate_sleeve",
+      "rvol_threshold": 0.0,
+      "availability": "preserve the canonical 20-prior-session RVOL warm-up",
+      "forward_start": "2026-09-23",
+      "oos_trades": 547,
+      "oos_mean_net_R": 0.0017733809501778277,
+      "oos_sd_net_R": 0.17033036292682538,
+      "review_N": 41587,
+      "abandon_if_forward_mean_net_R_below": 0.0007029729136484911
+    }
+  },
+  "governance": {
+    "selection": "No B variant is selected; track both series to measure the contribution of volume.",
+    "kill_switch": "after 365 elapsed calendar days, stop if cumulative net_R over trades closed in the trailing 365 calendar days is strictly negative",
+    "allocation": "zero; forward measurement only",
+    "no_retuning": true
+  }
+}
