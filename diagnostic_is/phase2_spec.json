@@ -1,0 +1,216 @@
+{
+  "schema_version": "1.0",
+  "phase": "diagnostic_is_phase2_preregistered_tests",
+  "created_date_europe_paris": "2026-10-09",
+  "locked_before_phase2_computation": true,
+  "purpose": "Test one predeclared risk variant for Signal A, create forward tracking series for Signal B, calibrate forward review rules, and measure OOS dependence between B and the frozen MGC volatility-breakout sleeve.",
+  "prohibitions": [
+    "No parameter change after the git commit containing this file.",
+    "No full-sample aggregate may be used as a selection, acceptance, or abandonment criterion.",
+    "IS and OOS must always be reported separately.",
+    "No threshold optimization, parameter search, alternative stop, or filtered-performance search is permitted.",
+    "Micros are robustness evidence only and cannot select the Signal A variant."
+  ],
+  "precommit_audit_disclosure": {
+    "status": "minor_nonperformance_preview",
+    "detail": "During code/source discovery, the CSV header and first two 2024 trade records of the already-frozen MGC volatility-breakout sleeve were displayed before this spec was committed. No aggregate PnL, correlation, overlap statistic, Signal A result, or Signal B result was computed or inspected.",
+    "mitigation": "All decision thresholds below are generic, fixed here before computation, and the previewed individual records are not used in any rule or choice. The phase2 report must repeat this disclosure."
+  },
+  "randomness": {
+    "seed": 20261009
+  },
+  "data_locks": {
+    "A": {
+      "NQ": {
+        "path": "data/processed/parquet/NQ_c_0_5m_20260321_095036.parquet",
+        "sha256": "0816cc4bb69f4ae262fe9eca476141862012887794a44417a82d3ff9c711f283",
+        "role": "primary_inference"
+      },
+      "MNQ": {
+        "path": "data/processed/parquet/MNQ_c_0_5m_20260321_094501.parquet",
+        "sha256": "fa9e374e6a18462eba5426f547f339c21aeaf97a0c864d9b06f253af7e665f07",
+        "role": "robustness_only"
+      },
+      "MES": {
+        "path": "data/processed/parquet/MES_c_0_5m_20260322_135702.parquet",
+        "sha256": "c71110ae91b35d474576016da2f6274445c33bfca606d460a8b355da099c7cec",
+        "role": "robustness_only"
+      },
+      "M2K": {
+        "path": "data/processed/parquet/M2K_c_0_5m_20260322_134808.parquet",
+        "sha256": "4f044c2ba98d354c17165d1b35ed12e602b1e4dc2493b67b8a0a3648c803abf1",
+        "role": "robustness_only"
+      }
+    },
+    "B": {
+      "path": "data/processed/parquet/MGC_v_0_5m_20150101_20260923.parquet",
+      "sha256": "5dfeafb0c380089511e78d9814855d66dabb5df30cfd1795d68ffaa67740e9af"
+    },
+    "MGC_volatility_breakout": {
+      "minute_path": "data/processed/parquet/MGC_v_0_1m_20150101_20260923.parquet",
+      "minute_sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96",
+      "spec_path": "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_specs/volatility_breakout.json",
+      "spec_sha256": "21a217943d1ec1d670540233ea84b683e72c4730a18942101613ce9f77f8f5d0"
+    }
+  },
+  "periods": {
+    "A_NQ": {
+      "IS": ["2010-06-07", "2024-02-22"],
+      "OOS": ["2024-02-23", "2026-03-19"]
+    },
+    "A_micros": {
+      "IS": ["2019-05-06", "2024-02-22"],
+      "OOS": ["2024-02-23", "2026-03-19"]
+    },
+    "B": {
+      "IS": ["2015-01-02", "2023-03-16"],
+      "OOS": ["2023-03-17", "2026-09-22"]
+    },
+    "correlation_common_OOS": {
+      "start": "2023-03-17",
+      "end": "2026-09-22",
+      "policy": "Use the intersection of available sessions for B and the frozen MGC volatility-breakout replay within these inclusive dates."
+    }
+  },
+  "risk_unit": {
+    "definition": "net or gross trade PnL USD divided by prior completed session Wilder daily ATR(14) in price units times contract point value",
+    "daily_atr_alpha": "1/14",
+    "daily_atr_adjust": false,
+    "daily_atr_min_periods": 14,
+    "lag_sessions": 1,
+    "missing_policy": "Exclude a trade from R statistics when the lagged daily ATR is unavailable; retain it in USD counts and report the excluded count."
+  },
+  "signal_A": {
+    "signal_and_execution": {
+      "family": "gap_reversion",
+      "observation_bars": 4,
+      "bar_size_minutes": 5,
+      "entry": "next 5-minute bar open after the completed observation window",
+      "target": "previous RTH session close",
+      "maximum_holding_bars": 24,
+      "session": "09:30 <= America/New_York < 16:00",
+      "position_policy": "one non-overlapping position",
+      "same_bar_policy": "stop before target",
+      "costs": "Use the repository instrument tick value and USD 1.25 commission per side with one adverse tick of slippage per side, exactly as in the canonical backtest."
+    },
+    "variants": {
+      "A0": {
+        "description": "Canonical reference.",
+        "stop_rule": "Existing canonical stop distance is max(abs(entry_price - previous_close_target), causal intraday ATR on the completed signal bar).",
+        "other_exits": "Target, maximum holding time, and session-end behavior unchanged."
+      },
+      "A_stop": {
+        "description": "Only predeclared risk variant.",
+        "stop_rule": "Replace the canonical stop with a fixed stop whose distance from entry equals abs(entry_price - previous_close_target). Long stop = entry - distance; short stop = entry + distance.",
+        "other_exits": "Target, maximum holding time, session-end behavior, costs, entries, and non-overlap policy unchanged.",
+        "same_bar_policy": "If stop and target are both touched in the same 5-minute bar, book the stop first."
+      }
+    },
+    "thresholds": [0.25, 0.5, 0.75, 1.0],
+    "evaluation_population": "All canonical N>=0.25 trades, assigned once to exclusive buckets [0.25,0.50), [0.50,0.75), [0.75,1.00), >=1.00. Primary variant decision uses NQ pooled across these exclusive buckets; bucket results are descriptive.",
+    "metrics": {
+      "trade_CVaR5_loss_R": "Positive loss magnitude: minus the arithmetic mean of the smallest ceil(0.05*n) net_R trades.",
+      "max_drawdown_loss_R": "Positive loss magnitude: minus the minimum drawdown of cumulative daily net_R, after summing trades by session date and zero-filling business days inside the period.",
+      "expectancy_R": "Arithmetic mean net_R per valid trade."
+    },
+    "predeclared_decision": {
+      "IS_risk_gate": "A_stop passes IS only if both trade_CVaR5_loss_R and max_drawdown_loss_R are strictly lower than A0 on NQ IS.",
+      "OOS_non_degradation_gate": "A_stop passes OOS if mean_net_R(A_stop) - mean_net_R(A0) >= -0.25 * abs(mean_net_R(A0)) on NQ OOS. For a positive A0 this is equivalent to retaining at least 75% of A0 expectancy.",
+      "retained_forward_variant": "Use A_stop only if it passes both the IS risk gate and the OOS non-degradation gate; otherwise retain A0.",
+      "micros": "Report the same metrics for MES, MNQ, and M2K separately as robustness only; they cannot change the retained variant."
+    }
+  },
+  "signal_B": {
+    "canonical": {
+      "mechanism": "volume_climax_reversal",
+      "mode": "confirmed_fade",
+      "move_threshold_ATR": 1.5,
+      "rvol_threshold": 2.0,
+      "rvol_definition": "current MGC bar volume divided by median volume at the same ET slot over the prior 20 sessions",
+      "confirmation": "A climax bar is followed by an opposite-direction confirmation bar; enter at the next bar open.",
+      "holding_bars": 6,
+      "session": "08:20 <= America/New_York < 13:30",
+      "cost_usd_round_turn": 4.5,
+      "position_policy": "one non-overlapping position"
+    },
+    "forward_series": {
+      "B_canonical": "Canonical logic verbatim.",
+      "B_no_volume": "Identical price threshold, confirmation, entry, holding period, session, costs and non-overlap policy, but set the rvol threshold to zero. Preserve the canonical 20-prior-session feature warm-up so both series share the same availability convention."
+    },
+    "selection_policy": "No B rule variant is selected. Both ledgers are tracking series; their difference measures the contribution of the volume condition."
+  },
+  "forward_protocol": {
+    "series": ["A_retained", "B_canonical", "B_no_volume"],
+    "calibration_sample": "The series-specific locked OOS only.",
+    "primary_metric": "net expectancy R per trade",
+    "power": {
+      "null": "mean net_R = 0",
+      "alternative": "mean net_R equals the observed OOS mean",
+      "test": "one-sample one-sided normal approximation",
+      "alpha_one_sided": 0.10,
+      "target_power": 0.80,
+      "z_alpha": 1.2815515655446004,
+      "z_power": 0.8416212335729143,
+      "formula": "N = ceil(((z_alpha + z_power) * sample_sd_OOS_net_R / sample_mean_OOS_net_R)^2)",
+      "eligibility": "Compute finite N only when OOS mean net_R > 0 and at least two valid OOS trades exist; otherwise report N as undefined because OOS supplies no positive edge to power against zero.",
+      "no_minimum_or_cap": true
+    },
+    "review": {
+      "timing": "One review when N completed forward trades is first reached, separately for each series.",
+      "abandon_threshold": "sample_mean_forward_net_R < sample_mean_OOS_net_R - 1.2815515655446004 * sample_sd_OOS_net_R / sqrt(N)",
+      "interpretation": "One-sided 10% rejection of persistence of the OOS edge. No repeated-review alpha spending because only the first N-trade review is permitted."
+    },
+    "kill_switch": {
+      "rule": "Cumulative net_R of trades closed in the trailing 365 calendar days is strictly negative.",
+      "evaluation_clock": "Evaluate after every completed forward trade, but only after 365 calendar days have elapsed since that series' forward start.",
+      "empty_window": "Zero, therefore not negative.",
+      "effect": "Stop the tracking/deployment series; do not alter or re-optimize parameters."
+    },
+    "forward_starts": {
+      "A_retained": "2026-03-20",
+      "B_canonical": "2026-09-23",
+      "B_no_volume": "2026-09-23"
+    }
+  },
+  "B_vs_MGC_volatility_breakout": {
+    "sample": "correlation_common_OOS only",
+    "volatility_sleeve_parameters": {
+      "daily_ATR_period": 30,
+      "entry_ATR_multiple": 1.1,
+      "stop": "08:20 session open",
+      "exit": "13:30 cash close",
+      "quantity": "one MGC",
+      "source": "Use the frozen spec and one-minute replay named in data_locks; no modification."
+    },
+    "daily_pnl": {
+      "primary": "Pearson correlation of daily net PnL USD after summing each sleeve by session_date and zero-filling every weekday in the common OOS interval.",
+      "secondary": [
+        "Spearman correlation on the same zero-filled daily series",
+        "Pearson correlation restricted to days when at least one sleeve trades"
+      ]
+    },
+    "event_overlap": {
+      "same_session": "Count a trade as same-session overlap when both sleeves have at least one entry on the same session_date; report the count divided separately by each sleeve's number of active sessions.",
+      "position_time": "For each B trade, flag overlap if its half-open [entry_time, exit_time) interval intersects any volatility-sleeve interval on the same session; report the rate over B trades. Also report the reciprocal rate over volatility trades."
+    },
+    "decision": {
+      "separate_sleeve": "Classify as a separate sleeve if abs(primary Pearson) < 0.30, B same-session overlap < 25%, volatility same-session overlap < 25%, and B position-time overlap < 25%.",
+      "filter_only": "Classify as filter-only candidate if primary Pearson >= 0.50, or B same-session overlap >= 50%, or B position-time overlap >= 50%.",
+      "otherwise": "Classify as inconclusive/complementary diagnostic; do not force either role.",
+      "no_filtered_performance": "Do not calculate performance of one signal conditioned on the other."
+    }
+  },
+  "report_contract": {
+    "path": "diagnostic_is/phase2_report.md",
+    "first_line": "The git commit hash containing this frozen spec.",
+    "required_sections": [
+      "preregistration and audit disclosure",
+      "A IS and OOS separately",
+      "A micros robustness",
+      "B canonical and no-volume OOS tracking distributions",
+      "forward N, thresholds and kill-switch protocol",
+      "B versus MGC volatility-breakout OOS correlation and overlap",
+      "decision and limitations"
+    ]
+  }
+}
