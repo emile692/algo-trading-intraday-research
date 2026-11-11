@@ -1,0 +1,4 @@
+metric,paths,estimate,ci95_low,ci95_high,baseline_probability,candidate_probability
+delta_pass,8000,-0.0075,-0.01275,-0.002375,0.452375,0.444875
+delta_mll_fail,8000,0.01375,0.009,0.018625,0.481125,0.494875
+delta_expiry,8000,-0.00625,-0.010128125,-0.002375,0.0665,0.06025

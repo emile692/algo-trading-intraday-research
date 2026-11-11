@@ -1,0 +1,135 @@
+slug,name,architecture_role,research_family,classification_status,rationale,card_path
+adx-trend-strength,ADX Trend Strength,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/adx-trend-strength.md
+macd-crossover,MACD Crossover,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/macd-crossover.md
+ema-ribbon-trend,EMA Ribbon Trend,alpha_engine,trend_momentum,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/ema-ribbon-trend.md
+vwap-deviation,VWAP Deviation,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/vwap-deviation.md
+donchian-breakout,Donchian Channel Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/donchian-breakout.md
+stochastic-divergence,Stochastic Divergence,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/stochastic-divergence.md
+keltner-channel-breakout,Keltner Channel Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/keltner-channel-breakout.md
+supertrend,SuperTrend,alpha_engine,trend_momentum,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/supertrend.md
+parabolic-sar-trend,Parabolic SAR Trend,risk_overlay,trend_momentum,draft_to_review,La contribution distinctive est une règle dynamique de sortie ou de stop après l'entrée.,cards/parabolic-sar-trend.md
+dual-ma-crossover,Dual Moving Average Crossover,alpha_engine,trend_momentum,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/dual-ma-crossover.md
+opening-range-breakout,Opening Range Breakout (ORB),alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/opening-range-breakout.md
+session-high-low-breakout,Session High/Low Breakout,level_context,breakout_expansion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/session-high-low-breakout.md
+pivot-point-bounce,Pivot Point Bounce,level_context,mean_reversion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/pivot-point-bounce.md
+heikin-ashi-trend,Heikin Ashi Trend,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/heikin-ashi-trend.md
+macd-histogram-divergence,MACD Histogram Divergence,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/macd-histogram-divergence.md
+rsi-bollinger-band-combo,RSI + Bollinger Band Combo,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/rsi-bollinger-band-combo.md
+range-compression-breakout,Range Compression Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/range-compression-breakout.md
+triple-moving-average,Triple Moving Average,alpha_engine,trend_momentum,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/triple-moving-average.md
+hull-moving-average,Hull Moving Average,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/hull-moving-average.md
+dema-crossover,DEMA Crossover,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/dema-crossover.md
+cci-momentum,CCI Momentum,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/cci-momentum.md
+rate-of-change,Rate of Change (ROC),setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/rate-of-change.md
+chande-momentum,Chande Momentum Oscillator,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/chande-momentum.md
+tsi-crossover,TSI Crossover,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/tsi-crossover.md
+awesome-oscillator,Awesome Oscillator,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/awesome-oscillator.md
+momentum-oscillator,Momentum Oscillator,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/momentum-oscillator.md
+z-score-mean-reversion,Z-Score Mean Reversion,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/z-score-mean-reversion.md
+bollinger-band-walk,Bollinger Band Walk,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/bollinger-band-walk.md
+stochastic-rsi-reversal,Stochastic RSI Reversal,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/stochastic-rsi-reversal.md
+regression-to-mean,Regression to Mean,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/regression-to-mean.md
+commodity-channel-reversal,Commodity Channel Reversal,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/commodity-channel-reversal.md
+inside-bar-breakout,Inside Bar Breakout,setup_trigger,breakout_expansion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/inside-bar-breakout.md
+volatility-breakout,Volatility Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/volatility-breakout.md
+n-bar-breakout,N-Bar Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/n-bar-breakout.md
+london-breakout,London Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/london-breakout.md
+asian-range-breakout,Asian Range Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/asian-range-breakout.md
+obv-divergence,OBV Divergence,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/obv-divergence.md
+money-flow-index,Money Flow Index (MFI),setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/money-flow-index.md
+klinger-oscillator,Klinger Oscillator,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/klinger-oscillator.md
+volume-weighted-macd,Volume Weighted MACD,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/volume-weighted-macd.md
+standard-deviation-breakout,Standard Deviation Breakout,alpha_engine,volatility_regime,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/standard-deviation-breakout.md
+chaikin-volatility,Chaikin Volatility,filter_regime,volatility_regime,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/chaikin-volatility.md
+aroon-trend,Aroon Trend System,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/aroon-trend.md
+tsi-momentum,True Strength Index (TSI),setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/tsi-momentum.md
+connors-rsi,Connors RSI,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/connors-rsi.md
+ultimate-oscillator,Ultimate Oscillator,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/ultimate-oscillator.md
+rsi-2-pullback,RSI(2) Pullback,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/rsi-2-pullback.md
+regression-channel,Linear Regression Channel,level_context,mean_reversion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/regression-channel.md
+z-score-reversion,Z-Score Mean Reversion,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/z-score-reversion.md
+atr-percentile-breakout,ATR Percentile Breakout,alpha_engine,volatility_regime,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/atr-percentile-breakout.md
+garman-klass-volatility,Garman-Klass Volatility,filter_regime,volatility_regime,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/garman-klass-volatility.md
+darvas-box,Darvas Box Breakout,level_context,breakout_expansion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/darvas-box.md
+pivot-point-breakout,Pivot Point Breakout,level_context,breakout_expansion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/pivot-point-breakout.md
+ease-of-movement,Ease of Movement,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/ease-of-movement.md
+three-bar-reversal,Three Bar Reversal,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/three-bar-reversal.md
+dmi-adx-system,DMI/ADX Complete System,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/dmi-adx-system.md
+rainbow-ma,Rainbow Moving Average,alpha_engine,trend_momentum,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/rainbow-ma.md
+percent-b-strategy,Percent B (%B) Strategy,setup_trigger,volatility_regime,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/percent-b-strategy.md
+adl-breakout,ADL Breakout Confirmation,setup_trigger,breakout_expansion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/adl-breakout.md
+squeeze-momentum,TTM Squeeze Momentum,filter_regime,volatility_regime,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/squeeze-momentum.md
+vwap-crossover,VWAP Crossover Trend,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/vwap-crossover.md
+balance-of-power,Balance of Power,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/balance-of-power.md
+parabolic-sar-reversal,Parabolic SAR Reversal,risk_overlay,trend_momentum,draft_to_review,La contribution distinctive est une règle dynamique de sortie ou de stop après l'entrée.,cards/parabolic-sar-reversal.md
+vortex-crossover,Vortex Indicator Crossover,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/vortex-crossover.md
+trend-intensity-index,Trend Intensity Index,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/trend-intensity-index.md
+rainbow-moving-average,Rainbow Moving Average,alpha_engine,trend_momentum,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/rainbow-moving-average.md
+stochastic-momentum-index,Stochastic Momentum Index,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/stochastic-momentum-index.md
+relative-vigor-index,Relative Vigor Index,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/relative-vigor-index.md
+cci-divergence,CCI Divergence,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/cci-divergence.md
+stochastic-pop,Stochastic Pop,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/stochastic-pop.md
+std-dev-bands-reversion,Standard Deviation Bands,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/std-dev-bands-reversion.md
+parkinson-volatility,Parkinson Range Volatility,filter_regime,volatility_regime,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/parkinson-volatility.md
+camarilla-breakout,Camarilla Pivot Breakout,level_context,breakout_expansion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/camarilla-breakout.md
+momentum-breakout,Momentum Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/momentum-breakout.md
+dpo-cycle,Detrended Price Oscillator,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/dpo-cycle.md
+rvi-divergence,Relative Vigor Index,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/rvi-divergence.md
+mcginley-dynamic,McGinley Dynamic,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/mcginley-dynamic.md
+schaff-trend-cycle,Schaff Trend Cycle,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/schaff-trend-cycle.md
+volatility-ratio-breakout,Volatility Ratio Breakout,alpha_engine,volatility_regime,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/volatility-ratio-breakout.md
+percent-b-reversal,Percent B Reversal,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/percent-b-reversal.md
+aroon-crossover,Aroon Crossover,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/aroon-crossover.md
+fisher-transform,Fisher Transform,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/fisher-transform.md
+rate-of-change-momentum,Rate of Change Momentum,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/rate-of-change-momentum.md
+vw-macd,Volume-Weighted MACD,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/vw-macd.md
+bullish-engulfing,Bullish Engulfing,setup_trigger,price_action,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/bullish-engulfing.md
+hammer-reversal,Hammer Reversal,setup_trigger,price_action,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/hammer-reversal.md
+marubozu-momentum,Marubozu Momentum,setup_trigger,price_action,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/marubozu-momentum.md
+gartley-pattern,Gartley Pattern,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/gartley-pattern.md
+butterfly-pattern,Butterfly Pattern,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/butterfly-pattern.md
+bat-pattern,Bat Pattern,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/bat-pattern.md
+shark-pattern,Shark Pattern,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/shark-pattern.md
+abcd-pattern,ABCD Pattern,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/abcd-pattern.md
+vwap-scalp,VWAP Scalp,alpha_engine,short_horizon,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/vwap-scalp.md
+micro-pullback-scalp,Micro Pullback Scalp,alpha_engine,short_horizon,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/micro-pullback-scalp.md
+quad-witching,Quad Witching Volatility,filter_regime,calendar,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/quad-witching.md
+mtf-macd,Multi-Timeframe MACD,filter_regime,composite,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/mtf-macd.md
+mtf-rsi-confluence,MTF RSI Confluence,filter_regime,composite,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/mtf-rsi-confluence.md
+htf-trend-ltf-entry,HTF Trend + LTF Entry,alpha_engine,composite,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/htf-trend-ltf-entry.md
+gap-fill,Gap Fill,alpha_engine,session_gap,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/gap-fill.md
+gap-and-go,Gap & Go,alpha_engine,session_gap,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/gap-and-go.md
+opening-gap-fade,Opening Gap Fade,alpha_engine,session_gap,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/opening-gap-fade.md
+kama-trend,KAMA Trend,alpha_engine,trend_momentum,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/kama-trend.md
+tema-crossover,TEMA Crossover,setup_trigger,trend_momentum,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/tema-crossover.md
+pivot-breakout,Pivot Point Breakout,level_context,breakout_expansion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/pivot-breakout.md
+hidden-bullish-divergence,Hidden Bullish Divergence,setup_trigger,reversal_exhaustion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/hidden-bullish-divergence.md
+hidden-bearish-divergence,Hidden Bearish Divergence,setup_trigger,reversal_exhaustion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/hidden-bearish-divergence.md
+volume-price-divergence,Volume-Price Divergence,setup_trigger,reversal_exhaustion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/volume-price-divergence.md
+range-midpoint-reversion,Range Midpoint Reversion,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/range-midpoint-reversion.md
+consolidation-breakout,Consolidation Breakout,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/consolidation-breakout.md
+box-range-trading,Box Range Trading,level_context,breakout_expansion,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/box-range-trading.md
+narrow-body-candle,Narrow Body Candle,setup_trigger,breakout_expansion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/narrow-body-candle.md
+compression-expansion,Compression-Expansion,alpha_engine,breakout_expansion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/compression-expansion.md
+keltner-mean-reversion,Keltner Mean Reversion,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/keltner-mean-reversion.md
+envelope-channel-reversion,Envelope Channel Reversion,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/envelope-channel-reversion.md
+detrended-oscillator,Detrended Oscillator,setup_trigger,mean_reversion,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/detrended-oscillator.md
+mean-deviation-snap,Mean Deviation Snap,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/mean-deviation-snap.md
+vwap-anchored,VWAP Anchored,level_context,volume_auction,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/vwap-anchored.md
+volume-climax-reversal,Volume Climax Reversal,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/volume-climax-reversal.md
+force-index-breakout,Force Index Breakout,setup_trigger,volume_auction,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/force-index-breakout.md
+zero-lag-ema,Zero Lag EMA,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/zero-lag-ema.md
+kaufman-efficiency,Kaufman Efficiency,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/kaufman-efficiency.md
+fractal-adaptive-ma,Fractal Adaptive MA,filter_regime,trend_momentum,draft_to_review,"Décrit surtout l'état, la direction ou la volatilité du marché; à tester comme condition d'activation.",cards/fractal-adaptive-ma.md
+spinning-top-reversal,Spinning Top Reversal,setup_trigger,price_action,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/spinning-top-reversal.md
+kalman-filter-trend,Kalman Filter Trend,alpha_engine,statistical,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/kalman-filter-trend.md
+initial-balance-breakout,Initial Balance Breakout,level_context,volume_auction,draft_to_review,La contribution distinctive est le calcul d'un niveau ou d'une zone de référence.,cards/initial-balance-breakout.md
+cup-and-handle,Cup and Handle,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/cup-and-handle.md
+double-top-bottom,Double Top / Double Bottom,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/double-top-bottom.md
+ascending-triangle,Ascending Triangle Breakout,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/ascending-triangle.md
+descending-triangle,Descending Triangle Breakdown,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/descending-triangle.md
+bull-flag-pattern,Bull Flag / Bear Flag,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/bull-flag-pattern.md
+wedge-pattern,Rising / Falling Wedge,setup_trigger,chart_pattern,draft_to_review,Événement local d'entrée ou de confirmation; nécessite un moteur et un contexte explicites.,cards/wedge-pattern.md
+london-ny-overlap,London-New York Overlap,alpha_engine,session_gap,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/london-ny-overlap.md
+overnight-gap,Overnight Gap Strategy,alpha_engine,session_gap,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/overnight-gap.md
+rsi-mean-reversion,RSI Mean Reversion,alpha_engine,mean_reversion,draft_to_review,Hypothèse directionnelle autonome; à tester comme source principale du PnL.,cards/rsi-mean-reversion.md

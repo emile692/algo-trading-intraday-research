@@ -140,6 +140,8 @@ def run_backtest(
             raw_entry = entry_row["open"] if use_open_entry else row["close"]
             entry_price = execution_model.apply_slippage(raw_entry, direction, is_entry=True)
             entry_time = entry_row["timestamp"] if use_open_entry else row["timestamp"]
+            if entry_time.time() >= force_exit_time:
+                continue
 
             if direction == 1:
                 stop_price = float(or_low) - stop_buffer_points
@@ -189,14 +191,25 @@ def run_backtest(
                 continue
 
             exit_slice = session_df.loc[exit_scan_start:].copy()
+            cutoff_mask = exit_slice["timestamp"].dt.time >= force_exit_time
+            cutoff_idx = cutoff_mask[cutoff_mask].index[0] if cutoff_mask.any() else None
+            # A stop or target reached after the scheduled exit cannot replace
+            # the earlier time exit. The cutoff bar is exited at its open, before
+            # its high and low are observable.
+            active_slice = exit_slice.loc[~cutoff_mask]
+            if active_slice.empty and (
+                cutoff_idx is None
+                or session_df.loc[cutoff_idx, "timestamp"].time() != force_exit_time
+            ):
+                continue
             exit_reason = None
             raw_exit_price = None
             exit_idx = None
 
             if direction == 1:
-                hit_mask = (exit_slice["low"] <= stop_price) | (exit_slice["high"] >= target_price)
+                hit_mask = (active_slice["low"] <= stop_price) | (active_slice["high"] >= target_price)
             else:
-                hit_mask = (exit_slice["high"] >= stop_price) | (exit_slice["low"] <= target_price)
+                hit_mask = (active_slice["high"] >= stop_price) | (active_slice["low"] <= target_price)
 
             if hit_mask.any():
                 exit_idx = hit_mask[hit_mask].index[0]
@@ -216,14 +229,21 @@ def run_backtest(
                         exit_reason = "target"
                         raw_exit_price = target_price
             else:
-                time_exit_mask = exit_slice["timestamp"].dt.time >= force_exit_time
-                if time_exit_mask.any():
-                    exit_idx = time_exit_mask[time_exit_mask].index[0]
+                if cutoff_idx is not None:
                     exit_reason = "time_exit"
+                    cutoff_row = session_df.loc[cutoff_idx]
+                    if cutoff_row["timestamp"].time() == force_exit_time:
+                        exit_idx = cutoff_idx
+                        raw_exit_price = float(cutoff_row["open"])
+                    else:
+                        # If the exact cutoff bar is absent (early close or data
+                        # gap), flatten at the last observed pre-cutoff close.
+                        exit_idx = active_slice.index[-1]
+                        raw_exit_price = float(session_df.loc[exit_idx, "close"])
                 else:
-                    exit_idx = exit_slice.index[-1]
+                    exit_idx = active_slice.index[-1]
                     exit_reason = "eod_exit"
-                raw_exit_price = float(session_df.loc[exit_idx, "close"])
+                    raw_exit_price = float(session_df.loc[exit_idx, "close"])
 
             exit_row = session_df.loc[exit_idx]
             exit_price = execution_model.apply_slippage(raw_exit_price, direction, is_entry=False)

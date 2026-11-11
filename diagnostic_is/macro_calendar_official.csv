@@ -1,0 +1,445 @@
+date,event,release_time_et,source_url,source_file,source_record
+2010-06-17,CPI,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Thursday, June 17, 2010 | 08:30 AM | Consumer Price Index for May 2010"
+2010-06-23,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2010.htm,fed_fomc_2010.html,Statement | /newsevents/press/monetary/20100623a.htm
+2010-07-02,NFP,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, July 02, 2010 | 08:30 AM | Employment Situation for June 2010"
+2010-07-16,CPI,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, July 16, 2010 | 08:30 AM | Consumer Price Index for June 2010"
+2010-08-06,NFP,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, August 06, 2010 | 08:30 AM | Employment Situation for July 2010"
+2010-08-10,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2010.htm,fed_fomc_2010.html,Statement | /newsevents/press/monetary/20100810a.htm
+2010-08-13,CPI,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, August 13, 2010 | 08:30 AM | Consumer Price Index for July 2010"
+2010-09-03,NFP,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, September 03, 2010 | 08:30 AM | Employment Situation for August 2010"
+2010-09-17,CPI,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, September 17, 2010 | 08:30 AM | Consumer Price Index for August 2010"
+2010-09-21,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2010.htm,fed_fomc_2010.html,Statement | /newsevents/press/monetary/20100921a.htm
+2010-10-08,NFP,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, October 08, 2010 | 08:30 AM | Employment Situation for September 2010"
+2010-10-15,CPI,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, October 15, 2010 | 08:30 AM | Consumer Price Index for September 2010"
+2010-11-03,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2010.htm,fed_fomc_2010.html,Statement | /newsevents/press/monetary/20101103a.htm
+2010-11-05,NFP,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, November 05, 2010 | 08:30 AM | Employment Situation for October 2010"
+2010-11-17,CPI,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Wednesday, November 17, 2010 | 08:30 AM | Consumer Price Index for October 2010"
+2010-12-03,NFP,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Friday, December 03, 2010 | 08:30 AM | Employment Situation for November 2010"
+2010-12-14,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2010.htm,fed_fomc_2010.html,Statement | /newsevents/press/monetary/20101214a.htm
+2010-12-15,CPI,08:30 AM,https://www.bls.gov/schedule/2010/home.htm,bls_2010.html,"Wednesday, December 15, 2010 | 08:30 AM | Consumer Price Index for November 2010"
+2011-01-07,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, January 07, 2011 | 08:30 AM | Employment Situation for December 2010"
+2011-01-14,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, January 14, 2011 | 08:30 AM | Consumer Price Index for December 2010"
+2011-01-26,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20110126a.htm
+2011-02-04,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, February 04, 2011 | 08:30 AM | Employment Situation for January 2011"
+2011-02-17,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Thursday, February 17, 2011 | 08:30 AM | Consumer Price Index for January 2011"
+2011-03-04,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, March 04, 2011 | 08:30 AM | Employment Situation for February 2011"
+2011-03-15,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20110315a.htm
+2011-03-17,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Thursday, March 17, 2011 | 08:30 AM | Consumer Price Index for February 2011"
+2011-04-01,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, April 01, 2011 | 08:30 AM | Employment Situation for March 2011"
+2011-04-15,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, April 15, 2011 | 08:30 AM | Consumer Price Index for March 2011"
+2011-04-27,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20110427a.htm
+2011-05-06,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, May 06, 2011 | 08:30 AM | Employment Situation for April 2011"
+2011-05-13,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, May 13, 2011 | 08:30 AM | Consumer Price Index for April 2011"
+2011-06-03,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, June 03, 2011 | 08:30 AM | Employment Situation for May 2011"
+2011-06-15,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Wednesday, June 15, 2011 | 08:30 AM | Consumer Price Index for May 2011"
+2011-06-22,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20110622a.htm
+2011-07-08,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, July 08, 2011 | 08:30 AM | Employment Situation for June 2011"
+2011-07-15,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, July 15, 2011 | 08:30 AM | Consumer Price Index for June 2011"
+2011-08-05,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, August 05, 2011 | 08:30 AM | Employment Situation for July 2011"
+2011-08-09,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20110809a.htm
+2011-08-18,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Thursday, August 18, 2011 | 08:30 AM | Consumer Price Index for July 2011"
+2011-09-02,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, September 02, 2011 | 08:30 AM | Employment Situation for August 2011"
+2011-09-15,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Thursday, September 15, 2011 | 08:30 AM | Consumer Price Index for August 2011"
+2011-09-21,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20110921a.htm
+2011-10-07,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, October 07, 2011 | 08:30 AM | Employment Situation for September 2011"
+2011-10-19,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Wednesday, October 19, 2011 | 08:30 AM | Consumer Price Index for September 2011"
+2011-11-02,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20111102a.htm
+2011-11-04,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, November 04, 2011 | 08:30 AM | Employment Situation for October 2011"
+2011-11-16,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Wednesday, November 16, 2011 | 08:30 AM | Consumer Price Index for October 2011"
+2011-12-02,NFP,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, December 02, 2011 | 08:30 AM | Employment Situation for November 2011"
+2011-12-13,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm,fed_fomc_2011.html,Statement | /newsevents/pressreleases/monetary20111213a.htm
+2011-12-16,CPI,08:30 AM,https://www.bls.gov/schedule/2011/home.htm,bls_2011.html,"Friday, December 16, 2011 | 08:30 AM | Consumer Price Index for November 2011"
+2012-01-06,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, January 06, 2012 | 08:30 AM | Employment Situation for December 2011"
+2012-01-19,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Thursday, January 19, 2012 | 08:30 AM | Consumer Price Index for December 2011"
+2012-01-25,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20120125a.htm
+2012-02-03,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, February 03, 2012 | 08:30 AM | Employment Situation for January 2012"
+2012-02-17,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, February 17, 2012 | 08:30 AM | Consumer Price Index for January 2012"
+2012-03-09,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, March 09, 2012 | 08:30 AM | Employment Situation for February 2012"
+2012-03-13,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20120313a.htm
+2012-03-16,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, March 16, 2012 | 08:30 AM | Consumer Price Index for February 2012"
+2012-04-06,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, April 06, 2012 | 08:30 AM | Employment Situation for March 2012"
+2012-04-13,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, April 13, 2012 | 08:30 AM | Consumer Price Index for March 2012"
+2012-04-25,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20120425a.htm
+2012-05-04,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, May 04, 2012 | 08:30 AM | Employment Situation for April 2012"
+2012-05-15,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Tuesday, May 15, 2012 | 08:30 AM | Consumer Price Index for April 2012"
+2012-06-01,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, June 01, 2012 | 08:30 AM | Employment Situation for May 2012"
+2012-06-14,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Thursday, June 14, 2012 | 08:30 AM | Consumer Price Index for May 2012"
+2012-06-20,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20120620a.htm
+2012-07-06,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, July 06, 2012 | 08:30 AM | Employment Situation for June 2012"
+2012-07-17,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Tuesday, July 17, 2012 | 08:30 AM | Consumer Price Index for June 2012"
+2012-08-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20120801a.htm
+2012-08-03,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, August 03, 2012 | 08:30 AM | Employment Situation for July 2012"
+2012-08-15,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Wednesday, August 15, 2012 | 08:30 AM | Consumer Price Index for July 2012"
+2012-09-07,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, September 07, 2012 | 08:30 AM | Employment Situation for August 2012"
+2012-09-13,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20120913a.htm
+2012-09-14,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, September 14, 2012 | 08:30 AM | Consumer Price Index for August 2012"
+2012-10-05,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, October 05, 2012 | 08:30 AM | Employment Situation for September 2012"
+2012-10-16,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Tuesday, October 16, 2012 | 08:30 AM | Consumer Price Index for September 2012"
+2012-10-24,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20121024a.htm
+2012-11-02,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, November 02, 2012 | 08:30 AM | Employment Situation for October 2012"
+2012-11-15,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Thursday, November 15, 2012 | 08:30 AM | Consumer Price Index for October 2012"
+2012-12-07,NFP,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, December 07, 2012 | 08:30 AM | Employment Situation for November 2012"
+2012-12-12,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm,fed_fomc_2012.html,Statement | /newsevents/pressreleases/monetary20121212a.htm
+2012-12-14,CPI,08:30 AM,https://www.bls.gov/schedule/2012/home.htm,bls_2012.html,"Friday, December 14, 2012 | 08:30 AM | Consumer Price Index for November 2012"
+2013-01-04,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, January 04, 2013 | 08:30 AM | Employment Situation for December 2012"
+2013-01-16,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Wednesday, January 16, 2013 | 08:30 AM | Consumer Price Index for December 2012"
+2013-01-30,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20130130a.htm
+2013-02-01,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, February 01, 2013 | 08:30 AM | Employment Situation for January 2013"
+2013-02-21,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Thursday, February 21, 2013 | 08:30 AM | Consumer Price Index for January 2013"
+2013-03-08,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, March 08, 2013 | 08:30 AM | Employment Situation for February 2013"
+2013-03-15,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, March 15, 2013 | 08:30 AM | Consumer Price Index for February 2013"
+2013-03-20,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20130320a.htm
+2013-04-05,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, April 05, 2013 | 08:30 AM | Employment Situation for March 2013"
+2013-04-16,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Tuesday, April 16, 2013 | 08:30 AM | Consumer Price Index for March 2013"
+2013-05-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20130501a.htm
+2013-05-03,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, May 03, 2013 | 08:30 AM | Employment Situation for April 2013"
+2013-05-16,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Thursday, May 16, 2013 | 08:30 AM | Consumer Price Index for April 2013"
+2013-06-07,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, June 07, 2013 | 08:30 AM | Employment Situation for May 2013"
+2013-06-18,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Tuesday, June 18, 2013 | 08:30 AM | Consumer Price Index for May 2013"
+2013-06-19,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20130619a.htm
+2013-07-05,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, July 05, 2013 | 08:30 AM | Employment Situation for June 2013"
+2013-07-16,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Tuesday, July 16, 2013 | 08:30 AM | Consumer Price Index for June 2013"
+2013-07-31,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20130731a.htm
+2013-08-02,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, August 02, 2013 | 08:30 AM | Employment Situation for July 2013"
+2013-08-15,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Thursday, August 15, 2013 | 08:30 AM | Consumer Price Index for July 2013"
+2013-09-06,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, September 06, 2013 | 08:30 AM | Employment Situation for August 2013"
+2013-09-17,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Tuesday, September 17, 2013 | 08:30 AM | Consumer Price Index for August 2013"
+2013-09-18,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20130918a.htm
+2013-10-22,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Tuesday, October 22, 2013 | 08:30 AM | Employment Situation for September 2013"
+2013-10-30,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Wednesday, October 30, 2013 | 08:30 AM | Consumer Price Index for September 2013"
+2013-10-30,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20131030a.htm
+2013-11-08,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, November 08, 2013 | 08:30 AM | Employment Situation for October 2013"
+2013-11-20,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Wednesday, November 20, 2013 | 08:30 AM | Consumer Price Index for October 2013"
+2013-12-06,NFP,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Friday, December 06, 2013 | 08:30 AM | Employment Situation for November 2013"
+2013-12-17,CPI,08:30 AM,https://www.bls.gov/schedule/2013/home.htm,bls_2013.html,"Tuesday, December 17, 2013 | 08:30 AM | Consumer Price Index for November 2013"
+2013-12-18,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm,fed_fomc_2013.html,Statement | /newsevents/pressreleases/monetary20131218a.htm
+2014-01-10,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, January 10, 2014 | 08:30 AM | Employment Situation for December 2013"
+2014-01-16,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Thursday, January 16, 2014 | 08:30 AM | Consumer Price Index for December 2013"
+2014-01-29,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20140129a.htm
+2014-02-07,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, February 07, 2014 | 08:30 AM | Employment Situation for January 2014"
+2014-02-20,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Thursday, February 20, 2014 | 08:30 AM | Consumer Price Index for January 2014"
+2014-03-07,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, March 07, 2014 | 08:30 AM | Employment Situation for February 2014"
+2014-03-18,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Tuesday, March 18, 2014 | 08:30 AM | Consumer Price Index for February 2014"
+2014-03-19,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20140319a.htm
+2014-04-04,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, April 04, 2014 | 08:30 AM | Employment Situation for March 2014"
+2014-04-15,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Tuesday, April 15, 2014 | 08:30 AM | Consumer Price Index for March 2014"
+2014-04-30,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20140430a.htm
+2014-05-02,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, May 02, 2014 | 08:30 AM | Employment Situation for April 2014"
+2014-05-15,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Thursday, May 15, 2014 | 08:30 AM | Consumer Price Index for April 2014"
+2014-06-06,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, June 06, 2014 | 08:30 AM | Employment Situation for May 2014"
+2014-06-17,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Tuesday, June 17, 2014 | 08:30 AM | Consumer Price Index for May 2014"
+2014-06-18,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20140618a.htm
+2014-07-03,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Thursday, July 03, 2014 | 08:30 AM | Employment Situation for June 2014"
+2014-07-22,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Tuesday, July 22, 2014 | 08:30 AM | Consumer Price Index for June 2014"
+2014-07-30,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20140730a.htm
+2014-08-01,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, August 01, 2014 | 08:30 AM | Employment Situation for July 2014"
+2014-08-19,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Tuesday, August 19, 2014 | 08:30 AM | Consumer Price Index for July 2014"
+2014-09-05,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, September 05, 2014 | 08:30 AM | Employment Situation for August 2014"
+2014-09-17,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Wednesday, September 17, 2014 | 08:30 AM | Consumer Price Index for August 2014"
+2014-09-17,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20140917a.htm
+2014-10-03,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, October 03, 2014 | 08:30 AM | Employment Situation for September 2014"
+2014-10-22,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Wednesday, October 22, 2014 | 08:30 AM | Consumer Price Index for September 2014"
+2014-10-29,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20141029a.htm
+2014-11-07,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, November 07, 2014 | 08:30 AM | Employment Situation for October 2014"
+2014-11-20,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Thursday, November 20, 2014 | 08:30 AM | Consumer Price Index for October 2014"
+2014-12-05,NFP,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Friday, December 05, 2014 | 08:30 AM | Employment Situation for November 2014"
+2014-12-17,CPI,08:30 AM,https://www.bls.gov/schedule/2014/home.htm,bls_2014.html,"Wednesday, December 17, 2014 | 08:30 AM | Consumer Price Index for November 2014"
+2014-12-17,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm,fed_fomc_2014.html,Statement | /newsevents/pressreleases/monetary20141217a.htm
+2015-01-09,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, January 09, 2015 | 08:30 AM | Employment Situation for December 2014"
+2015-01-16,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, January 16, 2015 | 08:30 AM | Consumer Price Index for December 2014"
+2015-01-28,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20150128a.htm
+2015-02-06,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, February 06, 2015 | 08:30 AM | Employment Situation for January 2015"
+2015-02-26,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Thursday, February 26, 2015 | 08:30 AM | Consumer Price Index for January 2015"
+2015-03-06,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, March 06, 2015 | 08:30 AM | Employment Situation for February 2015"
+2015-03-18,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20150318a.htm
+2015-03-24,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Tuesday, March 24, 2015 | 08:30 AM | Consumer Price Index for February 2015"
+2015-04-03,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, April 03, 2015 | 08:30 AM | Employment Situation for March 2015"
+2015-04-17,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, April 17, 2015 | 08:30 AM | Consumer Price Index for March 2015"
+2015-04-29,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20150429a.htm
+2015-05-08,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, May 08, 2015 | 08:30 AM | Employment Situation for April 2015"
+2015-05-22,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, May 22, 2015 | 08:30 AM | Consumer Price Index for April 2015"
+2015-06-05,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, June 05, 2015 | 08:30 AM | Employment Situation for May 2015"
+2015-06-17,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20150617a.htm
+2015-06-18,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Thursday, June 18, 2015 | 08:30 AM | Consumer Price Index for May 2015"
+2015-07-02,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Thursday, July 02, 2015 | 08:30 AM | Employment Situation for June 2015"
+2015-07-17,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, July 17, 2015 | 08:30 AM | Consumer Price Index for June 2015"
+2015-07-29,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20150729a.htm
+2015-08-07,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, August 07, 2015 | 08:30 AM | Employment Situation for July 2015"
+2015-08-19,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Wednesday, August 19, 2015 | 08:30 AM | Consumer Price Index for July 2015"
+2015-09-04,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, September 04, 2015 | 08:30 AM | Employment Situation for August 2015"
+2015-09-16,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Wednesday, September 16, 2015 | 08:30 AM | Consumer Price Index for August 2015"
+2015-09-17,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20150917a.htm
+2015-10-02,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, October 02, 2015 | 08:30 AM | Employment Situation for September 2015"
+2015-10-15,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Thursday, October 15, 2015 | 08:30 AM | Consumer Price Index for September 2015"
+2015-10-28,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20151028a.htm
+2015-11-06,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, November 06, 2015 | 08:30 AM | Employment Situation for October 2015"
+2015-11-17,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Tuesday, November 17, 2015 | 08:30 AM | Consumer Price Index for October 2015"
+2015-12-04,NFP,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Friday, December 04, 2015 | 08:30 AM | Employment Situation for November 2015"
+2015-12-15,CPI,08:30 AM,https://www.bls.gov/schedule/2015/home.htm,bls_2015.html,"Tuesday, December 15, 2015 | 08:30 AM | Consumer Price Index for November 2015"
+2015-12-16,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm,fed_fomc_2015.html,Statement | /newsevents/pressreleases/monetary20151216a.htm
+2016-01-08,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, January 08, 2016 | 08:30 AM | Employment Situation for December 2015"
+2016-01-20,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Wednesday, January 20, 2016 | 08:30 AM | Consumer Price Index for December 2015"
+2016-01-27,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20160127a.htm
+2016-02-05,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, February 05, 2016 | 08:30 AM | Employment Situation for January 2016"
+2016-02-19,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, February 19, 2016 | 08:30 AM | Consumer Price Index for January 2016"
+2016-03-04,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, March 04, 2016 | 08:30 AM | Employment Situation for February 2016"
+2016-03-16,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Wednesday, March 16, 2016 | 08:30 AM | Consumer Price Index for February 2016"
+2016-03-16,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20160316a.htm
+2016-04-01,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, April 01, 2016 | 08:30 AM | Employment Situation for March 2016"
+2016-04-14,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Thursday, April 14, 2016 | 08:30 AM | Consumer Price Index for March 2016"
+2016-04-27,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20160427a.htm
+2016-05-06,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, May 06, 2016 | 08:30 AM | Employment Situation for April 2016"
+2016-05-17,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Tuesday, May 17, 2016 | 08:30 AM | Consumer Price Index for April 2016"
+2016-06-03,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, June 03, 2016 | 08:30 AM | Employment Situation for May 2016"
+2016-06-15,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20160615a.htm
+2016-06-16,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Thursday, June 16, 2016 | 08:30 AM | Consumer Price Index for May 2016"
+2016-07-08,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, July 08, 2016 | 08:30 AM | Employment Situation for June 2016"
+2016-07-15,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, July 15, 2016 | 08:30 AM | Consumer Price Index for June 2016"
+2016-07-27,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20160727a.htm
+2016-08-05,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, August 05, 2016 | 08:30 AM | Employment Situation for July 2016"
+2016-08-16,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Tuesday, August 16, 2016 | 08:30 AM | Consumer Price Index for July 2016"
+2016-09-02,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, September 02, 2016 | 08:30 AM | Employment Situation for August 2016"
+2016-09-16,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, September 16, 2016 | 08:30 AM | Consumer Price Index for August 2016"
+2016-09-21,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20160921a.htm
+2016-10-07,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, October 07, 2016 | 08:30 AM | Employment Situation for September 2016"
+2016-10-18,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Tuesday, October 18, 2016 | 08:30 AM | Consumer Price Index for September 2016"
+2016-11-02,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20161102a.htm
+2016-11-04,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, November 04, 2016 | 08:30 AM | Employment Situation for October 2016"
+2016-11-17,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Thursday, November 17, 2016 | 08:30 AM | Consumer Price Index for October 2016"
+2016-12-02,NFP,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Friday, December 02, 2016 | 08:30 AM | Employment Situation for November 2016"
+2016-12-14,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm,fed_fomc_2016.html,Statement | /newsevents/pressreleases/monetary20161214a.htm
+2016-12-15,CPI,08:30 AM,https://www.bls.gov/schedule/2016/home.htm,bls_2016.html,"Thursday, December 15, 2016 | 08:30 AM | Consumer Price Index for November 2016"
+2017-01-06,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, January 06, 2017 | 08:30 AM | Employment Situation for December 2016"
+2017-01-18,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Wednesday, January 18, 2017 | 08:30 AM | Consumer Price Index for December 2016"
+2017-02-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20170201a.htm
+2017-02-03,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, February 03, 2017 | 08:30 AM | Employment Situation for January 2017"
+2017-02-15,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Wednesday, February 15, 2017 | 08:30 AM | Consumer Price Index for January 2017"
+2017-03-10,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, March 10, 2017 | 08:30 AM | Employment Situation for February 2017"
+2017-03-15,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Wednesday, March 15, 2017 | 08:30 AM | Consumer Price Index for February 2017"
+2017-03-15,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20170315a.htm
+2017-04-07,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, April 07, 2017 | 08:30 AM | Employment Situation for March 2017"
+2017-04-14,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, April 14, 2017 | 08:30 AM | Consumer Price Index for March 2017"
+2017-05-03,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20170503a.htm
+2017-05-05,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, May 05, 2017 | 08:30 AM | Employment Situation for April 2017"
+2017-05-12,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, May 12, 2017 | 08:30 AM | Consumer Price Index for April 2017"
+2017-06-02,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, June 02, 2017 | 08:30 AM | Employment Situation for May 2017"
+2017-06-14,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Wednesday, June 14, 2017 | 08:30 AM | Consumer Price Index for May 2017"
+2017-06-14,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20170614a.htm
+2017-07-07,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, July 07, 2017 | 08:30 AM | Employment Situation for June 2017"
+2017-07-14,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, July 14, 2017 | 08:30 AM | Consumer Price Index for June 2017"
+2017-07-26,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20170726a.htm
+2017-08-04,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, August 04, 2017 | 08:30 AM | Employment Situation for July 2017"
+2017-08-11,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, August 11, 2017 | 08:30 AM | Consumer Price Index for July 2017"
+2017-09-01,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, September 01, 2017 | 08:30 AM | Employment Situation for August 2017"
+2017-09-14,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Thursday, September 14, 2017 | 08:30 AM | Consumer Price Index for August 2017"
+2017-09-20,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20170920a.htm
+2017-10-06,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, October 06, 2017 | 08:30 AM | Employment Situation for September 2017"
+2017-10-13,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, October 13, 2017 | 08:30 AM | Consumer Price Index for September 2017"
+2017-11-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20171101a.htm
+2017-11-03,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, November 03, 2017 | 08:30 AM | Employment Situation for October 2017"
+2017-11-15,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Wednesday, November 15, 2017 | 08:30 AM | Consumer Price Index for October 2017"
+2017-12-08,NFP,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Friday, December 08, 2017 | 08:30 AM | Employment Situation for November 2017"
+2017-12-13,CPI,08:30 AM,https://www.bls.gov/schedule/2017/home.htm,bls_2017.html,"Wednesday, December 13, 2017 | 08:30 AM | Consumer Price Index for November 2017"
+2017-12-13,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm,fed_fomc_2017.html,Statement | /newsevents/pressreleases/monetary20171213a.htm
+2018-01-05,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, January 05, 2018 | 08:30 AM | Employment Situation for December 2017"
+2018-01-12,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, January 12, 2018 | 08:30 AM | Consumer Price Index for December 2017"
+2018-01-31,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20180131a.htm
+2018-02-02,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, February 02, 2018 | 08:30 AM | Employment Situation for January 2018"
+2018-02-14,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Wednesday, February 14, 2018 | 08:30 AM | Consumer Price Index for January 2018"
+2018-03-09,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, March 09, 2018 | 08:30 AM | Employment Situation for February 2018"
+2018-03-13,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Tuesday, March 13, 2018 | 08:30 AM | Consumer Price Index for February 2018"
+2018-03-21,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20180321a.htm
+2018-04-06,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, April 06, 2018 | 08:30 AM | Employment Situation for March 2018"
+2018-04-11,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Wednesday, April 11, 2018 | 08:30 AM | Consumer Price Index for March 2018"
+2018-05-02,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20180502a.htm
+2018-05-04,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, May 04, 2018 | 08:30 AM | Employment Situation for April 2018"
+2018-05-10,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Thursday, May 10, 2018 | 08:30 AM | Consumer Price Index for April 2018"
+2018-06-01,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, June 01, 2018 | 08:30 AM | Employment Situation for May 2018"
+2018-06-12,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Tuesday, June 12, 2018 | 08:30 AM | Consumer Price Index for May 2018"
+2018-06-13,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20180613a.htm
+2018-07-06,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, July 06, 2018 | 08:30 AM | Employment Situation for June 2018"
+2018-07-12,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Thursday, July 12, 2018 | 08:30 AM | Consumer Price Index for June 2018"
+2018-08-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20180801a.htm
+2018-08-03,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, August 03, 2018 | 08:30 AM | Employment Situation for July 2018"
+2018-08-10,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, August 10, 2018 | 08:30 AM | Consumer Price Index for July 2018"
+2018-09-07,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, September 07, 2018 | 08:30 AM | Employment Situation for August 2018"
+2018-09-13,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Thursday, September 13, 2018 | 08:30 AM | Consumer Price Index for August 2018"
+2018-09-26,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20180926a.htm
+2018-10-05,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, October 05, 2018 | 08:30 AM | Employment Situation for September 2018"
+2018-10-11,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Thursday, October 11, 2018 | 08:30 AM | Consumer Price Index for September 2018"
+2018-11-02,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, November 02, 2018 | 08:30 AM | Employment Situation for October 2018"
+2018-11-08,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20181108a.htm
+2018-11-14,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Wednesday, November 14, 2018 | 08:30 AM | Consumer Price Index for October 2018"
+2018-12-07,NFP,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Friday, December 07, 2018 | 08:30 AM | Employment Situation for November 2018"
+2018-12-12,CPI,08:30 AM,https://www.bls.gov/schedule/2018/home.htm,bls_2018.html,"Wednesday, December 12, 2018 | 08:30 AM | Consumer Price Index for November 2018"
+2018-12-19,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm,fed_fomc_2018.html,Statement | /newsevents/pressreleases/monetary20181219a.htm
+2019-01-04,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, January 04, 2019 | 08:30 AM | Employment Situation for December 2018"
+2019-01-11,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, January 11, 2019 | 08:30 AM | Consumer Price Index for December 2018"
+2019-01-30,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20190130a.htm
+2019-02-01,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, February 01, 2019 | 08:30 AM | Employment Situation for January 2019"
+2019-02-13,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Wednesday, February 13, 2019 | 08:30 AM | Consumer Price Index for January 2019"
+2019-03-08,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, March 08, 2019 | 08:30 AM | Employment Situation for February 2019"
+2019-03-12,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Tuesday, March 12, 2019 | 08:30 AM | Consumer Price Index for February 2019"
+2019-03-20,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20190320a.htm
+2019-04-05,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, April 05, 2019 | 08:30 AM | Employment Situation for March 2019"
+2019-04-10,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Wednesday, April 10, 2019 | 08:30 AM | Consumer Price Index for March 2019"
+2019-05-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20190501a.htm
+2019-05-03,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, May 03, 2019 | 08:30 AM | Employment Situation for April 2019"
+2019-05-10,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, May 10, 2019 | 08:30 AM | Consumer Price Index for April 2019"
+2019-06-07,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, June 07, 2019 | 08:30 AM | Employment Situation for May 2019"
+2019-06-12,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Wednesday, June 12, 2019 | 08:30 AM | Consumer Price Index for May 2019"
+2019-06-19,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20190619a.htm
+2019-07-05,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, July 05, 2019 | 08:30 AM | Employment Situation for June 2019"
+2019-07-11,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Thursday, July 11, 2019 | 08:30 AM | Consumer Price Index for June 2019"
+2019-07-31,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20190731a.htm
+2019-08-02,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, August 02, 2019 | 08:30 AM | Employment Situation for July 2019"
+2019-08-13,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Tuesday, August 13, 2019 | 08:30 AM | Consumer Price Index for July 2019"
+2019-09-06,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, September 06, 2019 | 08:30 AM | Employment Situation for August 2019"
+2019-09-12,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Thursday, September 12, 2019 | 08:30 AM | Consumer Price Index for August 2019"
+2019-09-18,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20190918a.htm
+2019-10-04,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, October 04, 2019 | 08:30 AM | Employment Situation for September 2019"
+2019-10-10,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Thursday, October 10, 2019 | 08:30 AM | Consumer Price Index for September 2019"
+2019-10-11,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20191011a.htm
+2019-10-30,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20191030a.htm
+2019-11-01,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, November 01, 2019 | 08:30 AM | Employment Situation for October 2019"
+2019-11-13,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Wednesday, November 13, 2019 | 08:30 AM | Consumer Price Index for October 2019"
+2019-12-06,NFP,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Friday, December 06, 2019 | 08:30 AM | Employment Situation for November 2019"
+2019-12-11,CPI,08:30 AM,https://www.bls.gov/schedule/2019/home.htm,bls_2019.html,"Wednesday, December 11, 2019 | 08:30 AM | Consumer Price Index for November 2019"
+2019-12-11,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm,fed_fomc_2019.html,Statement | /newsevents/pressreleases/monetary20191211a.htm
+2020-01-10,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, January 10, 2020 | 08:30 AM | Employment Situation for December 2019"
+2020-01-14,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Tuesday, January 14, 2020 | 08:30 AM | Consumer Price Index for December 2019"
+2020-01-29,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200129a.htm
+2020-02-07,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, February 07, 2020 | 08:30 AM | Employment Situation for January 2020"
+2020-02-13,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Thursday, February 13, 2020 | 08:30 AM | Consumer Price Index for January 2020"
+2020-03-03,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200303a.htm
+2020-03-06,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, March 06, 2020 | 08:30 AM | Employment Situation for February 2020"
+2020-03-11,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Wednesday, March 11, 2020 | 08:30 AM | Consumer Price Index for February 2020"
+2020-03-15,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200315a.htm
+2020-03-23,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200323a.htm
+2020-03-31,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Press Release | /newsevents/pressreleases/monetary20200331a.htm
+2020-04-03,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, April 03, 2020 | 08:30 AM | Employment Situation for March 2020"
+2020-04-10,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, April 10, 2020 | 08:30 AM | Consumer Price Index for March 2020"
+2020-04-29,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200429a.htm
+2020-05-08,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, May 08, 2020 | 08:30 AM | Employment Situation for April 2020"
+2020-05-12,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Tuesday, May 12, 2020 | 08:30 AM | Consumer Price Index for April 2020"
+2020-06-05,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, June 05, 2020 | 08:30 AM | Employment Situation for May 2020"
+2020-06-10,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Wednesday, June 10, 2020 | 08:30 AM | Consumer Price Index for May 2020"
+2020-06-10,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200610a.htm
+2020-07-02,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Thursday, July 02, 2020 | 08:30 AM | Employment Situation for June 2020"
+2020-07-14,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Tuesday, July 14, 2020 | 08:30 AM | Consumer Price Index for June 2020"
+2020-07-29,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200729a.htm
+2020-08-07,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, August 07, 2020 | 08:30 AM | Employment Situation for July 2020"
+2020-08-12,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Wednesday, August 12, 2020 | 08:30 AM | Consumer Price Index for July 2020"
+2020-08-27,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement on Longer-Run Goals and Monetary Policy Strategy | /newsevents/pressreleases/monetary20200827a.htm
+2020-09-04,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, September 04, 2020 | 08:30 AM | Employment Situation for August 2020"
+2020-09-11,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, September 11, 2020 | 08:30 AM | Consumer Price Index for August 2020"
+2020-09-16,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20200916a.htm
+2020-10-02,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, October 02, 2020 | 08:30 AM | Employment Situation for September 2020"
+2020-10-13,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Tuesday, October 13, 2020 | 08:30 AM | Consumer Price Index for September 2020"
+2020-11-05,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20201105a.htm
+2020-11-06,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, November 6, 2020 | 08:30 AM | Employment Situation for October 2020"
+2020-11-12,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Thursday, November 12, 2020 | 08:30 AM | Consumer Price Index for October 2020"
+2020-12-04,NFP,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Friday, December 4, 2020 | 08:30 AM | Employment Situation for November 2020"
+2020-12-10,CPI,08:30 AM,https://www.bls.gov/schedule/2020/home.htm,bls_2020.html,"Thursday, December 10, 2020 | 08:30 AM | Consumer Price Index for November 2020"
+2020-12-16,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm,fed_fomc_2020.html,Statement | /newsevents/pressreleases/monetary20201216a.htm
+2021-01-08,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, January 8, 2021 | 08:30 AM | Employment Situation for December 2020"
+2021-01-13,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Wednesday, January 13, 2021 | 08:30 AM | Consumer Price Index for December 2020"
+2021-01-27,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20210127a.htm
+2021-02-05,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, February 5, 2021 | 08:30 AM | Employment Situation for January 2021"
+2021-02-10,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Wednesday, February 10, 2021 | 08:30 AM | Consumer Price Index for January 2021"
+2021-03-05,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, March 5, 2021 | 08:30 AM | Employment Situation for February 2021"
+2021-03-10,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Wednesday, March 10, 2021 | 08:30 AM | Consumer Price Index for February 2021"
+2021-03-17,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20210317a.htm
+2021-04-02,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, April 2, 2021 | 08:30 AM | Employment Situation for March 2021"
+2021-04-13,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Tuesday, April 13, 2021 | 08:30 AM | Consumer Price Index for March 2021"
+2021-04-28,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20210428a.htm
+2021-05-07,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, May 07, 2021 | 08:30 AM | Employment Situation for April 2021"
+2021-05-12,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Wednesday, May 12, 2021 | 08:30 AM | Consumer Price Index for April 2021"
+2021-06-04,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, June 04, 2021 | 08:30 AM | Employment Situation for May 2021"
+2021-06-10,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Thursday, June 10, 2021 | 08:30 AM | Consumer Price Index for May 2021"
+2021-06-16,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20210616a.htm
+2021-07-02,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, July 2, 2021 | 08:30 AM | Employment Situation for June 2021"
+2021-07-13,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Tuesday, July 13, 2021 | 08:30 AM | Consumer Price Index for June 2021"
+2021-07-28,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20210728a.htm
+2021-08-06,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, August 6, 2021 | 08:30 AM | Employment Situation for July 2021"
+2021-08-11,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Wednesday, August 11, 2021 | 08:30 AM | Consumer Price Index for July 2021"
+2021-09-03,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, September 3, 2021 | 08:30 AM | Employment Situation for August 2021"
+2021-09-14,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Tuesday, September 14, 2021 | 08:30 AM | Consumer Price Index for August 2021"
+2021-09-22,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20210922a.htm
+2021-10-08,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, October 8, 2021 | 08:30 AM | Employment Situation for September 2021"
+2021-10-13,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Wednesday, October 13, 2021 | 08:30 AM | Consumer Price Index for September 2021"
+2021-11-03,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20211103a.htm
+2021-11-05,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, November 05, 2021 | 08:30 AM | Employment Situation for October 2021"
+2021-11-10,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Wednesday, November 10, 2021 | 08:30 AM | Consumer Price Index for October 2021"
+2021-12-03,NFP,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, December 3, 2021 | 08:30 AM | Employment Situation for November 2021"
+2021-12-10,CPI,08:30 AM,https://www.bls.gov/schedule/2021/home.htm,bls_2021.html,"Friday, December 10, 2021 | 08:30 AM | Consumer Price Index for November 2021"
+2021-12-15,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20211215a.htm
+2022-01-07,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, January 07, 2022 | 08:30 AM | Employment Situation for December 2021"
+2022-01-12,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Wednesday, January 12, 2022 | 08:30 AM | Consumer Price Index for December 2021"
+2022-01-26,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20220126a.htm
+2022-02-04,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, February 04, 2022 | 08:30 AM | Employment Situation for January 2022"
+2022-02-10,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Thursday, February 10, 2022 | 08:30 AM | Consumer Price Index for January 2022"
+2022-03-04,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, March 4, 2022 | 08:30 AM | Employment Situation for February 2022"
+2022-03-10,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Thursday, March 10, 2022 | 08:30 AM | Consumer Price Index for February 2022"
+2022-03-16,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20220316a.htm
+2022-04-01,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, April 1, 2022 | 08:30 AM | Employment Situation for March 2022"
+2022-04-12,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Tuesday, April 12, 2022 | 08:30 AM | Consumer Price Index for March 2022"
+2022-05-04,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20220504a.htm
+2022-05-06,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, May 06, 2022 | 08:30 AM | Employment Situation for April 2022"
+2022-05-11,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Wednesday, May 11, 2022 | 08:30 AM | Consumer Price Index for April 2022"
+2022-06-03,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, June 3, 2022 | 08:30 AM | Employment Situation for May 2022"
+2022-06-10,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, June 10, 2022 | 08:30 AM | Consumer Price Index for May 2022"
+2022-06-15,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20220615a.htm
+2022-07-08,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, July 8, 2022 | 08:30 AM | Employment Situation for June 2022"
+2022-07-13,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Wednesday, July 13, 2022 | 08:30 AM | Consumer Price Index for June 2022"
+2022-07-27,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20220727a.htm
+2022-08-05,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, August 05, 2022 | 08:30 AM | Employment Situation for July 2022"
+2022-08-10,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Wednesday, August 10, 2022 | 08:30 AM | Consumer Price Index for July 2022"
+2022-09-02,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, September 02, 2022 | 08:30 AM | Employment Situation for August 2022"
+2022-09-13,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Tuesday, September 13, 2022 | 08:30 AM | Consumer Price Index for August 2022"
+2022-09-21,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20220921a.htm
+2022-10-07,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, October 07, 2022 | 08:30 AM | Employment Situation for September 2022"
+2022-10-13,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Thursday, October 13, 2022 | 08:30 AM | Consumer Price Index for September 2022"
+2022-11-02,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20221102a.htm
+2022-11-04,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, November 04, 2022 | 08:30 AM | Employment Situation for October 2022"
+2022-11-10,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Thursday, November 10, 2022 | 08:30 AM | Consumer Price Index for October 2022"
+2022-12-02,NFP,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Friday, December 02, 2022 | 08:30 AM | Employment Situation for November 2022"
+2022-12-13,CPI,08:30 AM,https://www.bls.gov/schedule/2022/home.htm,bls_2022.html,"Tuesday, December 13, 2022 | 08:30 AM | Consumer Price Index for November 2022"
+2022-12-14,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20221214a.htm
+2023-01-06,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, January 06, 2023 | 08:30 AM | Employment Situation for December 2022"
+2023-01-12,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Thursday, January 12, 2023 | 08:30 AM | Consumer Price Index for December 2022"
+2023-02-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20230201a.htm
+2023-02-03,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, February 03, 2023 | 08:30 AM | Employment Situation for January 2023"
+2023-02-14,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Tuesday, February 14, 2023 | 08:30 AM | Consumer Price Index for January 2023"
+2023-03-10,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, March 10, 2023 | 08:30 AM | Employment Situation for February 2023"
+2023-03-14,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Tuesday, March 14, 2023 | 08:30 AM | Consumer Price Index for February 2023"
+2023-03-22,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20230322a.htm
+2023-04-07,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, April 07, 2023 | 08:30 AM | Employment Situation for March 2023"
+2023-04-12,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Wednesday, April 12, 2023 | 08:30 AM | Consumer Price Index for March 2023"
+2023-05-03,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20230503a.htm
+2023-05-05,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, May 05, 2023 | 08:30 AM | Employment Situation for April 2023"
+2023-05-10,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Wednesday, May 10, 2023 | 08:30 AM | Consumer Price Index for April 2023"
+2023-06-02,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, June 02, 2023 | 08:30 AM | Employment Situation for May 2023"
+2023-06-13,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Tuesday, June 13, 2023 | 08:30 AM | Consumer Price Index for May 2023"
+2023-06-14,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20230614a.htm
+2023-07-07,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, July 07, 2023 | 08:30 AM | Employment Situation for June 2023"
+2023-07-12,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Wednesday, July 12, 2023 | 08:30 AM | Consumer Price Index for June 2023"
+2023-07-26,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20230726a.htm
+2023-08-04,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, August 04, 2023 | 08:30 AM | Employment Situation for July 2023"
+2023-08-10,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Thursday, August 10, 2023 | 08:30 AM | Consumer Price Index for July 2023"
+2023-09-01,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, September 01, 2023 | 08:30 AM | Employment Situation for August 2023"
+2023-09-13,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Wednesday, September 13, 2023 | 08:30 AM | Consumer Price Index for August 2023"
+2023-09-20,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20230920a.htm
+2023-10-06,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, October 06, 2023 | 08:30 AM | Employment Situation for September 2023"
+2023-10-12,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Thursday, October 12, 2023 | 08:30 AM | Consumer Price Index for September 2023"
+2023-11-01,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20231101a.htm
+2023-11-03,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, November 03, 2023 | 08:30 AM | Employment Situation for October 2023"
+2023-11-14,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Tuesday, November 14, 2023 | 08:30 AM | Consumer Price Index for October 2023"
+2023-12-08,NFP,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Friday, December 08, 2023 | 08:30 AM | Employment Situation for November 2023"
+2023-12-12,CPI,08:30 AM,https://www.bls.gov/schedule/2023/home.htm,bls_2023.html,"Tuesday, December 12, 2023 | 08:30 AM | Consumer Price Index for November 2023"
+2023-12-13,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20231213a.htm
+2024-01-05,NFP,08:30 AM,https://www.bls.gov/schedule/2024/home.htm,bls_2024.html,"Friday, January 05, 2024 | 08:30 AM | Employment Situation for December 2023"
+2024-01-11,CPI,08:30 AM,https://www.bls.gov/schedule/2024/home.htm,bls_2024.html,"Thursday, January 11, 2024 | 08:30 AM | Consumer Price Index for December 2023"
+2024-01-31,FOMC,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm,fed_fomc_current.html,HTML | /newsevents/pressreleases/monetary20240131a.htm
+2024-02-02,NFP,08:30 AM,https://www.bls.gov/schedule/2024/home.htm,bls_2024.html,"Friday, February 02, 2024 | 08:30 AM | Employment Situation for January 2024"
+2024-02-13,CPI,08:30 AM,https://www.bls.gov/schedule/2024/home.htm,bls_2024.html,"Tuesday, February 13, 2024 | 08:30 AM | Consumer Price Index for January 2024"

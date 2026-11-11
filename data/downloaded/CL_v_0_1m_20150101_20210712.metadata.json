@@ -1,0 +1,21 @@
+{
+  "request": {
+    "dataset": "GLBX.MDP3",
+    "symbols": "CL.v.0",
+    "stype_in": "continuous",
+    "schema": "ohlcv-1m",
+    "start": "2015-01-01T00:00:00Z",
+    "end": "2021-07-12T00:00:00Z"
+  },
+  "estimated_cost_usd": 8.341681137681,
+  "cost_guard_usd": 8.5,
+  "row_count": 2284901,
+  "first_timestamp": "2015-01-01T23:00:00+00:00",
+  "last_timestamp": "2021-07-11T23:59:00+00:00",
+  "instrument_count": 79,
+  "file": "data/downloaded/CL_v_0_1m_20150101_20210712.parquet",
+  "file_size_bytes": 33275062,
+  "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a",
+  "archive_copy": "C:\\Data_local\\market_data_archive\\databento\\CL_v_0_1m_20150101_20210712.parquet",
+  "api_key_persisted": false
+}

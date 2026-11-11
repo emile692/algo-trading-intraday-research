@@ -1,0 +1,13 @@
+{
+  "grid_sha256": "52b0bc3af0aae437b8e94c3d357cb01955f5d0124e246e22b3a8d93a3dbf4ebe",
+  "locked_exit_rules_sha256": "faed04bf191b2dc1cea41e2b005a9c5dcec9a5149a914d270a370dd171444655",
+  "data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174",
+  "result_rows": 20,
+  "all_backtests_valid": true,
+  "quantity_mnq": 1,
+  "alpha_parameters_changed": false,
+  "orb_used": false,
+  "portfolio_used": false,
+  "frozen_files_unchanged": true,
+  "terminal_money_management_study": true
+}

@@ -1,0 +1,177 @@
+{
+  "campaign": "nine_sleeve_paper_extension_20261013",
+  "rules_changed": false,
+  "research_data_end": "2026-03-19",
+  "forward_replay_start": "2026-03-20",
+  "nine_sleeve_freeze_date": "2026-10-04",
+  "official_paper_start": "2026-10-05",
+  "data_end": "2026-10-02",
+  "governance_note": "2026-03-20..2026-10-02 is a frozen forward replay for the six MNQ/MGC sleeves, but not pristine paper data for the three MBT sleeves, whose freeze used data through 2026-10-02. The official nine-sleeve paper phase begins on 2026-10-05.",
+  "inputs": {
+    "mnq": {
+      "path": "data\\processed\\parquet\\MNQ_c_0_1m_20190505_20261003.parquet",
+      "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef"
+    },
+    "mgc": {
+      "path": "data\\processed\\parquet\\MGC_v_0_1m_20150101_20261003.parquet",
+      "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888"
+    },
+    "mbt_daily": {
+      "path": "research\\mbt_three_sleeve_freeze_20261004\\vote_ensemble\\daily_ensemble_results.csv",
+      "sha256": "b0fe2a8fab57f974f46022f61c321054b46b08477edb026f7be580230863e55a"
+    },
+    "download_metadata": {
+      "path": "data\\downloaded\\nine_sleeve_paper_extension_20261003.metadata.json",
+      "sha256": "2f67f0454525e95d76ef0eedd21dcd42e10ee74a6f1fdfe6545eb46c8945e5cd"
+    }
+  },
+  "validation": {
+    "locked_common_ledger_reproduced": true,
+    "orb_total_trades": 834,
+    "mnq_alpha_trades": {
+      "volatility_breakout": 961,
+      "compression_breakout": 371,
+      "atr_trend_flip": 2295
+    },
+    "mgc_trades": {
+      "mgc_volatility_breakout": 206,
+      "mgc_gap_continuation": 261
+    }
+  },
+  "summary": {
+    "historical_through_research_cutoff": {
+      "start": "2024-01-02",
+      "end": "2026-03-19",
+      "sessions": 564,
+      "net_pnl_usd": 43225.22000000001,
+      "sharpe_zero_days": 1.8282655717501402,
+      "max_drawdown_usd": -6014.419999999962,
+      "max_drawdown_peak": "2025-06-05",
+      "max_drawdown_trough": "2025-08-21",
+      "worst_day_usd": -1377.82
+    },
+    "forward_replay_20260320_20261002": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": -4534.820000000144,
+      "sharpe_zero_days": -1.0928673126374862,
+      "max_drawdown_usd": -8963.040000000112,
+      "max_drawdown_peak": "2026-05-18",
+      "max_drawdown_trough": "2026-10-02",
+      "worst_day_usd": -1058.959999999997
+    },
+    "full_20240102_20261002": {
+      "start": "2024-01-02",
+      "end": "2026-10-02",
+      "sessions": 705,
+      "net_pnl_usd": 38690.39999999986,
+      "sharpe_zero_days": 1.3784471085517174,
+      "max_drawdown_usd": -8963.040000000117,
+      "max_drawdown_peak": "2026-05-18",
+      "max_drawdown_trough": "2026-10-02",
+      "worst_day_usd": -1377.82
+    }
+  },
+  "forward_by_sleeve": {
+    "mnq_orb_vwap_atr": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": 503.0,
+      "sharpe_zero_days": 0.5203658276829951,
+      "max_drawdown_usd": -1527.0,
+      "max_drawdown_peak": "2026-05-13",
+      "max_drawdown_trough": "2026-09-11",
+      "worst_day_usd": -245.0
+    },
+    "mnq_volatility_breakout": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": -45.5,
+      "sharpe_zero_days": -0.020563504324338084,
+      "max_drawdown_usd": -1839.5,
+      "max_drawdown_peak": "2026-06-17",
+      "max_drawdown_trough": "2026-10-01",
+      "worst_day_usd": -994.0
+    },
+    "mnq_compression_breakout": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": 1076.5,
+      "sharpe_zero_days": 1.5510573548804731,
+      "max_drawdown_usd": -812.0,
+      "max_drawdown_peak": "2026-07-30",
+      "max_drawdown_trough": "2026-09-30",
+      "worst_day_usd": -207.5
+    },
+    "mnq_atr_trend_flip": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": -6000.0,
+      "sharpe_zero_days": -2.3897638833058235,
+      "max_drawdown_usd": -7907.0,
+      "max_drawdown_peak": "2026-05-18",
+      "max_drawdown_trough": "2026-10-02",
+      "worst_day_usd": -763.0
+    },
+    "mgc_volatility_breakout": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": 48.49999999994907,
+      "sharpe_zero_days": 0.07602661752564681,
+      "max_drawdown_usd": -526.5000000000146,
+      "max_drawdown_peak": "2026-08-28",
+      "max_drawdown_trough": "2026-09-04",
+      "worst_day_usd": -526.5000000000146
+    },
+    "mgc_gap_continuation": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": 1425.4999999998608,
+      "sharpe_zero_days": 1.2230270996219528,
+      "max_drawdown_usd": -736.5000000000418,
+      "max_drawdown_peak": "2026-05-06",
+      "max_drawdown_trough": "2026-06-15",
+      "worst_day_usd": -571.5000000000055
+    },
+    "mbt_rolling_range_breakout": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": -159.73999999999162,
+      "sharpe_zero_days": -0.3839096609761929,
+      "max_drawdown_usd": -532.7999999999942,
+      "max_drawdown_peak": "2026-04-10",
+      "max_drawdown_trough": "2026-08-18",
+      "worst_day_usd": -177.81999999999985
+    },
+    "mbt_trend_pullback_ma_structure": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": -669.8399999999772,
+      "sharpe_zero_days": -1.240306339337914,
+      "max_drawdown_usd": -916.5799999999796,
+      "max_drawdown_peak": "2026-04-16",
+      "max_drawdown_trough": "2026-10-02",
+      "worst_day_usd": -238.95999999999927
+    },
+    "mbt_volatility_breakout": {
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "net_pnl_usd": -713.2399999999876,
+      "sharpe_zero_days": -1.3430600950605285,
+      "max_drawdown_usd": -1140.6199999999894,
+      "max_drawdown_peak": "2026-03-24",
+      "max_drawdown_trough": "2026-09-01",
+      "worst_day_usd": -113.81999999999984
+    }
+  }
+}

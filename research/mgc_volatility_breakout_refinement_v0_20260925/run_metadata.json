@@ -1,0 +1,24 @@
+{
+  "run_type": "mgc_volatility_breakout_adaptive_refinement_is_validation",
+  "created_utc": "2026-10-06T18:24:29.951942+00:00",
+  "grid_sha256": "9adb102db9706e01523ca34db827ea4bf692fe3e27dfa6756dcfda63a23d60b5",
+  "data_path": "data\\processed\\parquet\\MGC_v_0_1m_20150101_20260923.parquet",
+  "data_sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96",
+  "periods": {
+    "is": [
+      "2019-05-06",
+      "2023-12-31"
+    ],
+    "validation": [
+      "2024-01-01",
+      "2026-03-19"
+    ]
+  },
+  "combination_count": 81,
+  "result_row_count": 162,
+  "workers": 4,
+  "parameter_selection_performed": true,
+  "validation_status": "reused_for_adaptive_refinement_not_pristine_oos",
+  "money_management_changed": false,
+  "source_files_unchanged": true
+}

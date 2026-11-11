@@ -1,0 +1,13 @@
+allocation,stress,loss_usd,trailing_mll_2000_breached_from_start,distance_to_initial_mll_usd,repetitions_to_breach_initial_mll,cumulative_loss_at_repetition_usd,first_binding_constraint
+equal_sleeve_weight,worst_observed_portfolio_day,-205.75,False,1794.25,10,-2057.5,none_immediate
+equal_sleeve_weight,worst_observed_simultaneous_exit_minute,-154.16666666666666,False,1845.8333333333333,13,-2004.1666666666665,none_immediate
+equal_sleeve_weight,all_sleeve_worst_trades_synchronous,-549.4166666666697,False,1450.5833333333303,4,-2197.666666666679,none_immediate
+equal_sleeve_weight,two_repeated_worst_portfolio_days,-411.5,False,1588.5,5,-2057.5,none_immediate
+inverse_volatility,worst_observed_portfolio_day,-214.64509289366646,False,1785.3549071063335,10,-2146.4509289366647,none_immediate
+inverse_volatility,worst_observed_simultaneous_exit_minute,-129.77524561989512,False,1870.224754380105,16,-2076.403929918322,none_immediate
+inverse_volatility,all_sleeve_worst_trades_synchronous,-465.02943455855495,False,1534.9705654414452,5,-2325.1471727927747,none_immediate
+inverse_volatility,two_repeated_worst_portfolio_days,-429.2901857873329,False,1570.709814212667,5,-2146.4509289366647,none_immediate
+equal_risk_contribution,worst_observed_portfolio_day,-214.83098258629775,False,1785.1690174137022,10,-2148.3098258629775,none_immediate
+equal_risk_contribution,worst_observed_simultaneous_exit_minute,-130.5119274257154,False,1869.4880725742846,16,-2088.1908388114466,none_immediate
+equal_risk_contribution,all_sleeve_worst_trades_synchronous,-457.09268182159394,False,1542.907318178406,5,-2285.4634091079697,none_immediate
+equal_risk_contribution,two_repeated_worst_portfolio_days,-429.6619651725955,False,1570.3380348274045,5,-2148.3098258629775,none_immediate

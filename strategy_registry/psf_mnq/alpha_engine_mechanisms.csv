@@ -1,0 +1,17 @@
+mechanism_cluster,representative_slug,representative_name,reviewed_family,alpha_engine_count,variant_count,variant_slugs,complexity_grades
+trend_pullback_ma_structure,ema-ribbon-trend,EMA Ribbon Trend,trend_momentum,3,2,triple-moving-average|rainbow-ma,C
+vwap_equilibrium_reversion,vwap-deviation,VWAP Deviation,mean_reversion,1,0,,B
+rolling_range_breakout,donchian-breakout,Donchian Channel Breakout,breakout_expansion,3,2,keltner-channel-breakout|n-bar-breakout,B
+atr_trend_flip,supertrend,SuperTrend,trend_momentum,1,0,,A
+ma_crossover_trend,dual-ma-crossover,Dual Moving Average Crossover,trend_momentum,2,1,kama-trend,B
+session_range_breakout,opening-range-breakout,Opening Range Breakout (ORB),breakout_expansion,4,3,london-breakout|asian-range-breakout|london-ny-overlap,B|C
+compression_breakout,range-compression-breakout,Range Compression Breakout,breakout_expansion,4,3,atr-percentile-breakout|consolidation-breakout|compression-expansion,C
+statistical_zscore_reversion,z-score-mean-reversion,Z-Score Mean Reversion,mean_reversion,3,2,std-dev-bands-reversion|mean-deviation-snap,B|C
+regression_equilibrium_reversion,regression-to-mean,Regression to Mean,mean_reversion,1,0,,C
+volatility_breakout,volatility-breakout,Volatility Breakout,breakout_expansion,3,2,standard-deviation-breakout|volatility-ratio-breakout,B|C
+short_horizon_pullback_reversion,rsi-2-pullback,RSI(2) Pullback,mean_reversion,2,1,rsi-mean-reversion,C
+momentum_confirmed_breakout,momentum-breakout,Momentum Breakout,breakout_expansion,1,0,,C
+gap_fade,gap-fill,Gap Fill,session_gap,2,1,opening-gap-fade,B
+gap_continuation,gap-and-go,Gap & Go,session_gap,1,0,,C
+range_structure_reversion,range-midpoint-reversion,Range Midpoint Reversion,mean_reversion,1,0,,B
+channel_extreme_reversion,keltner-mean-reversion,Keltner Mean Reversion,mean_reversion,3,2,rsi-bollinger-band-combo|envelope-channel-reversion,B|C

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "purpose": "diagnostic_landscape_no_selection",
+  "sheet": "05_mgc_volatility_breakout",
+  "mechanism": "volatility_breakout",
+  "instrument": "MGC",
+  "periods": {
+    "start": "2019-05-06",
+    "end": "2026-03-19",
+    "is_end": "2023-12-31",
+    "oos_start": "2024-01-01"
+  },
+  "principal_parameters": {
+    "daily_atr_period": "Détermine le régime de volatilité de référence et la stabilité du seuil.",
+    "entry_atr_multiple": "Détermine l’amplitude minimale du choc et la fréquence de déclenchement."
+  },
+  "grids": {
+    "daily_atr_period": [
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "entry_atr_multiple": [
+      0.7,
+      0.9,
+      1.1,
+      1.3,
+      1.5
+    ]
+  },
+  "combination_count": 25,
+  "scope_count": 3,
+  "all_other_parameters": "frozen_at_current_value",
+  "selection_performed": false,
+  "profit_factor_definition": "sum positive net trade PnL / absolute sum negative net trade PnL",
+  "max_drawdown_definition": "minimum drawdown of cumulative daily net PnL including zero origin",
+  "worst_day_definition": "minimum realized net daily PnL; prop-firm daily-loss diagnostic, not intraday trailing loss",
+  "source": {
+    "data_path": "data\\processed\\parquet\\MGC_v_0_1m_20150101_20260923.parquet",
+    "data_sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96",
+    "mgc_config_path": "research\\mgc_baseline_backtests\\mgc_baseline_config.json",
+    "mgc_config_sha256": "238b1505a285c925dcff8fccbf9ae70e0b8941012d4d284deb6265fe93bdbd35",
+    "source_spec_path": "strategy_registry\\psf_mnq\\frozen_baselines\\volatility_breakout.json",
+    "source_spec_sha256": "62438e0ce9d1bd93f2c1382b71851a1804f596ef36108a48a934f1cbedd5c31d"
+  },
+  "outputs": {
+    "grid_metrics": "research\\signal_sheet_parameter_refinement\\s05\\grid_metrics.csv",
+    "grid_metrics_sha256": "3c16c1cf8113cae4ce0e3d83f3b57f8582f9454015c3f7cf4b2aaf7ac0693417"
+  }
+}

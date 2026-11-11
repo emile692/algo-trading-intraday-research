@@ -1,0 +1,41 @@
+{
+  "decision": "REJECTED",
+  "source_campaign": "research/volume_auction_landscape_20261007/results",
+  "representatives": {
+    "M2K": "E__fade__n1__m1.5__rv1.0__p0__c1",
+    "MES": "E__fade__n1__m1.5__rv0.75__p0__c1",
+    "MNQ": "E__continuation_control__n1__m1.5__rv1.0__p0__c1",
+    "NQ": "E__fade__n1__m1.5__rv1.0__p0__c1",
+    "MGC": "E__continuation_control__n1__m1.5__rv1.0__p0__c1",
+    "MBT": "E__continuation_control__n1__m1.5__rv1.0__p0__c1"
+  },
+  "split_dates": {
+    "M2K": "2024-02-23",
+    "MES": "2024-02-23",
+    "MNQ": "2024-02-23",
+    "NQ": "2021-07-02",
+    "MGC": "2023-03-17",
+    "MBT": "2025-02-18"
+  },
+  "thinning_draws": 1000,
+  "new_parameter_search": false,
+  "frozen_nine_sleeves_modified": false,
+  "data_hashes": {
+    "M2K": "4f5e1675ce9385522f07d8e1db3886ba4aa9a712fe140f45807d22c796651615",
+    "MES": "c71110ae91b35d474576016da2f6274445c33bfca606d460a8b355da099c7cec",
+    "MNQ": "fa9e374e6a18462eba5426f547f339c21aeaf97a0c864d9b06f253af7e665f07",
+    "NQ": "0816cc4bb69f7ae262fe9eca476141862012887794a44417a82d3ff9c711f283",
+    "MGC": "5dfeafb0c380089511e78d9814855d66dabb5df30cfd1795d68ffaa67740e9af",
+    "MBT": "4f044c2ba98d354c17165d1b35ed12e602b1e4dc2493b67b8a0a3648c803abf1"
+  },
+  "outputs": [
+    "PRICE_MOVE_WITHOUT_VOLUME_CONFIRMATION_AUDIT.md",
+    "cross_asset_event_analysis.csv",
+    "matched_thinning_tests.csv",
+    "temporal_stability.csv",
+    "directional_decomposition.csv",
+    "event_studies/",
+    "portfolio_diagnostics.csv",
+    "topstep_paired_bootstrap.csv"
+  ]
+}

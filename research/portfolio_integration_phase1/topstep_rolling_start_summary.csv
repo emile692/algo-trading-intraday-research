@@ -1,0 +1,7 @@
+allocation,ruleset,run_count,pass_rate,trailing_mll_fail_rate,expiry_rate,economic_target_hit_rate,consistency_delay_rate,median_days_to_pass,most_common_terminal_status
+equal_risk_contribution,topstepx_50k_extended_60d,501,0.0,0.0,1.0,0.0,0.0,,expire
+equal_risk_contribution,topstepx_50k_main_35d,526,0.0,0.0,1.0,0.0,0.0,,expire
+equal_sleeve_weight,topstepx_50k_extended_60d,501,0.0,0.0,1.0,0.0,0.0,,expire
+equal_sleeve_weight,topstepx_50k_main_35d,526,0.0,0.0,1.0,0.0,0.0,,expire
+inverse_volatility,topstepx_50k_extended_60d,501,0.0,0.0,1.0,0.0,0.0,,expire
+inverse_volatility,topstepx_50k_main_35d,526,0.0,0.0,1.0,0.0,0.0,,expire

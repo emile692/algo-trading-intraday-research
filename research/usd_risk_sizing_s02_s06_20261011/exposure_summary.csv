@@ -1,0 +1,11 @@
+variant,book,max_total_micro_contracts,max_mnq_gross_contracts,max_mgc_gross_contracts,max_mbt_gross_contracts,limit_breached
+reference,six,4.0,4.0,2.0,0.0,False
+reference,nine,7.0,4.0,2.0,3.0,False
+budget_100,six,3.0,3.0,1.0,0.0,False
+budget_100,nine,6.0,3.0,1.0,3.0,False
+budget_150,six,5.0,5.0,2.0,0.0,False
+budget_150,nine,7.0,5.0,2.0,3.0,False
+budget_200,six,7.0,7.0,2.0,0.0,False
+budget_200,nine,9.0,7.0,2.0,3.0,False
+budget_250,six,9.0,9.0,3.0,0.0,False
+budget_250,nine,11.0,9.0,3.0,3.0,False

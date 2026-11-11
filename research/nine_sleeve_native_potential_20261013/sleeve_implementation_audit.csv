@@ -1,0 +1,10 @@
+sleeve,sleeve_id,instrument,signals,first_trade,last_trade,calendar_sessions,entry_model,exit_model,native_source_quantity,risk_sizing
+mnq_volatility_breakout,S02,MNQ,899,2019-06-03,2026-03-19,1750,frozen,time_stop_240,one executable micro,non_interpretable_fixed_only
+mnq_compression_breakout,S03,MNQ,331,2019-05-15,2026-03-11,1750,frozen,frozen,one executable micro,interpretable
+mnq_atr_trend_flip,S04,MNQ,2119,2019-05-06,2026-03-19,1750,frozen,frozen,one executable micro,interpretable
+mnq_orb_vwap_atr,S01,MNQ,823,2019-05-08,2026-03-17,1750,frozen,frozen,USD250 variable; reconstructed q1,interpretable
+mgc_volatility_breakout,S05,MGC,199,2019-06-18,2026-03-03,1775,frozen,frozen,one executable micro,interpretable
+mgc_gap_continuation,S06,MGC,236,2019-06-03,2026-03-19,1775,frozen,frozen,one executable micro,interpretable
+mbt_rolling_range_breakout,S07,MBT,288,2024-01-04,2026-10-02,646,frozen,frozen,one executable micro,non_interpretable_fixed_only
+mbt_trend_pullback_ma_structure,S08,MBT,693,2024-01-03,2026-10-02,646,frozen,frozen,one executable micro,non_interpretable_fixed_only
+mbt_volatility_breakout,S09,MBT,442,2024-01-03,2026-10-02,646,frozen,frozen,one executable micro,non_interpretable_fixed_only

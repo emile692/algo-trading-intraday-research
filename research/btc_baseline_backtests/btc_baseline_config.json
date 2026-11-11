@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "run_type": "btc_us_window_raw_baseline_16_representative_mechanisms",
+  "evaluation_window": {
+    "start": "2019-05-06",
+    "end": "2023-12-31",
+    "label": "IS historical replication"
+  },
+  "source_registry": "strategy_registry/psf_mnq/frozen_baselines_manifest.csv",
+  "mechanism_policy": "Reuse all 16 frozen representative mechanisms without changing signal logic or alpha parameters.",
+  "instrument": {
+    "symbol": "BTC",
+    "quantity": 1,
+    "tick_size": 5.0,
+    "tick_value_usd": 25.0,
+    "point_value_usd": 5.0,
+    "commission_per_side_usd": 1.25,
+    "commission_status": "research assumption because outright BTC is not a currently permitted Topstep product",
+    "slippage_ticks_per_side": 1
+  },
+  "session": {
+    "timezone": "America/New_York",
+    "rth_start": "09:30:00",
+    "cash_close": "16:00:00",
+    "last_entry_time": "15:55:00",
+    "forced_flatten_time": "16:08:00",
+    "calendar": "observed_full_US_window_only",
+    "session_interpretation": "US cash-window transfer; not the full 18:00-17:00 CME Bitcoin trading day"
+  },
+  "relative_time_adaptations": {
+    "gap_continuation_last_entry": "09:45:00",
+    "gap_fade_last_entry": "09:31:00",
+    "gap_fade_midday_time_exit": "12:00:00",
+    "session_range_breakout_opening_range_start": "09:30:00"
+  },
+  "execution": {
+    "signal_on_closed_bars_only": true,
+    "execution_timeframe": "1min",
+    "position_policy": "one_position_no_pyramiding",
+    "bar_conflict_policy": "stop_before_target",
+    "grid_search": false,
+    "parameter_optimization": false
+  },
+  "benchmark": {
+    "mechanism_id": "BTC_BUY_AND_HOLD",
+    "daily_flatten": false,
+    "curve": "US-window close_to_close"
+  }
+}

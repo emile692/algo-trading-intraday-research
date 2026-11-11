@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "assets": {
+    "MES": {
+      "data": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+      "tick_size": 0.25,
+      "tick_value_usd": 1.25,
+      "point_value_usd": 5.0,
+      "commission_per_side_usd": 1.25,
+      "slippage_ticks_per_side": 1
+    },
+    "M2K": {
+      "data": "data/processed/parquet/M2K_c_0_1m_20260322_134808.parquet",
+      "tick_size": 0.10,
+      "tick_value_usd": 0.50,
+      "point_value_usd": 5.0,
+      "commission_per_side_usd": 1.25,
+      "slippage_ticks_per_side": 1
+    }
+  },
+  "periods": {
+    "is": ["2019-05-06", "2023-12-31"],
+    "validation": ["2024-01-01", "2026-03-19"]
+  },
+  "mechanisms": {
+    "orb_vwap_atr": {
+      "parameter_1": "or_minutes",
+      "values_1": [10, 15, 20],
+      "parameter_2": "atr_vote_threshold",
+      "values_2": [0.33, 0.50, 0.67],
+      "fixed": {"target_R": 2.0, "stop_buffer_ticks": 2, "risk_per_trade_pct": 0.5, "account_size_usd": 50000}
+    },
+    "volatility_breakout": {
+      "parameter_1": "daily_atr_period",
+      "values_1": [10, 14, 20],
+      "parameter_2": "entry_atr_multiple",
+      "values_2": [0.4, 0.6, 0.8],
+      "fixed_exit": {"family": "time_stop", "max_holding_minutes": 240},
+      "signal_timeframe_minutes": 5
+    },
+    "compression_breakout": {
+      "parameter_1": "nr_lookback",
+      "values_1": [8, 10, 12],
+      "parameter_2": "entry_buffer_ticks",
+      "values_2": [0, 1, 2],
+      "fixed_exit": "locked_baseline"
+    },
+    "atr_trend_flip": {
+      "parameter_1": "atr_period",
+      "values_1": [7, 10, 14],
+      "parameter_2": "atr_multiplier",
+      "values_2": [1.5, 1.75, 2.0],
+      "fixed_exit": {"family": "atr_stop", "stop_atr": 1.0},
+      "signal_timeframe_minutes": 15
+    }
+  },
+  "common_plateau_rule": {
+    "robust_cell": "IS and Validation Sharpe > 0, profit factor > 1, and trade count >= 20",
+    "plateau": "largest four-neighbor robust component has at least 3 cells and spans at least 2 values on each parameter axis",
+    "portable": "common plateau is present",
+    "asset_specific": "at least 80 percent of cells have sufficient samples but no robust common cell",
+    "inconclusive": "all other cases"
+  }
+}

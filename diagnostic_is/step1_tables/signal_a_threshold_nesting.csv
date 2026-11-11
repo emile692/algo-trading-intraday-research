@@ -1,0 +1,13 @@
+asset,lower_threshold,upper_threshold,lower_trades,upper_trades,missing_upper_trades,identical_on_common_keys
+M2K,0.25,0.5,678,334,0,True
+M2K,0.5,0.75,334,163,0,True
+M2K,0.75,1.0,163,80,0,True
+MES,0.25,0.5,746,432,0,True
+MES,0.5,0.75,432,250,0,True
+MES,0.75,1.0,250,137,0,True
+MNQ,0.25,0.5,711,392,0,True
+MNQ,0.5,0.75,392,201,0,True
+MNQ,0.75,1.0,201,113,0,True
+NQ,0.25,0.5,1954,1040,0,True
+NQ,0.5,0.75,1040,542,0,True
+NQ,0.75,1.0,542,282,0,True

@@ -1,0 +1,52 @@
+{
+  "campaign": "eia_natural_gas_storage_intraday_phase1",
+  "frozen_on": "2026-10-03",
+  "timezone": "America/New_York",
+  "primary_instrument": "NG",
+  "supporting_instruments": ["QG", "MNG"],
+  "required_bar_frequency": "1min",
+  "minimum_preferred_start": "2015-01-01",
+  "event_windows": {
+    "overnight": ["previous_session_16:00", "08:00"],
+    "morning_pre_release": ["08:00", "release_timestamp"],
+    "immediate_reaction": ["release_timestamp", "release_timestamp+15min"],
+    "rest_of_session": ["release_timestamp+15min", "16:00"]
+  },
+  "non_event_control": "same-weekday non-EIA sessions, evaluated at the same clock windows",
+  "surprise_definition": "actual_bcf-consensus_bcf, using the contemporaneous unrevised consensus",
+  "surprise_buckets": ["negative", "zero", "positive", "terciles_of_absolute_surprise"],
+  "natural_rules_only": {
+    "pre_announcement": "unconditional position over the frozen morning window; direction reported both ways before any promotion decision",
+    "post_announcement_continuation": "direction equals sign of the completed initial reaction; enter on the next tradable bar",
+    "post_announcement_reversal": "direction is opposite sign of the completed initial reaction; enter on the next tradable bar"
+  },
+  "causality": {
+    "surprise_available_from": "official release timestamp only",
+    "signal_bar_execution": "never execute at the close used to form the signal; use the next bar open",
+    "roll_information": "point-in-time volume-ranked continuous mapping or explicit contract roll rule"
+  },
+  "entry_delay_minutes": [0, 1, 5],
+  "slippage_ticks_per_side": [1, 2],
+  "statistics": {
+    "hac": "Newey-West, lag 4 weekly events",
+    "sharpe_annualization": "sqrt(52) for one trade per weekly event; otherwise use observed annual opportunity rate",
+    "subperiods": "chronological halves and calendar-era table when each cell has at least 30 events"
+  },
+  "required_outputs": [
+    "event_count",
+    "mean_return",
+    "hac_t_stat",
+    "sharpe",
+    "gross_and_net_pnl",
+    "subperiod_results",
+    "entry_delay_sensitivity",
+    "slippage_sensitivity"
+  ],
+  "forbidden_in_phase1": [
+    "large_parameter_grid",
+    "deflated_sharpe",
+    "topstep_simulation",
+    "using_surprise_before_release"
+  ],
+  "terminal_labels": ["NO_EDGE", "WEAK_EDGE", "PROMISING_FOR_VALIDATION"]
+}

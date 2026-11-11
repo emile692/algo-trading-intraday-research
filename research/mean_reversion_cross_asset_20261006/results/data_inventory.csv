@@ -1,0 +1,13 @@
+asset,status,path,sha256,reason
+MNQ,AVAILABLE,data\processed\parquet\MNQ_c_0_5m_20260321_094501.parquet,fa9e374e6a18462eba5426f547f339c21aeaf97a0c864d9b06f253af7e665f07,
+NQ,AVAILABLE,data\processed\parquet\NQ_c_0_5m_20260321_095036.parquet,0816cc4bb69f7ae262fe9eca476141862012887794a44417a82d3ff9c711f283,
+MES,AVAILABLE,data\processed\parquet\MES_c_0_5m_20260322_135702.parquet,c71110ae91b35d474576016da2f6274445c33bfca606d460a8b355da099c7cec,
+M2K,AVAILABLE,data\processed\parquet\M2K_c_0_5m_20260322_134808.parquet,4f5e1675ce9385522f07d8e1db3886ba4aa9a712fe140f45807d22c796651615,
+MGC,AVAILABLE,data\processed\parquet\MGC_v_0_5m_20150101_20260923.parquet,5dfeafb0c380089511e78d9814855d66dabb5df30cfd1795d68ffaa67740e9af,
+MBT,AVAILABLE,data\processed\parquet\MBT_v_0_5m_20210425_20261003.parquet,4f044c2ba98d354c17165d1b35ed12e602b1e4dc2493b67b8a0a3648c803abf1,
+6E,DATA_UNAVAILABLE,,,No local intraday parquet; campaign not run and no inference made.
+6J,DATA_UNAVAILABLE,,,No local intraday parquet; campaign not run and no inference made.
+ZN,DATA_UNAVAILABLE,,,No local intraday parquet; campaign not run and no inference made.
+ZF,DATA_UNAVAILABLE,,,No local intraday parquet; campaign not run and no inference made.
+MCL,DATA_UNAVAILABLE,,,No local intraday parquet; campaign not run and no inference made.
+NG,DATA_UNAVAILABLE,,,No local intraday parquet; campaign not run and no inference made.

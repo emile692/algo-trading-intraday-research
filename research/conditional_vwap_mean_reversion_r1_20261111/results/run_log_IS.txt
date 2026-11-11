@@ -1,0 +1,58 @@
+  grid MNQ: 1884 sessions, 1684 eligible
+  grid MGC: 3032 sessions, 1997 eligible
+  grid MCL: 1378 sessions, 1225 eligible
+  grid NQ_as_MNQ: 3993 sessions, 3606 eligible
+  grid CL_as_MCL: 1681 sessions, 1460 eligible
+  MNQ IS H1_N1 done
+  MNQ IS H1_N2 done
+  MNQ IS H2_D1 done
+  MNQ IS H2_D2 done
+  MNQ IS H3_VWAP done
+  MNQ IS H3_RANGE done
+  MGC IS H1_N1 done
+  MGC IS H1_N2 done
+  MGC IS H2_D1 done
+  MGC IS H2_D2 done
+  MGC IS H3_VWAP done
+  MGC IS H3_RANGE done
+  MCL IS H1_N1 done
+  MCL IS H1_N2 done
+  MCL IS H2_D1 done
+  MCL IS H2_D2 done
+  MCL IS H3_VWAP done
+  MCL IS H3_RANGE done
+  NQ_as_MNQ PRE H1_N1 done
+  NQ_as_MNQ PRE H1_N2 done
+  NQ_as_MNQ PRE H2_D1 done
+  NQ_as_MNQ PRE H2_D2 done
+  NQ_as_MNQ PRE H3_VWAP done
+  NQ_as_MNQ PRE H3_RANGE done
+  CL_as_MCL PRE H1_N1 done
+  CL_as_MCL PRE H1_N2 done
+  CL_as_MCL PRE H2_D1 done
+  CL_as_MCL PRE H2_D2 done
+  CL_as_MCL PRE H3_VWAP done
+  CL_as_MCL PRE H3_RANGE done
+  gate MNQ H1_N1: fail
+  gate MNQ H1_N2: fail
+  gate MNQ H2_D1: fail
+  gate MNQ H2_D2: fail
+  gate MNQ H3_VWAP: fail
+  gate MNQ H3_RANGE: fail
+  gate MGC H1_N1: fail
+  gate MGC H1_N2: fail
+  gate MGC H2_D1: fail
+  gate MGC H2_D2: fail
+  gate MGC H3_VWAP: fail
+  gate MGC H3_RANGE: fail
+  gate MCL H1_N1: fail
+  gate MCL H1_N2: fail
+  gate MCL H2_D1: fail
+  gate MCL H2_D2: fail
+  gate MCL H3_VWAP: fail
+  gate MCL H3_RANGE: fail
+{
+ "any_pass": false,
+ "passing": [],
+ "mes_stage2": false
+}

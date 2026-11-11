@@ -1,0 +1,4 @@
+sleeve,cell_count,active_vote_minutes,long_vote_minutes,short_vote_minutes,exact_positive_ties,exact_negative_ties
+rolling_range_breakout,8,79567,44746,34821,2345,1479
+trend_pullback_ma_structure,9,135089,69959,65130,0,0
+volatility_breakout,12,96915,45960,50955,2825,2461

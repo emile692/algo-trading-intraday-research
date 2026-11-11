@@ -1,0 +1,42 @@
+{
+  "status": "estimate_only_awaiting_user_download_approval",
+  "requests": {
+    "contract_bars": {
+      "dataset": "GLBX.MDP3",
+      "symbols": "GC.FUT",
+      "stype_in": "parent",
+      "start": "2015-01-02T00:00:00Z",
+      "end": "2023-03-17T00:00:00Z",
+      "schema": "ohlcv-1m"
+    },
+    "instrument_definitions": {
+      "dataset": "GLBX.MDP3",
+      "symbols": "GC.FUT",
+      "stype_in": "parent",
+      "start": "2015-01-02T00:00:00Z",
+      "end": "2023-03-17T00:00:00Z",
+      "schema": "definition"
+    }
+  },
+  "estimates": {
+    "contract_bars": {
+      "estimated_cost_usd": 27.697479724884,
+      "estimated_record_count": 7586720,
+      "estimated_billable_size_bytes": 424856320
+    },
+    "instrument_definitions": {
+      "estimated_cost_usd": 1.209404360503,
+      "estimated_record_count": 1468991,
+      "estimated_billable_size_bytes": 763875320
+    }
+  },
+  "combined_estimated_cost_usd": 28.906884085387002,
+  "paid_data_download_calls": 0,
+  "processing_after_approval": [
+    "retain only instrument_class FUTURE; GC.FUT parent also returns calendar spreads",
+    "aggregate one-minute volume across outright GC contracts by timestamp",
+    "resample to the canonical MGC five-minute left-labelled bars",
+    "restrict all downstream statistics to 2015-01-02 through 2023-03-16"
+  ],
+  "api_key_persisted": false
+}

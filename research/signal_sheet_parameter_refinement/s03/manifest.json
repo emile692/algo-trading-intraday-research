@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "purpose": "diagnostic_landscape_no_selection",
+  "sheet": "03_mnq_compression_breakout",
+  "mechanism": "compression_breakout",
+  "instrument": "MNQ",
+  "periods": {
+    "start": "2019-05-06",
+    "end": "2026-03-19",
+    "is_end": "2023-12-31",
+    "oos_start": "2024-01-01"
+  },
+  "principal_parameters": {
+    "nr_lookback": "Contrôle la rareté et la profondeur de la compression détectée.",
+    "entry_buffer_ticks": "Arbitre entre faux breakouts et retard/coût d’entrée.",
+    "target_setup_range_multiple": "Détermine directement le payoff et le taux de réussite des sorties."
+  },
+  "grids": {
+    "nr_lookback": [
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "entry_buffer_ticks": [
+      0,
+      1,
+      2
+    ],
+    "target_setup_range_multiple": [
+      1.5,
+      2.0,
+      2.5
+    ]
+  },
+  "combination_count": 45,
+  "scope_count": 3,
+  "all_other_parameters": "frozen_at_current_value",
+  "selection_performed": false,
+  "profit_factor_definition": "sum positive net trade PnL / absolute sum negative net trade PnL",
+  "max_drawdown_definition": "minimum drawdown of cumulative daily net PnL including zero origin",
+  "worst_day_definition": "minimum realized net daily PnL; prop-firm daily-loss diagnostic, not intraday trailing loss",
+  "source": {
+    "data_path": "data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+    "data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"
+  },
+  "outputs": {
+    "grid_metrics": "research\\signal_sheet_parameter_refinement\\s03\\grid_metrics.csv",
+    "grid_metrics_sha256": "267292e7f487ae2b1e8222c2e9fe4a3807193566d329daba3b1c7509c606a06e"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "purpose": "diagnostic_landscape_no_selection",
+  "sheet": "08_mbt_trend_pullback_ma_structure",
+  "mechanism": "trend_pullback_ma_structure",
+  "instrument": "MBT",
+  "periods": {
+    "start": "2021-05-03",
+    "end": "2026-10-02",
+    "is_end": "2025-05-28",
+    "oos_start": "2025-05-29"
+  },
+  "principal_parameters": {
+    "fast_pair_scale": "Contrôle la réactivité des EMA rapides au pullback et à la reprise.",
+    "slow_tail_scale": "Contrôle la persistance de la structure de tendance de fond."
+  },
+  "grids": {
+    "fast_pair_scale": [
+      0.4,
+      0.5,
+      0.6,
+      0.75,
+      0.9
+    ],
+    "slow_tail_scale": [
+      0.6,
+      0.75,
+      1.0,
+      1.25,
+      1.5
+    ]
+  },
+  "combination_count": 25,
+  "scope_count": 3,
+  "all_other_parameters": "frozen_at_current_value",
+  "selection_performed": false,
+  "profit_factor_definition": "sum positive net trade PnL / absolute sum negative net trade PnL",
+  "max_drawdown_definition": "minimum drawdown of cumulative daily net PnL including zero origin",
+  "worst_day_definition": "minimum realized net daily PnL; prop-firm daily-loss diagnostic, not intraday trailing loss",
+  "source": {
+    "data_path": "data\\downloaded\\MBT_v_0_1m_20210425_20261003.parquet",
+    "data_sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+    "excluded_roll_sessions": []
+  },
+  "outputs": {
+    "grid_metrics": "research\\signal_sheet_parameter_refinement\\s08\\grid_metrics.csv",
+    "grid_metrics_sha256": "64c5e7d1d001a701646ae58f878b6126908472fa315374c98999904349bad3f4"
+  }
+}

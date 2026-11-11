@@ -1,0 +1,3 @@
+name,description,starting_balance_usd,profit_target_usd,trailing_mll_usd,consistency_share_limit,max_traded_days,lock_at_starting_balance,notes
+topstepx_50k_main_35d,Main scenario with 35 traded-day expiry.,50000.0,3000.0,2000.0,0.5,35,False,"Trailing MLL stays 2,000 below the running high-watermark; no breakeven lock is added."
+topstepx_50k_extended_60d,Longer horizon to separate risk geometry from speed / expiry pressure.,50000.0,3000.0,2000.0,0.5,60,False,"Same Topstep-style risk rules, but with a longer traded-day horizon."

@@ -1,0 +1,93 @@
+{
+  "study": "H1_fast_alpha_execution_overlay",
+  "frozen_at": "2026-09-29",
+  "locked_before_performance_run": true,
+  "paper": {
+    "title": "Improving Performance with Fast Alphas: A Tactical Overlay for Intraday Trend Trading",
+    "authors": "Carlo Zarattini and Alberto Pagani",
+    "published": "2026-02",
+    "url": "https://concretumgroup.com/wp-content/uploads/2026/02/Improving-Performance-with-Fast-Alphas-A-Tactical-Overlay-for-Intraday-Trend-Trading.pdf",
+    "implementation_ambiguity": "The paper waits for a single opposite 5-minute bar and explicitly leaves urgency controls / forced execution windows outside scope. No maximum wait is invented in this campaign."
+  },
+  "data": {
+    "MNQ": {
+      "path": "data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet",
+      "timezone": "America/New_York",
+      "session_start": "09:30",
+      "session_end": "16:00",
+      "tick_size": 0.25,
+      "point_value": 2.0,
+      "commission_per_side": 1.25,
+      "slippage_ticks_per_side": 1.0,
+      "continuous_series": "calendar front month c.0"
+    },
+    "MGC": {
+      "path": "data/processed/parquet/MGC_v_0_1m_20150101_20260923.parquet",
+      "timezone": "America/New_York",
+      "session_start": "08:20",
+      "session_end": "13:30",
+      "tick_size": 0.1,
+      "point_value": 10.0,
+      "commission_per_side": 1.25,
+      "slippage_ticks_per_side": 1.0,
+      "continuous_series": "volume-ranked front month v.0"
+    }
+  },
+  "bar_construction": {
+    "source_timestamp": "UTC one-minute bar-start timestamp",
+    "localization": "IANA America/New_York with DST",
+    "session_gap_policy": "Runs reset at each session boundary, any missing aggregate interval, zero-return bar, or contract transition.",
+    "aggregation": "left-closed/right-open intervals anchored at session start; open=first, high=max, low=min, close=last, volume=sum",
+    "empty_interval_policy": "Do not forward-fill an interval containing no trades.",
+    "completed_bar_observability": "A bar [t,t+5m) is observable at t+5m; the earliest executable timestamp is the open of the next one-minute bar at t+5m.",
+    "canonical_bar_minutes": 5,
+    "placebo_bar_minutes": [1, 15],
+    "return_definition": "bar close / bar open - 1",
+    "run_buckets": ["1", "2", "3", "4+"],
+    "canonical_bucket": "4+"
+  },
+  "statistics": {
+    "bootstrap_samples": 2000,
+    "permutation_samples": 5000,
+    "random_seed": 20260929,
+    "hac_lag_rule": "floor(4*(N/100)^(2/9))",
+    "confidence_level": 0.95,
+    "first_second_half_rule": "split at the median unique eligible session date for each instrument",
+    "session_decomposition": "three equal clock-time thirds of the frozen session",
+    "one_tick_perturbation": "adverse/favorable perturbation of one tick at both next-bar open and close (two ticks round trip)"
+  },
+  "gate_1": {
+    "instrument_passes_only_if_all": {
+      "canonical_reversal_edge_positive": true,
+      "minimum_mean_edge_ticks": 0.25,
+      "minimum_hac_t_stat": 1.96,
+      "bootstrap_lower_bound_positive": true,
+      "second_half_edge_positive": true,
+      "recent_2017_2026_edge_positive_when_available": true,
+      "minimum_positive_year_ratio_strictly_greater_than": 0.5,
+      "maximum_permutation_one_sided_p_value": 0.05
+    },
+    "study_passes_if": "at least one of MNQ or MGC passes all frozen criteria",
+    "failure_classification": "REJECTED_MICRO_ALPHA"
+  },
+  "overlay": {
+    "long_signal_wait_for": "one completed bearish 5-minute bar",
+    "short_signal_wait_for": "one completed bullish 5-minute bar",
+    "earliest_fill": "open of the first one-minute bar after the qualifying 5-minute bar is complete",
+    "timeout": null,
+    "timeout_policy": "No executable forced-timeout replay. If Gate 1 passes, begin with an event study and classify signals whose original exit precedes a qualifying bar as unfilled.",
+    "exits_stops_targets_sizing": "unchanged"
+  },
+  "frozen_sleeve_sources": {
+    "portfolio_config": "research/portfolio_integration_phase1/portfolio_integration_phase1_config.json",
+    "trade_directory": "research/portfolio_integration_phase1/sleeve_trades",
+    "sleeves": [
+      "mnq_orb_vwap_atr",
+      "mnq_volatility_breakout",
+      "mnq_compression_breakout",
+      "mnq_atr_trend_flip",
+      "mgc_volatility_breakout",
+      "mgc_gap_continuation"
+    ]
+  }
+}

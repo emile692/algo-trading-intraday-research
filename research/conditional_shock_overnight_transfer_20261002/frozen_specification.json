@@ -1,0 +1,53 @@
+{
+  "frozen_before_results": true,
+  "freeze_date": "2026-10-02",
+  "campaigns": ["conditional_shock_recovery", "overnight_to_rth_information_transfer"],
+  "data": {
+    "MNQ": "data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet",
+    "MGC": "data/processed/parquet/MGC_v_0_1m_20150101_20260923.parquet"
+  },
+  "periods": {
+    "is": ["2019-05-06", "2022-12-31"],
+    "validation": ["2023-01-01", "2023-12-31"],
+    "oos": ["2024-01-01", "2026-03-19"]
+  },
+  "sessions": {
+    "timezone": "America/New_York",
+    "MNQ": ["09:30", "16:00"],
+    "MGC": ["08:20", "13:30"]
+  },
+  "execution": {
+    "MNQ": {"tick_size": 0.25, "point_value": 2.0},
+    "MGC": {"tick_size": 0.1, "point_value": 10.0},
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1,
+    "next_bar_required": true,
+    "same_bar_conflict": "stop_before_target"
+  },
+  "shock": {
+    "bar_minutes": 5,
+    "lookback_minutes": [30, 60, 120],
+    "threshold_atr": [1.5, 2.0, 2.5],
+    "reclaim_timeout_minutes": 30,
+    "forward_minutes": [5, 15, 30, 60, 120],
+    "stop_buffer_atr": 0.0,
+    "stop_buffer_ticks": 1,
+    "time_exit_minutes": 120,
+    "alternative_reclaim": "previous_bar_midpoint"
+  },
+  "overnight": {
+    "threshold_atr": [0.5, 1.0, 1.5],
+    "confirmation_minutes": [15, 30],
+    "acceptance_boundary": "overnight_midpoint",
+    "rejection_open_outer_fraction": 0.25,
+    "placebos": ["opposite_sign", "lagged_session_sign"]
+  },
+  "inference": {
+    "bootstrap_samples": 1000,
+    "seed": 20261002,
+    "family_correction": "bonferroni",
+    "min_trades_full": 80,
+    "min_trades_oos": 25,
+    "max_positive_pnl_year_share": 0.5
+  }
+}

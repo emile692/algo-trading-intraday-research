@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "phase": "TOPSTEP_PORTFOLIO_SCALING",
+  "locked_before_execution": true,
+  "purpose": "Diagnose whether integer contract exposure scaling makes the frozen six-sleeve portfolio structurally viable under the repository TopstepX 50K rules.",
+  "prohibitions": [
+    "no sleeve parameter changes",
+    "no sleeve selection",
+    "no signal optimization",
+    "no machine learning",
+    "no allocation weight optimization",
+    "no selection by historical pass rate"
+  ],
+  "evaluation_period": ["2024-01-02", "2026-03-19"],
+  "allocations": ["equal_sleeve_weight", "inverse_volatility", "equal_risk_contribution"],
+  "continuous_scaling_levels": [1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0],
+  "integer_executable_scaling_levels": [6.0, 9.0, 12.0, 15.0, 18.0, 24.0, 30.0],
+  "integer_mapping": {
+    "scaling_unit": "multiple of the Phase-1 fractional portfolio, whose frozen weights sum to one sleeve copy",
+    "total_copy_budget": "round_half_up(scaling)",
+    "minimum_copies_per_sleeve": 1,
+    "apportionment": "largest remainder after enforcing one copy per sleeve; deterministic frozen sleeve-order tie break",
+    "orb_interpretation": "one sleeve copy multiplies the ORB strategy's already-frozen variable integer quantity",
+    "continuous_comparator": "scaling * frozen_allocation_weight",
+    "minimum_all_sleeve_executable_scaling": 6.0
+  },
+  "bootstrap": {
+    "paths_per_block_length": 2000,
+    "block_lengths_sessions": [3, 5, 10, 20],
+    "random_seed": 271828,
+    "sampling": "moving blocks of complete joint six-sleeve days, sampled until the Topstep traded-day horizon is reached",
+    "confidence_level": 0.95,
+    "interval": "Wilson score interval for categorical probabilities"
+  },
+  "classification": {
+    "under_sized_expiry_rate_60d": 0.65,
+    "mll_dominated_rate_60d": 0.50,
+    "feasible_min_bootstrap_pass_rate_60d": 0.20,
+    "feasible_max_bootstrap_mll_rate_60d": 0.25,
+    "feasible_max_historical_mll_rate_60d": 0.25,
+    "feasible_expiry_reduction_vs_1x": 0.20,
+    "feasible_requires_adjacent_candidate": true,
+    "labels": ["UNDER_SIZED", "FEASIBLE_REGION", "AGGRESSIVE", "MLL_DOMINATED"]
+  },
+  "stress": {
+    "volatility_multipliers": [1.5, 2.0],
+    "double_explicit_slippage_and_commissions": true,
+    "mll_usd": 2000.0
+  },
+  "source_locks": {
+    "phase1_config": {"path": "research/portfolio_integration_phase1/portfolio_integration_phase1_config.json", "sha256": "16c35d69b5e3e0f819b775c8e3f37e90299f5e3114e2f51b3b31ebff9b79dc5a"},
+    "daily_sleeve_pnl": {"path": "research/portfolio_integration_phase1/daily_sleeve_pnl.csv", "sha256": "3d75d86530a2d0334f06179c0265eec0d38a504ecd5ebc8f44c6448f13494031"},
+    "daily_trade_counts": {"path": "research/portfolio_integration_phase1/daily_trade_counts.csv", "sha256": "fc64db4e0e73b9118450a906d97737a8853fc81d5bc23596534b6ebbaf739ab1"},
+    "timestamp_portfolio": {"path": "research/portfolio_integration_phase1/common_timestamp_portfolio.csv", "sha256": "3315d0046c2bc2c682ee3e396355f96ed1ccc9e28f5371a938e35f735a4e064f"},
+    "allocation_weights": {"path": "research/portfolio_integration_phase1/allocation_weights.csv", "sha256": "cbecfa695973eefe3552e88abb6fcca514130526676f8d1956fa6fa821f528bf"},
+    "phase1_metadata": {"path": "research/portfolio_integration_phase1/run_metadata.json", "sha256": "4d6479aae03833478bfc3aa28220840b190a707ec532e35b8f2c6e384053b8c8"},
+    "topstep_rules_module": {"path": "src/analytics/mnq_orb_topstep_50k_simulation.py", "sha256": "bd979652ceb2f3f7f50575c2616d7b678e3b94df4ef9eeee88cf03492ccf779a"},
+    "trade_mnq_orb": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_orb_vwap_atr.csv", "sha256": "6f77c13013ec63c7a2f8889deaff9f636ae2a15a0a79e3d154e0103cb4687145"},
+    "trade_mnq_volatility": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_volatility_breakout.csv", "sha256": "6de410259714f3922d02e3e45083761cb791d6c3d3d2bef708784be14bc3d0bd"},
+    "trade_mnq_compression": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_compression_breakout.csv", "sha256": "8c1f5fb4d17d20914d56475ad540ed6aad9ba075548c744061f6a8653dd34f22"},
+    "trade_mnq_atr": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_atr_trend_flip.csv", "sha256": "635093391615091a30b177857a98a9b273aae61264aab8796ef0aadc81795816"},
+    "trade_mgc_volatility": {"path": "research/portfolio_integration_phase1/sleeve_trades/mgc_volatility_breakout.csv", "sha256": "862deee23f761141925a173363008d3bd3fd9351552d1f6087f7fe1455823ead"},
+    "trade_mgc_gap": {"path": "research/portfolio_integration_phase1/sleeve_trades/mgc_gap_continuation.csv", "sha256": "42f541ac55b08f493c171a8ad51927c4bd9bd0a26862ace9e15190ebfd8760a3"}
+  }
+}

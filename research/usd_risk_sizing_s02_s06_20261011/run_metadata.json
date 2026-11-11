@@ -1,0 +1,15 @@
+{
+  "campaign": "usd_risk_sizing_s02_s06_20261011",
+  "reference_reproduction_max_abs_error": 0.0,
+  "s01_clarification": "S01 source trades carry risk_budget_usd=250 but the active six/nine books include one executable copy of that already-sized sleeve; comparison reference therefore keeps S01 exactly unchanged.",
+  "s02_stop_discrepancy": "Published/frozen alpha stop is session open, but the locked 240-minute overlay ledger has blank initial_stop_price. The campaign uses the published session-open level for causal sizing and preserves the frozen ledger exits for reference comparability.",
+  "account_limit_breached": false,
+  "verdict": "TRADEOFF",
+  "input_hashes": {
+    "research\\usd_risk_sizing_s02_s06_20261011\\config.json": "05f5eeb14cf5a838984e497787e85051a98b963b5112edb7e99a0cd321dc10a0",
+    "research\\portfolio_integration_phase1\\daily_sleeve_pnl.csv": "3d75d86530a2d0334f06179c0265eec0d38a504ecd5ebc8f44c6448f13494031",
+    "research\\portfolio_integration_phase1\\common_timestamp_portfolio.csv": "3315d0046c2bc2c682ee3e396355f96ed1ccc9e28f5371a938e35f735a4e064f",
+    "research\\mbt_nine_sleeve_topstep_20261004\\daily_nine_sleeves_nominal.csv": "f6486542c527d93fea01e23d247c844edba0778e5d2d85b0e76a1d5674321dc5",
+    "research\\mbt_three_sleeve_freeze_20261004\\vote_ensemble\\minute_ensemble_results.csv": "ce14fa9d61ef23591468e97d2adcc081d78c4578a77cdefd16d064027d50bf27"
+  }
+}

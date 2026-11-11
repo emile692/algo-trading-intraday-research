@@ -1,0 +1,7 @@
+allocation,instrument,risk_contribution_pct,capital_weight_pct
+equal_sleeve_weight,MNQ,83.6303262830375,66.66666666666666
+equal_sleeve_weight,MGC,16.369673716962485,33.33333333333333
+inverse_volatility,MNQ,67.55388774353652,67.46228308032507
+inverse_volatility,MGC,32.446112256463465,32.53771691967493
+equal_risk_contribution,MNQ,66.66666666583619,67.79837884448636
+equal_risk_contribution,MGC,33.33333333416381,32.20162115551363

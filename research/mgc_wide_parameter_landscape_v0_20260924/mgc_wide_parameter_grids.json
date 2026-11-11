@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "selection_basis": "Mechanism structure, broad conventional indicator horizons, and MGC tick/session scale only. No MGC Validation result was observed before locking.",
+  "periods": {
+    "is": ["2019-05-06", "2023-12-31"],
+    "validation": ["2024-01-01", "2026-03-19"]
+  },
+  "common_rules": {
+    "instrument": "MGC",
+    "quantity": 1,
+    "signal_on_closed_bars_only": true,
+    "execution_timeframe": "1min",
+    "costs_and_session": "research/mgc_baseline_backtests/mgc_baseline_config.json",
+    "money_management": "unchanged_frozen_baseline",
+    "optimization_objective": null,
+    "automatic_parameter_selection": false
+  },
+  "mechanisms": {
+    "atr_trend_flip": {
+      "parameter_1": "atr_period",
+      "values_1": [3, 5, 7, 10, 14, 20, 30],
+      "parameter_2": "atr_multiplier",
+      "values_2": [0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0],
+      "rationale": "ATR memory and band distance fully define the SuperTrend state; the grid ranges from highly reactive to slow and from tight to very wide bands."
+    },
+    "channel_extreme_reversion": {
+      "parameter_1": "channel_period",
+      "values_1": [5, 8, 12, 20, 30, 45, 60],
+      "parameter_2": "keltner_atr_multiplier",
+      "values_2": [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0],
+      "rationale": "Joint EMA/ATR channel memory and envelope width dominate the frequency and extremity of Keltner entries."
+    },
+    "compression_breakout": {
+      "parameter_1": "nr_lookback",
+      "values_1": [3, 5, 7, 10, 15, 20, 30],
+      "parameter_2": "entry_buffer_ticks",
+      "values_2": [0, 1, 2, 4, 6, 10, 15],
+      "rationale": "Compression rank horizon spans very local to multi-session 1H context; MGC breakout buffers span 0 to 1.5 index points."
+    },
+    "gap_continuation": {
+      "parameter_1": "minimum_gap_atr_multiple",
+      "values_1": [0.0, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5],
+      "parameter_2": "volume_threshold_multiple",
+      "values_2": [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0],
+      "rationale": "Both published eligibility gates are widened down to effectively disabled and up to highly selective to diagnose the zero-trade baseline."
+    },
+    "gap_fade": {
+      "parameter_1": "minimum_gap_ticks",
+      "values_1": [0, 1, 2, 4, 8, 16, 32],
+      "parameter_2": "maximum_gap_atr_multiple",
+      "values_2": [0.1, 0.25, 0.5, 1.0, 1.5, 2.0, 3.0],
+      "rationale": "Minimum absolute MGC gap and maximum ATR-normalized gap are the direct lower and upper eligibility bounds; the grid tests nearly all gaps through only large gaps."
+    },
+    "ma_crossover_trend": {
+      "parameter_1": "fast_ema_period",
+      "values_1": [2, 3, 5, 8, 12, 20, 30],
+      "parameter_2": "slow_ema_period",
+      "values_2": [10, 15, 20, 30, 45, 60, 90],
+      "invalid_combination_rule": "skip fast_ema_period >= slow_ema_period",
+      "rationale": "The two EMA memories are the crossover itself; valid cells range from fast reactions to multi-session trend horizons."
+    },
+    "momentum_confirmed_breakout": {
+      "parameter_1": "breakout_lookback",
+      "values_1": [3, 5, 10, 20, 30, 45, 60],
+      "parameter_2": "adx_threshold",
+      "values_2": [0.0, 10.0, 15.0, 20.0, 25.0, 30.0, 40.0],
+      "rationale": "Breakout memory and trend-strength gate control structure and selectivity; ADX zero exposes the ungated boundary."
+    },
+    "range_structure_reversion": {
+      "parameter_1": "range_lookback",
+      "values_1": [5, 10, 15, 20, 30, 45, 60],
+      "parameter_2": "entry_quartile_fraction",
+      "values_2": [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5],
+      "rationale": "Range memory and edge-zone depth directly define the equilibrium structure and how far into it entries are allowed."
+    },
+    "regression_equilibrium_reversion": {
+      "parameter_1": "regression_lookback",
+      "values_1": [5, 8, 12, 20, 30, 45, 60],
+      "parameter_2": "entry_residual_sigma",
+      "values_2": [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0],
+      "rationale": "Regression memory defines equilibrium while residual sigma controls displacement extremity from permissive to rare."
+    },
+    "rolling_range_breakout": {
+      "parameter_1": "entry_channel_length",
+      "values_1": [5, 10, 15, 20, 30, 45, 60],
+      "parameter_2": "exit_channel_length",
+      "values_2": [2, 3, 5, 10, 15, 20, 30],
+      "rationale": "Entry and exit Donchian horizons are the mechanism's complete structural pair and cover fast through multi-session channels."
+    },
+    "session_range_breakout": {
+      "parameter_1": "opening_range_minutes",
+      "values_1": [5, 10, 15, 30, 60, 90, 120],
+      "parameter_2": "breakout_buffer_ticks",
+      "values_2": [0, 1, 2, 4, 6, 10, 15],
+      "rationale": "Opening-range duration covers the first 5 minutes through two hours of Gold activity; MGC buffers cover 0 to 1.5 points."
+    },
+    "short_horizon_pullback_reversion": {
+      "parameter_1": "rsi_period",
+      "values_1": [2, 3, 4, 5, 7, 10, 14],
+      "parameter_2": "entry_rsi_extreme",
+      "values_2": [2.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0],
+      "rationale": "RSI memory and symmetric oversold/overbought threshold dominate pullback frequency and extremity."
+    },
+    "statistical_zscore_reversion": {
+      "parameter_1": "mean_lookback",
+      "values_1": [5, 10, 15, 20, 30, 45, 60],
+      "parameter_2": "entry_z_abs",
+      "values_2": [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0],
+      "rationale": "Estimation memory and z-score displacement are the native statistical structure and entry gate."
+    },
+    "trend_pullback_ma_structure": {
+      "parameter_1": "ribbon_fast_anchor",
+      "values_1": [2, 3, 4, 5, 6, 7, 8],
+      "parameter_2": "ribbon_slow_anchor",
+      "values_2": [25, 30, 34, 45, 55, 70, 90],
+      "rationale": "The first three and last two EMA groups retain the published 8:13:21 and 34:55 proportions while independently spanning fast and slow Gold trend structures."
+    },
+    "volatility_breakout": {
+      "parameter_1": "daily_atr_period",
+      "values_1": [3, 5, 10, 14, 20, 30, 50],
+      "parameter_2": "entry_atr_multiple",
+      "values_2": [0.1, 0.2, 0.4, 0.6, 0.8, 1.2, 1.8],
+      "rationale": "Daily volatility memory and opening displacement span reactive to slow normalization and permissive to very selective MGC entries."
+    },
+    "vwap_equilibrium_reversion": {
+      "parameter_1": "entry_band_sigma",
+      "values_1": [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0],
+      "parameter_2": "minimum_completed_bars",
+      "values_2": [1, 2, 3, 6, 12, 24, 48],
+      "rationale": "VWAP deviation controls extremity and completed 5-minute bars control intraday formation from 5 minutes to 4 hours."
+    }
+  }
+}

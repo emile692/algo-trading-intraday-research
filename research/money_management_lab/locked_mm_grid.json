@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "is_start": "2019-05-06",
+  "is_end": "2023-12-31",
+  "validation_start": "2024-01-01",
+  "validation_end": "2026-03-19",
+  "mechanisms": {
+    "volatility_breakout": {"daily_atr_period": 14, "entry_atr_multiple": 0.6},
+    "compression_breakout": {"nr_lookback": 10, "entry_buffer_ticks": 1},
+    "atr_trend_flip": {"atr_period": 10, "atr_multiplier": 1.75}
+  },
+  "signal_timeframes_minutes": {
+    "volatility_breakout": 5,
+    "compression_breakout": 60,
+    "atr_trend_flip": 15
+  },
+  "exit_families": {
+    "atr_stop": {"stop_atr": [0.75, 1.0, 1.5, 2.0]},
+    "rr_target": {"stop_atr": [1.0, 1.5], "target_R": [1.0, 1.5, 2.0, null]},
+    "atr_trailing": {"trail_atr": [1.0, 1.5, 2.0, 2.5]},
+    "time_stop": {"max_holding_minutes": [60, 120, 180, 240]},
+    "breakeven": {"initial_stop_atr": [1.0, 1.5], "move_to_BE_after_R": [0.75, 1.0, 1.5]}
+  },
+  "execution_conventions": {
+    "quantity": "1 MNQ",
+    "atr_definition": "Wilder ATR(14) on each mechanism's locked signal timeframe",
+    "entry_atr_timestamp": "latest fully completed signal bar available at fill",
+    "alternative_exit_policy": "replace all baseline strategy exits; retain hard flatten only",
+    "same_minute_stop_target_policy": "stop first",
+    "trailing_update": "completed signal bars wholly after entry; effective at next bar-open timestamp",
+    "breakeven_update": "threshold observed during a minute; stop change effective at the next minute open",
+    "breakeven_price": "filled entry price before exit slippage and commissions",
+    "time_stop_execution": "open of first minute at or after entry time plus max holding minutes",
+    "missing_atr_policy": "skip entry and record explicit check",
+    "hard_flatten": "unchanged frozen Topstep and early-close convention"
+  },
+  "robustness_rules": {
+    "common_positive": "Sharpe > 0 and PF > 1 and trade_count >= 20 in IS and Validation",
+    "expectancy_preserved": "expectancy >= 80 percent of the same mechanism baseline in both periods",
+    "drawdown_improved": "absolute max drawdown no greater than baseline in both periods",
+    "robust_dd_expectancy_zone": "contiguous common-positive cells satisfying expectancy_preserved and drawdown_improved"
+  }
+}

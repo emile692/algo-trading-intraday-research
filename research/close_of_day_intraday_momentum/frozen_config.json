@@ -1,0 +1,135 @@
+{
+  "study": "close_of_day_intraday_momentum",
+  "frozen_at": "2026-09-28",
+  "audit_revision": "MGC c.0 was replaced before the final run by local MGC v.0 because c.0 lacked the exact 13:29 settlement bar on more than half of observed sessions; the replacement criterion was timestamp coverage only.",
+  "random_seed": 20260928,
+  "permutation_samples": 5000,
+  "closure": {
+    "status": "CLOSED_COST_CONSTRAINED",
+    "closed_on": "2026-09-29",
+    "reason": "The raw effect replicates on 6E and ZN, but no tested instrument is profitable after the frozen all-in cost assumptions.",
+    "reopen_only_if": "Observed all-in round-trip execution cost is sustainably below the frozen gross break-even cost for at least one raw survivor, followed by prospective revalidation without changing the signal.",
+    "screening_cost_thresholds_usd_per_contract_round_trip": {
+      "6E": 7.100844109195428,
+      "ZN": 5.465760522959184
+    },
+    "threshold_warning": "These are zero-expectancy break-even ceilings, not target costs or evidence of deployability. A safety margin and prospective realized-fill evidence are required.",
+    "forbidden_on_reopen": [
+      "changing the 30-minute window",
+      "adding filters or thresholds",
+      "selecting long-only or short-only",
+      "increasing contract count to offset negative unit expectancy"
+    ]
+  },
+  "phase_1_gate": {
+    "description": "Proceed beyond raw-effect falsification only if at least one instrument has beta > 0, HAC |t| >= 1.96, positive mean sign edge in the full and 2017-2026 samples, and more than half of eligible calendar years positive.",
+    "minimum_hac_t": 1.96,
+    "minimum_positive_year_fraction": 0.5
+  },
+  "method": {
+    "bar_timestamp_semantics": "UTC bar-start timestamps converted with IANA time zones",
+    "signal_price": "close of the one-minute bar [T-31,T-30), observable at T-30",
+    "raw_close_window_return": "close(T-1) / close(T-31) - 1",
+    "executable_entry": "open of the one-minute bar [T-30,T-29)",
+    "executable_exit": "close of the one-minute bar [T-1,T)",
+    "signal": "sign(close(T-31) / prior trading-session close(T-1) - 1)",
+    "session_completeness_minimum": 0.9,
+    "roll_rule": "exclude an event when instrument_id at the previous close differs from instrument_id at signal, entry, or exit; if instrument_id is unavailable, flag roll safety unavailable",
+    "zero_signal_rule": "no position; retained for regression but excluded from sign hit-rate",
+    "hac_lag_rule": "floor(4*(N/100)^(2/9))",
+    "return_type": "simple returns",
+    "annualization_days": 252
+  },
+  "instruments": [
+    {
+      "instrument": "NQ",
+      "asset_class": "equity_index",
+      "data_path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet",
+      "timezone": "America/New_York",
+      "session_start": "09:30",
+      "T": "16:00",
+      "timestamp_status": "confirmed_cash_close_convention",
+      "timestamp_basis": "Published-study U.S. equity close; CME 16:00 ET fixing"
+      ,"point_value": 20.0, "tick_size": 0.25, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    },
+    {
+      "instrument": "MNQ",
+      "asset_class": "equity_index",
+      "data_path": "data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet",
+      "timezone": "America/New_York",
+      "session_start": "09:30",
+      "T": "16:00",
+      "timestamp_status": "confirmed_cash_close_convention",
+      "timestamp_basis": "Published-study U.S. equity close; CME 16:00 ET fixing"
+      ,"point_value": 2.0, "tick_size": 0.25, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    },
+    {
+      "instrument": "MES",
+      "asset_class": "equity_index",
+      "data_path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+      "timezone": "America/New_York",
+      "session_start": "09:30",
+      "T": "16:00",
+      "timestamp_status": "confirmed_cash_close_convention",
+      "timestamp_basis": "Published-study U.S. equity close; CME 16:00 ET fixing"
+      ,"point_value": 5.0, "tick_size": 0.25, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    },
+    {
+      "instrument": "M2K",
+      "asset_class": "equity_index",
+      "data_path": "data/processed/parquet/M2K_c_0_1m_20260322_134808.parquet",
+      "timezone": "America/New_York",
+      "session_start": "09:30",
+      "T": "16:00",
+      "timestamp_status": "confirmed_cash_close_convention",
+      "timestamp_basis": "Published-study U.S. equity close; CME 16:00 ET fixing"
+      ,"point_value": 5.0, "tick_size": 0.1, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    },
+    {
+      "instrument": "MGC",
+      "asset_class": "metal",
+      "data_path": "data/processed/parquet/MGC_v_0_1m_20150101_20260923.parquet",
+      "timezone": "America/New_York",
+      "session_start": "08:20",
+      "T": "13:30",
+      "timestamp_status": "confirmed_settlement_window",
+      "timestamp_basis": "COMEX Gold active-month settlement window ends 13:30 ET"
+      ,"point_value": 10.0, "tick_size": 0.1, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    },
+    {
+      "instrument": "MCL",
+      "asset_class": "energy",
+      "data_path": "data/downloaded/MCL_v_0_1m_20210712_20260924.parquet",
+      "timezone": "America/New_York",
+      "session_start": "09:00",
+      "T": "14:30",
+      "timestamp_status": "confirmed_settlement_window",
+      "timestamp_basis": "NYMEX WTI settlement window ends 14:30 ET"
+      ,"point_value": 100.0, "tick_size": 0.01, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    },
+    {
+      "instrument": "6E",
+      "asset_class": "currency",
+      "data_path": "data/downloaded/6E_v_0_1m_20150101_20260923.parquet",
+      "timezone": "America/Chicago",
+      "session_start": "07:20",
+      "T": "14:00",
+      "timestamp_status": "confirmed_settlement_window",
+      "timestamp_basis": "CME FX lead-month settlement at 14:00 CT"
+      ,"point_value": 125000.0, "tick_size": 0.00005, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    },
+    {
+      "instrument": "ZN",
+      "asset_class": "rates",
+      "data_path": "data/downloaded/ZN_v_0_1m_20130517_20260920.parquet",
+      "timezone": "America/Chicago",
+      "session_start": "07:20",
+      "T": "14:00",
+      "timestamp_status": "confirmed_settlement_window",
+      "timestamp_basis": "CBOT Treasury futures daily settlement at 14:00 CT"
+      ,"point_value": 1000.0, "tick_size": 0.015625, "commission_per_side": 1.25, "slippage_ticks_per_side": 1.0
+    }
+  ],
+  "unavailable_requested_contracts": ["ES", "RTY", "GC", "CL"],
+  "proxy_note": "No synthetic substitution is made. Locally available micros MES, M2K, MGC, and MCL are tested under their own identifiers."
+}

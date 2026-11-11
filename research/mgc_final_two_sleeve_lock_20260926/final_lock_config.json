@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "purpose": "Final closed diagnostic for two MGC sleeve candidates; no exploration after this run.",
+  "periods": {
+    "is": ["2019-05-06", "2023-12-31"],
+    "validation": ["2024-01-01", "2026-03-19"]
+  },
+  "volatility_breakout_representatives": [
+    {"daily_atr_period": 10, "entry_atr_multiple": 0.8},
+    {"daily_atr_period": 30, "entry_atr_multiple": 1.1},
+    {"daily_atr_period": 50, "entry_atr_multiple": 1.3}
+  ],
+  "volatility_representative_rule": "Use 30/1.10 if it passes the freeze gates because it is the predeclared middle representative; do not select by maximum Sharpe.",
+  "gap_continuation_refinement": {
+    "minimum_gap_atr_multiple": [0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75],
+    "volume_threshold_multiple": [0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75],
+    "representative_rule": "Geometric medoid of the largest 4-connected robust component; never select the peak Sharpe cell."
+  },
+  "freeze_gates": {
+    "minimum_trades_each_period": 30,
+    "minimum_sharpe_each_period_exclusive": 0.0,
+    "minimum_profit_factor_each_period_exclusive": 1.0,
+    "minimum_positive_complete_years": 4,
+    "complete_years": [2020, 2021, 2022, 2023, 2024, 2025]
+  },
+  "rolling_diagnostic": {
+    "window_sessions": 252,
+    "minimum_sessions": 126
+  },
+  "common_rules": {
+    "instrument": "MGC",
+    "quantity": 1,
+    "data": "MGC v0 continuous 1-minute series",
+    "costs_session_fills_and_money_management": "unchanged from MGC raw baseline",
+    "validation_status": "adaptive_reused_not_pristine_oos",
+    "no_further_parameter_optimization": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "IS_ONLY",
+  "oos_statistics_computed": false,
+  "signal_a_reference": "mean_reversion_cross_asset_20261006 frozen aggregate rows",
+  "signal_b_reference": "research\\mgc_volume_climax_audit_20261007\\results\\canonical_representative_trades.csv",
+  "signal_b_trade_by_trade_match": true,
+  "anti_oos_assertions": [
+    "bar session_date",
+    "trade session_date",
+    "signal_time",
+    "entry_time",
+    "exit_time"
+  ]
+}

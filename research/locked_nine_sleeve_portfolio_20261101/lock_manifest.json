@@ -1,0 +1,10 @@
+{
+  "portfolio_id": "nine_sleeve_equal_contract_reference_20261101",
+  "status": "LOCKED_ACTIVE_REFERENCE",
+  "files": {
+    "research/locked_nine_sleeve_portfolio_20261101/locked_nine_sleeve_config.json": "6e988107b1f0964aee3bab2de1d8dbdc7636409b7be45d34616cf9005884ac7b",
+    "research/locked_nine_sleeve_portfolio_20261101/daily_pnl.csv": "42ac8683d86b71ae563f2b340dc0145d9707533a716ee831870be20612b5975d",
+    "research/locked_nine_sleeve_portfolio_20261101/sleeve_manifest.csv": "00788811665ed4502ffc4b11085331767075dcbf939a82fc8e86d3b00c3eb097",
+    "research/locked_nine_sleeve_portfolio_20261101/topstep_reference_metrics.csv": "6d6d95a83839567e26a9569609f05150dfd12aa470fe2507884a6d848e69d2f0"
+  }
+}

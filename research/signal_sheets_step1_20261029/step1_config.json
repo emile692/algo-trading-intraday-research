@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "created": "2026-10-29",
+  "scope": "documentary_corrections_only_no_strategy_change",
+  "canonical_sharpe": {
+    "input": "net_daily_pnl_usd",
+    "zero_trade_days": "included",
+    "standard_deviation_ddof": 1,
+    "annualization_sessions": 252
+  },
+  "approximate_t_stat": {
+    "formula": "canonical_annualized_sharpe * sqrt(sessions / 252)",
+    "year_definition": "observed_sessions / 252",
+    "interpretation": "descriptive approximation only"
+  },
+  "mbt_executable_history_policy": {
+    "legacy_is_requested": ["2021-05-03", "2025-05-28"],
+    "executable_export_available": ["2024-01-03", "2026-10-02"],
+    "reported_is": ["2024-01-03", "2025-05-28"],
+    "status": "partial_executable_is_explicitly_disclosed",
+    "research_cell_composite_substitution": false
+  },
+  "book_window": {
+    "start": "2024-01-02",
+    "end": "2026-03-19",
+    "label": "fenêtre commune réutilisée pendant la sélection, non indépendante"
+  },
+  "s01_quantity_distribution": {
+    "source": "research/signal_sheet_01_atr18/trades.csv",
+    "field": "quantity",
+    "statistics": ["min", "median", "mean", "max"],
+    "periods": {
+      "IS": ["2019-05-05", "2024-02-27"],
+      "OOS": ["2024-02-28", "2026-03-20"]
+    }
+  },
+  "prospective_results": {
+    "display_policy": "empty_placeholders_only",
+    "book_official_start": "2026-10-05",
+    "no_backfill_before_freeze": true
+  },
+  "heatmaps": {
+    "required_metric": "canonical_sharpe",
+    "s01_exception": "if not recomputed, label conditional single-filter Sharpe and prohibit comparison with executable vote ensemble",
+    "selection_or_lock_changes": false
+  }
+}

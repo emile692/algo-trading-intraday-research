@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "periods": {
+    "is": ["2019-05-06", "2023-12-31"],
+    "validation": ["2024-01-01", "2026-03-19"]
+  },
+  "minimum_trades_each_period": 20,
+  "gap_confirmation": {
+    "minimum_gap_atr_multiple": [0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4],
+    "volume_threshold_multiple": [1.5, 1.625, 1.75, 1.875, 2.0, 2.125, 2.25, 2.375, 2.5],
+    "robust_cell_rule": "trades >= 20 and Sharpe > 0 in both periods",
+    "plateau_connectivity": 4,
+    "local_neighborhood": "Moore 3x3",
+    "local_stability_score": "median(min(Sharpe_IS, Sharpe_VAL)) - 0.5 * std(min(Sharpe_IS, Sharpe_VAL))",
+    "central_proposal_rule": "geometric medoid of largest robust component; at least 3 direct robust neighbours when 4 exist"
+  },
+  "trend_representative_points": [
+    {"ribbon_fast_anchor": 6, "ribbon_slow_anchor": 55},
+    {"ribbon_fast_anchor": 6, "ribbon_slow_anchor": 160},
+    {"ribbon_fast_anchor": 8, "ribbon_slow_anchor": 90},
+    {"ribbon_fast_anchor": 8, "ribbon_slow_anchor": 160},
+    {"ribbon_fast_anchor": 10, "ribbon_slow_anchor": 110}
+  ],
+  "rolling_range_diagnosis": {
+    "entry_channel_length": [20, 30, 45, 60, 75, 90, 120],
+    "exit_channel_length": [10, 15, 20, 30, 45, 60, 90],
+    "temporal_diagnostic_exit_channel_length": 10
+  },
+  "rolling_diagnostic": {
+    "window_sessions": 252,
+    "minimum_sessions": 126
+  },
+  "common_rules": {
+    "instrument": "MGC",
+    "quantity": 1,
+    "costs_session_and_money_management": "unchanged_from_mgc_raw_baseline",
+    "automatic_peak_selection": false
+  }
+}

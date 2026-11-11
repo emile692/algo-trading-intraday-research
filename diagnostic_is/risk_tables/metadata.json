@@ -1,0 +1,19 @@
+{
+  "seed": 20261008,
+  "bootstrap_draws": 2000,
+  "holm_family_size": 36,
+  "estimable_tests": 35,
+  "holm_family_definition": "34 previously specified pairwise state contrasts plus binary A1 and B1, all tested once on net R",
+  "R_definition": "trade PnL USD / (prior-session Wilder ATR14 price units * contract point value)",
+  "usd_role": "descriptive secondary metric; not an additional hypothesis-test family",
+  "A_IS": [
+    "2010-06-07",
+    "2024-02-22"
+  ],
+  "B_IS": [
+    "2015-01-02",
+    "2023-03-16"
+  ],
+  "post_is_statistics_computed": false,
+  "holm_rejections_5pct": 0
+}

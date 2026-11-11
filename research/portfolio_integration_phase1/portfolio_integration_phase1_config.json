@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "phase": "PORTFOLIO_INTEGRATION_PHASE1",
+  "locked_before_execution": true,
+  "purpose": "Dependence and naive-allocation diagnostics for the six already-frozen sleeves; no sleeve tuning, selection, ML, or Sharpe optimization.",
+  "primary_common_evaluation": {
+    "start": "2024-01-01",
+    "end": "2026-03-19",
+    "label": "final_common_evaluation",
+    "caveat": "MGC source manifest labels this interval adaptive_reused_not_pristine_oos. Results are integration diagnostics, not a new pristine OOS claim."
+  },
+  "warmup_start": "2019-05-06",
+  "reference_capital_usd": 50000.0,
+  "annualization_sessions": 252,
+  "rolling_correlation_sessions": 63,
+  "cluster_correlation_threshold": 0.40,
+  "allocations": [
+    "equal_sleeve_weight",
+    "inverse_volatility",
+    "equal_risk_contribution"
+  ],
+  "allocation_policy": "Static full-window diagnostic weights only. No return forecast, no Sharpe objective, no winner selection, no deployment decision.",
+  "sleeves": [
+    {"id": "mnq_orb_vwap_atr", "instrument": "MNQ", "source_id": "orb_vwap_atr"},
+    {"id": "mnq_volatility_breakout", "instrument": "MNQ", "source_id": "volatility_breakout"},
+    {"id": "mnq_compression_breakout", "instrument": "MNQ", "source_id": "compression_breakout"},
+    {"id": "mnq_atr_trend_flip", "instrument": "MNQ", "source_id": "atr_trend_flip"},
+    {"id": "mgc_volatility_breakout", "instrument": "MGC", "source_id": "volatility_breakout"},
+    {"id": "mgc_gap_continuation", "instrument": "MGC", "source_id": "gap_continuation"}
+  ],
+  "source_locks": {
+    "mnq_locked_config": {"path": "research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json", "sha256": "24f08b50255a8a7c96a961a68266e9290a15a9c565349dc030ff270845ef29c1"},
+    "mnq_money_management_lock": {"path": "research/money_management_lab/final_mm_locked_exit_rules.json", "sha256": "7209d38b2b2e25cc5f9ffc523345a518e7bb728e5ae90889747dadc68ac3c419"},
+    "mnq_orb_trades": {"path": "export/mnq_orb_vwap_atr_retained/trades.csv", "sha256": "e4f5d74214127e4fa957bb40d035c08d9eb161796529b90a6f0a5322a997506c"},
+    "mnq_minute_data": {"path": "data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet", "sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"},
+    "mgc_candidate_manifest": {"path": "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_manifest.json", "sha256": "1c897f54b7ff9ebec6c909e9edad39625c94f2bc82c5dd677ca22aeec99f0fc7"},
+    "mgc_volatility_spec": {"path": "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_specs/volatility_breakout.json", "sha256": "21a217943d1ec1d670540233ea84b683e72c4730a18942101613ce9f77f8f5d0"},
+    "mgc_gap_spec": {"path": "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_specs/gap_continuation.json", "sha256": "3002af1cb7535a28f479599813ec9ac34153036787c053a76eed369e70dd68fd"},
+    "mgc_minute_data": {"path": "data/processed/parquet/MGC_v_0_1m_20150101_20260923.parquet", "sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96"}
+  },
+  "topstep_source": {
+    "module": "src.analytics.mnq_orb_topstep_50k_simulation.TopstepCampaignSpec",
+    "policy": "Use the repository's two existing TopstepX 50K rulesets verbatim. Do not add a daily loss limit, contract cap, or breakeven lock."
+  },
+  "timestamp_dataset": {
+    "timezone": "UTC",
+    "resolution": "1min",
+    "position_interval": "entry inclusive, exit exclusive",
+    "realized_pnl_timestamp": "exit timestamp"
+  }
+}

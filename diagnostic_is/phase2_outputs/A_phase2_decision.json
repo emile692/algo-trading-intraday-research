@@ -1,0 +1,8 @@
+{
+  "IS_CVaR_pass": false,
+  "IS_max_drawdown_pass": false,
+  "OOS_non_degradation_pass": true,
+  "OOS_mean_R_delta_stop_minus_A0": -0.0030536997660811915,
+  "OOS_allowed_delta_floor": -0.009019817025542715,
+  "retained_variant": "A0"
+}

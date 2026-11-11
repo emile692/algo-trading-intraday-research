@@ -1,0 +1,42 @@
+{
+  "seed": 20261008,
+  "bootstrap_draws": 2000,
+  "bootstrap_block_dates": 5,
+  "number_of_tests": 34,
+  "holm_family": "all available variable pairwise bucket contrasts",
+  "a_tercile_cutpoints": {
+    "A2_vix_tercile": [
+      14.52,
+      19.4
+    ],
+    "A4_recovery_tercile": [
+      -0.17948717948717957,
+      0.22604790419161674
+    ],
+    "A5_gap_atr_tercile": [
+      0.3229795922336816,
+      0.5277705841728919
+    ]
+  },
+  "b_tercile_cutpoints": {
+    "B4_gold_rv20_tercile": [
+      0.11048134546538818,
+      0.14165166998135803
+    ],
+    "B5_volume_tercile": [
+      3.2682803353899694,
+      5.907181571815715
+    ],
+    "B5_move_tercile": [
+      1.7999999999998864,
+      2.33604336043379
+    ]
+  },
+  "blocked": [
+    "A1 macro",
+    "B0b GC volume",
+    "B1 announcement bar"
+  ],
+  "B0c_note": "The canonical signal already uses bar volume divided by the prior-20-session same-slot median; B0c is exactly identical to original.",
+  "post_is_statistics_computed": false
+}

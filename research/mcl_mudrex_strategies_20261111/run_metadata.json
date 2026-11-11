@@ -1,0 +1,14 @@
+{
+  "smoke": false,
+  "data": {
+    "MCL": {
+      "path": "C:\\Data_local\\python_perso\\algo-trading-intraday-research\\data\\downloaded\\MCL_v_0_1m_20210712_20261111.parquet",
+      "sha256": "5073f06dece2416beb887c65654160edc805a52f9007ccb22d3047e9ed5edc4b"
+    },
+    "CL": {
+      "path": "C:\\Data_local\\python_perso\\algo-trading-intraday-research\\data\\downloaded\\CL_v_0_1m_20150101_20210712.parquet",
+      "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a"
+    }
+  },
+  "config_sha256": "1b08ea545040cfff9edd30fe8f999965c3c646afd16a1fb2af24fef1db456800"
+}

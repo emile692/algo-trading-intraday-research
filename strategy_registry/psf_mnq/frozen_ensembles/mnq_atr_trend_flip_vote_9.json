@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0",
+  "configuration_type": "parameter_vote_ensemble",
+  "configuration_status": "frozen_after_cscv_rule_validation",
+  "frozen_on": "2026-11-01",
+  "instrument": "MNQ",
+  "mechanism_id": "atr_trend_flip",
+  "sheet": "04_mnq_atr_trend_flip",
+  "ensemble_id": "mnq_atr_trend_flip_vote_9",
+  "parameter_region": {
+    "atr_period": [
+      8,
+      10,
+      12
+    ],
+    "atr_multiplier": [
+      1.5,
+      1.75,
+      2.0
+    ],
+    "cartesian_product": true,
+    "submodel_count": 9
+  },
+  "cell_definition": {
+    "engine": "scripts/run_signal_sheet_parameter_refinement.py (apply_parameters + run_candidate), identical to the refinement grid cell",
+    "other_parameters": "frozen at the values documented in the refinement parameter inventory",
+    "internal_quantity": "virtual_state_only",
+    "state_space": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "vote": {
+    "score": "arithmetic_mean_of_9_cell_position_states",
+    "long_target": "score >= 0.50",
+    "short_target": "score <= -0.50",
+    "flat_target": "-0.50 < score < 0.50",
+    "threshold": 0.5,
+    "minimum_net_directional_votes": 5,
+    "exact_threshold_included": true,
+    "conflict_policy": "opposing cell states offset in the arithmetic mean",
+    "target_space": [
+      -1,
+      0,
+      1
+    ],
+    "aggregator": "scripts/rebuild_signal_sheet_02_cluster.py::aggregate_vote (shared with S02)"
+  },
+  "aggregate_execution": {
+    "quantity": 1,
+    "target_change_execution": "open of the next available one-minute bar after the cell-state change becomes observable",
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1,
+    "tick_size": 0.25,
+    "point_value_usd": 2.0,
+    "hard_flatten_time": "16:08:00 America/New_York",
+    "cost_policy": "Costs apply only to changes in the aggregate target; virtual cell transitions are not charged as separate contracts.",
+    "no_position_after_hard_flatten": true
+  },
+  "historical_windows": {
+    "is": [
+      "2019-05-06",
+      "2023-12-31"
+    ],
+    "oos_validation_reused": [
+      "2024-01-01",
+      "2026-03-19"
+    ]
+  },
+  "selection": {
+    "method": "lock_neighbourhood: one grid step around the declared lock, or the frozen MBT region itself",
+    "rationale": "Inside-IS CSCV showed that every performance-optimising cluster rule had a mean out-of-fold rank below 0.5 and PBO above 50 percent; no new degree of freedom is fitted.",
+    "evidence_path": "research/signal_sheet_parameter_refinement/cluster_selection/cluster_selection_cscv.json",
+    "evidence_sha256": "70e14e0aef2da3e5dbd62374f4bbf96a5413990a2af4bde8033fc4fe4b288a2a"
+  },
+  "selection_disclosure": "The OOS window was read before this freeze and was consulted for earlier locks: it is reused validation, not untouched prospective OOS. Prospective evidence starts after 2026-10-02.",
+  "research_evidence": {
+    "grid_metrics_path": "research/signal_sheet_parameter_refinement/s04/grid_metrics.csv",
+    "grid_metrics_sha256": "7eda7107fd2e7fc3b68aa1c719e964732f58e6ed4d05b32a0ebdad1bad1389fa",
+    "cell_daily_pnl_path": "research/signal_sheet_parameter_refinement/s04/cell_daily_pnl.parquet",
+    "cell_daily_pnl_sha256": "51cfc0357be32cf5f6461efdb8b8ecdc39af0bf574341ce9d7e6cbf6592872cf",
+    "minute_data_path": "data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet",
+    "minute_data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"
+  },
+  "supersedes": {
+    "type": "single_point",
+    "parameters": {
+      "atr_period": 10,
+      "atr_multiplier": 1.75,
+      "stop_atr": 1.0
+    },
+    "source": "research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json"
+  },
+  "execution_results": {
+    "executed_on": "2026-11-01",
+    "script": "scripts/freeze_signal_sheet_cluster_vote.py",
+    "result_directory": "research/signal_sheet_04_cluster",
+    "files": {
+      "summary.json": "81819ca66f39ebce2a8300a9d10e660b88404d2c7c3ea3bc286671330954ba1e",
+      "trades.csv": "aa2116705c17eec6d78c525470b8788277ef0f0f5d06e9021a7e6bfadba4036d",
+      "daily_results.csv": "504070dbf63df282af3165918b49e619923f533400adde477690c11dceffd64a",
+      "vote_events.csv": "6ba01b3937e90d824b302a1a1e7023a386c4c29841c3bfb01926923295f23c52",
+      "cell_positions.csv": "9d55b962e4483bab0cb4de6c4b67e5a7023b381688edf9aa025b71486b569a9a",
+      "cell_checks.json": "4bf50e5d7d6a55c186a538e0c82e6053c1edcf18f6210728fdd03976bfb66f91"
+    },
+    "metrics": {
+      "full_sample": {
+        "session_count": 1747,
+        "net_pnl_usd": 10075.0,
+        "sharpe_annualized": 0.42423001580760394,
+        "profit_factor": 1.07937695980335,
+        "max_drawdown_usd": -4212.5,
+        "trade_count": 2052,
+        "worst_day_usd": -1028.5
+      },
+      "is": {
+        "session_count": 1184,
+        "net_pnl_usd": 4692.0,
+        "sharpe_annualized": 0.3537828007965126,
+        "profit_factor": 1.058905502617604,
+        "max_drawdown_usd": -3063.0,
+        "trade_count": 1419,
+        "worst_day_usd": -1028.5
+      },
+      "oos_validation_reused": {
+        "session_count": 563,
+        "net_pnl_usd": 5383.0,
+        "sharpe_annualized": 0.5431029995120801,
+        "profit_factor": 1.1138704969009794,
+        "max_drawdown_usd": -4212.5,
+        "trade_count": 633,
+        "worst_day_usd": -823.5
+      }
+    },
+    "audit": {
+      "cell_count": 9,
+      "cell_position_rows": 19073,
+      "vote_event_rows": 7863,
+      "entry_delay_minutes_min": 1.0,
+      "overlapping_aggregate_trades": 0,
+      "post_hard_flatten_violations": 0,
+      "all_cell_checks_valid": true,
+      "event_alignment_verified": true
+    }
+  }
+}

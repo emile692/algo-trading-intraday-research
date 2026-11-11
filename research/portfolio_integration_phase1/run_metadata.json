@@ -1,0 +1,172 @@
+{
+  "phase": "PORTFOLIO_INTEGRATION_PHASE1",
+  "config_sha256": "16c35d69b5e3e0f819b775c8e3f37e90299f5e3114e2f51b3b31ebff9b79dc5a",
+  "input_sha256": {
+    "mnq_locked_config": "24f08b50255a8a7c96a961a68266e9290a15a9c565349dc030ff270845ef29c1",
+    "mnq_money_management_lock": "7209d38b2b2e25cc5f9ffc523345a518e7bb728e5ae90889747dadc68ac3c419",
+    "mnq_orb_trades": "e4f5d74214127e4fa957bb40d035c08d9eb161796529b90a6f0a5322a997506c",
+    "mnq_minute_data": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174",
+    "mgc_candidate_manifest": "1c897f54b7ff9ebec6c909e9edad39625c94f2bc82c5dd677ca22aeec99f0fc7",
+    "mgc_volatility_spec": "21a217943d1ec1d670540233ea84b683e72c4730a18942101613ce9f77f8f5d0",
+    "mgc_gap_spec": "3002af1cb7535a28f479599813ec9ac34153036787c053a76eed369e70dd68fd",
+    "mgc_minute_data": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96"
+  },
+  "period": {
+    "start": "2024-01-01",
+    "end": "2026-03-19",
+    "label": "final_common_evaluation",
+    "caveat": "MGC source manifest labels this interval adaptive_reused_not_pristine_oos. Results are integration diagnostics, not a new pristine OOS claim."
+  },
+  "session_count": 564,
+  "sleeve_count": 6,
+  "trade_count_by_sleeve": {
+    "mnq_orb_vwap_atr": 261,
+    "mnq_volatility_breakout": 291,
+    "mnq_compression_breakout": 110,
+    "mnq_atr_trend_flip": 659,
+    "mgc_volatility_breakout": 65,
+    "mgc_gap_continuation": 95
+  },
+  "effective_independent_sleeves_participation_ratio": 4.477282734960808,
+  "cluster_count": 4,
+  "clusters": [
+    [
+      "mgc_gap_continuation",
+      "mgc_volatility_breakout"
+    ],
+    [
+      "mnq_atr_trend_flip",
+      "mnq_volatility_breakout"
+    ],
+    [
+      "mnq_compression_breakout"
+    ],
+    [
+      "mnq_orb_vwap_atr"
+    ]
+  ],
+  "erc_solver": {
+    "erc_iterations": 9,
+    "erc_max_budget_error": 9.644118836860116e-12
+  },
+  "topstep_rulesets": [
+    {
+      "name": "topstepx_50k_main_35d",
+      "description": "Main scenario with 35 traded-day expiry.",
+      "starting_balance_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "trailing_mll_usd": 2000.0,
+      "consistency_share_limit": 0.5,
+      "max_traded_days": 35,
+      "lock_at_starting_balance": false,
+      "notes": "Trailing MLL stays 2,000 below the running high-watermark; no breakeven lock is added."
+    },
+    {
+      "name": "topstepx_50k_extended_60d",
+      "description": "Longer horizon to separate risk geometry from speed / expiry pressure.",
+      "starting_balance_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "trailing_mll_usd": 2000.0,
+      "consistency_share_limit": 0.5,
+      "max_traded_days": 60,
+      "lock_at_starting_balance": false,
+      "notes": "Same Topstep-style risk rules, but with a longer traded-day horizon."
+    }
+  ],
+  "parameter_optimization_performed": false,
+  "ml_used": false,
+  "sleeve_sources_modified": false,
+  "implementation_checks": {
+    "mnq": {
+      "volatility_breakout": {
+        "spec_hash_match": true,
+        "lookahead_violations": 0,
+        "future_high_low_violations": 0,
+        "same_bar_policy_violations": 0,
+        "double_entry_violations": 0,
+        "overnight_position_violations": 0,
+        "entry_after_last_entry_violations": 0,
+        "post_hard_flatten_violations": 0,
+        "missing_execution_bar_skips": 0,
+        "invalid_entry_geometry_skips": 0,
+        "same_signal_indicator_stop_entry_skips": 0,
+        "dual_oco_cancellations": 0,
+        "multi_order_same_direction_priority_resolutions": 0,
+        "ambiguous_multi_order_cancellations": 0,
+        "hard_flatten_fallbacks": 1,
+        "missing_atr_entry_skips": 0
+      },
+      "compression_breakout": {
+        "spec_hash_match": true,
+        "lookahead_violations": 0,
+        "future_high_low_violations": 0,
+        "same_bar_policy_violations": 0,
+        "double_entry_violations": 0,
+        "overnight_position_violations": 0,
+        "entry_after_last_entry_violations": 0,
+        "post_hard_flatten_violations": 0,
+        "missing_execution_bar_skips": 0,
+        "invalid_entry_geometry_skips": 0,
+        "same_signal_indicator_stop_entry_skips": 0,
+        "dual_oco_cancellations": 0,
+        "multi_order_same_direction_priority_resolutions": 6,
+        "ambiguous_multi_order_cancellations": 0,
+        "hard_flatten_fallbacks": 0
+      },
+      "atr_trend_flip": {
+        "spec_hash_match": true,
+        "lookahead_violations": 0,
+        "future_high_low_violations": 0,
+        "same_bar_policy_violations": 0,
+        "double_entry_violations": 0,
+        "overnight_position_violations": 0,
+        "entry_after_last_entry_violations": 0,
+        "post_hard_flatten_violations": 0,
+        "missing_execution_bar_skips": 1,
+        "invalid_entry_geometry_skips": 0,
+        "same_signal_indicator_stop_entry_skips": 0,
+        "dual_oco_cancellations": 0,
+        "multi_order_same_direction_priority_resolutions": 0,
+        "ambiguous_multi_order_cancellations": 0,
+        "hard_flatten_fallbacks": 0,
+        "missing_atr_entry_skips": 0
+      }
+    },
+    "mgc": {
+      "mgc_volatility_breakout": {
+        "spec_hash_match": true,
+        "lookahead_violations": 0,
+        "future_high_low_violations": 0,
+        "same_bar_policy_violations": 0,
+        "double_entry_violations": 0,
+        "overnight_position_violations": 0,
+        "entry_after_last_entry_violations": 0,
+        "post_hard_flatten_violations": 0,
+        "missing_execution_bar_skips": 0,
+        "invalid_entry_geometry_skips": 0,
+        "same_signal_indicator_stop_entry_skips": 0,
+        "dual_oco_cancellations": 0,
+        "multi_order_same_direction_priority_resolutions": 0,
+        "ambiguous_multi_order_cancellations": 0,
+        "hard_flatten_fallbacks": 0
+      },
+      "mgc_gap_continuation": {
+        "spec_hash_match": true,
+        "lookahead_violations": 0,
+        "future_high_low_violations": 0,
+        "same_bar_policy_violations": 0,
+        "double_entry_violations": 0,
+        "overnight_position_violations": 0,
+        "entry_after_last_entry_violations": 0,
+        "post_hard_flatten_violations": 0,
+        "missing_execution_bar_skips": 0,
+        "invalid_entry_geometry_skips": 0,
+        "same_signal_indicator_stop_entry_skips": 0,
+        "dual_oco_cancellations": 0,
+        "multi_order_same_direction_priority_resolutions": 0,
+        "ambiguous_multi_order_cancellations": 0,
+        "hard_flatten_fallbacks": 2
+      }
+    }
+  }
+}

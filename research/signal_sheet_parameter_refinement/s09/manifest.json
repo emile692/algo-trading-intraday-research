@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "purpose": "diagnostic_landscape_no_selection",
+  "sheet": "09_mbt_volatility_breakout",
+  "mechanism": "volatility_breakout",
+  "instrument": "MBT",
+  "periods": {
+    "start": "2021-05-03",
+    "end": "2026-10-02",
+    "is_end": "2025-05-28",
+    "oos_start": "2025-05-29"
+  },
+  "principal_parameters": {
+    "daily_atr_period": "Fixe l’horizon du régime de volatilité utilisé pour normaliser le mouvement.",
+    "entry_atr_multiple": "Fixe la distance de déclenchement et le compromis fréquence/sélectivité."
+  },
+  "grids": {
+    "daily_atr_period": [
+      7,
+      10,
+      14,
+      20,
+      30,
+      40
+    ],
+    "entry_atr_multiple": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8
+    ]
+  },
+  "combination_count": 36,
+  "scope_count": 3,
+  "all_other_parameters": "frozen_at_current_value",
+  "selection_performed": false,
+  "profit_factor_definition": "sum positive net trade PnL / absolute sum negative net trade PnL",
+  "max_drawdown_definition": "minimum drawdown of cumulative daily net PnL including zero origin",
+  "worst_day_definition": "minimum realized net daily PnL; prop-firm daily-loss diagnostic, not intraday trailing loss",
+  "source": {
+    "data_path": "data\\downloaded\\MBT_v_0_1m_20210425_20261003.parquet",
+    "data_sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+    "excluded_roll_sessions": []
+  },
+  "outputs": {
+    "grid_metrics": "research\\signal_sheet_parameter_refinement\\s09\\grid_metrics.csv",
+    "grid_metrics_sha256": "6afe0c18ec7a747b4f910688efbff882bbd7f48f5806be57add60a02bbae6999"
+  }
+}

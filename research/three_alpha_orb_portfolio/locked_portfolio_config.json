@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "start_date": "2019-05-06",
+  "end_date": "2026-03-19",
+  "initial_capital_usd": 50000.0,
+  "portfolio_construction": {
+    "method": "fixed_equal_weight_daily_pnl",
+    "weights": {
+      "orb_vwap_atr": 0.25,
+      "volatility_breakout": 0.25,
+      "compression_breakout": 0.25,
+      "atr_trend_flip": 0.25
+    },
+    "profit_factor_basis": "aggregated_daily_pnl"
+  },
+  "strategies": {
+    "volatility_breakout": {
+      "daily_atr_period": 14,
+      "entry_atr_multiple": 0.6
+    },
+    "compression_breakout": {
+      "nr_lookback": 10,
+      "entry_buffer_ticks": 1
+    },
+    "atr_trend_flip": {
+      "atr_period": 10,
+      "atr_multiplier": 1.75
+    }
+  },
+  "orb": {
+    "strategy": "orb_vwap_atr",
+    "campaign_name": "baseline_fixed",
+    "source": "export/mnq_orb_vwap_atr_retained/trades.csv",
+    "sizing": "0.5 percent nominal risk on 50000 USD; variable whole-contract quantity",
+    "cutoff": "16:00 America/New_York corrected retained implementation"
+  },
+  "alpha_sizing": "1 MNQ contract per frozen baseline",
+  "costs": {
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1
+  }
+}

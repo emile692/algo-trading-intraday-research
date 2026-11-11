@@ -1,0 +1,69 @@
+{
+  "config": {
+    "research_freeze_date": "2026-10-06",
+    "bar_minutes": 5,
+    "is_fraction": 0.7,
+    "signal_timing": "signal_on_bar_close_entry_next_bar_open",
+    "position_rule": "one_position_per_instrument_no_pyramiding",
+    "requested_universe": [
+      "MNQ",
+      "MES",
+      "M2K",
+      "MGC",
+      "NQ",
+      "MBT",
+      "6E",
+      "6J",
+      "ZN",
+      "ZF",
+      "MCL",
+      "NG"
+    ],
+    "standalone_gate": {
+      "minimum_oos_trades": 30,
+      "minimum_oos_profit_factor": 1.05,
+      "minimum_oos_sharpe": 0.25,
+      "minimum_positive_region_fraction": 0.4,
+      "minimum_positive_cells": 3
+    },
+    "notes": [
+      "The existing nine sleeves are never used to construct or tune a signal.",
+      "Parameters define small mechanism-first regions; no maximum-Sharpe cell is promoted.",
+      "A representative cell is the positive-region medoid and remains research-only."
+    ]
+  },
+  "available_assets": [
+    "M2K",
+    "MBT",
+    "MES",
+    "MGC",
+    "MNQ",
+    "NQ"
+  ],
+  "files": {
+    "all_parameter_results.csv": "d0d7b7eb51c13b92cc75cd415d75891309af218c504e14e7d2ceae9330df0f22",
+    "candidate_registry.md": "79fc81ae0925c90be857c6dee0cda041a6bf4fa153f06afea21bd85ca69afe18",
+    "cost_stress_results.csv": "5b9c2a813eebee16ce21c40bb684b4faa0b2bb61ec09dd47cb270d61ac4366b3",
+    "data_inventory.csv": "1bb774a12a2122d3a34a0176e19629de68f17972000fab6e0d9294b4207dabf7",
+    "diversification_vs_9_sleeves.csv": "55fcc00b70690acebdd9f561f70f33bbc76e7a5ae0aa78cd75c5f10b4606b6ce",
+    "event_study_summary.csv": "40dcaca4c03e86ab5db306991107d46653506f314a12d644a2ca8fb552874925",
+    "MEAN_REVERSION_MASTER_REPORT.md": "d3c1dc260901999a4a484d783aeb025bd5338b30898757c51cfc160d87102166",
+    "mechanism_by_asset_summary.csv": "ed1c47cf0c5e754bee13b9ceaa2af02d9a87e754ebb469489ad24c08b409c255",
+    "placebo_results.csv": "cbd83155546717c4d3e2d26d0df944573e893b7f1f5802fd87d79ccce779b35e",
+    "yearly_results.csv": "b1a8c068cda359c8ea829d27ad0b3891f0c0b2bfd7d08cf3a672559257e29386",
+    "topstep_incremental_results.csv": "9d3e52602d131778c52ed6fb6fbc9b8dac2d1122b9c75fcc215bcb2e21a3a12c",
+    "topstep_incremental_metadata.json": "1e5b5085c0688ae59a3fe3d720713e9e6cba9cf2c5abae2a6b019680ecf95f66"
+  },
+  "topstep_incremental": {
+    "framework": "research.mbt_nine_sleeve_topstep_20261004.run_topstep",
+    "seed": 20261004,
+    "blocks": [
+      3,
+      5,
+      10,
+      20
+    ],
+    "paths_per_block": 2000,
+    "candidate_intraday_note": "five-minute candidate MAE added conservatively to unchanged minute nine-sleeve adverse path"
+  }
+}

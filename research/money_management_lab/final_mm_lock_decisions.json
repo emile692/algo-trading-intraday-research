@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "decision_source": "explicit_user_instruction_after_final_parameter_studies",
+  "terminal_lock": true,
+  "strategies": {
+    "compression_breakout": {
+      "exit_family": "baseline",
+      "justification": "Sortie baseline verrouillee explicitement par l'utilisateur."
+    },
+    "volatility_breakout": {
+      "exit_family": "time_stop",
+      "max_holding_minutes": 240,
+      "execution_semantics": "Cloturer au prix d'ouverture de la premiere barre 1 minute dont l'horodatage est superieur ou egal a 240 minutes apres l'entree ; le hard flatten conserve la priorite de securite.",
+      "justification": "Time stop 240 minutes verrouille explicitement par l'utilisateur apres revue IS/Validation."
+    },
+    "atr_trend_flip": {
+      "exit_family": "atr_stop",
+      "stop_atr": 1.0,
+      "execution_semantics": "Stop fixe a 1.0 fois l'ATR Wilder(14) de la derniere barre 15 minutes terminee au moment du fill ; execution intrabar selon les conventions du moteur, avec hard flatten conserve.",
+      "justification": "Stop 1.0 ATR verrouille explicitement par l'utilisateur apres revue IS/Validation."
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "cell_count": 25,
+  "positive_sharpe_is_and_oos": 25,
+  "axis_median_sharpe": {
+    "minimum_gap_atr_multiple": [
+      {
+        "minimum_gap_atr_multiple": 0.3,
+        "is": 0.6779052310756712,
+        "oos": 0.6357043615878021
+      },
+      {
+        "minimum_gap_atr_multiple": 0.4,
+        "is": 0.6633086227587759,
+        "oos": 0.573894121896276
+      },
+      {
+        "minimum_gap_atr_multiple": 0.5,
+        "is": 0.7945999801043585,
+        "oos": 0.5944198116170265
+      },
+      {
+        "minimum_gap_atr_multiple": 0.6,
+        "is": 0.9462232158816172,
+        "oos": 0.4884991587857114
+      },
+      {
+        "minimum_gap_atr_multiple": 0.7,
+        "is": 0.7939535518374595,
+        "oos": 0.4873417016637519
+      }
+    ],
+    "volume_threshold_multiple": [
+      {
+        "volume_threshold_multiple": 0.4,
+        "is": 0.6522473062159752,
+        "oos": 0.4873417016637519
+      },
+      {
+        "volume_threshold_multiple": 0.5,
+        "is": 0.7945999801043585,
+        "oos": 0.573894121896276
+      },
+      {
+        "volume_threshold_multiple": 0.6,
+        "is": 0.8141018930311935,
+        "oos": 0.7940104039798789
+      },
+      {
+        "volume_threshold_multiple": 0.7,
+        "is": 0.7939535518374595,
+        "oos": 0.6357043615878021
+      },
+      {
+        "volume_threshold_multiple": 0.8,
+        "is": 0.7312793045353646,
+        "oos": 0.4225168851139856
+      }
+    ]
+  },
+  "selection_performed": false
+}

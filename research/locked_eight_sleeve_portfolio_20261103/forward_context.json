@@ -1,0 +1,76 @@
+{
+  "window": [
+    "2026-03-20",
+    "2026-10-02"
+  ],
+  "sessions": 141,
+  "scope": "MNQ/MGC sleeves only; no MBT data after 2026-10-02",
+  "mnq_mgc_with_s04": {
+    "net_pnl_usd": -3625.0000000001937,
+    "sharpe": -0.8128804695067522,
+    "max_drawdown_usd": -8897.000000000124
+  },
+  "mnq_mgc_without_s04": {
+    "net_pnl_usd": 2738.4999999998063,
+    "sharpe": 0.8282496536681407,
+    "max_drawdown_usd": -2476.000000000059
+  },
+  "stop_rule_replay": {
+    "mnq_orb_vwap_atr": {
+      "threshold_usd": -890.5,
+      "forward_min_usd": -513.5,
+      "last_usd": 261.0,
+      "breach_sessions": 0,
+      "breach_span": null,
+      "in_breach_at_window_end": false
+    },
+    "mnq_volatility_breakout": {
+      "threshold_usd": -4019.0,
+      "forward_min_usd": -1650.0,
+      "last_usd": -949.5,
+      "breach_sessions": 0,
+      "breach_span": null,
+      "in_breach_at_window_end": false
+    },
+    "mnq_compression_breakout": {
+      "threshold_usd": -975.0,
+      "forward_min_usd": -105.5,
+      "last_usd": 281.5,
+      "breach_sessions": 0,
+      "breach_span": null,
+      "in_breach_at_window_end": false
+    },
+    "mnq_atr_trend_flip": {
+      "threshold_usd": -2974.0,
+      "forward_min_usd": -6676.0,
+      "last_usd": -6574.0,
+      "breach_sessions": 36,
+      "breach_span": [
+        "2026-07-17",
+        "2026-10-02"
+      ],
+      "in_breach_at_window_end": true
+    },
+    "mgc_volatility_breakout": {
+      "threshold_usd": -1020.9999999999741,
+      "forward_min_usd": -1788.5000000000673,
+      "last_usd": 700.4999999999745,
+      "breach_sessions": 21,
+      "breach_span": [
+        "2026-07-28",
+        "2026-08-25"
+      ],
+      "in_breach_at_window_end": false
+    },
+    "mgc_gap_continuation": {
+      "threshold_usd": -1006.49999999996,
+      "forward_min_usd": 277.49999999985005,
+      "last_usd": 994.9999999998772,
+      "breach_sessions": 0,
+      "breach_span": null,
+      "in_breach_at_window_end": false
+    }
+  },
+  "stop_rule_replay_note": "Descriptive: the rule is registered on 2026-11-03 and applies prospectively only.",
+  "caveat": "This window motivated the removal; it cannot also validate it."
+}

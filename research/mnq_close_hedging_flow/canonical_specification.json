@@ -1,0 +1,16 @@
+{
+  "campaign": "mnq_close_hedging_flow",
+  "research_basis": "Baltussen, Da, Lammers & Martens (2021), Journal of Financial Economics 142, 377-403",
+  "frozen_before_performance": true,
+  "phase": "phase_1_and_2_event_study",
+  "cash_close_timezone": "America/New_York",
+  "cash_close": "16:00",
+  "rod": "previous eligible session 15:59 bar close to current 15:29 bar close",
+  "signal_available": "15:30 ET",
+  "execution_proxy": "15:30 bar open",
+  "last_30m_exit": "15:59 bar close",
+  "minimum_rth_bars": 380,
+  "threshold_optimization": false,
+  "bootstrap_samples": 1000,
+  "oos_start": "2024-01-01"
+}

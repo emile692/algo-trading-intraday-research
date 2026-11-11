@@ -1,0 +1,119 @@
+{
+  "campaign": "index_relative_value_phase1_20261111",
+  "phase": "phase_1_mechanism_and_selection_rule_test",
+  "frozen_on": "2026-11-11",
+  "frozen_before_performance": true,
+  "hypothesis": "Intraday relative value between US equity index futures. The relative move of two indices from the RTH open to open+h (Nasdaq 100 vs S&P 500 vs Russell 2000) predicts their relative return from open+h to the close. A market-neutral position, long one index and short the other with equal notional, is taken when the relative move is large against its recent typical size. There is no strong prior on the sign: a temporary price-pressure story predicts reversion, an intraday sector-rotation story predicts continuation. Both signs are in the grid and the search is paid for by the max-stat permutation test.",
+  "disclosure_before_freeze": [
+    "No return of this strategy was computed on any real pair before the freeze. The runner was validated on synthetic data only (self-test).",
+    "Before the freeze, the costcheck stage was run on real data. It prints only: sessions per year, the trailing daily volatility of each spread, the two-leg round-trip cost as a share of that volatility, and the share of sessions that trade for each threshold. No direction-dependent quantity was printed. Result: median cost of 0.081 R (MNQ-MES), 0.056 R (MNQ-M2K) and 0.088 R (MES-M2K) of daily spread volatility per trade; k = 0.5, 1.0 and 1.5 trade about 60%, 32% and 15% of sessions.",
+    "Prior information already seen in this repo: (a) cross-asset lead/lag MES->MNQ and M2K->MNQ is REJECTED (0/8 pair x direction), a short-horizon predictive test on single legs, not a spread position; (b) open->open+h momentum on single instruments is REJECTED and flat on the equity-index cluster (t -0.16); (c) the night-session premium is REJECTED with a cost of about 0.054 R per trade.",
+    "No pre-2019 data exists locally for ES or RTY, so there is no pre-sample holdout. Gate G6 (both halves of IS) and gate G7 (cost x1.5) replace it.",
+    "The 2024-01 -> 2026-03 window was used as OOS by earlier campaigns on other strategies; it is unseen for this hypothesis. MES and M2K files end on 2026-03-20, so there is no extension window."
+  ],
+  "instruments": {
+    "MNQ": {
+      "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet",
+      "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef",
+      "point_value": 2.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25
+    },
+    "MES": {
+      "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+      "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d",
+      "point_value": 5.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25
+    },
+    "M2K": {
+      "path": "data/processed/parquet/M2K_c_0_1m_20260322_134808.parquet",
+      "sha256": "9eefeeebb0642214e981f9a4a82fb954ff4510e887772b37c4bead4b48f190c9",
+      "point_value": 5.0,
+      "tick_size": 0.1,
+      "commission_per_side": 1.25
+    }
+  },
+  "pairs": [["MNQ", "MES"], ["MNQ", "M2K"], ["MES", "M2K"]],
+  "session": {
+    "timezone": "America/New_York",
+    "session_start": "09:30",
+    "session_minutes": 390,
+    "bar_semantics": "one-minute bars stamped at bar start; minute index m = minutes since 09:30, 0 <= m < 390; weekdays only",
+    "open_price": "open of the first bar with 0 <= m <= 4",
+    "exit_price": "close of the last bar with 385 <= m <= 389",
+    "eligibility": "per instrument: at least 75% of the session's one-minute bars present, open_price and exit_price available, a single instrument_id over the session. A pair trades only on sessions where both legs are eligible."
+  },
+  "signal": {
+    "spread": "A minus B for a pair [A, B], in log-return space, equal notional on both legs",
+    "s_h": "ln(A_h / A_open) - ln(B_h / B_open), where X_h = close of the last bar with h-5 <= m <= h-1",
+    "sigma_h": "sqrt(mean of s_h^2 over the 20 previous pair sessions), at least 15 values required (causal)",
+    "sigma_day": "sqrt(mean of (ln(A_exit/A_open) - ln(B_exit/B_open))^2 over the 20 previous pair sessions), at least 15 values required (causal)",
+    "trigger": "abs(s_h) >= k * sigma_h and s_h != 0, else no trade",
+    "direction": "reversion: position on the spread = -sign(s_h) (short the leg that outperformed, long the other); continuation: +sign(s_h)",
+    "entry": "both legs at the open of their first bar with h <= m <= h+4; no trade if either is absent",
+    "exit": "both legs at exit_price; no stop, no target, at most one trade per pair per session"
+  },
+  "grid": {
+    "modes": ["reversion", "continuation"],
+    "h_minutes": [30, 60, 90, 120, 180],
+    "k_sigma": [0.5, 1.0, 1.5],
+    "cells": 30,
+    "note": "Identical on the three pairs. No per-pair parameter. k = 0 is left out: trading every session is known to be cost-dominated."
+  },
+  "costs": {
+    "rule": "each leg pays 1 tick slippage per side + commission per side; leg round trip USD = 2 * tick_size * point_value + 2 * commission_per_side",
+    "spread_cost_return": "round_trip_A / (point_value_A * entry_A) + round_trip_B / (point_value_B * entry_B)",
+    "net_return": "direction * ((A_exit - A_entry) / A_entry - (B_exit - B_entry) / B_entry) - spread_cost_return"
+  },
+  "unit": "R = net_return / sigma_day (risk-normalised on the spread). Basis points of leg notional are reported alongside.",
+  "pooling": {
+    "rule": "per date, equal-weight average of R across the pairs eligible that date (no trade = 0)",
+    "reason": "the three spreads are linearly dependent and are one bet; they are pooled as one cluster and judged on breadth separately"
+  },
+  "periods": {
+    "IS": ["2019-05-06", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"]
+  },
+  "selection_rule": {
+    "statistic": "daily Sharpe (mean/std) of the pooled net R series on IS for each cell, then neighbourhood smoothing: average of the cell and its orthogonal neighbours on the (h, k) grid, inside the same mode",
+    "choice": "the single cell with the highest smoothed Sharpe; ties broken by grid order (reversion first, then lower h, then lower k)",
+    "executed": "that one cell, the same on the three pairs"
+  },
+  "tests_on_IS": {
+    "hac": "Newey-West t of the mean of the pooled net R series, 5 lags, all eligible dates (no-trade dates = 0)",
+    "max_stat_permutation": "5000 draws; each draw flips the sign of the gross return of whole dates (same flip for every pair and cell, costs still paid); statistic = maximum smoothed Sharpe over the 30 cells; p = share of draws >= observed. Controls for the 30-cell search, the two signs included, and for the dependence between pairs. Seed 20261111.",
+    "cscv": "12 contiguous time blocks, all 924 half/half splits; the selection rule is applied on the train half; logit of the relative rank of the chosen cell's Sharpe on the test half; PBO = share of splits with logit <= 0",
+    "diagnostics_not_gated": [
+      "per-pair table for all 30 cells",
+      "gross mean and cost mean per cell",
+      "cost x2",
+      "entry delayed by one bar on both legs",
+      "calendar years"
+    ]
+  },
+  "gate_to_OOS": {
+    "all_required": [
+      "G1: selected cell pooled IS mean net R > 0 with HAC t >= 2.0",
+      "G2: max-stat permutation p <= 0.05",
+      "G3: CSCV PBO <= 0.35",
+      "G4: selected cell net mean R > 0 on IS for at least 2 of 3 pairs",
+      "G5: more than half of IS calendar years have a positive pooled net sum",
+      "G6: selected cell pooled net mean R > 0 in each chronological half of IS",
+      "G7: selected cell pooled mean R still > 0 with costs multiplied by 1.5 (two legs, legging risk)"
+    ],
+    "if_pass": "the user is asked before OOS is read; the same code and the same selected cell are then applied once to OOS as a verdict",
+    "if_fail": "OOS is not computed; hypothesis closed on this data"
+  },
+  "oos_verdict": {
+    "pass_if_all": [
+      "pooled OOS mean net R > 0 with HAC t >= 1.0",
+      "net mean R > 0 for at least 2 of 3 pairs"
+    ]
+  },
+  "prohibitions": [
+    "no other window, threshold, reference price, exit, stop, hedge ratio or filter after the freeze",
+    "no per-pair parameter and no single-pair rescue",
+    "no OOS before the IS gate is evaluated and the user has approved the read"
+  ]
+}

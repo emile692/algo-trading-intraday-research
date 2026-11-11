@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "status": "LOCKED_BEFORE_PERFORMANCE",
+  "locked_date": "2026-09-26",
+  "research_policy": {
+    "objective": "Test six source-derived economic hypotheses without reopening the 16 frozen mechanisms.",
+    "grid_search": false,
+    "parameter_optimization": false,
+    "maximum_local_perturbations_per_framework": 2,
+    "ict_smc_concepts_allowed": false,
+    "selection_by_peak_sharpe": false
+  },
+  "periods": {
+    "pre_is": ["2015-01-02", "2019-05-05"],
+    "is": ["2019-05-06", "2023-12-31"],
+    "oos": ["2024-01-01", "2026-03-19"],
+    "full": ["2015-01-02", "2026-03-19"],
+    "auction_out_of_source_sample": ["2024-08-01", "2026-03-19"]
+  },
+  "capital": {
+    "initial_capital_usd": 50000.0,
+    "annualization_days": 252
+  },
+  "instruments": {
+    "6E": {
+      "data_path": "data/processed/parquet/6E_v_0_1m_20150101_20260923.parquet",
+      "tick_size": 0.00005,
+      "tick_value_usd": 6.25,
+      "point_value_usd": 125000.0,
+      "commission_per_side_usd": 1.25,
+      "slippage_ticks_per_side": 1.0
+    },
+    "ZN": {
+      "data_path": "data/processed/parquet/ZN_v_0_1m_20130517_20260920.parquet",
+      "tick_size": 0.015625,
+      "tick_value_usd": 15.625,
+      "point_value_usd": 1000.0,
+      "commission_per_side_usd": 1.25,
+      "slippage_ticks_per_side": 1.0
+    }
+  },
+  "session_definition": {
+    "timezone": "America/New_York",
+    "trade_date_boundary": "18:00:00",
+    "regular_session_end": "17:00:00",
+    "bar_timestamp_semantics": "bar_open",
+    "missing_entry_bar_policy": "skip_trade",
+    "missing_time_exit_bar_policy": "last_available_close_strictly_before_exit"
+  },
+  "frameworks": {
+    "eur_benchmark_fix_reversal": {
+      "asset": "6E",
+      "source": "https://onlinelibrary.wiley.com/doi/10.1111/jofi.13306",
+      "canonical_rule": "Short 6E from 08:00 Europe/Berlin to the applicable European benchmark time; flat until the 16:00 Europe/London fix; long 6E from that fix to 17:00 America/New_York.",
+      "ecb_fix_before_2016_07_01": "14:15:00 Europe/Berlin",
+      "european_fix_from_2016_07_01": "14:00:00 Europe/Berlin",
+      "london_fix": "16:00:00 Europe/London",
+      "us_close": "17:00:00 America/New_York",
+      "variants": [
+        {"variant": "canonical", "inward_buffer_minutes": 0},
+        {"variant": "inward_15m", "inward_buffer_minutes": 15},
+        {"variant": "inward_30m", "inward_buffer_minutes": 30}
+      ]
+    },
+    "regional_working_hours_fx_flow": {
+      "asset": "6E",
+      "source": "https://www.sciencedirect.com/science/article/abs/pii/S0378426609001265",
+      "canonical_rule": "Short EUR during the Europe-only working-hours interval and long EUR during the US-only interval; flat during overlap.",
+      "europe_workday": ["08:00:00 Europe/Berlin", "17:00:00 Europe/Berlin"],
+      "us_workday": ["08:00:00 America/New_York", "17:00:00 America/New_York"],
+      "variants": [
+        {"variant": "canonical", "inward_buffer_minutes": 0},
+        {"variant": "inward_30m", "inward_buffer_minutes": 30},
+        {"variant": "inward_60m", "inward_buffer_minutes": 60}
+      ]
+    },
+    "scheduled_macro_acceptance": {
+      "asset": "6E",
+      "sources": [
+        "https://www.nber.org/papers/w8959",
+        "https://www.federalreserve.gov/pubs/ifdp/2007/903/ifdp903.htm"
+      ],
+      "event_types": ["NFP", "CPI"],
+      "release_time": "08:30:00 America/New_York",
+      "pre_release_range_minutes": 10,
+      "participation_reference_sessions": 20,
+      "minimum_participation_history_sessions": 10,
+      "entry_rule": "After the impulse window, enter at the next one-minute open in its direction only when the completed impulse closes outside the pre-release range and impulse volume exceeds the causal same-clock median of the prior 20 sessions.",
+      "invalidation": "Exit at the next one-minute open after a completed bar closes back inside the pre-release range.",
+      "time_exit": "09:30:00 America/New_York",
+      "variants": [
+        {"variant": "canonical", "impulse_minutes": 5},
+        {"variant": "impulse_3m", "impulse_minutes": 3},
+        {"variant": "impulse_7m", "impulse_minutes": 7}
+      ]
+    },
+    "ten_year_auction_concession_reversal": {
+      "asset": "ZN",
+      "source": "https://www.newyorkfed.org/research/staff_reports/sr1188",
+      "event_type": "10Y_TREASURY_AUCTION",
+      "auction_time": "13:00:00 America/New_York",
+      "canonical_rule": "Short ZN before the auction and reverse long at the auction time, using the source's symmetric six-hour window.",
+      "variants": [
+        {"variant": "canonical", "half_window_minutes": 180},
+        {"variant": "window_150m", "half_window_minutes": 150},
+        {"variant": "window_210m", "half_window_minutes": 210}
+      ]
+    },
+    "scheduled_treasury_information_assimilation": {
+      "asset": "ZN",
+      "sources": [
+        "https://www.newyorkfed.org/research/staff_reports/sr27.html",
+        "https://www.sciencedirect.com/science/article/pii/S0378426620302880"
+      ],
+      "event_strata": {
+        "NFP_CPI_0830": {"types": ["NFP", "CPI"], "time": "08:30:00", "time_exit": "09:30:00", "canonical_impulse_minutes": 5},
+        "ISM_MANUFACTURING_1000": {"types": ["ISM_MANUFACTURING"], "time": "10:00:00", "time_exit": "11:00:00", "canonical_impulse_minutes": 5},
+        "FOMC_1400": {"types": ["FOMC"], "time": "14:00:00", "time_exit": "15:45:00", "canonical_impulse_minutes": 15}
+      },
+      "pre_release_range_minutes": 10,
+      "participation_reference_sessions": 20,
+      "minimum_participation_history_sessions": 10,
+      "entry_rule": "Enter after a second completed window only if price remains outside the pre-release range in the initial-shock direction and second-window volume exceeds its causal same-clock median over the prior 20 sessions.",
+      "invalidation": "Exit next minute after a close back inside the pre-release range.",
+      "variants": [
+        {"variant": "canonical", "window_multiplier": 1.0},
+        {"variant": "short_windows", "window_multiplier": 0.6666666667},
+        {"variant": "long_windows", "window_multiplier": 1.3333333333}
+      ]
+    },
+    "treasury_day_night_segmentation": {
+      "asset": "ZN",
+      "source": "https://www.sciencedirect.com/science/article/pii/S0304405X20301732",
+      "canonical_rule": "Long one ZN contract during the traditional US Treasury futures day session and remain flat overnight.",
+      "day_exit": "15:00:00 America/New_York",
+      "variants": [
+        {"variant": "canonical", "day_entry": "08:20:00"},
+        {"variant": "entry_0800", "day_entry": "08:00:00"},
+        {"variant": "entry_0830", "day_entry": "08:30:00"}
+      ]
+    }
+  },
+  "event_calendars": {
+    "bls_archive_cpi": "https://www.bls.gov/bls/news-release/cpi.htm",
+    "bls_archive_employment": "https://www.bls.gov/bls/news-release/empsit.htm",
+    "fomc_current": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "fomc_historical_template": "https://www.federalreserve.gov/monetarypolicy/fomchistorical{year}.htm",
+    "treasury_auction_api": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query",
+    "ism_rule": "First US federal business day of each month, 10:00 ET; deterministic rule used because a stable official historical machine-readable release calendar was not available."
+  },
+  "diagnostics": {
+    "rolling_sharpe_window_sessions": 252,
+    "rolling_sharpe_minimum_sessions": 126,
+    "slippage_ticks_per_side": [0.0, 1.0, 2.0]
+  },
+  "evidence_gates": {
+    "minimum_oos_trades_event_framework": 12,
+    "minimum_oos_trades_daily_framework": 100,
+    "require_positive_net_pnl_is": true,
+    "require_positive_net_pnl_oos": true,
+    "require_profit_factor_above_one_is": true,
+    "require_profit_factor_above_one_oos": true,
+    "minimum_positive_full_year_fraction": 0.5,
+    "minimum_positive_oos_perturbation_fraction": 0.6666666667,
+    "require_positive_oos_pnl_at_two_ticks_slippage": true,
+    "maximum_abs_candidate_correlation_for_diversifier": 0.5,
+    "portfolio_addition_weight": 0.2,
+    "portfolio_base_allocations_mnq_mgc": [[0.5, 0.5], [0.7, 0.3], [0.8, 0.2]]
+  },
+  "portfolio_references": {
+    "mnq_selected_allocation_rule": "research/locked_four_sleeve_portfolio/final_allocation_rule.json",
+    "mnq_selected_curve": "research/locked_four_sleeve_portfolio/allocation_comparison_portfolio.csv",
+    "mgc_sleeve_specs": [
+      "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_specs/volatility_breakout.json",
+      "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_specs/gap_continuation.json"
+    ],
+    "mgc_erc_window_sessions": 63,
+    "mgc_erc_covariance_lag_sessions": 1
+  }
+}

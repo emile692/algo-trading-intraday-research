@@ -1,0 +1,11 @@
+item,value
+inherited_grid,"move={1.0,1.5,2.0} ATR; RVOL={1.5,2.0,2.5}; mode={immediate_fade,confirmed_fade}; 18 cells"
+price_normalization,"abs(close-open) / causal session ATR; ATR is median true range of prior 20 same-session bars, min 10"
+volume_normalization,bar volume / median volume at same ET slot over prior 20 sessions
+immediate_entry,climax completed at t; fade signal t; fill open t+1
+confirmed_entry,climax completed at t-1; opposite-direction bar t; fade signal t; fill open t+1
+exit,"close of sixth held 5-minute bar, truncated at session end; non-overlapping trades"
+session,MGC weekdays 08:20 <= ET < 13:30; no overnight carry
+nominal_cost,$4.50 round turn = one tick/side slippage ($2.00) + $1.25/side commission ($2.50)
+validation_split,chronological 70/30 by session; OOS begins 2023-03-17
+canonical_diagnostic_cell,"B__confirmed_fade__n1__m1.5__rv2.0__p0__c1; inherited geometric center, fixed without metric selection"

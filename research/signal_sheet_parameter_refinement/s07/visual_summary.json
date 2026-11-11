@@ -1,0 +1,66 @@
+{
+  "cell_count": 30,
+  "positive_sharpe_is_and_oos": 12,
+  "axis_median_sharpe": {
+    "entry_channel_length": [
+      {
+        "entry_channel_length": 16,
+        "is": -0.058432525967919,
+        "oos": 0.3607868311612914
+      },
+      {
+        "entry_channel_length": 20,
+        "is": 0.3008301930355105,
+        "oos": 0.7581478386535647
+      },
+      {
+        "entry_channel_length": 24,
+        "is": 0.1889161557156254,
+        "oos": 0.7245883813244395
+      },
+      {
+        "entry_channel_length": 28,
+        "is": -0.190331138612815,
+        "oos": 0.5334059655727889
+      },
+      {
+        "entry_channel_length": 32,
+        "is": -0.2917228379623067,
+        "oos": 0.5304110532807595
+      }
+    ],
+    "exit_channel_length": [
+      {
+        "exit_channel_length": 5,
+        "is": -0.1512610244235645,
+        "oos": 0.5376204441388779
+      },
+      {
+        "exit_channel_length": 7,
+        "is": -0.0549736990914609,
+        "oos": 0.5513703812726146
+      },
+      {
+        "exit_channel_length": 10,
+        "is": -0.0452645836651379,
+        "oos": 0.5728324995055522
+      },
+      {
+        "exit_channel_length": 12,
+        "is": -0.058432525967919,
+        "oos": 0.5291914870066998
+      },
+      {
+        "exit_channel_length": 15,
+        "is": -0.058432525967919,
+        "oos": 0.5291914870066998
+      },
+      {
+        "exit_channel_length": 18,
+        "is": -0.058432525967919,
+        "oos": 0.5291914870066998
+      }
+    ]
+  },
+  "selection_performed": false
+}

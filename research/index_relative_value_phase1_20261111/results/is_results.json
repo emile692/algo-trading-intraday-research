@@ -1,0 +1,112 @@
+{
+  "stage": "IS",
+  "period": [
+    "2019-05-06",
+    "2023-12-31"
+  ],
+  "pooled_days": 1128,
+  "selected_cell": {
+    "index": 17,
+    "mode": "continuation",
+    "h_minutes": 30,
+    "k_sigma": 1.5
+  },
+  "selected_cell_IS": {
+    "pooled": {
+      "days": 1128,
+      "mean_R": -0.0011780173722302364,
+      "hac_t": -0.15519909356251316,
+      "sharpe_annual": -0.07174105940752445
+    },
+    "pooled_first_half": {
+      "days": 564,
+      "mean_R": 0.004928569097367339,
+      "hac_t": 0.4297771259826505,
+      "sharpe_annual": 0.2796437587010641
+    },
+    "pooled_second_half": {
+      "days": 564,
+      "mean_R": -0.00728460384182781,
+      "hac_t": -0.7380835264571713,
+      "sharpe_annual": -0.4815689450815035
+    },
+    "pooled_gross": {
+      "days": 1128,
+      "mean_R": 0.012798977866950322,
+      "hac_t": 1.6844284662120705,
+      "sharpe_annual": 0.7804854718205332
+    },
+    "pooled_cost_x2": {
+      "days": 1128,
+      "mean_R": -0.015155012611410794,
+      "hac_t": -1.9704601240036157,
+      "sharpe_annual": -0.9120864988381104
+    },
+    "pooled_entry_delay": {
+      "days": 1128,
+      "mean_R": -0.002148431113144731,
+      "hac_t": -0.2783245814923741,
+      "sharpe_annual": -0.12869992667054359
+    },
+    "yearly_sum_R": {
+      "2019": -1.907335041617476,
+      "2020": 2.5495412761475995,
+      "2021": 2.3247852441107035,
+      "2022": -4.042843092589832,
+      "2023": -0.252951981926702
+    },
+    "by_pair": {
+      "MNQ-MES": {
+        "days": 1128,
+        "mean_R": -0.002826487565174655,
+        "hac_t": -0.21316866708983803,
+        "sharpe_annual": -0.10462305914864449,
+        "trades": 174,
+        "mean_gross_bp_per_trade": 5.701754437854905,
+        "mean_cost_bp_per_trade": 4.187530776268829,
+        "mean_net_R_per_trade": -0.018323436629408114,
+        "win_rate": 0.5287356321839081
+      },
+      "MNQ-M2K": {
+        "days": 1121,
+        "mean_R": 0.009259932312557393,
+        "hac_t": 0.9261455982146158,
+        "sharpe_annual": 0.45370747102906517,
+        "trades": 159,
+        "mean_gross_bp_per_trade": 11.509594670386226,
+        "mean_cost_bp_per_trade": 5.348286402889182,
+        "mean_net_R_per_trade": 0.06528543473192983,
+        "win_rate": 0.5345911949685535
+      },
+      "MES-M2K": {
+        "days": 1121,
+        "mean_R": -0.006298107582336917,
+        "hac_t": -0.6190446607920298,
+        "sharpe_annual": -0.2903289235855594,
+        "trades": 166,
+        "mean_gross_bp_per_trade": 4.712425392892399,
+        "mean_cost_bp_per_trade": 6.56640523392321,
+        "mean_net_R_per_trade": -0.04253119638433544,
+        "win_rate": 0.4939759036144578
+      }
+    }
+  },
+  "max_stat_permutation_p": 0.1357728454309138,
+  "cscv": {
+    "splits": 924,
+    "pbo": 0.06601731601731602,
+    "median_logit": 3.4011973816621563,
+    "share_test_sharpe_positive": 0.26082251082251084
+  },
+  "pairs_positive": 1,
+  "gates": {
+    "G1_hac": false,
+    "G2_permutation": false,
+    "G3_pbo": true,
+    "G4_breadth": false,
+    "G5_years": false,
+    "G6_both_halves": false,
+    "G7_cost_x1_5": false
+  },
+  "gate_pass": false
+}

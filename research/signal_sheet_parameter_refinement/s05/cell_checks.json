@@ -1,0 +1,602 @@
+[
+  {
+    "cell_id": "s05_001",
+    "parameters": {
+      "daily_atr_period": 10,
+      "entry_atr_multiple": 0.7
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 6
+    }
+  },
+  {
+    "cell_id": "s05_002",
+    "parameters": {
+      "daily_atr_period": 10,
+      "entry_atr_multiple": 0.9
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 4
+    }
+  },
+  {
+    "cell_id": "s05_003",
+    "parameters": {
+      "daily_atr_period": 10,
+      "entry_atr_multiple": 1.1
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 1
+    }
+  },
+  {
+    "cell_id": "s05_004",
+    "parameters": {
+      "daily_atr_period": 10,
+      "entry_atr_multiple": 1.3
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_005",
+    "parameters": {
+      "daily_atr_period": 10,
+      "entry_atr_multiple": 1.5
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_006",
+    "parameters": {
+      "daily_atr_period": 20,
+      "entry_atr_multiple": 0.7
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 4
+    }
+  },
+  {
+    "cell_id": "s05_007",
+    "parameters": {
+      "daily_atr_period": 20,
+      "entry_atr_multiple": 0.9
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 4
+    }
+  },
+  {
+    "cell_id": "s05_008",
+    "parameters": {
+      "daily_atr_period": 20,
+      "entry_atr_multiple": 1.1
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_009",
+    "parameters": {
+      "daily_atr_period": 20,
+      "entry_atr_multiple": 1.3
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_010",
+    "parameters": {
+      "daily_atr_period": 20,
+      "entry_atr_multiple": 1.5
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_011",
+    "parameters": {
+      "daily_atr_period": 30,
+      "entry_atr_multiple": 0.7
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 4
+    }
+  },
+  {
+    "cell_id": "s05_012",
+    "parameters": {
+      "daily_atr_period": 30,
+      "entry_atr_multiple": 0.9
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 3
+    }
+  },
+  {
+    "cell_id": "s05_013",
+    "parameters": {
+      "daily_atr_period": 30,
+      "entry_atr_multiple": 1.1
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_014",
+    "parameters": {
+      "daily_atr_period": 30,
+      "entry_atr_multiple": 1.3
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_015",
+    "parameters": {
+      "daily_atr_period": 30,
+      "entry_atr_multiple": 1.5
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_016",
+    "parameters": {
+      "daily_atr_period": 40,
+      "entry_atr_multiple": 0.7
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 4
+    }
+  },
+  {
+    "cell_id": "s05_017",
+    "parameters": {
+      "daily_atr_period": 40,
+      "entry_atr_multiple": 0.9
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 3
+    }
+  },
+  {
+    "cell_id": "s05_018",
+    "parameters": {
+      "daily_atr_period": 40,
+      "entry_atr_multiple": 1.1
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 1
+    }
+  },
+  {
+    "cell_id": "s05_019",
+    "parameters": {
+      "daily_atr_period": 40,
+      "entry_atr_multiple": 1.3
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_020",
+    "parameters": {
+      "daily_atr_period": 40,
+      "entry_atr_multiple": 1.5
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_021",
+    "parameters": {
+      "daily_atr_period": 50,
+      "entry_atr_multiple": 0.7
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 4
+    }
+  },
+  {
+    "cell_id": "s05_022",
+    "parameters": {
+      "daily_atr_period": 50,
+      "entry_atr_multiple": 0.9
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 3
+    }
+  },
+  {
+    "cell_id": "s05_023",
+    "parameters": {
+      "daily_atr_period": 50,
+      "entry_atr_multiple": 1.1
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 1
+    }
+  },
+  {
+    "cell_id": "s05_024",
+    "parameters": {
+      "daily_atr_period": 50,
+      "entry_atr_multiple": 1.3
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  },
+  {
+    "cell_id": "s05_025",
+    "parameters": {
+      "daily_atr_period": 50,
+      "entry_atr_multiple": 1.5
+    },
+    "checks": {
+      "spec_hash_match": true,
+      "lookahead_violations": 0,
+      "future_high_low_violations": 0,
+      "same_bar_policy_violations": 0,
+      "double_entry_violations": 0,
+      "overnight_position_violations": 0,
+      "entry_after_last_entry_violations": 0,
+      "post_hard_flatten_violations": 0,
+      "missing_execution_bar_skips": 0,
+      "invalid_entry_geometry_skips": 0,
+      "same_signal_indicator_stop_entry_skips": 0,
+      "dual_oco_cancellations": 0,
+      "multi_order_same_direction_priority_resolutions": 0,
+      "ambiguous_multi_order_cancellations": 0,
+      "hard_flatten_fallbacks": 0
+    }
+  }
+]

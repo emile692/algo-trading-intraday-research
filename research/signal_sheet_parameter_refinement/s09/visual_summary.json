@@ -1,0 +1,71 @@
+{
+  "cell_count": 36,
+  "positive_sharpe_is_and_oos": 31,
+  "axis_median_sharpe": {
+    "daily_atr_period": [
+      {
+        "daily_atr_period": 7,
+        "is": 1.2802557990734447,
+        "oos": 0.6047648751562374
+      },
+      {
+        "daily_atr_period": 10,
+        "is": 1.0793278735282725,
+        "oos": 0.5330412984631403
+      },
+      {
+        "daily_atr_period": 14,
+        "is": 1.0602642853875772,
+        "oos": 0.4299954623060098
+      },
+      {
+        "daily_atr_period": 20,
+        "is": 1.0837352280099044,
+        "oos": 0.5092876278168369
+      },
+      {
+        "daily_atr_period": 30,
+        "is": 1.0028337267985155,
+        "oos": 0.5842482270338265
+      },
+      {
+        "daily_atr_period": 40,
+        "is": 0.9859200489569981,
+        "oos": 0.5878758339117913
+      }
+    ],
+    "entry_atr_multiple": [
+      {
+        "entry_atr_multiple": 0.2,
+        "is": 1.1173679647506867,
+        "oos": -0.6707283790058247
+      },
+      {
+        "entry_atr_multiple": 0.3,
+        "is": 1.3344982422044043,
+        "oos": 0.6090105359681943
+      },
+      {
+        "entry_atr_multiple": 0.4,
+        "is": 1.2163527992925336,
+        "oos": 0.3418049034547205
+      },
+      {
+        "entry_atr_multiple": 0.5,
+        "is": 1.0066905948048799,
+        "oos": 0.4872245158762392
+      },
+      {
+        "entry_atr_multiple": 0.6,
+        "is": 0.9649912118837378,
+        "oos": 0.5369337728122318
+      },
+      {
+        "entry_atr_multiple": 0.8,
+        "is": 0.2739678130210762,
+        "oos": 1.0851690005841554
+      }
+    ]
+  },
+  "selection_performed": false
+}

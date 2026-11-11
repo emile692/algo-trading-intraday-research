@@ -1,0 +1,73 @@
+{
+  "any_S1_S6": false,
+  "gates": [
+    {
+      "instrument": "MNQ",
+      "S1": false,
+      "S2": false,
+      "S3": false,
+      "S4": false,
+      "S5": false,
+      "S6": false,
+      "S7": false,
+      "is_t_net": -1.1522788901601524,
+      "holm_p": 1.0,
+      "is_slope_t": 1.399893314255026,
+      "is_gross_mean_bp": -0.08218520767779781,
+      "is_cost_mean_bp": 1.5096471946639016,
+      "S1_S6": false,
+      "all": false
+    },
+    {
+      "instrument": "MES",
+      "S1": false,
+      "S2": false,
+      "S3": false,
+      "S4": false,
+      "S5": false,
+      "S6": false,
+      "S7": false,
+      "is_t_net": -2.575151069245176,
+      "holm_p": 1.0,
+      "is_slope_t": 1.042004566381435,
+      "is_gross_mean_bp": -0.22817093009756625,
+      "is_cost_mean_bp": 2.667111031023843,
+      "S1_S6": false,
+      "all": false
+    },
+    {
+      "instrument": "MGC",
+      "S1": false,
+      "S2": false,
+      "S3": false,
+      "S4": false,
+      "S5": false,
+      "S6": false,
+      "S7": false,
+      "is_t_net": -6.339629794308603,
+      "holm_p": 1.0,
+      "is_slope_t": 1.2818084112662556,
+      "is_gross_mean_bp": 0.3397045591841002,
+      "is_cost_mean_bp": 2.5389604465406097,
+      "S1_S6": false,
+      "all": false
+    },
+    {
+      "instrument": "MCL",
+      "S1": false,
+      "S2": false,
+      "S3": false,
+      "S4": false,
+      "S5": false,
+      "S6": false,
+      "S7": false,
+      "is_t_net": -6.37426335137105,
+      "holm_p": 1.0,
+      "is_slope_t": 0.6542896656859368,
+      "is_gross_mean_bp": 0.24997853231539852,
+      "is_cost_mean_bp": 5.480628132078806,
+      "S1_S6": false,
+      "all": false
+    }
+  ]
+}

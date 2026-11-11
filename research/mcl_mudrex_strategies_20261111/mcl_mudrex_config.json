@@ -1,0 +1,202 @@
+{
+  "schema_version": "1.0",
+  "status": "LOCKED_BEFORE_PERFORMANCE",
+  "run_type": "mcl_mudrex_five_strategies_intraday_transposition",
+  "source": "https://mudrex.com/learn/best-crude-oil-trading-strategy/",
+  "policy": "One canonical spec per strategy, no grid, no tuning after performance. OOS and FWD are computed only for strategies passing the IS gate.",
+  "evaluation_windows": {
+    "IS": {
+      "data": "MCL",
+      "range": [
+        "2021-07-12",
+        "2023-12-31"
+      ]
+    },
+    "PRE_CL": {
+      "data": "CL",
+      "range": [
+        "2015-01-01",
+        "2021-07-09"
+      ],
+      "role": "pre-launch holdout on CL prices with MCL economics; always computed, informative, not part of the gate"
+    },
+    "OOS": {
+      "data": "MCL",
+      "range": [
+        "2024-01-01",
+        "2026-03-19"
+      ],
+      "role": "verdict, read only for IS-gate passers"
+    },
+    "FWD": {
+      "data": "MCL",
+      "range": [
+        "2026-03-20",
+        "2026-11-10"
+      ],
+      "role": "extension, read only for IS-gate passers"
+    }
+  },
+  "is_gate": {
+    "min_trades": 100,
+    "min_net_pnl_usd": 0.0,
+    "min_daily_t_stat": 2.0
+  },
+  "instrument": {
+    "symbol": "MCL",
+    "quantity": 1,
+    "tick_size": 0.01,
+    "point_value_usd": 100.0,
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1
+  },
+  "session": {
+    "timezone": "America/New_York",
+    "core_start": "09:00",
+    "core_end": "14:30",
+    "trading_day_roll": "18:00",
+    "min_core_bar_fraction": 0.9,
+    "explicit_excluded_sessions": [
+      "2017-11-13",
+      "2018-10-21",
+      "2019-01-15",
+      "2019-02-22",
+      "2019-03-13",
+      "2019-03-26",
+      "2020-02-27",
+      "2020-02-28",
+      "2020-05-05",
+      "2020-06-30",
+      "2020-07-01",
+      "2021-12-05",
+      "2022-01-02",
+      "2022-11-06",
+      "2024-09-18",
+      "2025-09-17",
+      "2025-09-24",
+      "2025-11-28",
+      "2026-01-31",
+      "2026-03-15",
+      "2026-03-16",
+      "2026-03-21",
+      "2026-04-10",
+      "2026-05-24",
+      "2026-11-01",
+      "2026-11-08"
+    ],
+    "excluded_sessions_source": "Databento GLBX.MDP3 dataset condition != available, 2015-01-01..2026-11-10"
+  },
+  "execution": {
+    "signal_timeframe_minutes": 15,
+    "signals_on_closed_bars_only": true,
+    "indicators_on_full_globex_session": true,
+    "market_entry": "next base bar open",
+    "bar_conflict_policy": "stop_before_target",
+    "limit_fill_same_bar_target": false,
+    "position_policy": "one_position_no_pyramiding",
+    "forced_flatten": "close of last core bar",
+    "roll_adjustment": "additive back-adjustment at each instrument_id change (last close of old contract vs first open of new)"
+  },
+  "eia": {
+    "release": "Wednesday 10:30 ET",
+    "holiday_weeks": "skipped (release shifted when a US federal holiday falls Mon-Wed)",
+    "blackout_other_strategies": [
+      "10:00",
+      "11:00"
+    ]
+  },
+  "strategies": {
+    "s1_trend_sma_pullback": {
+      "page_rule": "50/200 SMA cross regime, enter on pullback to the 50 SMA, exit on close beyond the 50 SMA or MACD bearish cross",
+      "transposition": "daily bars -> 15m bars",
+      "sma_fast": 50,
+      "sma_slow": 200,
+      "macd": [
+        12,
+        26,
+        9
+      ],
+      "entry": "regime (SMA50 vs SMA200) and 15m bar touches SMA50 and closes back on the trend side",
+      "exit": "15m close beyond SMA50 against the trade, or MACD/signal cross against the trade",
+      "stop_atr_mult": 1.5,
+      "atr_period": 14,
+      "target_r": null,
+      "entry_window": [
+        "09:00",
+        "14:00"
+      ]
+    },
+    "s2_vwap_rsi_pullback": {
+      "page_rule": "after the US open, clean break and hold above VWAP with RSI > 50, enter on first pullback to VWAP, stop 1x ATR, target 2:1",
+      "vwap_anchor": "trading day (18:00 ET)",
+      "rsi_period": 14,
+      "rsi_threshold": 50,
+      "break_and_hold": "15m close crosses VWAP, next 15m close stays beyond it",
+      "entry": "limit at VWAP, cancelled on a 15m close back through VWAP",
+      "stop_atr_mult": 1.0,
+      "atr_period": 14,
+      "target_r": 2.0,
+      "entry_window": [
+        "09:30",
+        "12:00"
+      ],
+      "short_side": "mirrored (page gives long only)"
+    },
+    "s3_breakout_retest": {
+      "page_rule": "close beyond horizontal S/R on higher-than-average volume, do not enter the breakout candle, enter the retest",
+      "transposition": "daily close through S/R -> 15m close through prior trading-day high/low",
+      "volume_filter": "15m volume > 20-bar average",
+      "entry": "limit at the broken level, cancelled on a 15m close back through it",
+      "stop_atr_mult": 1.0,
+      "atr_period": 14,
+      "target_r": 2.0,
+      "entry_window": [
+        "09:00",
+        "14:00"
+      ],
+      "max_trades_per_direction_per_day": 1,
+      "omitted": "Bollinger compression (descriptive on the page, not a rule)"
+    },
+    "s4_range_rsi_bb_reversion": {
+      "page_rule": "RSI < 30 at support / > 70 at resistance with Bollinger extremes, tight stop outside the range, avoid trending markets",
+      "rsi_period": 14,
+      "rsi_low": 30,
+      "rsi_high": 70,
+      "bollinger": [
+        20,
+        2.0
+      ],
+      "range_filter": "abs(SMA50 - SMA200) <= 1.0 x ATR14 on 15m bars",
+      "entry": "15m close outside the band with RSI extreme",
+      "target": "Bollinger mid at signal time",
+      "stop_atr_mult": 1.0,
+      "atr_period": 14,
+      "entry_window": [
+        "09:00",
+        "14:00"
+      ],
+      "omitted": "Stochastic (no parameters on the page)"
+    },
+    "s5_eia_post_event_trend": {
+      "page_rule": "wait for the initial EIA spike to exhaust, then enter in the direction of the prevailing trend",
+      "entry_time": "10:45 ET on EIA Wednesdays",
+      "trend": "sign(SMA50 - SMA200) on 15m bars",
+      "stop_atr_mult": 1.5,
+      "atr_period": 14,
+      "target_r": 2.0,
+      "omitted": "pre-event positioning (needs consensus data)"
+    }
+  },
+  "data": {
+    "MCL": {
+      "path": "data/downloaded/MCL_v_0_1m_20210712_20261111.parquet",
+      "sha256": "5073f06dece2416beb887c65654160edc805a52f9007ccb22d3047e9ed5edc4b"
+    },
+    "CL": {
+      "path": "data/downloaded/CL_v_0_1m_20150101_20210712.parquet",
+      "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a"
+    },
+    "archive_copy": "C:/Data_local/market_data_archive/databento",
+    "download_script": "scripts/download_crude_ohlcv_1m_20261111.py"
+  }
+}

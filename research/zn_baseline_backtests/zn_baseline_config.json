@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "run_type": "zn_raw_baseline_16_representative_mechanisms",
+  "evaluation_windows": {
+    "IS": {
+      "start": "2019-05-06",
+      "end": "2023-12-31"
+    },
+    "OOS": {
+      "start": "2024-01-01",
+      "end": "2026-03-19"
+    }
+  },
+  "unused_robustness_data": {
+    "before": "2019-05-06",
+    "after": "2026-03-19"
+  },
+  "source_registry": "strategy_registry/psf_mnq/frozen_baselines_manifest.csv",
+  "mechanism_policy": "Reuse all 16 frozen representative mechanisms without changing signal logic or alpha parameters.",
+  "instrument": {
+    "symbol": "ZN",
+    "quantity": 1,
+    "tick_size": 0.015625,
+    "tick_value_usd": 15.625,
+    "point_value_usd": 1000.0,
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1
+  },
+  "session": {
+    "timezone": "America/New_York",
+    "rth_start": "08:20:00",
+    "cash_close": "15:00:00",
+    "last_entry_time": "14:55:00",
+    "forced_flatten_time": "16:08:00",
+    "early_close_last_entry_buffer_minutes": 5,
+    "early_close_flatten_buffer_minutes": 1,
+    "calendar": "deterministic_CME_CBOT_US_Treasury_holiday_calendar"
+  },
+  "relative_time_adaptations": {
+    "gap_continuation_last_entry": "08:35:00",
+    "gap_fade_last_entry": "08:21:00",
+    "gap_fade_midday_time_exit": "10:50:00",
+    "session_range_breakout_opening_range_start": "08:20:00"
+  },
+  "data_quality": {
+    "excluded_sessions": {
+      "2020-02-27": "285 of 400 expected RTH minute bars, including a 15-minute opening gap and no observations after 13:19 on an ordinary session",
+      "2020-02-28": "40 of 400 expected RTH minute bars on an ordinary session",
+      "2020-06-30": "109 of 400 expected RTH minute bars on an ordinary session"
+    }
+  },
+  "execution": {
+    "signal_on_closed_bars_only": true,
+    "execution_timeframe": "1min",
+    "position_policy": "one_position_no_pyramiding",
+    "bar_conflict_policy": "stop_before_target",
+    "performance_return_convention": "daily_pnl_divided_by_fixed_50000_usd_nominal_capital",
+    "grid_search": false,
+    "parameter_optimization": false
+  },
+  "benchmark": {
+    "mechanism_id": "ZN_BUY_AND_HOLD",
+    "daily_flatten": false,
+    "topstep_rules_applied": false,
+    "curve": "continuous_close_to_close"
+  }
+}

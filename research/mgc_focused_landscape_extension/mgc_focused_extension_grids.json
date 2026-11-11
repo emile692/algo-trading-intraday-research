@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "periods": {
+    "is": ["2019-05-06", "2023-12-31"],
+    "validation": ["2024-01-01", "2026-03-19"]
+  },
+  "minimum_trades_each_period": 20,
+  "common_rules": {
+    "instrument": "MGC",
+    "quantity": 1,
+    "costs_session_and_money_management": "unchanged_from_mgc_raw_baseline",
+    "automatic_parameter_selection": false
+  },
+  "mechanisms": {
+    "gap_continuation": {
+      "parameter_1": "minimum_gap_atr_multiple",
+      "values_1": [0.0, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5],
+      "parameter_2": "volume_threshold_multiple",
+      "values_2": [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
+    },
+    "trend_pullback_ma_structure": {
+      "parameter_1": "ribbon_fast_anchor",
+      "values_1": [5, 6, 7, 8, 10, 12, 15],
+      "parameter_2": "ribbon_slow_anchor",
+      "values_2": [45, 55, 70, 90, 110, 130, 160]
+    },
+    "rolling_range_breakout": {
+      "parameter_1": "entry_channel_length",
+      "values_1": [20, 30, 45, 60, 75, 90, 120],
+      "parameter_2": "exit_channel_length",
+      "values_2": [10, 15, 20, 30, 45, 60, 90]
+    }
+  }
+}

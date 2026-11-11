@@ -1,0 +1,45 @@
+{
+  "campaign_id": "usd_risk_sizing_s02_s06_20261011",
+  "status": "ISOLATED_DIAGNOSTIC",
+  "reference": "one executable copy of each frozen sleeve; S01 and S07-S09 unchanged",
+  "common_window": ["2024-01-01", "2026-03-19"],
+  "risk_budgets_usd": [100, 150, 200, 250],
+  "sized_sleeves": [
+    "mnq_volatility_breakout",
+    "mnq_compression_breakout",
+    "mnq_atr_trend_flip",
+    "mgc_volatility_breakout",
+    "mgc_gap_continuation"
+  ],
+  "unchanged_sleeves": [
+    "mnq_orb_vwap_atr",
+    "mbt_rolling_range_breakout",
+    "mbt_trend_pullback_ma_structure",
+    "mbt_volatility_breakout"
+  ],
+  "sizing_formula": "floor(budget / (abs(planned_entry-initial_stop)*point_value + round_trip_commission + nominal_round_trip_slippage))",
+  "planned_entry_policy": {
+    "resting_stop": "frozen trigger level known when order is armed",
+    "market_next_open": "last observable minute close; stop distance itself remains frozen",
+    "fill_gap_policy": "quantity is not increased after a worse fill; actual fill-to-stop risk is reported separately"
+  },
+  "execution": {
+    "MNQ": {"point_value": 2.0, "tick_size": 0.25, "tick_value": 0.5, "round_trip_commission": 2.5, "nominal_slippage_ticks_per_side": 1},
+    "MGC": {"point_value": 10.0, "tick_size": 0.1, "tick_value": 1.0, "round_trip_commission": 2.5, "nominal_slippage_ticks_per_side": 1}
+  },
+  "account": {"max_total_micro_contracts": 50, "no_forced_minimum": true},
+  "slippage_stress_extra_ticks_per_side": [0, 1, 2],
+  "topstep": {
+    "starting_balance": 50000,
+    "profit_target": 3000,
+    "mll_distance": 2000,
+    "consistency_share": 0.55,
+    "mll_floor_locks_at_starting_balance": true,
+    "horizons": [35, 60],
+    "blocks": [3, 5, 10, 20],
+    "paths_per_block": 2000,
+    "seed": 20261004
+  },
+  "selection_policy": "No budget selection. Classify the common grid as a whole.",
+  "frozen_sources_modified": false
+}

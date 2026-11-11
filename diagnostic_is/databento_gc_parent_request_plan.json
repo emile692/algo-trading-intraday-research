@@ -1,0 +1,17 @@
+{
+  "status": "parent_request_abandoned_over_budget; replaced by approved GC.v.0..v.9 download",
+  "dataset": "GLBX.MDP3",
+  "symbols": "GC.FUT",
+  "stype_in": "parent",
+  "schema": "ohlcv-1m",
+  "start_inclusive": "2015-01-02T00:00:00Z",
+  "end_exclusive": "2023-03-17T00:00:00Z",
+  "definition_request_required": true,
+  "reason_for_definitions": "GC.FUT returns outright futures and futures spreads; instrument_class is required to retain outright FUTURE records only.",
+  "target_granularity": "5 minutes, left-labelled, aggregated from Databento OHLCV-1m exactly as for canonical MGC",
+  "contract_bars_estimated_cost_usd": 27.697479724884,
+  "instrument_definitions_estimated_cost_usd": 1.209404360503,
+  "combined_estimated_cost_usd": 28.906884085387002,
+  "paid_data_download_calls": 0,
+  "download_requires_explicit_user_validation_after_cost_estimate": true
+}

@@ -1,0 +1,11 @@
+{
+  "verdict": "REJECTED",
+  "new_parameter_search": false,
+  "inherited_cells": 12,
+  "representative": "D__preceding_move_reversal__n3__m0.25__rv2.0__p0__c1",
+  "split_date": "2024-02-23",
+  "data_start": "2019-05-06 09:30:00-04:00",
+  "data_end": "2026-03-19 15:55:00-04:00",
+  "source_replay_max_abs_pnl_diff": 0.0,
+  "seed": 20261007
+}

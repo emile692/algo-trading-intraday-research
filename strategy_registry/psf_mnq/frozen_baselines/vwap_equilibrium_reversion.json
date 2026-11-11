@@ -1,0 +1,423 @@
+{
+  "schema_version": "1.0",
+  "specification_type": "strategy_baseline",
+  "specification_status": "frozen_ready_with_research_assumptions",
+  "mechanism_id": "vwap_equilibrium_reversion",
+  "strategy_id": "vwap-deviation",
+  "research_family": "mean_reversion",
+  "complexity_grade": "B",
+  "source": {
+    "card_path": "cards/vwap-deviation.md",
+    "logical_audit_path": "alpha_engine_logical_audit.csv",
+    "performance_information_used": false,
+    "parameter_optimization_used": false
+  },
+  "hypothesis": {
+    "statement": "A two-standard-deviation displacement from session VWAP is a temporary intraday imbalance that reverts toward VWAP.",
+    "economic_rationale": "Session VWAP proxies traded equilibrium; liquidity shocks can push price away from it before two-sided flow restores balance."
+  },
+  "direction": {
+    "long": "Buy a bullish confirmation after price reaches the -2 sigma VWAP band.",
+    "short": "Sell a bearish confirmation after price reaches the +2 sigma VWAP band."
+  },
+  "signal": {
+    "timeframe": "5min",
+    "calculation": "Reset each RTH session. Use typical price (high+low+close)/3, cumulative volume-weighted VWAP, and cumulative volume-weighted population variance. Bands are VWAP plus or minus 2 and 3 standard deviations.",
+    "signal_timestamp": "Close of a completed 5-minute bar after at least two completed session bars."
+  },
+  "entry": {
+    "condition": "Long when low touches or breaches -2 sigma and close > open; short when high touches or breaches +2 sigma and close < open.",
+    "execution_price": "Next one-minute bar open after the confirmation bar, with adverse tick rounding and one tick slippage.",
+    "execution_delay": "One one-minute execution bar after confirmation close.",
+    "last_entry_time": "15:55:00",
+    "last_entry_policy": "No new position may be opened after this timestamp. Strategy-specific entry rules may impose an earlier effective cutoff."
+  },
+  "exit": {
+    "target": "Fixed VWAP value observed on the signal bar; full exit because the baseline holds one contract.",
+    "stop": "Fixed -3 sigma signal-bar band for long and +3 sigma signal-bar band for short.",
+    "time_exit": "No additional time stop; the 16:08 Topstep hard flatten applies.",
+    "session_flatten": {
+      "enabled": true,
+      "daily_flatten": true,
+      "conditional_session_flatten": true,
+      "topstep_rules_applied": true,
+      "cash_close": "16:00:00",
+      "cash_close_action": "No automatic flatten unless exit.time_exit explicitly says cash close.",
+      "last_entry_time": "15:55:00",
+      "forced_flatten_time": "16:08:00",
+      "no_position_after_forced_flatten": true,
+      "timezone": "America/New_York",
+      "execution": "Exit at the open of the 16:08 one-minute bar. If that exact bar is absent, use the last available close strictly before 16:08. No position may remain afterward.",
+      "post_cash_close_monitoring": "From 16:00 through hard flatten, accept no new entries or strategy signals; continue monitoring already-known stops and targets on one-minute bars.",
+      "early_close_exception": {
+        "calendar": "official_CME_equity_index_futures_calendar",
+        "cash_close": "official early-close timestamp",
+        "last_entry_time": "min(strategy last_entry_time, early close minus 5 minutes)",
+        "forced_flatten_time": "min(16:08, early close minus 1 minute)",
+        "missing_calendar_policy": "reject_session"
+      }
+    }
+  },
+  "data_requirements": {
+    "instrument": "MNQ",
+    "contract_series": "provided_continuous_front_contract",
+    "source_granularity": "1min",
+    "signal_timeframe": "5min",
+    "execution_timeframe": "1min",
+    "required_fields": [
+      "timestamp",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "session_date"
+    ],
+    "timezone": "America/New_York",
+    "session": {
+      "start": "09:30:00",
+      "cash_close": "16:00:00",
+      "last_entry_time": "15:55:00",
+      "forced_flatten_time": "16:08:00",
+      "signal_window_end": "16:00:00",
+      "position_monitoring_end": "16:08:00",
+      "early_close_calendar_required": true
+    },
+    "bar_timestamp_semantics": "Input timestamp is bar open; resampled signal intervals are left-closed/right-open and become observable at interval end.",
+    "availability": true,
+    "notes": [
+      "One-minute execution data must extend through the applicable hard-flatten timestamp.",
+      "An official CME equity-index-futures calendar with early-close timestamps is mandatory; do not infer an early close from missing bars."
+    ]
+  },
+  "parameters": {
+    "structural": [
+      {
+        "name": "signal_timeframe",
+        "value": "5min",
+        "unit": "bar_interval",
+        "origin": "published_horizon",
+        "description": "Frozen signal timeframe selected without performance evidence."
+      },
+      {
+        "name": "vwap_price_source",
+        "value": "hlc3",
+        "unit": "formula",
+        "origin": "research_assumption",
+        "description": "Typical price used in the VWAP calculation."
+      },
+      {
+        "name": "band_variance",
+        "value": "cumulative_volume_weighted_population",
+        "unit": "formula",
+        "origin": "research_assumption",
+        "description": "Mechanical definition of the published VWAP standard-deviation bands."
+      },
+      {
+        "name": "entry_band_sigma",
+        "value": 2.0,
+        "unit": "standard_deviations",
+        "origin": "published_rule",
+        "description": "Published entry band."
+      },
+      {
+        "name": "minimum_completed_bars",
+        "value": 2,
+        "unit": "signal_bars",
+        "origin": "research_assumption",
+        "description": "Minimum needed for nonzero session variance."
+      },
+      {
+        "name": "confirmation_candle",
+        "value": "directional_real_body",
+        "unit": "rule",
+        "origin": "research_assumption",
+        "description": "Bullish close for long and bearish close for short."
+      }
+    ],
+    "risk_management": [
+      {
+        "name": "fixed_quantity",
+        "value": 1,
+        "unit": "MNQ_contract",
+        "origin": "research_assumption",
+        "description": "One contract keeps baseline sizing independent of signal logic."
+      },
+      {
+        "name": "hard_flatten_time",
+        "value": "16:08:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "No strategy position may remain open after the Topstep hard flatten."
+      },
+      {
+        "name": "target",
+        "value": "signal_bar_vwap",
+        "unit": "price",
+        "origin": "published_rule",
+        "description": "Published full-reversion target."
+      },
+      {
+        "name": "stop_band_sigma",
+        "value": 3.0,
+        "unit": "standard_deviations",
+        "origin": "published_rule",
+        "description": "Published invalidation band."
+      },
+      {
+        "name": "partial_exit",
+        "value": "disabled_one_contract",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Published +/-1 sigma partial is disabled for a one-contract baseline."
+      }
+    ],
+    "execution": [
+      {
+        "name": "tick_size",
+        "value": 0.25,
+        "unit": "index_points",
+        "origin": "repository_execution_default",
+        "description": "MNQ minimum price increment."
+      },
+      {
+        "name": "tick_value_usd",
+        "value": 0.5,
+        "unit": "USD_per_tick",
+        "origin": "repository_execution_default",
+        "description": "MNQ tick value per contract."
+      },
+      {
+        "name": "point_value_usd",
+        "value": 2.0,
+        "unit": "USD_per_point",
+        "origin": "repository_execution_default",
+        "description": "MNQ point value per contract."
+      },
+      {
+        "name": "commission_per_side_usd",
+        "value": 1.25,
+        "unit": "USD_per_contract",
+        "origin": "repository_execution_default",
+        "description": "Fixed commission on entry and exit."
+      },
+      {
+        "name": "slippage_ticks_per_side",
+        "value": 1,
+        "unit": "ticks",
+        "origin": "repository_execution_default",
+        "description": "Adverse slippage applied on entry and exit."
+      },
+      {
+        "name": "session_timezone",
+        "value": "America/New_York",
+        "unit": "IANA_timezone",
+        "origin": "repository_session_default",
+        "description": "All session times use New York civil time and DST."
+      },
+      {
+        "name": "rth_start",
+        "value": "09:30:00",
+        "unit": "local_time",
+        "origin": "repository_session_default",
+        "description": "Start of the research session."
+      },
+      {
+        "name": "cash_close",
+        "value": "16:00:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "Regular-day cash-session close; it is not an automatic flatten unless a strategy explicitly exits there."
+      },
+      {
+        "name": "last_entry_time",
+        "value": "15:55:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "No new position may be opened after this time."
+      },
+      {
+        "name": "forced_flatten_time",
+        "value": "16:08:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "Regular-day Topstep hard flatten; no position may remain afterward."
+      },
+      {
+        "name": "early_close_calendar",
+        "value": "official_CME_equity_index_futures_calendar",
+        "unit": "calendar",
+        "origin": "research_assumption",
+        "description": "Required source for early-close timestamps; never infer them from missing bars."
+      },
+      {
+        "name": "early_close_last_entry_buffer_minutes",
+        "value": 5,
+        "unit": "minutes",
+        "origin": "research_assumption",
+        "description": "On an early-close day, stop new entries five minutes before the official close."
+      },
+      {
+        "name": "early_close_flatten_buffer_minutes",
+        "value": 1,
+        "unit": "minutes",
+        "origin": "research_assumption",
+        "description": "On an early-close day, hard-flatten one minute before the official close."
+      },
+      {
+        "name": "position_policy",
+        "value": "one_position_no_pyramiding",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "At most one open position; no scaling or pyramiding."
+      },
+      {
+        "name": "bar_conflict_policy",
+        "value": "stop_before_target",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Conservative ordering when stop and target occur in one execution bar."
+      },
+      {
+        "name": "missing_execution_bar_policy",
+        "value": "skip_signal",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Skip a fill if the exact required next one-minute bar is absent."
+      },
+      {
+        "name": "price_rounding_policy",
+        "value": "adverse_to_strategy_to_valid_tick",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Order levels are rounded to a valid tick without improving the assumed fill."
+      }
+    ]
+  },
+  "canonical_parameters": {
+    "structural": {
+      "signal_timeframe": "5min",
+      "vwap_price_source": "hlc3",
+      "band_variance": "cumulative_volume_weighted_population",
+      "entry_band_sigma": 2.0,
+      "minimum_completed_bars": 2,
+      "confirmation_candle": "directional_real_body"
+    },
+    "risk_management": {
+      "fixed_quantity": 1,
+      "hard_flatten_time": "16:08:00",
+      "target": "signal_bar_vwap",
+      "stop_band_sigma": 3.0,
+      "partial_exit": "disabled_one_contract"
+    },
+    "execution": {
+      "tick_size": 0.25,
+      "tick_value_usd": 0.5,
+      "point_value_usd": 2.0,
+      "commission_per_side_usd": 1.25,
+      "slippage_ticks_per_side": 1,
+      "session_timezone": "America/New_York",
+      "rth_start": "09:30:00",
+      "cash_close": "16:00:00",
+      "last_entry_time": "15:55:00",
+      "forced_flatten_time": "16:08:00",
+      "early_close_calendar": "official_CME_equity_index_futures_calendar",
+      "early_close_last_entry_buffer_minutes": 5,
+      "early_close_flatten_buffer_minutes": 1,
+      "position_policy": "one_position_no_pyramiding",
+      "bar_conflict_policy": "stop_before_target",
+      "missing_execution_bar_policy": "skip_signal",
+      "price_rounding_policy": "adverse_to_strategy_to_valid_tick"
+    }
+  },
+  "lookahead_risks": [
+    {
+      "risk": "Using a signal bar's final high, low, close, volume, or indicator value before that bar closes.",
+      "control": "All signal calculations use completed bars only; no order based on that bar can fill before its close."
+    },
+    {
+      "risk": "Rolling windows accidentally include future bars or the current breakout observation in their reference level.",
+      "control": "Windows are trailing and causal; reference highs/lows explicitly exclude the bar being evaluated when stated by the strategy."
+    },
+    {
+      "risk": "VWAP variance can be recomputed with future session volume.",
+      "control": "Freeze all VWAP and band values at each completed bar; never use end-of-session totals retrospectively."
+    }
+  ],
+  "same_bar_risks": [
+    {
+      "risk": "A target and stop can both lie inside the same one-minute bar.",
+      "control": "Record the stop first, the conservative path, because intraminute ordering is unavailable."
+    },
+    {
+      "risk": "A close-confirmed signal cannot be filled at that same close.",
+      "control": "Use the exact next one-minute open and apply adverse slippage; skip the signal when that bar is missing."
+    },
+    {
+      "risk": "The signal bar can touch both -2 and -3 sigma before its close.",
+      "control": "No entry occurs in the signal bar; use fixed signal-close bands and enter on the next minute only if entry remains between stop and target."
+    }
+  ],
+  "execution_ambiguities": [
+    {
+      "risk": "The source cards do not define a universal execution and cost model.",
+      "control": "Use one MNQ contract, one tick adverse slippage per side, and USD 1.25 commission per side from repository defaults."
+    },
+    {
+      "risk": "The source cards do not consistently define end-of-session handling.",
+      "control": "Treat 16:00 cash close, the last-entry cutoff, and the 16:08 Topstep hard flatten as distinct events. Continue risk exits after cash close, but never retain a position after hard flatten."
+    },
+    {
+      "risk": "CME holiday sessions can close before the regular cash close and hard-flatten times.",
+      "control": "Require the official CME early-close timestamp; set last entry to min(strategy cutoff, early close minus five minutes) and hard flatten to min(16:08, early close minus one minute). Reject the session if the calendar value is unavailable."
+    },
+    {
+      "risk": "The card names a confirmation candle without defining it and does not say whether VWAP target and bands move after entry.",
+      "control": "Use candle-body direction and freeze target and stop at signal time."
+    }
+  ],
+  "remaining_assumptions": [
+    {
+      "type": "research_assumption",
+      "id": "rth_only_signal_bars",
+      "description": "Indicators and signal bars use only 09:30–16:00 RTH observations; completed prior sessions may remain in rolling history."
+    },
+    {
+      "type": "research_assumption",
+      "id": "frozen_signal_timeframe",
+      "description": "The signal timeframe is selected from the horizons published on the source card for mechanical compatibility with its rule, without performance comparison."
+    },
+    {
+      "type": "research_assumption",
+      "id": "one_contract_baseline",
+      "description": "All strategy baselines use exactly one MNQ contract and no pyramiding."
+    },
+    {
+      "type": "research_assumption",
+      "id": "common_execution_model",
+      "description": "All strategies share the repository's fixed MNQ commission, tick size, and slippage defaults."
+    },
+    {
+      "type": "research_assumption",
+      "id": "early_close_buffers",
+      "description": "On official CME early-close days, last entry is five minutes before the early close and hard flatten is one minute before it."
+    },
+    {
+      "type": "research_assumption",
+      "id": "vwap_band_formula",
+      "description": "VWAP bands use cumulative volume-weighted population variance of HLC3 from the RTH open."
+    },
+    {
+      "type": "research_assumption",
+      "id": "vwap_confirmation",
+      "description": "Confirmation means a bullish real body for long and bearish real body for short."
+    },
+    {
+      "type": "research_assumption",
+      "id": "fixed_vwap_levels_after_entry",
+      "description": "VWAP target and 3-sigma stop are frozen from the signal bar."
+    }
+  ],
+  "unresolved_ambiguities": [],
+  "ready_for_baseline_backtest": true
+}

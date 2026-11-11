@@ -1,0 +1,74 @@
+{
+  "campaign": "conditional_vwap_mean_reversion_r1_20261111",
+  "frozen_on": "2026-11-11",
+  "frozen_before_performance": true,
+  "approval": "User message 'lance la campagne' after research_design.md and data_audit.md. The four open decisions are taken as proposed: (1) primary book = the 6 sleeves listed by the user (incl. mnq_atr_trend_flip), secondary = active lock eight_sleeve_equal_contract_reference_20261103; (2) H1 kept on MNQ and MGC, at best CONDITIONAL PASS there because their OOS was already read for the VWAP-extension family; (3) USD sizing = 100 USD risk per trade, 1 to 5 contracts; (4) thresholds, windows and grids of research_design.md unchanged.",
+  "disclosure_before_freeze": [
+    "No return following any R1 signal was computed before this freeze. audit_data.py and audit_thresholds.py computed coverage, volume profiles, unsigned deviations and trigger frequencies only.",
+    "Prior results seen: mean_reversion_cross_asset_20261006 rejected vwap_extension (|close-VWAP|/ATR14 5m), range_extreme and consecutive_exhaustion on MNQ, MGC, MES, M2K, NQ, MBT; its event study showed continuation, not reversion, after VWAP extensions; its OOS (MNQ from 2024-02-23, MGC from 2023-03-17) was read for that family.",
+    "Thresholds were chosen from unsigned trigger frequencies (audit/threshold_frequencies.csv) and the lunch window from the volume profile (audit/activity_profile.csv)."
+  ],
+  "instruments": {
+    "MNQ": {"path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet", "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef", "point_value": 2.0, "tick_size": 0.25, "commission_per_side": 1.25, "session": ["09:30", "16:00"], "forced_exit": "15:55", "lunch_entry": ["11:30", "13:30"], "lunch_exit": "14:00", "pre_roll_excluded_sessions": 4, "regime": "vix", "periods": ["IS", "OOS", "EXT"], "pre_proxy": "NQ_as_MNQ"},
+    "MGC": {"path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet", "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888", "point_value": 10.0, "tick_size": 0.1, "commission_per_side": 1.25, "session": ["08:20", "13:30"], "forced_exit": "13:25", "lunch_entry": ["11:30", "13:00"], "lunch_exit": "13:25", "pre_roll_excluded_sessions": 2, "regime": "sigma_day", "periods": ["IS", "OOS", "EXT"], "pre_proxy": null},
+    "MCL": {"path": "data/downloaded/MCL_v_0_1m_20210712_20261111.parquet", "sha256": "5073f06dece2416beb887c65654160edc805a52f9007ccb22d3047e9ed5edc4b", "point_value": 100.0, "tick_size": 0.01, "commission_per_side": 1.25, "session": ["09:00", "14:30"], "forced_exit": "14:25", "lunch_entry": ["11:30", "13:30"], "lunch_exit": "14:25", "pre_roll_excluded_sessions": 2, "regime": "sigma_day", "periods": ["IS", "OOS", "EXT"], "pre_proxy": "CL_as_MCL"},
+    "NQ_as_MNQ": {"path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet", "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8", "point_value": 2.0, "tick_size": 0.25, "commission_per_side": 1.25, "session": ["09:30", "16:00"], "forced_exit": "15:55", "lunch_entry": ["11:30", "13:30"], "lunch_exit": "14:00", "pre_roll_excluded_sessions": 4, "regime": "vix", "periods": ["PRE"], "note": "NQ prices with MNQ contract economics"},
+    "CL_as_MCL": {"path": "data/downloaded/CL_v_0_1m_20150101_20210712.parquet", "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a", "point_value": 100.0, "tick_size": 0.01, "commission_per_side": 1.25, "session": ["09:00", "14:30"], "forced_exit": "14:25", "lunch_entry": ["11:30", "13:30"], "lunch_exit": "14:25", "pre_roll_excluded_sessions": 2, "regime": "sigma_day", "periods": ["PRE"], "note": "CL prices with MCL contract economics"},
+    "MES": {"path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet", "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d", "point_value": 5.0, "tick_size": 0.25, "commission_per_side": 1.25, "session": ["09:30", "16:00"], "forced_exit": "15:55", "lunch_entry": ["11:30", "13:30"], "lunch_exit": "14:00", "pre_roll_excluded_sessions": 4, "regime": "vix", "periods": ["IS", "OOS"], "pre_proxy": "NQ_as_MNQ", "stage": 2, "stage_rule": "run only if a MNQ or MGC central cell passes the IS gate"}
+  },
+  "periods": {
+    "PRE": {"NQ_as_MNQ": ["2010-06-07", "2019-05-03"], "CL_as_MCL": ["2015-01-01", "2021-07-09"]},
+    "IS": ["2019-05-06", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"],
+    "EXT": ["2026-03-20", "2026-11-10"]
+  },
+  "common": {
+    "bars": "one-minute bars stamped at bar start, America/New_York; session grid from session start to session end",
+    "eligible_session": "at least 90 % of session minutes present; not among the pre_roll_excluded_sessions sessions before an instrument_id change; sigma_day and sigma5 available",
+    "signal_bars": "5-minute bars made of minutes [5b, 5b+4] of the session grid; a signal at bar b is known at the close of minute 5b+4",
+    "entry_minute": "e = 5b+5; entries allowed for 30 <= e <= session_minutes - 30 and e < forced_exit; lunch tests use their own window",
+    "entry_fill": "open of minute e + 1 tick against the position; skipped if that open is missing",
+    "stop_fill": "first minute j >= e whose low (long) or high (short) reaches the stop; fill = worse of stop and open of j, plus 1 tick",
+    "target_fill": "limit at the target level; filled at the level in the first minute that trades 1 tick beyond it; moving VWAP target at minute j = VWAP at the close of minute j-1",
+    "same_minute": "stop before target",
+    "time_exit": "close of the last allowed minute minus/plus 1 tick",
+    "skip_rules": "no trade if the entry fill is already at or beyond the target, or if the stop is not on the losing side of the entry",
+    "position_rule": "one position at a time per instrument and test; a candidate whose entry minute is not after the previous exit minute in the same session is dropped",
+    "rearm": "after a signal on one side, that side fires again only after the score has come back inside threshold minus hysteresis (0.5 for z and X scores, 0.05 for the range position)",
+    "costs": "commission 1.25 USD per side plus the slippage above",
+    "vwap": "cumulative sum(typical * volume) / cumulative volume from session start, typical = (high + low + close) / 3",
+    "sigma_vwap": "sqrt(cumulative sum(volume * typical^2) / cumulative volume - VWAP^2)",
+    "sigma_day": "std of log(session close / session open) over the 20 previous complete sessions, at least 15",
+    "sigma5": "root mean square of intra-session 5-minute log returns over the 20 previous complete sessions",
+    "efficiency_ratio": "|close5_b - session open| / sum of |close5 changes| from the session open",
+    "R": "net USD / (|entry fill - stop| * point_value)",
+    "unit_of_record": "net USD per contract and R per trade; daily series = sum of net USD per eligible session, 0 when no trade"
+  },
+  "tests": {
+    "H1_N1": {"score": "(close5 - VWAP) / sigma_vwap", "grid": {"k": [2.0, 2.25, 2.5], "er_max": [0.2, 0.3, null]}, "central": {"k": 2.25, "er_max": 0.3}, "target": "moving VWAP", "stop": "entry -/+ 1.0 * |entry - VWAP at signal|", "max_hold_minutes": 60, "window": "common"},
+    "H1_N2": {"score": "(close5 / VWAP - 1) / (sigma_day * sqrt(elapsed fraction))", "grid": {"k": [0.75, 1.0, 1.5], "er_max": [0.2, 0.3, null]}, "central": {"k": 1.0, "er_max": 0.3}, "target": "moving VWAP", "stop": "entry -/+ 1.0 * |entry - VWAP at signal|", "max_hold_minutes": 60, "window": "common"},
+    "H2_D1": {"score": "X = log(close5_b / close5_{b-6}) / (sigma5 * sqrt(6))", "deceleration": "RMS of bar returns b-1..b <= 0.5 * RMS of bar returns b-5..b-2", "grid": {"x": [2.0, 2.5, 3.0], "volume_fade": [false, true]}, "central": {"x": 2.5, "volume_fade": false}, "volume_fade": "mean volume of bars b-1..b <= mean volume of bars b-5..b-2", "target": "close5_b - 0.5 * (close5_b - close5_{b-6})", "stop": "extreme of bars b-5..b plus 1 tick beyond, at least 0.5 * sigma5 * sqrt(6) * price from the entry", "max_hold_minutes": 60, "window": "common, b >= 6"},
+    "H2_D2": {"score": "X as H2_D1", "deceleration": "bar b return of opposite sign to X or zero, and bar b makes no new extreme of bars b-5..b-1", "grid": {"x": [2.0, 2.5, 3.0], "volume_fade": [false, true]}, "central": {"x": 2.5, "volume_fade": false}, "target": "as H2_D1", "stop": "as H2_D1", "max_hold_minutes": 60, "window": "common, b >= 6"},
+    "H3_VWAP": {"score": "N1 z", "grid": {"k": [1.75, 2.0, 2.5], "low_volume": [false, true]}, "central": {"k": 2.0, "low_volume": true}, "low_volume": "volume of bars b-5..b <= median of the same bars over the 20 previous eligible sessions (at least 15)", "target": "moving VWAP", "stop": "entry -/+ 1.0 * |entry - VWAP at signal|", "exit": "lunch_exit", "window": "lunch_entry"},
+    "H3_RANGE": {"score": "P - 0.5, P = (close5 - session low) / (session high - session low), high/low of bars 0..b", "grid": {"p": [0.85, 0.9, 0.95], "low_volume": [false, true]}, "central": {"p": 0.9, "low_volume": true}, "target": "(session high + session low) / 2 at signal", "stop": "entry -/+ 1.0 * |entry - target|", "exit": "lunch_exit", "window": "lunch_entry"}
+  },
+  "direction": "contrarian: short when the score is above the threshold, long when below minus the threshold",
+  "is_gate_per_test_and_instrument_on_the_central_cell": {
+    "G1": "mean daily net USD > 0, Newey-West t >= 2.0, and Holm-adjusted one-sided p <= 0.05 over the 18 tests (6 tests x MNQ, MGC, MCL)",
+    "G2": "at least 2/3 of the test's grid cells with positive IS net USD, and every immediate neighbour of the central cell positive",
+    "G3": "net USD > 0 with costs doubled and with entry one minute later",
+    "G4": "more than half of IS calendar years positive, and no year above 50 % of the IS net total",
+    "G5": "long and short net both > 0, or the non-positive side has gross >= 0",
+    "G6": "placebo: 1000 draws; each real trade moved to a random eligible session of the same period, same half-hour bucket, same side, same fractional stop and target distances; p = share of draws with mean net R >= the real-timing mean net R under the same fixed geometry; p <= 0.05; and the mirrored opposite-direction trades have mean net R < 0",
+    "G7": "PRE proxy (NQ for MNQ, CL for MCL) net USD > 0 with Newey-West t >= 1.0; MGC has no PRE and uses EXT net USD > 0",
+    "if_pass": "the user is asked before OOS is read",
+    "if_fail": "OOS is not computed"
+  },
+  "oos_verdict": "mean daily net > 0 with t >= 1.0 and OOS mean R per trade >= 50 % of IS mean R per trade",
+  "diagnostics_not_gated": ["all cells IS and PRE", "heatmaps", "long/short", "calendar years", "volatility terciles (VIX previous close for MNQ/NQ, sigma_day vs past 252 sessions otherwise)", "entry half-hour", "R distribution", "MAE/MFE in R", "exposure", "holding time", "cost x2 and +1 tick per side", "CSCV PBO over the 42 cells per instrument, 12 blocks", "walk-forward of the neighbourhood-smoothed-Sharpe selection rule, expanding by calendar year", "rolling 252-session mean of the central cell"],
+  "diversification": "only for a candidate that passes the OOS verdict; books and sizing as in research_design.md section 7",
+  "verdicts": "as in research_design.md section 8",
+  "nw_lag": "floor(4 * (N / 100) ^ (2 / 9))",
+  "seed": 20261111,
+  "prohibitions": ["no cell other than the central one is a candidate", "no threshold, window, exit or filter changed after the freeze", "no OOS before the IS gate and the user's approval"]
+}

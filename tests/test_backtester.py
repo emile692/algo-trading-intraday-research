@@ -189,3 +189,51 @@ def test_backtester_can_delay_entry_by_additional_bars() -> None:
     assert baseline.iloc[0]["entry_price"] == pytest.approx(100.0)
     assert delayed.iloc[0]["entry_price"] == pytest.approx(101.0)
     assert delayed.iloc[0]["target_price"] > baseline.iloc[0]["target_price"]
+
+
+def test_backtester_exits_at_cutoff_before_later_stop_or_target() -> None:
+    df = _build_trade_df()
+    later = pd.DataFrame(
+        {
+            "timestamp": pd.to_datetime(["2024-01-02 09:34:00", "2024-01-02 09:35:00", "2024-01-02 09:36:00"]),
+            "session_date": [pd.Timestamp("2024-01-02").date()] * 3,
+            "signal": [0, 0, 0],
+            "or_high": [101.0] * 3,
+            "or_low": [99.0] * 3,
+            "or_width": [2.0] * 3,
+            "open": [100.0, 100.5, 100.0],
+            "close": [100.0, 100.0, 100.0],
+            "high": [100.5, 105.0, 110.0],
+            "low": [99.5, 98.0, 90.0],
+        }
+    )
+    df.loc[df.index[1], "low"] = 99.5
+    df = pd.concat([df, later], ignore_index=True)
+
+    trades = run_backtest(
+        df,
+        execution_model=ExecutionModel(slippage_ticks=0),
+        time_exit="09:35",
+    )
+
+    assert len(trades) == 1
+    trade = trades.iloc[0]
+    assert trade["exit_reason"] == "time_exit"
+    assert trade["exit_time"] == pd.Timestamp("2024-01-02 09:35:00")
+    assert trade["exit_price"] == pytest.approx(100.5)
+
+
+def test_backtester_uses_last_close_when_cutoff_bar_is_missing() -> None:
+    df = _build_trade_df()
+    df.loc[df.index[1], ["low", "close"]] = [99.5, 100.5]
+    late = df.iloc[[1]].copy()
+    late["timestamp"] = pd.Timestamp("2024-01-02 09:36:00")
+    late["low"] = 90.0
+    df = pd.concat([df, late], ignore_index=True)
+
+    trades = run_backtest(df, ExecutionModel(slippage_ticks=0), time_exit="09:35")
+
+    assert len(trades) == 1
+    assert trades.iloc[0]["exit_reason"] == "time_exit"
+    assert trades.iloc[0]["exit_time"] == pd.Timestamp("2024-01-02 09:33:00")
+    assert trades.iloc[0]["exit_price"] == pytest.approx(100.5)

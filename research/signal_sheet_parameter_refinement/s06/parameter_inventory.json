@@ -1,0 +1,275 @@
+[
+  {
+    "family": "structural",
+    "name": "signal_timeframe",
+    "current_value": "15min",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "structural",
+    "name": "gap_reference",
+    "current_value": "current_rth_open_minus_prior_rth_close",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "structural",
+    "name": "daily_atr_period",
+    "current_value": 14,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "structural",
+    "name": "minimum_gap_atr_multiple",
+    "current_value": 0.5,
+    "principal": true,
+    "reason": "Filtre l’importance du gap relativement au régime de volatilité.",
+    "tested_grid": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7
+    ],
+    "policy": "tested"
+  },
+  {
+    "family": "structural",
+    "name": "confirmation_bar_minutes",
+    "current_value": 15,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "structural",
+    "name": "volume_average_lookback",
+    "current_value": 20,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "structural",
+    "name": "volume_threshold_multiple",
+    "current_value": 0.6,
+    "principal": true,
+    "reason": "Filtre la confirmation par participation et pilote le nombre de signaux.",
+    "tested_grid": [
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ],
+    "policy": "tested"
+  },
+  {
+    "family": "risk_management",
+    "name": "fixed_quantity",
+    "current_value": 1,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "risk_management",
+    "name": "hard_flatten_time",
+    "current_value": "16:08:00",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "risk_management",
+    "name": "target_gap_multiple",
+    "current_value": 2.0,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "risk_management",
+    "name": "stop_gap_reentry_fraction",
+    "current_value": 0.5,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "risk_management",
+    "name": "swing_trail",
+    "current_value": "disabled_undefined",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "tick_size",
+    "current_value": 0.1,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "tick_value_usd",
+    "current_value": 1.0,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "point_value_usd",
+    "current_value": 10.0,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "commission_per_side_usd",
+    "current_value": 1.25,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "slippage_ticks_per_side",
+    "current_value": 1,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "session_timezone",
+    "current_value": "America/New_York",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "rth_start",
+    "current_value": "08:20:00",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "cash_close",
+    "current_value": "13:30:00",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "last_entry_time",
+    "current_value": "08:35:00",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "forced_flatten_time",
+    "current_value": "16:08:00",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "early_close_calendar",
+    "current_value": "deterministic_CME_COMEX_metals_holiday_calendar",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "early_close_last_entry_buffer_minutes",
+    "current_value": 5,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "early_close_flatten_buffer_minutes",
+    "current_value": 1,
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "position_policy",
+    "current_value": "one_position_no_pyramiding",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "bar_conflict_policy",
+    "current_value": "stop_before_target",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "missing_execution_bar_policy",
+    "current_value": "skip_signal",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  },
+  {
+    "family": "execution",
+    "name": "price_rounding_policy",
+    "current_value": "adverse_to_strategy_to_valid_tick",
+    "principal": false,
+    "reason": null,
+    "tested_grid": null,
+    "policy": "frozen_at_current_value"
+  }
+]

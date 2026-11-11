@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "created": "2026-10-04",
+  "source_freeze_manifest": "research\\mbt_three_sleeve_freeze_20261004\\freeze_manifest.json",
+  "source_freeze_manifest_sha256": "398cd2576bc289e56e3c3bb2790633c90c001c0fa8cc9326e59944f1d9a153cd",
+  "source_data": "data\\downloaded\\MBT_v_0_1m_20210425_20261003.parquet",
+  "source_data_sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+  "cell_regions": {
+    "rolling_range_breakout": {
+      "entry_channel_length": [
+        20,
+        24
+      ],
+      "exit_channel_length": [
+        7,
+        10,
+        12,
+        15
+      ]
+    },
+    "trend_pullback_ma_structure": {
+      "fast_pair_scale": [
+        0.5,
+        0.6,
+        0.75
+      ],
+      "slow_tail_scale": [
+        0.75,
+        1.0,
+        1.25
+      ]
+    },
+    "volatility_breakout": {
+      "entry_atr_multiple": [
+        0.3,
+        0.4,
+        0.6
+      ],
+      "daily_atr_period": [
+        10,
+        14,
+        20,
+        30
+      ]
+    }
+  },
+  "aggregation": {
+    "cell_signal": "independent realized position after each cell's own entries, stops and exits",
+    "decision_time": "minute close",
+    "execution_time": "next available minute open in the same session",
+    "mean": "arithmetic mean across all cell positions in the sleeve",
+    "discretization": {
+      "short": "mean <= -0.5",
+      "flat": "-0.5 < mean < 0.5",
+      "long": "mean >= 0.5"
+    },
+    "tie_policy": "exact +/-0.5 rounds away from zero into the position",
+    "quantity": "one MBT contract",
+    "hard_flatten": "16:08 America/New_York"
+  },
+  "economics": {
+    "point_value_usd": 0.1,
+    "tick_size": 5.0,
+    "tick_value_usd": 0.5,
+    "commission_per_side_usd": 1.41,
+    "nominal_slippage_ticks_per_side": 1,
+    "stressed_slippage_ticks_per_side": 2
+  },
+  "cluster_cap_rule": "discretize the mean of the already-causal rolling-range and trend-pullback targets; at most one contract for that pair",
+  "export_range": [
+    "2024-01-03",
+    "2026-10-02"
+  ],
+  "intraday_roll_sessions_excluded": [],
+  "trade_file_sha256": {
+    "rolling_range_breakout__nominal": "232af14c936ace34eafbfbfc07f81c2ffcd36fed2f44f6104cc507849ef9ca3f",
+    "trend_pullback_ma_structure__nominal": "145bbe4c42cc0d40cdb4cd1ef3502416c9f61421fb2f0fc37279d91f5cb043f0",
+    "volatility_breakout__nominal": "1dc0ca41f5488718f95e28e65f7224faf177da3a66bc1808e0fd959b1f6e3111",
+    "rolling_trend_cluster_cap__nominal": "1591c0e607c6df2f790f9c9de3a8b6d2d7360e7ad907276034ba3ff6284f8806",
+    "rolling_range_breakout__two_ticks_per_side": "5c162f264b3b89223c0d84cf49cdb161bd6abd3fefe3bc997dd16e4de793e81a",
+    "trend_pullback_ma_structure__two_ticks_per_side": "29e2c781333b0e80f31641f7ecf53322d70b238e2a895973b4052c4998bae7bb",
+    "volatility_breakout__two_ticks_per_side": "b351cee9ccd34fc758fc0f7b76ae9340322fea82bca367c0c1eccb56b93f6a9e",
+    "rolling_trend_cluster_cap__two_ticks_per_side": "195fbac07d89982341265d3d1387cc6023b61596381ab2e7afaf2fe288d8decc"
+  },
+  "frozen_source_strategies_modified": false,
+  "pass_rate_used_for_selection": false
+}

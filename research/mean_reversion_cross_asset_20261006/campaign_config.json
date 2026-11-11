@@ -1,0 +1,20 @@
+{
+  "research_freeze_date": "2026-10-06",
+  "bar_minutes": 5,
+  "is_fraction": 0.70,
+  "signal_timing": "signal_on_bar_close_entry_next_bar_open",
+  "position_rule": "one_position_per_instrument_no_pyramiding",
+  "requested_universe": ["MNQ", "MES", "M2K", "MGC", "NQ", "MBT", "6E", "6J", "ZN", "ZF", "MCL", "NG"],
+  "standalone_gate": {
+    "minimum_oos_trades": 30,
+    "minimum_oos_profit_factor": 1.05,
+    "minimum_oos_sharpe": 0.25,
+    "minimum_positive_region_fraction": 0.40,
+    "minimum_positive_cells": 3
+  },
+  "notes": [
+    "The existing nine sleeves are never used to construct or tune a signal.",
+    "Parameters define small mechanism-first regions; no maximum-Sharpe cell is promoted.",
+    "A representative cell is the positive-region medoid and remains research-only."
+  ]
+}

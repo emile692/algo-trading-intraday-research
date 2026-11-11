@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "phase": "TOPSTEP_PORTFOLIO_RISK_GOVERNOR",
+  "locked_before_execution": true,
+  "portfolio": "six frozen sleeves at executable [1,1,1,1,1,1] sleeve-copy sizing",
+  "prohibitions": [
+    "no signal, parameter, stop, filter, entry, exit, or sleeve sizing changes",
+    "no permanent sleeve removal",
+    "no recent PnL or future Sharpe in collision decisions",
+    "no ML",
+    "no configuration selection by peak PASS probability"
+  ],
+  "caps": {
+    "global_open_micro_contracts": [2, 3, 4],
+    "mnq_open_micro_contracts": [1, 2, 3],
+    "mgc_open_micro_contracts": [1, 2]
+  },
+  "collision_handlers": [
+    "first_signal_first_served",
+    "round_robin",
+    "lowest_frozen_standalone_risk",
+    "least_incremental_directional_exposure"
+  ],
+  "execution_policy": {
+    "contract_accounting": "absolute integer micro contracts; ORB retains its frozen variable quantity",
+    "entry_decision": "accept or reject the whole frozen trade at its original entry timestamp; no partial fill and no queue",
+    "exit_policy": "accepted trades keep their original frozen exit timestamp and PnL",
+    "same_timestamp_policy": "process exits first, then entry collisions",
+    "fsfs_tie_break": "canonical frozen sleeve order then trade_id",
+    "round_robin": "rotate canonical sleeve priority after each accepted entry",
+    "directional_rule": "minimize absolute net contracts on the candidate's instrument after entry; fixed-risk and canonical order break ties"
+  },
+  "frozen_standalone_daily_risk_usd": {
+    "source": "completed Portfolio Integration Phase 1 daily sleeve PnL; fixed before this governor campaign",
+    "mnq_compression_breakout": 60.401813,
+    "mgc_volatility_breakout": 122.919018,
+    "mnq_orb_vwap_atr": 145.570482,
+    "mgc_gap_continuation": 149.364186,
+    "mnq_volatility_breakout": 257.139406,
+    "mnq_atr_trend_flip": 291.153325
+  },
+  "topstep": {
+    "historical_horizons_traded_days": [35, 60],
+    "bootstrap_horizon_traded_days": 60,
+    "rules_source": "src.analytics.mnq_orb_topstep_50k_simulation.TopstepCampaignSpec"
+  },
+  "bootstrap": {
+    "paths_per_block_length": 2000,
+    "block_lengths_sessions": [3, 5, 10, 20],
+    "random_seed": 314159,
+    "sampling": "moving blocks of complete governed portfolio days",
+    "confidence_level": 0.95
+  },
+  "robust_zone_gates": {
+    "minimum_bootstrap_mll_reduction_vs_baseline": 0.10,
+    "maximum_bootstrap_expiry_increase_vs_baseline": 0.15,
+    "minimum_historical_mll_reduction_vs_baseline": 0.05,
+    "minimum_each_sleeve_acceptance_rate": 0.25,
+    "minimum_volatility_1_5x_mll_reduction_vs_baseline": 0.05,
+    "requires_adjacent_cap_candidate_same_handler": true
+  },
+  "stress": {
+    "double_explicit_costs": true,
+    "volatility_multiplier": 1.5
+  },
+  "source_locks": {
+    "phase1_pnl": {"path": "research/portfolio_integration_phase1/daily_sleeve_pnl.csv", "sha256": "3d75d86530a2d0334f06179c0265eec0d38a504ecd5ebc8f44c6448f13494031"},
+    "phase1_counts": {"path": "research/portfolio_integration_phase1/daily_trade_counts.csv", "sha256": "fc64db4e0e73b9118450a906d97737a8853fc81d5bc23596534b6ebbaf739ab1"},
+    "phase1_weights": {"path": "research/portfolio_integration_phase1/allocation_weights.csv", "sha256": "cbecfa695973eefe3552e88abb6fcca514130526676f8d1956fa6fa821f528bf"},
+    "scaling_config": {"path": "research/topstep_portfolio_scaling/topstep_portfolio_scaling_config.json", "sha256": "6b43bddbbcf04814b1d59d2581f74f3b464a0811566e344cca8bd47585a80e49"},
+    "scaling_pipeline": {"path": "research/topstep_portfolio_scaling/run_topstep_portfolio_scaling.py", "sha256": "cdb62f056fd9ecb7d78c0fac9b9d540bf02e7a5bb6d70d9d9c378eb9fd581990"},
+    "topstep_rules": {"path": "src/analytics/mnq_orb_topstep_50k_simulation.py", "sha256": "bd979652ceb2f3f7f50575c2616d7b678e3b94df4ef9eeee88cf03492ccf779a"},
+    "trade_mnq_orb": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_orb_vwap_atr.csv", "sha256": "6f77c13013ec63c7a2f8889deaff9f636ae2a15a0a79e3d154e0103cb4687145"},
+    "trade_mnq_volatility": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_volatility_breakout.csv", "sha256": "6de410259714f3922d02e3e45083761cb791d6c3d3d2bef708784be14bc3d0bd"},
+    "trade_mnq_compression": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_compression_breakout.csv", "sha256": "8c1f5fb4d17d20914d56475ad540ed6aad9ba075548c744061f6a8653dd34f22"},
+    "trade_mnq_atr": {"path": "research/portfolio_integration_phase1/sleeve_trades/mnq_atr_trend_flip.csv", "sha256": "635093391615091a30b177857a98a9b273aae61264aab8796ef0aadc81795816"},
+    "trade_mgc_volatility": {"path": "research/portfolio_integration_phase1/sleeve_trades/mgc_volatility_breakout.csv", "sha256": "862deee23f761141925a173363008d3bd3fd9351552d1f6087f7fe1455823ead"},
+    "trade_mgc_gap": {"path": "research/portfolio_integration_phase1/sleeve_trades/mgc_gap_continuation.csv", "sha256": "42f541ac55b08f493c171a8ad51927c4bd9bd0a26862ace9e15190ebfd8760a3"}
+  }
+}

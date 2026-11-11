@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0",
+  "configuration_type": "parameter_vote_ensemble",
+  "configuration_status": "frozen_after_cscv_rule_validation",
+  "frozen_on": "2026-11-01",
+  "instrument": "MNQ",
+  "mechanism_id": "compression_breakout",
+  "sheet": "03_mnq_compression_breakout",
+  "ensemble_id": "mnq_compression_breakout_vote_27",
+  "parameter_region": {
+    "nr_lookback": [
+      8,
+      10,
+      12
+    ],
+    "entry_buffer_ticks": [
+      0,
+      1,
+      2
+    ],
+    "target_setup_range_multiple": [
+      1.5,
+      2.0,
+      2.5
+    ],
+    "cartesian_product": true,
+    "submodel_count": 27
+  },
+  "cell_definition": {
+    "engine": "scripts/run_signal_sheet_parameter_refinement.py (apply_parameters + run_candidate), identical to the refinement grid cell",
+    "other_parameters": "frozen at the values documented in the refinement parameter inventory",
+    "internal_quantity": "virtual_state_only",
+    "state_space": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "vote": {
+    "score": "arithmetic_mean_of_27_cell_position_states",
+    "long_target": "score >= 0.50",
+    "short_target": "score <= -0.50",
+    "flat_target": "-0.50 < score < 0.50",
+    "threshold": 0.5,
+    "minimum_net_directional_votes": 14,
+    "exact_threshold_included": true,
+    "conflict_policy": "opposing cell states offset in the arithmetic mean",
+    "target_space": [
+      -1,
+      0,
+      1
+    ],
+    "aggregator": "scripts/rebuild_signal_sheet_02_cluster.py::aggregate_vote (shared with S02)"
+  },
+  "aggregate_execution": {
+    "quantity": 1,
+    "target_change_execution": "open of the next available one-minute bar after the cell-state change becomes observable",
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1,
+    "tick_size": 0.25,
+    "point_value_usd": 2.0,
+    "hard_flatten_time": "16:08:00 America/New_York",
+    "cost_policy": "Costs apply only to changes in the aggregate target; virtual cell transitions are not charged as separate contracts.",
+    "no_position_after_hard_flatten": true
+  },
+  "historical_windows": {
+    "is": [
+      "2019-05-06",
+      "2023-12-31"
+    ],
+    "oos_validation_reused": [
+      "2024-01-01",
+      "2026-03-19"
+    ]
+  },
+  "selection": {
+    "method": "lock_neighbourhood: one grid step around the declared lock, or the frozen MBT region itself",
+    "rationale": "Inside-IS CSCV showed that every performance-optimising cluster rule had a mean out-of-fold rank below 0.5 and PBO above 50 percent; no new degree of freedom is fitted.",
+    "evidence_path": "research/signal_sheet_parameter_refinement/cluster_selection/cluster_selection_cscv.json",
+    "evidence_sha256": "70e14e0aef2da3e5dbd62374f4bbf96a5413990a2af4bde8033fc4fe4b288a2a"
+  },
+  "selection_disclosure": "The OOS window was read before this freeze and was consulted for earlier locks: it is reused validation, not untouched prospective OOS. Prospective evidence starts after 2026-10-02.",
+  "research_evidence": {
+    "grid_metrics_path": "research/signal_sheet_parameter_refinement/s03/grid_metrics.csv",
+    "grid_metrics_sha256": "267292e7f487ae2b1e8222c2e9fe4a3807193566d329daba3b1c7509c606a06e",
+    "cell_daily_pnl_path": "research/signal_sheet_parameter_refinement/s03/cell_daily_pnl.parquet",
+    "cell_daily_pnl_sha256": "18a7ab2ef07023d3081a541e9639a22eee321be1f0557424ee20a2ae491a50f1",
+    "minute_data_path": "data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet",
+    "minute_data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"
+  },
+  "supersedes": {
+    "type": "single_point",
+    "parameters": {
+      "nr_lookback": 10,
+      "entry_buffer_ticks": 1,
+      "target_setup_range_multiple": 2.0
+    },
+    "source": "research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json"
+  },
+  "execution_results": {
+    "executed_on": "2026-11-01",
+    "script": "scripts/freeze_signal_sheet_cluster_vote.py",
+    "result_directory": "research/signal_sheet_03_cluster",
+    "files": {
+      "summary.json": "a1dc6d9d02769214e4202613affbef3d25d965f89ce251cf7ebe7d4c8f7d9cf6",
+      "trades.csv": "ae0cdddf5b918318580da96683d970de6c2c433ae81ef44c82e60ed90020de9a",
+      "daily_results.csv": "248e37441e700d97d24d180e8c25516fd4030037fc122ca0eb1f55731206918d",
+      "vote_events.csv": "8f65cc9b7365a908e91f96e4b7edfb87b7ea3e989d5737779193af861085934e",
+      "cell_positions.csv": "971ffd1d09fcbb41779059d2ca613f32e907a584786f6cd9e7a64ae6c922886a",
+      "cell_checks.json": "cf6a0786db109a4826cf349f4d85be57135c105dfb9d9fdd610f659ecb7914da"
+    },
+    "metrics": {
+      "full_sample": {
+        "session_count": 1747,
+        "net_pnl_usd": 2255.5,
+        "sharpe_annualized": 0.43215864717717256,
+        "profit_factor": 1.1980071986656131,
+        "max_drawdown_usd": -1202.5,
+        "trade_count": 329,
+        "worst_day_usd": -268.5
+      },
+      "is": {
+        "session_count": 1184,
+        "net_pnl_usd": 1663.0,
+        "sharpe_annualized": 0.5463113302706174,
+        "profit_factor": 1.2390226374416098,
+        "max_drawdown_usd": -1037.0,
+        "trade_count": 219,
+        "worst_day_usd": -201.0
+      },
+      "oos_validation_reused": {
+        "session_count": 563,
+        "net_pnl_usd": 592.5,
+        "sharpe_annualized": 0.28315302336533266,
+        "profit_factor": 1.1336415924213374,
+        "max_drawdown_usd": -940.5,
+        "trade_count": 110,
+        "worst_day_usd": -268.5
+      }
+    },
+    "audit": {
+      "cell_count": 27,
+      "cell_position_rows": 8922,
+      "vote_event_rows": 1000,
+      "entry_delay_minutes_min": 1.0,
+      "overlapping_aggregate_trades": 0,
+      "post_hard_flatten_violations": 0,
+      "all_cell_checks_valid": true,
+      "event_alignment_verified": true
+    }
+  }
+}

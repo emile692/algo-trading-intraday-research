@@ -1,0 +1,2 @@
+version,candidate_trades,price_only_trades,candidate_sharpe,candidate_expectancy,sharpe_percentile,expectancy_percentile,seed
+original_equals_B0c,1333,1896,-2.961766113990359,-5.073143285821471,0.234,0.154,20261008

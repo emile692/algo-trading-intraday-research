@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0",
+  "status": "FINAL_MM_LOCKS",
+  "terminal_study": true,
+  "source_grid_sha256": "52b0bc3af0aae437b8e94c3d357cb01955f5d0124e246e22b3a8d93a3dbf4ebe",
+  "lock_decisions_sha256": "11b1b467fcb4e34d902232eca1407a11f176afc276d55b6dad3a5983f303b81e",
+  "decision_source": "explicit_user_instruction_after_final_parameter_studies",
+  "prior_mechanical_rule": {
+    "eligible_cell": "Sharpe > 0, PF > 1, trade_count >= 20, expectancy >= 80 percent of baseline, and absolute max DD <= baseline in both IS and Validation",
+    "stable_zone": "at least 3 adjacent eligible values in the ordered one-dimensional grid",
+    "modified_lock": "if a stable zone exists, lock its parameter medoid; ties use the lower parameter value",
+    "baseline_lock": "if no stable zone exists, retain the frozen baseline exit",
+    "performance_maximum_used": false
+  },
+  "strategies": {
+    "compression_breakout": {
+      "status": "MM_LOCKED_BASELINE",
+      "alpha_parameters": {
+        "nr_lookback": 10,
+        "entry_buffer_ticks": 1
+      },
+      "quantity_mnq": 1,
+      "exit_rule": {
+        "source": "frozen_baseline",
+        "exit_description": {
+          "target": "Two setup-bar ranges projected from the triggered breakout level.",
+          "stop": "Opposite side of the setup bar.",
+          "time_exit": "Cancel unfilled entry orders after the applicable last-entry cutoff; hard-flatten any open position at 16:08. Setups do not carry to the next session.",
+          "session_flatten": {
+            "enabled": true,
+            "daily_flatten": true,
+            "conditional_session_flatten": true,
+            "topstep_rules_applied": true,
+            "cash_close": "16:00:00",
+            "cash_close_action": "No automatic flatten unless exit.time_exit explicitly says cash close.",
+            "last_entry_time": "15:55:00",
+            "forced_flatten_time": "16:08:00",
+            "no_position_after_forced_flatten": true,
+            "timezone": "America/New_York",
+            "execution": "Exit at the open of the 16:08 one-minute bar. If that exact bar is absent, use the last available close strictly before 16:08. No position may remain afterward.",
+            "post_cash_close_monitoring": "From 16:00 through hard flatten, accept no new entries or strategy signals; continue monitoring already-known stops and targets on one-minute bars.",
+            "early_close_exception": {
+              "calendar": "official_CME_equity_index_futures_calendar",
+              "cash_close": "official early-close timestamp",
+              "last_entry_time": "min(strategy last_entry_time, early close minus 5 minutes)",
+              "forced_flatten_time": "min(16:08, early close minus 1 minute)",
+              "missing_calendar_policy": "reject_session"
+            }
+          }
+        },
+        "risk_management": {
+          "fixed_quantity": 1,
+          "hard_flatten_time": "16:08:00",
+          "target_setup_range_multiple": 2.0,
+          "stop_location": "opposite_setup_bar_extreme",
+          "optional_trail": "disabled_one_contract"
+        }
+      },
+      "justification": "Sortie baseline verrouillee explicitement par l'utilisateur.",
+      "eligible_zones": [],
+      "selected_result": {
+        "is_sharpe": 0.4945072523032326,
+        "validation_sharpe": 0.5078202810745387,
+        "is_expectancy": 6.963800904977376,
+        "validation_expectancy": 9.804545454545456,
+        "is_profit_factor": 1.2123197903014418,
+        "validation_profit_factor": 1.2518094793369134,
+        "is_max_drawdown": -1190.0,
+        "validation_max_drawdown": -730.0,
+        "is_trade_count": 221,
+        "validation_trade_count": 110
+      },
+      "baseline_reference": {
+        "is_sharpe": 0.4945072523032326,
+        "validation_sharpe": 0.5078202810745387,
+        "is_expectancy": 6.963800904977376,
+        "validation_expectancy": 9.804545454545456,
+        "is_max_drawdown": -1190.0,
+        "validation_max_drawdown": -730.0
+      }
+    },
+    "volatility_breakout": {
+      "status": "MM_LOCKED_MODIFIED",
+      "alpha_parameters": {
+        "daily_atr_period": 14,
+        "entry_atr_multiple": 0.6
+      },
+      "quantity_mnq": 1,
+      "exit_rule": {
+        "source": "explicit_user_lock",
+        "exit_family": "time_stop",
+        "max_holding_minutes": 240,
+        "execution_semantics": "Cloturer au prix d'ouverture de la premiere barre 1 minute dont l'horodatage est superieur ou egal a 240 minutes apres l'entree ; le hard flatten conserve la priorite de securite.",
+        "hard_flatten": {
+          "enabled": true,
+          "daily_flatten": true,
+          "conditional_session_flatten": true,
+          "topstep_rules_applied": true,
+          "cash_close": "16:00:00",
+          "cash_close_action": "No automatic flatten unless exit.time_exit explicitly says cash close.",
+          "last_entry_time": "15:55:00",
+          "forced_flatten_time": "16:08:00",
+          "no_position_after_forced_flatten": true,
+          "timezone": "America/New_York",
+          "execution": "Exit at the open of the 16:08 one-minute bar. If that exact bar is absent, use the last available close strictly before 16:08. No position may remain afterward.",
+          "post_cash_close_monitoring": "From 16:00 through hard flatten, accept no new entries or strategy signals; continue monitoring already-known stops and targets on one-minute bars.",
+          "early_close_exception": {
+            "calendar": "official_CME_equity_index_futures_calendar",
+            "cash_close": "official early-close timestamp",
+            "last_entry_time": "min(strategy last_entry_time, early close minus 5 minutes)",
+            "forced_flatten_time": "min(16:08, early close minus 1 minute)",
+            "missing_calendar_policy": "reject_session"
+          }
+        }
+      },
+      "justification": "Time stop 240 minutes verrouille explicitement par l'utilisateur apres revue IS/Validation.",
+      "eligible_zones": [
+        [
+          120.0,
+          150.0
+        ],
+        [
+          240.0,
+          270.0
+        ]
+      ],
+      "selected_result": {
+        "is_sharpe": 0.6828027141995918,
+        "validation_sharpe": 1.2631606824429982,
+        "is_expectancy": 12.148026315789474,
+        "validation_expectancy": 38.52577319587629,
+        "is_profit_factor": 1.1854963269919006,
+        "validation_profit_factor": 1.4410827398984931,
+        "is_max_drawdown": -4655.5,
+        "validation_max_drawdown": -3554.0,
+        "is_trade_count": 608,
+        "validation_trade_count": 291
+      },
+      "baseline_reference": {
+        "is_sharpe": 0.4595818567928507,
+        "validation_sharpe": 0.9726805468601984,
+        "is_expectancy": 8.441611842105264,
+        "validation_expectancy": 29.61340206185567,
+        "is_max_drawdown": -5015.5,
+        "validation_max_drawdown": -3908.0
+      }
+    },
+    "atr_trend_flip": {
+      "status": "MM_LOCKED_MODIFIED",
+      "alpha_parameters": {
+        "atr_period": 10,
+        "atr_multiplier": 1.75
+      },
+      "quantity_mnq": 1,
+      "exit_rule": {
+        "source": "explicit_user_lock",
+        "exit_family": "atr_stop",
+        "stop_atr": 1.0,
+        "execution_semantics": "Stop fixe a 1.0 fois l'ATR Wilder(14) de la derniere barre 15 minutes terminee au moment du fill ; execution intrabar selon les conventions du moteur, avec hard flatten conserve.",
+        "hard_flatten": {
+          "enabled": true,
+          "daily_flatten": true,
+          "conditional_session_flatten": true,
+          "topstep_rules_applied": true,
+          "cash_close": "16:00:00",
+          "cash_close_action": "No automatic flatten unless exit.time_exit explicitly says cash close.",
+          "last_entry_time": "15:55:00",
+          "forced_flatten_time": "16:08:00",
+          "no_position_after_forced_flatten": true,
+          "timezone": "America/New_York",
+          "execution": "Exit at the open of the 16:08 one-minute bar. If that exact bar is absent, use the last available close strictly before 16:08. No position may remain afterward.",
+          "post_cash_close_monitoring": "From 16:00 through hard flatten, accept no new entries or strategy signals; continue monitoring already-known stops and targets on one-minute bars.",
+          "early_close_exception": {
+            "calendar": "official_CME_equity_index_futures_calendar",
+            "cash_close": "official early-close timestamp",
+            "last_entry_time": "min(strategy last_entry_time, early close minus 5 minutes)",
+            "forced_flatten_time": "min(16:08, early close minus 1 minute)",
+            "missing_calendar_policy": "reject_session"
+          }
+        }
+      },
+      "justification": "Stop 1.0 ATR verrouille explicitement par l'utilisateur apres revue IS/Validation.",
+      "eligible_zones": [
+        [
+          1.0
+        ]
+      ],
+      "selected_result": {
+        "is_sharpe": 0.3392661871253964,
+        "validation_sharpe": 0.8295708162740939,
+        "is_expectancy": 2.8106164383561643,
+        "validation_expectancy": 12.555386949924127,
+        "is_profit_factor": 1.049259930614744,
+        "validation_profit_factor": 1.1704345318406064,
+        "is_max_drawdown": -3574.0,
+        "validation_max_drawdown": -4056.0,
+        "is_trade_count": 1460,
+        "validation_trade_count": 659
+      },
+      "baseline_reference": {
+        "is_sharpe": 0.3621634400025588,
+        "validation_sharpe": 0.5715974469238473,
+        "is_expectancy": 3.486426767676768,
+        "validation_expectancy": 8.521320495185694,
+        "is_max_drawdown": -4031.0,
+        "validation_max_drawdown": -4768.5
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "status": "MGC_SLEEVE_LOCKED",
+  "mechanism_id": "gap_continuation",
+  "strategy_id": "gap-and-go",
+  "instrument": "MGC",
+  "quantity": 1,
+  "locked_parameters": {
+    "minimum_gap_atr_multiple": 0.15,
+    "volume_threshold_multiple": 2.0
+  },
+  "unchanged_parameters": {
+    "daily_atr_period": 14,
+    "confirmation_bar_minutes": 15,
+    "volume_average_lookback": 20,
+    "target_gap_multiple": 2.0,
+    "stop_gap_reentry_fraction": 0.5
+  },
+  "evaluation_window": {
+    "start": "2019-05-06",
+    "end": "2026-03-19"
+  },
+  "source_specification": "strategy_registry/psf_mnq/frozen_baselines/gap_continuation.json",
+  "contract_and_session_config": "research/mgc_baseline_backtests/mgc_baseline_config.json",
+  "selection_basis": "central parameter set selected by the user inside the contiguous IS/Validation robust plateau; no peak-Sharpe optimization",
+  "mnq_portfolio_reference": {
+    "allocation": "constrained_erc",
+    "covariance_window_sessions": 63,
+    "weights_lag_sessions": 1,
+    "rule_path": "research/locked_four_sleeve_portfolio/final_allocation_rule.json",
+    "rule_sha256": "b6cd2b6fd06d7e8b5d876775f91aa179c150f9bac6a567689953fb27d2384031",
+    "curve_path": "research/locked_four_sleeve_portfolio/allocation_comparison_portfolio.csv"
+  },
+  "parameter_optimization_after_lock": false
+}

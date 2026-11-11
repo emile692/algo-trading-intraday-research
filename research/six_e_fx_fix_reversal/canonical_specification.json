@@ -1,0 +1,19 @@
+{
+  "campaign": "six_e_fx_fix_reversal",
+  "research_basis": "Krohn, Mueller & Whelan (2024), Journal of Finance 79, 541-578",
+  "frozen_before_performance": true,
+  "phase": "phase_1_and_2_event_study",
+  "benchmark": "WM/Reuters London 4pm fix",
+  "benchmark_timezone": "Europe/London",
+  "benchmark_local_time": "16:00",
+  "path_window_minutes": [-180, 180],
+  "diagnostic_windows": {
+    "pre": [-180, -1],
+    "immediate": [-1, 5],
+    "post": [5, 180]
+  },
+  "paper_to_6e_sign": "long USD before fix = short EURUSD = short 6E; short USD after fix = long EURUSD = long 6E",
+  "minimum_path_coverage": 0.9,
+  "bootstrap_samples": 1000,
+  "oos_start": "2024-01-01"
+}

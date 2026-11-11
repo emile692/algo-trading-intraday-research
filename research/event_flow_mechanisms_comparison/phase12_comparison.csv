@@ -1,0 +1,4 @@
+mechanism,instrument,events,is_events,oos_events,canonical_result,recent_result,phase_gate,is_sharpe,oos_sharpe,oos_pf,oos_pnl,oos_maxdd,cost_stress,locked_sleeve_correlation
+treasury_auction_pressure,"ZF primary; ZN comparison",663,N/R,N/R,"5Y->ZF pre -1.88 bps significant; post +0.40 bps insignificant","5Y->ZF 2024+ pre +0.35 / post -0.41 bps",REJECTED,N/R,N/R,N/R,N/R,N/R,N/R,N/R
+mnq_close_hedging_flow,MNQ,1667,1126,541,"slope -0.0125; HAC t -0.77; decile monotonicity 0.018","2021+ correlation -0.001",REJECT_MECHANISM,N/R,N/R,N/R,N/R,N/R,N/R,N/R
+six_e_fx_fix_reversal,6E,2959,2262,697,"pre +0.44 bps (wrong sign); post +0.22 bps insignificant","2021+ pre +0.78 / post -0.56 bps",REJECT_MECHANISM,N/R,N/R,N/R,N/R,N/R,N/R,N/R

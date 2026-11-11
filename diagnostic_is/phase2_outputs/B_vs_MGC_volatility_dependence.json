@@ -1,0 +1,18 @@
+{
+  "common_OOS_start": "2023-03-17",
+  "common_OOS_end": "2026-09-22",
+  "common_available_sessions": 908,
+  "B_trades": 318,
+  "volatility_trades": 93,
+  "pearson_daily_net_usd": 0.2798638327541547,
+  "spearman_daily_net_usd": -0.09616165152678983,
+  "pearson_union_active_days": 0.27772442348590287,
+  "same_session_count": 48,
+  "B_active_sessions": 282,
+  "volatility_active_sessions": 93,
+  "same_session_rate_over_B": 0.1702127659574468,
+  "same_session_rate_over_volatility": 0.5161290322580645,
+  "B_position_overlap_rate": 0.12264150943396226,
+  "volatility_position_overlap_rate": 0.3978494623655914,
+  "decision": "inconclusive_complementary_diagnostic"
+}

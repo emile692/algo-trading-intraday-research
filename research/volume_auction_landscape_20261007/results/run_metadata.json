@@ -1,0 +1,64 @@
+{
+  "config": {
+    "campaign": "volume_auction_landscape_20261007",
+    "bar_frequency": "5min",
+    "primary_volume_history_sessions": 20,
+    "diagnostic_volume_history_sessions": [
+      10,
+      20,
+      40
+    ],
+    "profile_method": "full completed-bar volume assigned to tick-rounded typical price",
+    "value_area_fraction": 0.7,
+    "profile_windows_sessions": [
+      1,
+      3,
+      5
+    ],
+    "signal_execution": "signal at completed bar close; earliest fill next bar open",
+    "validation": "chronological 70% IS / 30% OOS by session date",
+    "default_holding_bars": 6,
+    "random_thinning_repetitions": 200,
+    "seed": 20261007,
+    "scope_note": "Frozen nine-sleeve portfolio is read only for final diversification diagnostics."
+  },
+  "data_files": {
+    "MNQ": "data/processed/parquet/MNQ_c_0_5m_20260321_094501.parquet",
+    "NQ": "data/processed/parquet/NQ_c_0_5m_20260321_095036.parquet",
+    "MES": "data/processed/parquet/MES_c_0_5m_20260322_135702.parquet",
+    "M2K": "data/processed/parquet/M2K_c_0_5m_20260322_134808.parquet",
+    "MGC": "data/processed/parquet/MGC_v_0_5m_20150101_20260923.parquet",
+    "MBT": "data/processed/parquet/MBT_v_0_5m_20210425_20261003.parquet"
+  },
+  "data_hashes": {
+    "MNQ": "fa9e374e6a18462eba5426f547f339c21aeaf97a0c864d9b06f253af7e665f07",
+    "NQ": "0816cc4bb69f7ae262fe9eca476141862012887794a44417a82d3ff9c711f283",
+    "MES": "c71110ae91b35d474576016da2f6274445c33bfca606d460a8b355da099c7cec",
+    "M2K": "4f5e1675ce9385522f07d8e1db3886ba4aa9a712fe140f45807d22c796651615",
+    "MGC": "5dfeafb0c380089511e78d9814855d66dabb5df30cfd1795d68ffaa67740e9af",
+    "MBT": "4f044c2ba98d354c17165d1b35ed12e602b1e4dc2493b67b8a0a3648c803abf1"
+  },
+  "assets_run": [
+    "M2K",
+    "MBT",
+    "MES",
+    "MGC",
+    "MNQ",
+    "NQ"
+  ],
+  "split_dates": {
+    "MNQ": "2024-02-23",
+    "NQ": "2021-07-02",
+    "MES": "2024-02-23",
+    "M2K": "2024-02-23",
+    "MGC": "2023-03-17",
+    "MBT": "2025-02-18"
+  },
+  "smoke": false,
+  "notes": [
+    "All source market data are OHLCV bars.",
+    "Profiles assign full completed-bar volume to tick-rounded typical price.",
+    "Frozen nine sleeves were not modified or recalibrated.",
+    "Representatives are central positive-region cells, not maximum-Sharpe cells."
+  ]
+}

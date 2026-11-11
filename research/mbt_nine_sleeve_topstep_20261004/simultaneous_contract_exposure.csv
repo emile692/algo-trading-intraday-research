@@ -1,0 +1,7 @@
+allocation_family,book,max_mnq_gross_contracts,max_mgc_gross_contracts,max_mbt_gross_contracts,max_total_micro_contracts,topstep_50k_50_micro_limit_breached
+equal_contract,six,4.0,2.0,0.0,4.0,False
+equal_contract,nine,4.0,2.0,3.0,7.0,False
+equal_risk_integer,six,9.0,4.0,0.0,10.0,False
+equal_risk_integer,nine,9.0,4.0,10.0,19.0,False
+mbt_cluster_cap,six,4.0,2.0,0.0,4.0,False
+mbt_cluster_cap,nine,4.0,2.0,2.0,6.0,False

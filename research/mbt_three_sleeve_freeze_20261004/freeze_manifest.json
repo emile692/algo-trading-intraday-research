@@ -1,0 +1,98 @@
+{
+  "run_date": "2026-10-04",
+  "data_path": "data\\downloaded\\MBT_v_0_1m_20210425_20261003.parquet",
+  "data_sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+  "six_sleeve_path": "research\\portfolio_integration_phase1\\daily_sleeve_pnl.csv",
+  "six_sleeve_sha256": "3d75d86530a2d0334f06179c0265eec0d38a504ecd5ebc8f44c6448f13494031",
+  "frozen_bounds": {
+    "rolling_range_breakout": {
+      "entry_channel_length": [20, 24],
+      "exit_channel_length": [7, 15]
+    },
+    "trend_pullback_ma_structure": {
+      "fast_pair_scale": [0.5, 0.75],
+      "slow_tail_scale": [0.75, 1.25]
+    },
+    "volatility_breakout": {
+      "entry_atr_multiple": [0.3, 0.6],
+      "daily_atr_period": [10, 30]
+    }
+  },
+  "diagnostic_grid_values_within_bounds": {
+    "rolling_range_breakout": {
+      "entry_channel_length": [
+        20,
+        24
+      ],
+      "exit_channel_length": [
+        7,
+        10,
+        12,
+        15
+      ]
+    },
+    "trend_pullback_ma_structure": {
+      "fast_pair_scale": [
+        0.5,
+        0.6,
+        0.75
+      ],
+      "slow_tail_scale": [
+        0.75,
+        1.0,
+        1.25
+      ]
+    },
+    "volatility_breakout": {
+      "entry_atr_multiple": [
+        0.3,
+        0.4,
+        0.6
+      ],
+      "daily_atr_period": [
+        10,
+        14,
+        20,
+        30
+      ]
+    }
+  },
+  "region_cell_counts": {
+    "rolling_range_breakout": 8,
+    "trend_pullback_ma_structure": 9,
+    "volatility_breakout": 12
+  },
+  "research_composite_rule": "within each mechanism, equal-weight average of daily PnL across every tested cell in the frozen region",
+  "execution_caveat": "range composites use fractional averaging and are not a one-contract executable rule",
+  "legacy_split": {
+    "is_end": "2025-05-28",
+    "oos_start": "2025-05-29"
+  },
+  "independence_caveat": "legacy OOS was inspected when these regions were chosen and is not independent validation",
+  "common_window": [
+    "2024-01-03",
+    "2026-03-19"
+  ],
+  "common_oos_window": [
+    "2025-05-29",
+    "2026-03-19"
+  ],
+  "intraday_roll_sessions_excluded": [],
+  "effective_dimensions_current_six": 4.688509867372362,
+  "effective_dimensions_new_three": 2.1803951973611815,
+  "effective_dimensions_all_nine": 6.636479500646872,
+  "momentum_confirmed_breakout": {
+    "status": "not_frozen_not_included",
+    "candidate_region": {
+      "adx_threshold": [
+        15,
+        20
+      ],
+      "breakout_lookback": [
+        20,
+        40
+      ]
+    },
+    "required_next_step": "independent data validation before retention"
+  }
+}

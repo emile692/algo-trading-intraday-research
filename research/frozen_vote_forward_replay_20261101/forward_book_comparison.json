@@ -1,0 +1,20 @@
+{
+  "mnq_mgc_six_new": {
+    "sessions": 141,
+    "trades": null,
+    "net_pnl_usd": -3625.0000000001937,
+    "sharpe": -0.8128804695067522,
+    "max_drawdown_usd": -8897.000000000124,
+    "worst_day_usd": -1551.0,
+    "positive_days_share": 0.3795620437956204
+  },
+  "mnq_mgc_six_old": {
+    "sessions": 141,
+    "trades": null,
+    "net_pnl_usd": -2992.0,
+    "sharpe": -0.7381334820683886,
+    "max_drawdown_usd": -8387.5,
+    "worst_day_usd": -1294.5,
+    "positive_days_share": 0.41605839416058393
+  }
+}

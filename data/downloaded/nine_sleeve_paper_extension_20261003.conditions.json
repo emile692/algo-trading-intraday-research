@@ -1,0 +1,27 @@
+{
+  "source": "Databento metadata.get_dataset_condition",
+  "dataset": "GLBX.MDP3",
+  "requested_start_date": "2026-03-20",
+  "requested_end_date": "2026-10-03",
+  "degraded_utc_dates": [
+    "2026-03-21",
+    "2026-04-10",
+    "2026-05-24",
+    "2026-08-29"
+  ],
+  "trading_weekday_degraded_dates": [
+    "2026-04-10"
+  ],
+  "session_coverage_2026_04_10": {
+    "MNQ.c.0_0930_1600_America_New_York": {
+      "observed_minutes": 390,
+      "expected_minutes": 390
+    },
+    "MGC.v.0_0820_1330_America_New_York": {
+      "observed_minutes": 310,
+      "expected_minutes": 310
+    }
+  },
+  "book_pnl_2026_04_10_usd": -150.46,
+  "assessment": "The vendor condition is dataset-wide. Both requested continuous symbols have complete minute counts in their frozen research sessions on the only degraded trading weekday. The date is retained, not silently removed."
+}

@@ -1,0 +1,110 @@
+{
+  "dataset": "data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+  "dataset_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174",
+  "strategy": "orb_vwap_atr",
+  "campaign_name": "baseline_fixed",
+  "config": {
+    "baseline_ensemble": {
+      "atr_window": 14,
+      "q_highs_pct": [
+        90,
+        95
+      ],
+      "q_lows_pct": [
+        20,
+        25,
+        30
+      ],
+      "vote_threshold": 0.5
+    },
+    "baseline_entry": {
+      "account_size_usd": 50000.0,
+      "direction": "long",
+      "entry_buffer_ticks": 2,
+      "entry_on_next_open": true,
+      "one_trade_per_day": true,
+      "opening_time": "09:30:00",
+      "or_minutes": 15,
+      "risk_per_trade_pct": 0.5,
+      "stop_buffer_ticks": 2,
+      "target_multiple": 2.0,
+      "tick_size": 0.25,
+      "time_exit": "16:00:00",
+      "vwap_column": "continuous_session_vwap",
+      "vwap_confirmation": true
+    },
+    "compression": {
+      "mode": "none",
+      "soft_bonus_votes": 1.0,
+      "usage": "hard_filter"
+    },
+    "dynamic_threshold": {
+      "atr_k": 0.0,
+      "confirm_bars": 1,
+      "mode": "disabled",
+      "noise_k": 0.0,
+      "noise_lookback": 14,
+      "noise_vm": 1.0,
+      "schedule": "continuous_on_bar_close",
+      "threshold_style": "max_or_high_noise"
+    },
+    "exit": {
+      "force_exit_time": null,
+      "mode": "baseline",
+      "partial_fraction": 0.5,
+      "stagnation_bars": null,
+      "stagnation_min_r_multiple": 0.15
+    },
+    "family": "baseline",
+    "name": "baseline_fixed",
+    "stage": "incremental_overlay"
+  },
+  "split": {
+    "fraction_is": 0.7,
+    "is_start": "2019-05-05",
+    "is_end": "2024-02-27",
+    "oos_start": "2024-02-28",
+    "oos_end": "2026-03-20",
+    "is_sessions": 1500,
+    "oos_sessions": 643
+  },
+  "execution_model": {
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks": 1.0,
+    "tick_size": 0.25
+  },
+  "metrics": {
+    "overall": {
+      "n_trades": 823,
+      "net_pnl": 18537.5,
+      "sharpe_ratio": 1.016031785861416,
+      "max_drawdown": -2061.5,
+      "profit_factor": 1.2642721200932348,
+      "win_rate": 0.4896719319562576,
+      "expectancy": 22.52430133657351
+    },
+    "is": {
+      "n_trades": 584,
+      "net_pnl": 12524.5,
+      "sharpe_ratio": 0.961862411736032,
+      "max_drawdown": -2061.5,
+      "profit_factor": 1.24445442036128,
+      "win_rate": 0.4897260273972603,
+      "expectancy": 21.446061643835616
+    },
+    "oos": {
+      "n_trades": 239,
+      "net_pnl": 6013.0,
+      "sharpe_ratio": 1.1529731374049412,
+      "max_drawdown": -928.5,
+      "profit_factor": 1.317963090264925,
+      "win_rate": 0.4895397489539749,
+      "expectancy": 25.15899581589958
+    }
+  },
+  "historical_export_reproduced": false,
+  "cutoff_audit_reproduced": false,
+  "corrected_trade_hash_reproduced": true,
+  "trades_sha256": "e4f5d74214127e4fa957bb40d035c08d9eb161796529b90a6f0a5322a997506c",
+  "archived_metrics_before_cutoff_fix": null
+}

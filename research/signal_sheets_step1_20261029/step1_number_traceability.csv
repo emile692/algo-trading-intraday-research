@@ -1,0 +1,36 @@
+figure,section,metric,source_file,function
+2.7878501531322777,S01 / IS,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.905560133663384,S01 / validation_reused,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+3.3697245982515422,S01 / total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.489427796761412,mnq_volatility_breakout / is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.8358456469454982,mnq_volatility_breakout / validation,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+2.3636711822402576,mnq_volatility_breakout / total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.0712929109010716,mnq_compression_breakout / is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.7518489902397412,mnq_compression_breakout / validation,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.289774690099687,mnq_compression_breakout / total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.6725330043745323,mnq_atr_trend_flip / is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.196614359867505,mnq_atr_trend_flip / validation,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.342371174422128,mnq_atr_trend_flip / total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.935432195375121,mgc_volatility_breakout / is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.7077647309177904,mgc_volatility_breakout / validation_reused,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.0180716228568136,mgc_volatility_breakout / total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.8820502426796752,mgc_gap_continuation / is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.271911644668391,mgc_gap_continuation / validation_reused,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.9442638300397797,mgc_gap_continuation / total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.8482910119722008,mbt_rolling_range_breakout / legacy_is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.6765666634917207,mbt_rolling_range_breakout / legacy_oos_reused,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.0781947503438087,mbt_rolling_range_breakout / executable_total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.0748401998936759,mbt_trend_pullback_ma_structure / legacy_is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.7817662258072011,mbt_trend_pullback_ma_structure / legacy_oos_reused,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.3233469007035503,mbt_trend_pullback_ma_structure / executable_total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.2209092812617663,mbt_volatility_breakout / legacy_is,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+-0.045794493110210444,mbt_volatility_breakout / legacy_oos_reused,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+0.9042863282089593,mbt_volatility_breakout / executable_total,t_stat_approx,research/signal_sheets_audit_20261014/sleeve_period_reproduction.csv,build_signal_sheets_step1_tables.main: sharpe * sqrt(sessions/252)
+1.0,S01 sizing / IS,quantity_min,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main
+1.0,S01 sizing / IS,quantity_median,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main
+1.4630350194552528,S01 sizing / IS,quantity_mean,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main
+4.0,S01 sizing / IS,quantity_max,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main
+1.0,S01 sizing / OOS,quantity_min,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main
+1.0,S01 sizing / OOS,quantity_median,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main
+1.2566844919786095,S01 sizing / OOS,quantity_mean,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main
+3.0,S01 sizing / OOS,quantity_max,research/signal_sheet_01_atr18/trades.csv,build_signal_sheets_step1_tables.main

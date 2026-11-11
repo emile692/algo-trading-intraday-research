@@ -1,0 +1,75 @@
+{
+  "study": "H3_options_implied_state_conditioning",
+  "frozen_at": "2026-09-29",
+  "locked_before_execution": true,
+  "scope": "Phase 1 diagnostic on the four frozen MNQ sleeves; no signal, sizing, stop, exit, or Topstep change.",
+  "sources": {
+    "vix": "data/raw/vix_indexes.csv",
+    "mes_1m": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+    "frozen_daily_pnl": "research/locked_four_sleeve_portfolio/daily_pnl.csv",
+    "frozen_portfolio_config": "research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json",
+    "frozen_run_metadata": "research/locked_four_sleeve_portfolio/run_metadata.json"
+  },
+  "sleeves": ["orb_vwap_atr", "volatility_breakout", "compression_breakout", "atr_trend_flip"],
+  "causality": {
+    "policy": "Every state used for trading day t is the last completed common VIX/MES observation from trading day t-1.",
+    "vix_close": "daily PX_LAST, shifted one common trading row",
+    "mes_session": "09:30-16:00 America/New_York",
+    "mes_close": "last observed close inside the completed 09:30-16:00 RTH session; official shortened sessions remain valid completed days",
+    "rv10": "standard deviation of the last 10 same-contract MES close-to-close log returns, annualized by sqrt(252) and expressed in percent; shifted to t-1",
+    "atr14": "Wilder RMA(14) of same-contract MES daily true range divided by prior close, expressed in percent; shifted to t-1",
+    "roll_policy": "MES return and true range are missing on a continuous-contract transition; no roll gap is treated as volatility."
+  },
+  "external_states": {
+    "vix_level": "lagged VIX close",
+    "term_spread": "lagged VIX minus lagged VIX3M",
+    "term_ratio": "lagged VIX divided by lagged VIX3M",
+    "evrp": "lagged VIX minus lagged MES RV10"
+  },
+  "partitions": {
+    "vix_level": "low/middle/high from expanding 33.33% and 66.67% quantiles computed through t-1 with 252-day minimum; never full-sample optimized",
+    "term_spread": "contango if VIX <= VIX3M, backwardation if VIX > VIX3M",
+    "term_ratio": "ratio <= 1 versus ratio > 1; economically identical partition reported for completeness",
+    "evrp": "nonpositive versus positive"
+  },
+  "inference": {
+    "hac_lag_rule": "floor(4*(N/100)^(2/9))",
+    "bootstrap_samples": 2000,
+    "bootstrap_block_days": 5,
+    "random_seed": 20260929,
+    "multiple_testing": "Benjamini-Hochberg FDR 5% across all full-sample controlled external coefficients and both outcomes",
+    "outcomes": ["daily_pnl_usd", "downside_pnl_usd=min(daily_pnl_usd,0)"],
+    "controls": ["mes_rv10_pct", "mes_atr14_pct"],
+    "first_second_half": "split at median eligible session date",
+    "year_stability": "same coefficient sign as full sample in a strict majority of eligible calendar years"
+  },
+  "gate_1": {
+    "candidate_must_satisfy_all": {
+      "controlled_external_coefficient_fdr_q_at_most": 0.05,
+      "minimum_absolute_iqr_effect_in_outcome_standard_deviations": 0.10,
+      "partition_bootstrap_contrast_ci_excludes_zero": true,
+      "partition_contrast_sign_matches_continuous_coefficient": true,
+      "coefficient_sign_matches_in_first_and_second_half": true,
+      "strict_majority_of_years_same_sign": true
+    },
+    "study_passes_if": "at least one sleeve/external-state/outcome combination passes every criterion",
+    "failure_classification": "REJECTED_STATE_VARIABLE"
+  },
+  "phase_2": {
+    "run_only_after_gate_1": true,
+    "selection_frozen_before_overlay_evaluation": true,
+    "selected_state": "term_spread",
+    "selection_reason": "The canonical backwardation split passed the controlled left-tail gate; term_ratio is the same economic split, VIX terciles require a non-economic evolving cutoff, and eVRP failed its partition bootstrap gate.",
+    "rule": "Suppress all new entries in all four frozen MNQ sleeves on day t when VIX(t-1) > VIX3M(t-1); otherwise execute the frozen signals unchanged.",
+    "scope": "common_to_all_four_mnq_sleeves",
+    "actionability_gate": {
+      "portfolio_total_pnl_delta_positive": true,
+      "portfolio_sharpe_delta_positive": true,
+      "portfolio_cvar_5pct_not_worse": true,
+      "portfolio_max_drawdown_not_worse": true,
+      "pnl_delta_positive_in_both_halves": true,
+      "strict_majority_of_years_with_positive_pnl_delta": true
+    },
+    "topstep": "not_run"
+  }
+}

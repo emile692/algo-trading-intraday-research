@@ -1,0 +1,184 @@
+{
+  "campaign": "intraday_momentum_cross_asset_phase1_20261111",
+  "phase": "phase_1_mechanism_and_selection_rule_test",
+  "frozen_on": "2026-11-11",
+  "frozen_before_performance": true,
+  "hypothesis": "Intraday time-series momentum: the sign of the move from the session open to open+h predicts the return from open+h to the session close, on every locally available futures market, with one common specification. Expected sign: positive net expectancy of following the move, larger when the move is large relative to its recent typical size.",
+  "disclosure_before_freeze": [
+    "No return of this strategy was computed on any real instrument before the freeze. The runner was validated on synthetic data only (self-test).",
+    "Prior information already seen in this repo: (a) close-of-day momentum (prior close -> T-30, last 30 minutes) is CLOSED_COST_CONSTRAINED on 8 instruments; (b) mes_gex_regime_phase1_20261111 implies that following the first hour on MES over 2019-05 -> 2023-12 is roughly zero net (LOW-GEX follow +1.31 USD/trade, HIGH-GEX fade -9.34 USD/trade); (c) volatility_breakout sleeves (entry at open +/- ATR multiple) are live on MNQ, MGC and MBT and are a related mechanism.",
+    "6E, ZN and MCL are not tested: their one-minute files are no longer on disk. GC (ends 2023-03) duplicates MGC and is not used.",
+    "The 2024-01 -> 2026-03 window was used as OOS by earlier campaigns on other strategies; it is unseen for this hypothesis.",
+    "Session coverage was counted before the freeze (counts only, no return): the 75% completeness rule leaves MBT thin in IS (116 sessions in 2021, 162 in 2022, 81 in 2023) and MGC without eligible sessions before 2016-02, so the MGC part of PRE is effectively 2016-02 -> 2019-05. The rule is kept unchanged."
+  ],
+  "universe": {
+    "MNQ": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet",
+      "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef",
+      "session_start": "09:30",
+      "session_minutes": 390,
+      "point_value": 2.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25
+    },
+    "MES": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+      "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d",
+      "session_start": "09:30",
+      "session_minutes": 390,
+      "point_value": 5.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25
+    },
+    "M2K": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/M2K_c_0_1m_20260322_134808.parquet",
+      "sha256": "9eefeeebb0642214e981f9a4a82fb954ff4510e887772b37c4bead4b48f190c9",
+      "session_start": "09:30",
+      "session_minutes": 390,
+      "point_value": 5.0,
+      "tick_size": 0.1,
+      "commission_per_side": 1.25
+    },
+    "MGC": {
+      "cluster": "gold",
+      "path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet",
+      "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888",
+      "session_start": "08:20",
+      "session_minutes": 310,
+      "point_value": 10.0,
+      "tick_size": 0.1,
+      "commission_per_side": 1.25
+    },
+    "MBT": {
+      "cluster": "bitcoin",
+      "path": "data/downloaded/MBT_v_0_1m_20210425_20261003.parquet",
+      "sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+      "session_start": "09:30",
+      "session_minutes": 390,
+      "point_value": 0.1,
+      "tick_size": 5.0,
+      "commission_per_side": 1.41
+    }
+  },
+  "pre_sample_holdout_universe": {
+    "NQ": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet",
+      "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8",
+      "session_start": "09:30",
+      "session_minutes": 390,
+      "point_value": 20.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25
+    },
+    "MGC": "same file and contract as in universe"
+  },
+  "session": {
+    "timezone": "America/New_York",
+    "bar_semantics": "one-minute bars stamped at bar start; minute index m = minutes since session_start, 0 <= m < session_minutes; weekdays only",
+    "open_price": "open of the first bar with 0 <= m <= 4",
+    "exit_price": "close of the last bar with session_minutes-5 <= m <= session_minutes-1",
+    "eligibility": "at least 75% of the session's one-minute bars present, open_price and exit_price available, a single instrument_id over the session (intraday roll excluded). Half days fail the exit_price condition."
+  },
+  "signal": {
+    "s_h": "ln(signal_price_h / open_price), signal_price_h = close of the last bar with h-5 <= m <= h-1",
+    "sigma_h": "sqrt(mean of s_h^2 over the 20 previous eligible sessions), at least 15 values required (causal)",
+    "sigma_day": "sqrt(mean of ln(exit_price/open_price)^2 over the 20 previous eligible sessions), at least 15 values required (causal)",
+    "direction": "sign(s_h) if abs(s_h) >= k * sigma_h and s_h != 0, else no trade",
+    "entry": "open of the first bar with h <= m <= h+4; no trade if absent",
+    "exit": "exit_price; no stop, no target, one trade per session at most"
+  },
+  "grid": {
+    "h_minutes": [
+      30,
+      60,
+      90,
+      120,
+      180
+    ],
+    "k_sigma": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "cells": 15,
+    "note": "The grid is identical on every instrument. No per-asset parameter."
+  },
+  "costs": {
+    "rule": "1 tick slippage per side + commission per side; round trip USD = 2 * tick_size * point_value + 2 * commission_per_side",
+    "net_return": "direction * (exit - entry) / entry - round_trip_usd / (point_value * entry)"
+  },
+  "unit": "R = net_return / sigma_day (risk-normalised). USD per contract is reported alongside.",
+  "pooling": {
+    "rule": "per day, average R across eligible instruments inside each cluster (no trade = 0), then average across clusters that have at least one eligible instrument that day",
+    "clusters": [
+      "equity_index",
+      "gold",
+      "bitcoin"
+    ],
+    "reason": "MNQ, MES and M2K are one bet; cluster balancing stops the equity index from counting three times"
+  },
+  "periods": {
+    "PRE": [
+      "2010-06-07",
+      "2019-05-03"
+    ],
+    "IS": [
+      "2019-05-06",
+      "2023-12-31"
+    ],
+    "OOS": [
+      "2024-01-01",
+      "2026-03-19"
+    ],
+    "EXT_informational": [
+      "2026-03-20",
+      "2026-10-02"
+    ]
+  },
+  "selection_rule": {
+    "statistic": "daily Sharpe (mean/std) of the pooled net R series on IS for each cell, then neighbourhood smoothing: average of the cell and its orthogonal neighbours on the (h, k) grid",
+    "choice": "the single cell with the highest smoothed Sharpe; ties broken by lower h then lower k",
+    "executed": "that one cell, the same on every instrument"
+  },
+  "tests_on_IS": {
+    "hac": "Newey-West t of the mean of the pooled net R series, 5 lags, all eligible days (no-trade days = 0)",
+    "max_stat_permutation": "5000 draws; each draw flips the trade direction of whole days (same flip for every instrument and cell, costs still paid); statistic = maximum smoothed Sharpe over the 15 cells; p = share of draws >= observed. Controls for the 15-cell search and for cross-asset correlation. Seed 20261111.",
+    "cscv": "12 contiguous time blocks, all 924 half/half splits; the selection rule is applied on the train half; logit of the relative rank of the chosen cell's Sharpe on the test half; PBO = share of splits with logit <= 0",
+    "diagnostics_not_gated": [
+      "per-instrument and per-cluster table for all 15 cells",
+      "long and short legs",
+      "cost x2",
+      "entry delayed by one extra bar",
+      "calendar years"
+    ]
+  },
+  "gate_to_OOS": {
+    "all_required": [
+      "G1: selected cell pooled IS mean net R > 0 with HAC t >= 2.0",
+      "G2: max-stat permutation p <= 0.05",
+      "G3: CSCV PBO <= 0.35",
+      "G4: selected cell net mean R > 0 on IS in at least 2 of 3 clusters and at least 3 of 5 instruments",
+      "G5: more than half of IS calendar years have a positive pooled net sum",
+      "G6: selected cell on PRE (NQ 2010-06 -> 2019-05 with NQ costs, MGC 2015-01 -> 2019-05, cluster-balanced) has mean net R > 0 with HAC t >= 1.0"
+    ],
+    "if_pass": "the user is asked before OOS is read; the same code and the same selected cell are then applied once to OOS as a verdict",
+    "if_fail": "OOS is not computed; hypothesis closed on this data"
+  },
+  "oos_verdict": {
+    "pass_if_all": [
+      "pooled OOS mean net R > 0 with HAC t >= 1.0",
+      "net mean R > 0 in at least 2 of 3 clusters"
+    ],
+    "EXT": "reported for MNQ, MGC and MBT only, informational, not part of the verdict"
+  },
+  "prohibitions": [
+    "no other window, threshold, reference price, exit, stop or filter after the freeze",
+    "no per-asset parameter",
+    "no long-only or short-only selection",
+    "no OOS before the IS gate is evaluated and the user has approved the read"
+  ]
+}

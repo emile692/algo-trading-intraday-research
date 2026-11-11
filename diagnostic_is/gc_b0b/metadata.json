@@ -1,0 +1,18 @@
+{
+  "source": "data\\downloaded\\GC_v_0_to_v_9_1m_20150102_20230317.parquet",
+  "source_sha256": "262ebb63cd9b9c519d9e9c1112ab304d085c5c1370d969f7be176dce12a3bc3b",
+  "processed": "data\\processed\\parquet\\GC_v_0_to_v_9_aggregate_volume_5m_20150102_20230317.parquet",
+  "processed_sha256": "bc94abc8950d926a0099d79eb7ee80e0c3936e96b1832e0a97d9de777f042a6e",
+  "aggregation": "sum volume over distinct GC volume ranks 0..9 per minute, then sum to left-labelled 5-minute bars",
+  "gc_rvol": "current GC aggregate 5m volume / same-slot median over prior 20 sessions",
+  "price_and_execution": "canonical MGC bars and costs; only volume state replaced",
+  "mGC_reproduction_trades": 1333,
+  "mGC_reproduction_net_usd": -6762.500000000022,
+  "gc_b0b_trades": 1149,
+  "gc_b0b_net_usd": -5870.50000000002,
+  "gc_b0b_net_R": -41.70864833942689,
+  "mGC_bars_with_any_GC_source_record": 126587,
+  "mGC_bars": 126587,
+  "post_is_statistics_computed": false,
+  "seed": 20261008
+}

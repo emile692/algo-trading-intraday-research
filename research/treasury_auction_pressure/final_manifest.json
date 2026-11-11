@@ -1,0 +1,20 @@
+{
+  "final_verdict": "REJECTED",
+  "strategy_backtest_run": false,
+  "strategy_backtest_reason": "Failed mandatory event-study gate",
+  "zf_source_file": "data/downloaded/ZF_v_0_1m_20130517_20260920.parquet",
+  "zf_source_sha256": "0fb3737cab201d9ec9407ca676296eec39cd38e6fdcbe1d6ad8e465963da07d0",
+  "zf_processed_file": "data/processed/parquet/ZF_v_0_1m_20130517_20260920.parquet",
+  "zf_processed_sha256": "f5b3b7f8ab444d052e0b6c8a099315b9466ff3ac9dfb6c7f976e957068819909",
+  "zn_processed_file": "data/processed/parquet/ZN_v_0_1m_20130517_20260920.parquet",
+  "auction_calendar": "data/raw/treasury_auction_calendar.csv",
+  "bootstrap_samples": 2000,
+  "event_counts": {
+    "5-Year->ZF": 159,
+    "7-Year->ZF": 171,
+    "7-Year->ZN": 171,
+    "10-Year->ZN": 162
+  },
+  "exact_result_timestamps": 0,
+  "reference_type": "competitive_bid_deadline"
+}

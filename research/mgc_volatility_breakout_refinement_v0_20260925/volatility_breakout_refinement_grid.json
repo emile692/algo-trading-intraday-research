@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "selection_basis": "Adaptive follow-up to the 2026-09-24 coarse MGC landscape. The grid was fixed before this refinement run, but its bounds were informed by prior IS and Validation results.",
+  "periods": {
+    "is": [
+      "2019-05-06",
+      "2023-12-31"
+    ],
+    "validation": [
+      "2024-01-01",
+      "2026-03-19"
+    ]
+  },
+  "common_rules": {
+    "instrument": "MGC",
+    "quantity": 1,
+    "signal_on_closed_bars_only": true,
+    "execution_timeframe": "1min",
+    "costs_and_session": "research/mgc_baseline_backtests/mgc_baseline_config.json",
+    "money_management": "unchanged_frozen_baseline",
+    "optimization_objective": null,
+    "automatic_parameter_selection": false
+  },
+  "mechanisms": {
+    "volatility_breakout": {
+      "parameter_1": "daily_atr_period",
+      "values_1": [
+        3,
+        5,
+        7,
+        10,
+        14,
+        20,
+        30,
+        40,
+        50
+      ],
+      "parameter_2": "entry_atr_multiple",
+      "values_2": [
+        0.55,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3
+      ],
+      "rationale": "Follow-up refinement selected after the coarse landscape: daily ATR periods retain the full coarse positive span and add intermediate horizons; entry multiples densely cover 0.55-1.30 around the coarse 0.6/0.8/1.2 positive region. Validation is therefore diagnostic, not pristine."
+    }
+  }
+}

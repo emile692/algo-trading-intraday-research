@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "status": "frozen_before_oos_execution",
+  "selection_source": "wide_parameter_landscape plateau medoids explicitly approved by the user",
+  "performance_selection_rule": "plateau medoid; no OOS observation and no maximum-Sharpe selection",
+  "oos_start": "2024-01-01",
+  "oos_end": "2026-03-19",
+  "indicator_warmup": {
+    "start": "2019-05-06",
+    "usage": "indicator state initialization only",
+    "performance_accounting_start": "2024-01-01"
+  },
+  "execution_policy": "inherit unchanged from each frozen baseline JSON",
+  "configurations": {
+    "atr_trend_flip": {
+      "atr_period": 10,
+      "atr_multiplier": 3.0
+    },
+    "compression_breakout": {
+      "nr_lookback": 10,
+      "entry_buffer_ticks": 1
+    },
+    "gap_continuation": {
+      "minimum_gap_atr_multiple": 0.6,
+      "volume_threshold_multiple": 1.0
+    },
+    "ma_crossover_trend": {
+      "fast_ema_period": 12,
+      "slow_ema_period": 40
+    },
+    "session_range_breakout": {
+      "opening_range_minutes": 75,
+      "breakout_buffer_ticks": 1
+    },
+    "volatility_breakout": {
+      "daily_atr_period": 14,
+      "entry_atr_multiple": 0.6
+    }
+  },
+  "labels": {
+    "gap_continuation": ["low_sample"]
+  }
+}

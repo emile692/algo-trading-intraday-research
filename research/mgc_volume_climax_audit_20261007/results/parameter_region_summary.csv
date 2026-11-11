@@ -1,0 +1,4 @@
+scope,cells,fraction_positive_is,fraction_positive_oos,fraction_positive_both,mean_local_oos_continuity,edge_only
+all,18,0.0,0.4444444444444444,0.0,0.4305555555555556,False
+confirmed_fade,9,0.0,0.8888888888888888,0.0,0.8611111111111112,False
+immediate_fade,9,0.0,0.0,0.0,0.0,False

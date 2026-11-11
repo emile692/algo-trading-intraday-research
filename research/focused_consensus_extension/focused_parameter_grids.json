@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "is_start": "2019-05-06",
+  "is_end": "2023-12-31",
+  "validation_start": "2024-01-01",
+  "validation_end": "2026-03-19",
+  "consensus_score": "min(sharpe_IS, sharpe_VAL)",
+  "insufficient_sample_is": "trade_count_IS < 20",
+  "insufficient_sample_validation": "trade_count_VAL < 20",
+  "robust_cell": "sharpe_IS > 0 and sharpe_VAL > 0 and PF_IS > 1 and PF_VAL > 1 and trade_count_IS >= 20 and trade_count_VAL >= 20",
+  "contiguity": "orthogonal four-neighbor adjacency in grid-index space",
+  "plateau_exists": "largest contiguous robust component contains at least 2 cells",
+  "mechanisms": {
+    "atr_trend_flip": {
+      "objective": "Test whether a common IS/Validation plateau exists below multiplier 2.0.",
+      "parameters": {
+        "atr_period": [5, 7, 10, 14, 20],
+        "atr_multiplier": [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25]
+      }
+    },
+    "gap_continuation": {
+      "objective": "Measure how far the edge persists beyond a 1.5 ATR minimum gap.",
+      "parameters": {
+        "minimum_gap_atr_multiple": [0.75, 0.9, 1.05, 1.25, 1.5, 1.75, 2.0, 2.5],
+        "volume_threshold_multiple": [1.0]
+      }
+    }
+  },
+  "other_parameters_and_logic": "unchanged from frozen baselines"
+}

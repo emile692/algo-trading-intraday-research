@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "purpose": "diagnostic_landscape_no_selection",
+  "sheet": "06_mgc_gap_continuation",
+  "mechanism": "gap_continuation",
+  "instrument": "MGC",
+  "periods": {
+    "start": "2019-05-06",
+    "end": "2026-03-19",
+    "is_end": "2023-12-31",
+    "oos_start": "2024-01-01"
+  },
+  "principal_parameters": {
+    "minimum_gap_atr_multiple": "Filtre l’importance du gap relativement au régime de volatilité.",
+    "volume_threshold_multiple": "Filtre la confirmation par participation et pilote le nombre de signaux."
+  },
+  "grids": {
+    "minimum_gap_atr_multiple": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7
+    ],
+    "volume_threshold_multiple": [
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ]
+  },
+  "combination_count": 25,
+  "scope_count": 3,
+  "all_other_parameters": "frozen_at_current_value",
+  "selection_performed": false,
+  "profit_factor_definition": "sum positive net trade PnL / absolute sum negative net trade PnL",
+  "max_drawdown_definition": "minimum drawdown of cumulative daily net PnL including zero origin",
+  "worst_day_definition": "minimum realized net daily PnL; prop-firm daily-loss diagnostic, not intraday trailing loss",
+  "source": {
+    "data_path": "data\\processed\\parquet\\MGC_v_0_1m_20150101_20260923.parquet",
+    "data_sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96",
+    "mgc_config_path": "research\\mgc_baseline_backtests\\mgc_baseline_config.json",
+    "mgc_config_sha256": "238b1505a285c925dcff8fccbf9ae70e0b8941012d4d284deb6265fe93bdbd35",
+    "source_spec_path": "strategy_registry\\psf_mnq\\frozen_baselines\\gap_continuation.json",
+    "source_spec_sha256": "59d1d97342a3598220a5ac6767b5a16ad2d2e36ff1f73966d0881be876a7c5fd"
+  },
+  "outputs": {
+    "grid_metrics": "research\\signal_sheet_parameter_refinement\\s06\\grid_metrics.csv",
+    "grid_metrics_sha256": "c5c03f3d6687d00e7dbea635a4eb58c55e3468b5212b86549cff6cd68d823218"
+  }
+}

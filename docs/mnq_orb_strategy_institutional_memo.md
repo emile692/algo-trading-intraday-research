@@ -1,5 +1,127 @@
 # MNQ ORB Strategy - Institutional Research Memo
 
+**2026-09-18 audit note:** The archived performance figures below predate a correction to the backtester's 16:00 exit ordering. The dedicated generated audit was not recovered; the corrected reference figures are preserved in the signal sheet and the archived figures below must not be used as the current performance reference.
+
+## Decision for execution (2026-09-16)
+
+The retained MNQ strategy for execution is `orb_vwap_atr`: OR15, long-only,
+breakout confirmed at signal-bar close, entry at the next bar open,
+`continuous_session_vwap` confirmation, and the ATR(14) ensemble with a 0.50
+vote threshold. The stop remains below the opening range with a two-tick
+buffer, the target is 2R, and the time exit is 16:00 New York time.
+
+Compression (`weak_close`), the dynamic `noise_area_gate`, and three-state
+sizing are historical research variants, not part of the retained execution
+strategy. The three-state sizing configuration is definitively rejected for
+this MNQ execution reference; use standard risk sizing only.
+The added complexity of the full stack is not justified by its incremental
+performance for the chosen execution scope. The IS/OOS figures below belong
+to that historical full-stack experiment; they must not be quoted as the
+performance of `orb_vwap_atr`. The dedicated backtest report for the retained
+research configuration is in
+`../export/mnq_orb_vwap_atr_retained/performance_report.md`. Its OOS result is
+241 trades, 6,343 USD net PnL, Sharpe 1.115, and max drawdown -1,177.50 USD.
+The execution repository uses a different nominal sizing base, so this is not
+a live PnL forecast.
+The direct comparison on the simple ORB + VWAP + ATR sleeve is recorded in
+`../export/mnq_orb_vwap_atr_3state_comparison/comparison_report.md`.
+
+## Decision for execution (2026-09-16)
+
+The retained MNQ strategy for execution is `orb_vwap_atr`: OR15, long-only,
+breakout confirmed at signal-bar close, entry at the next bar open,
+`continuous_session_vwap` confirmation, and the ATR(14) ensemble with a 0.50
+vote threshold. The stop remains below the opening range with a two-tick
+buffer, the target is 2R, and the time exit is 16:00 New York time.
+
+Compression (`weak_close`), the dynamic `noise_area_gate`, and three-state
+sizing are historical research variants, not part of the retained execution
+strategy. The three-state sizing configuration is definitively rejected for
+this MNQ execution reference; use standard risk sizing only.
+The added complexity of the full stack is not justified by its incremental
+performance for the chosen execution scope. The IS/OOS figures below belong
+to that historical full-stack experiment; they must not be quoted as the
+performance of `orb_vwap_atr`. The dedicated backtest report for the retained
+research configuration is in
+`../export/mnq_orb_vwap_atr_retained/performance_report.md`. Its OOS result is
+241 trades, 6,343 USD net PnL, Sharpe 1.115, and max drawdown -1,177.50 USD.
+The execution repository uses a different nominal sizing base, so this is not
+a live PnL forecast.
+The direct comparison on the simple ORB + VWAP + ATR sleeve is recorded in
+`../export/mnq_orb_vwap_atr_3state_comparison/comparison_report.md`.
+
+## Decision for execution (2026-09-16)
+
+The retained MNQ strategy for execution is `orb_vwap_atr`: OR15, long-only,
+breakout confirmed at signal-bar close, entry at the next bar open,
+`continuous_session_vwap` confirmation, and the ATR(14) ensemble with a 0.50
+vote threshold. The stop remains below the opening range with a two-tick
+buffer, the target is 2R, and the time exit is 16:00 New York time.
+
+Compression (`weak_close`), the dynamic `noise_area_gate`, and three-state
+sizing are historical research variants, not part of the retained execution
+strategy. The three-state sizing configuration is definitively rejected for
+this MNQ execution reference; use standard risk sizing only.
+The added complexity of the full stack is not justified by its incremental
+performance for the chosen execution scope. The IS/OOS figures below belong
+to that historical full-stack experiment; they must not be quoted as the
+performance of `orb_vwap_atr`. The dedicated backtest report for the retained
+research configuration is in
+`../export/mnq_orb_vwap_atr_retained/performance_report.md`. Its OOS result is
+241 trades, 6,343 USD net PnL, Sharpe 1.115, and max drawdown -1,177.50 USD.
+The execution repository uses a different nominal sizing base, so this is not
+a live PnL forecast.
+The direct comparison on the simple ORB + VWAP + ATR sleeve is recorded in
+`../export/mnq_orb_vwap_atr_3state_comparison/comparison_report.md`.
+
+## Decision for execution (2026-09-16)
+
+The retained MNQ strategy for execution is `orb_vwap_atr`: OR15, long-only,
+breakout confirmed at signal-bar close, entry at the next bar open,
+`continuous_session_vwap` confirmation, and the ATR(14) ensemble with a 0.50
+vote threshold. The stop remains below the opening range with a two-tick
+buffer, the target is 2R, and the time exit is 16:00 New York time.
+
+Compression (`weak_close`), the dynamic `noise_area_gate`, and three-state
+sizing are historical research variants, not part of the retained execution
+strategy. The three-state sizing configuration is definitively rejected for
+this MNQ execution reference; use standard risk sizing only.
+The added complexity of the full stack is not justified by its incremental
+performance for the chosen execution scope. The IS/OOS figures below belong
+to that historical full-stack experiment; they must not be quoted as the
+performance of `orb_vwap_atr`. The dedicated backtest report for the retained
+research configuration is in
+`../export/mnq_orb_vwap_atr_retained/performance_report.md`. Its OOS result is
+241 trades, 6,343 USD net PnL, Sharpe 1.115, and max drawdown -1,177.50 USD.
+The execution repository uses a different nominal sizing base, so this is not
+a live PnL forecast.
+The direct comparison on the simple ORB + VWAP + ATR sleeve is recorded in
+`../export/mnq_orb_vwap_atr_3state_comparison/comparison_report.md`.
+
+## Decision for execution (2026-09-16)
+
+The retained MNQ strategy for execution is `orb_vwap_atr`: OR15, long-only,
+breakout confirmed at signal-bar close, entry at the next bar open,
+`continuous_session_vwap` confirmation, and the ATR(14) ensemble with a 0.50
+vote threshold. The stop remains below the opening range with a two-tick
+buffer, the target is 2R, and the time exit is 16:00 New York time.
+
+Compression (`weak_close`), the dynamic `noise_area_gate`, and three-state
+sizing are historical research variants, not part of the retained execution
+strategy. The three-state sizing configuration is definitively rejected for
+this MNQ execution reference; use standard risk sizing only.
+The added complexity of the full stack is not justified by its incremental
+performance for the chosen execution scope. The IS/OOS figures below belong
+to that historical full-stack experiment; they must not be quoted as the
+performance of `orb_vwap_atr`. The dedicated backtest report for the retained
+research configuration is in
+`../export/mnq_orb_vwap_atr_retained/performance_report.md`. Its OOS result is
+241 trades, 6,343 USD net PnL, Sharpe 1.115, and max drawdown -1,177.50 USD.
+The execution repository uses a different nominal sizing base, so this is not
+a live PnL forecast.
+The direct comparison on the simple ORB + VWAP + ATR sleeve is recorded in
+`../export/mnq_orb_vwap_atr_3state_comparison/comparison_report.md`.
+
 ## 1. Executive Summary
 
 This memo now follows the real retained stack in the same order as the research logic:
@@ -10,7 +132,7 @@ This memo now follows the real retained stack in the same order as the research 
 4. compression and dynamic gating,
 5. 3-state overlay on top of the retained-final sleeve.
 
-The implemented retained configuration remains `full_reopt__seed__pair__comp_dynamic__weak_close__noise_area_gate` with `OR15`, `long`, VWAP confirmation, ATR vote, `weak_close`, and `noise_area_gate`. The later 3-state campaign was rerun directly on that retained-final sleeve. The main result is that `realized_vol_ratio_15_60` is **not** the best overlay on the retained-final stack: the strongest OOS sizing candidate in the latest run is `sizing_3state_atr_ratio_10_30`.
+The historical full-stack configuration studied below is `full_reopt__seed__pair__comp_dynamic__weak_close__noise_area_gate` with `OR15`, `long`, VWAP confirmation, ATR vote, `weak_close`, and `noise_area_gate`. The later 3-state campaign was rerun directly on that full-stack sleeve. Within that experiment, `realized_vol_ratio_15_60` is **not** the best overlay: the strongest OOS sizing candidate was `sizing_3state_atr_ratio_10_30`. Neither overlay is retained for execution.
 
 ## 2. Layer 1 - Base Signal
 
@@ -31,9 +153,9 @@ Current retained-final IS/OOS metrics:
 | IS | 4,620.5 USD | 0.604 | -1,913.5 USD | 222 |
 | OOS | 5,155.5 USD | 1.559 | -590.5 USD | 76 |
 
-![Retained-final ORB mechanics](figures/mnq_orb_retained_final_memo/orb_mechanics_diagram.png)
+*Figure historique « ORB mechanics » non récupérée.*
 
-![IS/OOS heatmap for OR minutes x target multiple on the retained base signal](figures/mnq_orb_retained_final_memo/base_signal_or_target_heatmap.png)
+*Figure historique « OR minutes × target multiple » non récupérée.*
 
 Readout:
 
@@ -55,7 +177,7 @@ Retained-final IS/OOS metrics are the same trade set shown above because VWAP is
 | IS | 4,620.5 USD | 0.604 | -1,913.5 USD | 222 |
 | OOS | 5,155.5 USD | 1.559 | -590.5 USD | 76 |
 
-![IS/OOS heatmap for VWAP confirmation x time exit](figures/mnq_orb_retained_final_memo/vwap_time_heatmap.png)
+*Figure historique « VWAP confirmation × time exit » non récupérée.*
 
 Readout:
 
@@ -78,7 +200,7 @@ Current retained-final IS/OOS metrics:
 | IS | 4,620.5 USD | 0.604 | -1,913.5 USD | 222 |
 | OOS | 5,155.5 USD | 1.559 | -590.5 USD | 76 |
 
-![IS/OOS heatmap for ATR window x vote threshold](figures/mnq_orb_retained_final_memo/atr_vote_heatmap.png)
+*Figure historique « ATR window × vote threshold » non récupérée.*
 
 Readout:
 
@@ -103,9 +225,9 @@ Current retained-final IS/OOS metrics:
 | IS | 4,620.5 USD | 0.604 | -1,913.5 USD | 222 |
 | OOS | 5,155.5 USD | 1.559 | -590.5 USD | 76 |
 
-![IS/OOS heatmap for compression mode x usage](figures/mnq_orb_retained_final_memo/compression_usage_heatmap.png)
+*Figure historique « compression mode × usage » non récupérée.*
 
-![IS/OOS heatmap for noise lookback x noise VM](figures/mnq_orb_retained_final_memo/noise_vm_heatmap.png)
+*Figure historique « noise lookback × noise VM » non récupérée.*
 
 Readout:
 
@@ -127,9 +249,9 @@ Top retained-final overlay candidates by feature:
 | opening_range_width_pts | volatility | 4.098 | mid | high | 1 |
 | atr_ratio_10_30 | volatility | 4.057 | high | low | 1 |
 
-![IS heatmap for fast/slow realized-volatility ratios on retained final](figures/mnq_orb_retained_final_memo/retained_final_fast_slow_is_heatmap.png)
+*Figure historique IS « fast/slow realized-volatility ratios » non récupérée.*
 
-![OOS heatmap for fast/slow realized-volatility ratios on retained final](figures/mnq_orb_retained_final_memo/retained_final_fast_slow_oos_heatmap.png)
+*Figure historique OOS « fast/slow realized-volatility ratios » non récupérée.*
 
 The retained-final campaign compared the nominal sleeve against multiple 3-state overlays:
 
@@ -140,7 +262,7 @@ The retained-final campaign compared the nominal sleeve against multiple 3-state
 | sizing_3state_overnight_range_pts | overnight_range_pts | 2179.500 | 1.253 | -517.500 | 0.423 | -0.305 | 0.124 |
 | sizing_3state_realized_vol_ratio_15_60 | realized_vol_ratio_15_60 | 2374.500 | 0.972 | -887.500 | 0.461 | -0.587 | -0.503 |
 
-![OOS Sharpe by 3-state overlay candidate on retained final](figures/mnq_orb_retained_final_memo/retained_final_3state_feature_bar.png)
+*Figure historique « OOS Sharpe by 3-state overlay » non récupérée.*
 
 Specific readout for `realized_vol_ratio_15_60` on retained final:
 
@@ -170,11 +292,15 @@ The logical reading of the stack is now:
 
 1. the retained edge starts with the `OR15 / long / next-open` base signal;
 2. VWAP and ATR are structural parts of that retained signal stack;
-3. compression and dynamic gating are part of the retained-final filtering logic;
-4. the 3-state overlay is a **separate last layer** that must be judged only after the retained-final sleeve is fixed.
+3. compression and dynamic gating belonged to the historical full-stack filtering logic;
+4. the 3-state overlay was a **separate last layer** evaluated on that full-stack sleeve.
 
-Current recommendation from the latest retained-final-first read:
+Historical readout of the full-stack experiment:
 
-- keep the retained-final nominal sleeve clearly identified as the reference implementation;
+- keep the full-stack nominal sleeve clearly identified as the reference for its own overlay comparisons;
 - do **not** describe `realized_vol_ratio_15_60` as the retained-final 3-state winner;
-- if a 3-state overlay is to be revisited on the retained-final sleeve, the first live candidate to inspect is `sizing_3state_atr_ratio_10_30`, not `realized_vol_ratio_15_60`.
+- if a 3-state overlay is revisited in research on that sleeve, inspect `sizing_3state_atr_ratio_10_30` first, rather than `realized_vol_ratio_15_60`.
+
+Execution decision: retain `orb_vwap_atr` as specified above. Re-evaluate the
+full stack only if a controlled, like-for-like comparison demonstrates enough
+incremental benefit to justify its operational complexity.

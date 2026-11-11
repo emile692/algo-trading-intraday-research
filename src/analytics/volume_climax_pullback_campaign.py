@@ -27,9 +27,14 @@ TIMEFRAMES = {"5m": "5min", "1h": "1h"}
 
 
 def _latest_path_for_symbol(symbol: str) -> Path:
-    files = sorted(Path("data/processed/parquet").glob(f"{symbol}_c_0_1m_*.parquet"))
+    roll_rule = "v" if symbol.upper() == "MGC" else "c"
+    files = sorted(
+        Path("data/processed/parquet").glob(f"{symbol.upper()}_{roll_rule}_0_1m_*.parquet")
+    )
     if not files:
-        raise FileNotFoundError(f"No input dataset found for {symbol} in data/processed/parquet.")
+        raise FileNotFoundError(
+            f"No {roll_rule}.0 input dataset found for {symbol.upper()} in data/processed/parquet."
+        )
     return files[-1]
 
 

@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "status": "MGC_SLEEVE_CANDIDATES_FROZEN",
+  "final_lock_config_sha256": "c47fafaac2c9cffc83bf5a7ef7452f26557d8bbc87fd053ab3244221436b5797",
+  "validation_status": "adaptive_reused_not_pristine_oos",
+  "no_further_parameter_optimization": true,
+  "candidates": [
+    {
+      "mechanism_id": "volatility_breakout",
+      "strategy_id": "volatility-breakout",
+      "status": "FREEZE_CANDIDATE",
+      "parameter_1_value": 30.0,
+      "parameter_2_value": 1.1,
+      "specification_path": "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_specs/volatility_breakout.json",
+      "specification_sha256": "21a217943d1ec1d670540233ea84b683e72c4730a18942101613ce9f77f8f5d0",
+      "validation_status": "adaptive_reused_not_pristine_oos",
+      "no_further_parameter_optimization": true
+    },
+    {
+      "mechanism_id": "gap_continuation",
+      "strategy_id": "gap-and-go",
+      "status": "FREEZE_CANDIDATE",
+      "parameter_1_value": 0.5,
+      "parameter_2_value": 0.6,
+      "specification_path": "research/mgc_final_two_sleeve_lock_20260926/frozen_candidate_specs/gap_continuation.json",
+      "specification_sha256": "3002af1cb7535a28f479599813ec9ac34153036787c053a76eed369e70dd68fd",
+      "validation_status": "adaptive_reused_not_pristine_oos",
+      "no_further_parameter_optimization": true,
+      "locked_parameters": {
+        "minimum_gap_atr_multiple": 0.5,
+        "volume_threshold_multiple": 0.6
+      },
+      "selection": "explicit_user_choice_inside_confirmed_plateau",
+      "exact_point_confirmed": true,
+      "override_sha256": "651528e8763ea8b01673853b7d0d55ae319287f339ce580a1fceb64a04760fbd"
+    }
+  ],
+  "amended_utc": "2026-09-26T08:38:27.542124+00:00",
+  "amendment": "gap_continuation representative changed from geometric medoid 0.50/0.50 to user-selected interior point 0.50/0.60"
+}

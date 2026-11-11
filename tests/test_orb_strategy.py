@@ -52,7 +52,7 @@ def test_orb_strategy_can_filter_and_wait_for_later_breakout() -> None:
             "or_low": [95.0] * len(timestamps),
             "high": [99.0, 101.0, 101.5, 100.0],
             "low": [96.0, 96.0, 96.0, 96.0],
-            "close": [99.0, 99.0, 101.2, 99.5],
+            "close": [99.0, 101.0, 101.2, 99.5],
             "volume": [100, 100, 100, 100],
             "atr_14": [1.0, 0.5, 1.2, 1.1],
             "session_vwap": [98.0, 100.5, 100.0, 99.8],

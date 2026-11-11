@@ -1,0 +1,89 @@
+{
+  "campaign": "mes_gex_regime_phase1_20261111",
+  "phase": "phase_1_mechanism_test",
+  "frozen_on": "2026-11-11",
+  "frozen_before_performance": true,
+  "hypothesis": "Dealer gamma regime: when the prior-day S&P 500 GEX is low relative to its trailing year, dealer hedging amplifies intraday moves (trend); when it is high, hedging dampens them (reversal). Expected sign: the slope of rest-of-day return on first-hour return is higher in the LOW regime than in the HIGH regime.",
+  "disclosure_before_freeze": [
+    "GEX file inspected only for schema, date range, gaps and the share of negative values (8.9% overall, 11% since 2019-05). No return of any instrument was computed with GEX.",
+    "Prior repo result: mnq_close_hedging_flow (rest-of-day vs last 30 minutes, no GEX) was rejected. This study uses a different window and a new conditioning variable.",
+    "MES price/volume campaigns are closed; this test adds an external information source and has no tunable threshold."
+  ],
+  "data": {
+    "gex": {
+      "path": "data/raw/squeezemetrics/DIX_retrieved_20261111.csv",
+      "sha256": "bf8de4d4ae7f8f8462f32e93ea8378409dbe24f21f39e0b23600fd2e28f0a0f6",
+      "source": "https://squeezemetrics.com/monitor/static/DIX.csv retrieved 2026-11-11; local research use only, not redistributed (gitignored)",
+      "columns": ["date", "price", "dix", "gex"]
+    },
+    "mes": {
+      "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+      "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d"
+    },
+    "vix": {
+      "path": "data/raw/vix-daily.csv",
+      "sha256": "8235e973855ee6eb3a18ec7b4a1f5a6da39211ea377ad17df2cbbb765ceec906"
+    }
+  },
+  "session": {
+    "timezone": "America/New_York",
+    "rth": "09:30 <= minute < 16:00, weekdays",
+    "eligibility": "at least 370 of 390 one-minute bars, and bars at 09:30, 10:29 and 15:59 present (excludes half days)"
+  },
+  "variables": {
+    "r_am": "ln(close of 10:29 bar / open of 09:30 bar)",
+    "r_pm": "ln(close of 15:59 bar / close of 10:29 bar)",
+    "rv": "sum of squared 5-minute log returns of RTH closes (5-minute grid built from one-minute closes, first return from the 09:30 open)",
+    "sigma_scale": "sqrt(mean rv over the 20 previous eligible sessions); r_am and r_pm are divided by it (causal); sessions without 20 prior values are dropped",
+    "efficiency": "abs(ln(close 15:59 / open 09:30)) / sum of abs(5-minute log returns)",
+    "gex_lag1": "gex of the latest GEX row with date strictly before the session date",
+    "gex_lag2": "gex of the GEX row immediately preceding the lag1 row (robustness to publication timing)",
+    "gex_pct": "percentile rank of the selected GEX value within the 252 GEX rows ending at that row, inclusive (rank / 252); rows with fewer than 252 history are dropped",
+    "regime": "LOW if gex_pct <= 1/3, HIGH if gex_pct > 2/3, MID otherwise",
+    "controls": {
+      "ln_vix_prev": "ln of VIX close of the latest VIX date strictly before the session date",
+      "ln_rv_prev": "ln(rv) of the previous eligible session",
+      "ln_rv_5": "ln(mean rv of the previous 5 eligible sessions)",
+      "eff_20": "mean efficiency of the previous 20 eligible sessions"
+    }
+  },
+  "periods": {
+    "IS": ["2019-05-06", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"]
+  },
+  "tests": {
+    "H2_primary": {
+      "model": "OLS z_pm = sum_k a_k D_k + sum_k b_k D_k z_am, k in {LOW, MID, HIGH}, z = r / sigma_scale",
+      "statistic": "b_LOW - b_HIGH with Newey-West HAC standard error, 5 lags",
+      "prediction": "positive"
+    },
+    "H2_lag2": "same model with gex_lag2 regimes",
+    "H2b_efficiency": {
+      "model": "OLS efficiency = a + c_LOW LOW + c_HIGH HIGH + d1 ln_vix_prev + d2 eff_20, HAC 5 lags",
+      "statistic": "c_LOW - c_HIGH",
+      "prediction": "positive"
+    },
+    "H1_volatility_informative_only": {
+      "model": "OLS ln(rv) = a + c_LOW LOW + c_HIGH HIGH + d1 ln_rv_prev + d2 ln_rv_5 + d3 ln_vix_prev, HAC 5 lags",
+      "role": "reported, not part of the gate (not directly tradable; possible sizing input)"
+    },
+    "canonical_rule": {
+      "description": "Single rule implied by the hypothesis, no parameter: at 10:30 ET (proxy: close of 10:29 bar), on LOW days trade MES in the direction of sign(r_am); on HIGH days trade against it; MID days flat; r_am == 0 flat; exit at close of 15:59 bar.",
+      "contract": "MES, point value 5 USD, tick 0.25 = 1.25 USD",
+      "cost_round_trip_usd": 5.0,
+      "cost_detail": "1 tick slippage per side + 1.25 USD commission per side",
+      "reported": ["trades", "mean net USD", "HAC t of mean net", "per leg LOW/HIGH", "per calendar year"]
+    }
+  },
+  "gate_to_phase_2": {
+    "all_required_on_IS": [
+      "H2_primary: b_LOW - b_HIGH > 0 with one-sided HAC t >= 1.645",
+      "H2_lag2: same sign with HAC t >= 1.0",
+      "H2b_efficiency: c_LOW - c_HIGH > 0",
+      "canonical_rule: IS mean net USD per trade > 0"
+    ],
+    "if_pass": "the same frozen code is applied once to OOS as a verdict; no change of variable, window, regime cut or rule",
+    "if_fail": "OOS is not computed; hypothesis closed as REJECT_MECHANISM on this data"
+  },
+  "prohibitions": ["no threshold or window search", "no alternative GEX normalisation", "no OOS before the IS gate is evaluated"]
+}

@@ -1,0 +1,29 @@
+{
+  "campaign": "treasury_auction_pressure_final",
+  "research_basis": "Fleming, Liu & Nguyen (2026), Federal Reserve Bank of New York Staff Report 1188",
+  "frozen_before_final_performance": true,
+  "final_investigation": true,
+  "event_source": "U.S. Treasury FiscalData auctions_query API",
+  "reference_type": "competitive bid deadline",
+  "result_timestamp_coverage": 0,
+  "result_timestamp_policy": "No exact result timestamp is inferred; result-based analysis is not run.",
+  "mappings": [
+    "5-Year -> ZF (primary)",
+    "7-Year -> ZF (primary)",
+    "7-Year -> ZN (secondary)",
+    "10-Year -> ZN (primary)"
+  ],
+  "path_window_minutes": [-240, 240],
+  "pre_bar_offsets": [-180, -1],
+  "post_bar_offsets": [5, 179],
+  "post_offset_note": "Bars are labelled by start; the close of T+179 is the price known at T+180.",
+  "expected_price_sign": "pre < 0 and post > 0",
+  "combined_effect": "-pre_return + post_return",
+  "event_time_shifts_minutes": [-60, -30, 0, 30, 60],
+  "placebo_times_et": ["11:00", "14:00"],
+  "subsamples": ["full", "pre-2020", "2020+", "2021+", "2024+"],
+  "bootstrap_samples": 2000,
+  "event_block_size": 5,
+  "strategy_gate": "must pass mechanism, recency, concentration and event-centering checks before backtest",
+  "parameter_optimization": false
+}

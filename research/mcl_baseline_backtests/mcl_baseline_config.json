@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "status": "LOCKED_BEFORE_PERFORMANCE",
+  "run_type": "mcl_raw_baseline_16_frozen_mechanisms",
+  "evaluation_windows": {
+    "IS": ["2021-07-12", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"],
+    "FULL": ["2021-07-12", "2026-03-19"]
+  },
+  "mechanism_policy": "Exactly one canonical run for each of the 16 frozen mechanisms; no grid, optimization, or structural change.",
+  "instrument": {
+    "symbol": "MCL", "quantity": 1, "tick_size": 0.01,
+    "tick_value_usd": 1.0, "point_value_usd": 100.0,
+    "commission_per_side_usd": 1.25, "slippage_ticks_per_side": 1
+  },
+  "session": {
+    "timezone": "America/New_York", "rth_start": "09:00:00",
+    "cash_close": "14:30:00", "last_entry_time": "14:25:00",
+    "forced_flatten_time": "16:08:00",
+    "policy": "full_core_sessions_only_no_synthetic_bars",
+    "minimum_core_bars": 300,
+    "explicit_excluded_sessions": ["2024-09-18"]
+  },
+  "relative_time_adaptations": {
+    "gap_continuation_last_entry": "09:15:00",
+    "gap_fade_last_entry": "09:01:00",
+    "gap_fade_midday_time_exit": "11:30:00",
+    "session_range_breakout_opening_range_start": "09:00:00"
+  },
+  "execution": {
+    "signal_on_closed_bars_only": true, "execution_timeframe": "1min",
+    "position_policy": "one_position_no_pyramiding",
+    "bar_conflict_policy": "stop_before_target",
+    "grid_search": false, "parameter_optimization": false
+  },
+  "data": {
+    "path": "data/downloaded/MCL_v_0_1m_20210712_20260924.parquet",
+    "sha256": "dac78172d15f6d3fb44847fb7d6b8aed42f8f8aec38efe718b3c2d9b887791d5",
+    "databento_cost_usd": 6.455839201808
+  }
+}

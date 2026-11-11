@@ -1,0 +1,264 @@
+{
+  "stage": "IS",
+  "period": [
+    "2019-05-06",
+    "2023-12-31"
+  ],
+  "pooled_days": 1204,
+  "selected_cell": {
+    "index": 4,
+    "entry": "18:00",
+    "exit": "08:00",
+    "condition": "all"
+  },
+  "selected_cell_IS": {
+    "pooled": {
+      "days": 1204,
+      "mean_R": -0.01692602740030791,
+      "hac_t": -0.852554496832948,
+      "sharpe_annual": -0.36152794410443495
+    },
+    "pooled_cost_x2": {
+      "days": 1204,
+      "mean_R": -0.07111761924889717,
+      "hac_t": -3.57610777115503,
+      "sharpe_annual": -1.518778251971321
+    },
+    "pooled_entry_delay": {
+      "days": 1204,
+      "mean_R": -0.023966581846689917,
+      "hac_t": -1.2272577127713042,
+      "sharpe_annual": -0.5178660327220599
+    },
+    "pooled_rth_long_benchmark": {
+      "days": 1204,
+      "mean_R": -0.01288867766264221,
+      "hac_t": -0.49855809547452434,
+      "sharpe_annual": -0.20773501688146087
+    },
+    "yearly_sum_R": {
+      "2019": 8.008882354761369,
+      "2020": 15.767744703507136,
+      "2021": -21.438258097066143,
+      "2022": -18.45569779412983,
+      "2023": -4.261608157043252
+    },
+    "by_cluster": {
+      "bitcoin": {
+        "days": 612,
+        "mean_R": -0.030322774709649315,
+        "hac_t": -0.6768767625108,
+        "sharpe_annual": -0.42739996446181205
+      },
+      "crude_oil": {
+        "days": 602,
+        "mean_R": -0.026869346931188386,
+        "hac_t": -0.6131748181687255,
+        "sharpe_annual": -0.3832717890366096
+      },
+      "equity_index": {
+        "days": 1188,
+        "mean_R": -0.011857211345035859,
+        "hac_t": -0.42422278589569795,
+        "sharpe_annual": -0.17066806454333044
+      },
+      "gold": {
+        "days": 1168,
+        "mean_R": -0.03988285788886711,
+        "hac_t": -1.1808298546910365,
+        "sharpe_annual": -0.565220026230779
+      }
+    },
+    "by_instrument": {
+      "MNQ": {
+        "days": 1185,
+        "mean_R": 0.020355037088499502,
+        "hac_t": 0.7319699438965545,
+        "sharpe_annual": 0.28592931360356866,
+        "trades": 1185,
+        "mean_net_usd_per_trade": 4.09409282700422,
+        "mean_gross_usd_per_trade": 7.59409282700422,
+        "win_rate": 0.5611814345991561,
+        "worst_trade_usd": -808.0,
+        "rth_long_mean_R": 0.08216711625578206
+      },
+      "MES": {
+        "days": 1187,
+        "mean_R": -0.03205926372529105,
+        "hac_t": -1.0764412731055908,
+        "sharpe_annual": -0.4388212020393687,
+        "trades": 1187,
+        "mean_net_usd_per_trade": 0.2853833192923336,
+        "mean_gross_usd_per_trade": 5.285383319292333,
+        "win_rate": 0.5181128896377422,
+        "worst_trade_usd": -677.5,
+        "rth_long_mean_R": 0.05631679996843038
+      },
+      "M2K": {
+        "days": 1175,
+        "mean_R": -0.024392916463445078,
+        "hac_t": -0.7814663607387329,
+        "sharpe_annual": -0.33310951370731207,
+        "trades": 1175,
+        "mean_net_usd_per_trade": 0.7570212765957262,
+        "mean_gross_usd_per_trade": 4.257021276595726,
+        "win_rate": 0.5268085106382979,
+        "worst_trade_usd": -424.5000000000002,
+        "rth_long_mean_R": -0.05292002529935475
+      },
+      "MGC": {
+        "days": 1168,
+        "mean_R": -0.03988285788886711,
+        "hac_t": -1.1808298546910365,
+        "sharpe_annual": -0.565220026230779,
+        "trades": 1168,
+        "mean_net_usd_per_trade": -5.02140410958901,
+        "mean_gross_usd_per_trade": -0.5214041095890107,
+        "win_rate": 0.4905821917808219,
+        "worst_trade_usd": -875.4999999999991,
+        "rth_long_mean_R": -0.0020388158828939904
+      },
+      "MCL": {
+        "days": 602,
+        "mean_R": -0.026869346931188386,
+        "hac_t": -0.6131748181687255,
+        "sharpe_annual": -0.3832717890366096,
+        "trades": 602,
+        "mean_net_usd_per_trade": -2.642857142857131,
+        "mean_gross_usd_per_trade": 1.8571428571428692,
+        "win_rate": 0.5016611295681063,
+        "worst_trade_usd": -702.499999999999,
+        "rth_long_mean_R": -0.03135420157199721
+      },
+      "MBT": {
+        "days": 612,
+        "mean_R": -0.030322774709649315,
+        "hac_t": -0.6768767625108,
+        "sharpe_annual": -0.42739996446181205,
+        "trades": 612,
+        "mean_net_usd_per_trade": -3.654967320261434,
+        "mean_gross_usd_per_trade": 0.1650326797385621,
+        "win_rate": 0.4722222222222222,
+        "worst_trade_usd": -449.82,
+        "rth_long_mean_R": -0.04453784337642333
+      }
+    }
+  },
+  "max_stat_permutation_p": 0.1915616876624675,
+  "cscv": {
+    "splits": 924,
+    "pbo": 0.20454545454545456,
+    "median_logit": 0.8109302162163288,
+    "share_test_sharpe_positive": 0.06277056277056277
+  },
+  "selected_cell_PRE": {
+    "pooled": {
+      "days": 2792,
+      "mean_R": 0.0019176274068447628,
+      "hac_t": 0.11132523384959243,
+      "sharpe_annual": 0.031319046324484325
+    },
+    "pooled_cost_x2": {
+      "days": 2792,
+      "mean_R": -0.0644445399853238,
+      "hac_t": -3.7278300609567823,
+      "sharpe_annual": -1.0520029046938202
+    },
+    "pooled_entry_delay": {
+      "days": 2792,
+      "mean_R": 0.0047210531761479975,
+      "hac_t": 0.27819241035767045,
+      "sharpe_annual": 0.0781985410828293
+    },
+    "pooled_rth_long_benchmark": {
+      "days": 2792,
+      "mean_R": 0.027270670163369357,
+      "hac_t": 0.9370644930576177,
+      "sharpe_annual": 0.2659636205519074
+    },
+    "yearly_sum_R": {
+      "2010": 7.168987450791989,
+      "2011": 9.195195606164939,
+      "2012": 19.372362684173694,
+      "2013": 17.05072500942971,
+      "2014": 10.837533500747536,
+      "2015": -16.655343220393945,
+      "2016": -1.4035306050099257,
+      "2017": 0.9191507625473465,
+      "2018": -15.54523650181582,
+      "2019": -8.616109763794709,
+      "2020": -30.895774045133155,
+      "2021": 13.926054842202923
+    },
+    "by_cluster": {
+      "crude_oil": {
+        "days": 1603,
+        "mean_R": -0.07570267108255065,
+        "hac_t": -2.748536072277239,
+        "sharpe_annual": -1.0736359805611535
+      },
+      "equity_index": {
+        "days": 2249,
+        "mean_R": 0.04731567431852831,
+        "hac_t": 2.117623862510446,
+        "sharpe_annual": 0.6545072493123347
+      },
+      "gold": {
+        "days": 998,
+        "mean_R": -0.0552581474344961,
+        "hac_t": -1.677578093141135,
+        "sharpe_annual": -0.7940729207885409
+      }
+    },
+    "by_instrument": {
+      "NQ": {
+        "days": 2249,
+        "mean_R": 0.04731567431852831,
+        "hac_t": 2.117623862510446,
+        "sharpe_annual": 0.6545072493123347,
+        "trades": 2249,
+        "mean_net_usd_per_trade": 22.95131169408626,
+        "mean_gross_usd_per_trade": 35.45131169408626,
+        "win_rate": 0.5575811471765229,
+        "worst_trade_usd": -3842.5,
+        "rth_long_mean_R": 0.07402785354078031
+      },
+      "MGC": {
+        "days": 998,
+        "mean_R": -0.0552581474344961,
+        "hac_t": -1.677578093141135,
+        "sharpe_annual": -0.7940729207885409,
+        "trades": 998,
+        "mean_net_usd_per_trade": -2.8947895791583207,
+        "mean_gross_usd_per_trade": 1.6052104208416793,
+        "win_rate": 0.467935871743487,
+        "worst_trade_usd": -301.50000000000045,
+        "rth_long_mean_R": -0.04788844497468293
+      },
+      "CL_as_MCL": {
+        "days": 1603,
+        "mean_R": -0.07570267108255065,
+        "hac_t": -2.748536072277239,
+        "sharpe_annual": -1.0736359805611535,
+        "trades": 1603,
+        "mean_net_usd_per_trade": -4.583593262632565,
+        "mean_gross_usd_per_trade": -0.08359326263256515,
+        "win_rate": 0.4784778540237056,
+        "worst_trade_usd": -518.5,
+        "rth_long_mean_R": -0.014198443540806287
+      }
+    }
+  },
+  "clusters_positive": 0,
+  "instruments_positive": 1,
+  "gates": {
+    "G1_hac": false,
+    "G2_permutation": false,
+    "G3_pbo": true,
+    "G4_breadth": false,
+    "G5_years": false,
+    "G6_pre_holdout": false,
+    "G7_not_plain_beta": false
+  },
+  "gate_pass": false
+}

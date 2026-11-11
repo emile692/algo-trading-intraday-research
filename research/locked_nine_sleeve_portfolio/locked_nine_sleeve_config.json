@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "portfolio_id": "nine_sleeve_equal_contract_reference_20261004",
+  "status": "LOCKED_ACTIVE_REFERENCE",
+  "decision_date": "2026-10-04",
+  "decision_authority": "explicit_user_promotion",
+  "supersedes_active_reference": "six_sleeve_reference_20260926",
+  "superseded_reference_retained_for_audit": "research/portfolio_integration_phase1",
+  "allocation_family": "equal_contract",
+  "mapping": {
+    "mnq_orb_vwap_atr": 1,
+    "mnq_volatility_breakout": 1,
+    "mnq_compression_breakout": 1,
+    "mnq_atr_trend_flip": 1,
+    "mgc_volatility_breakout": 1,
+    "mgc_gap_continuation": 1,
+    "mbt_rolling_range_breakout": 1,
+    "mbt_trend_pullback_ma_structure": 1,
+    "mbt_volatility_breakout": 1
+  },
+  "portfolio_rule": "sum the executable PnL of one whole-contract copy of each frozen sleeve; no fractional scaling",
+  "mbt_aggregation_manifest": "research/mbt_three_sleeve_freeze_20261004/vote_ensemble/ensemble_manifest.json",
+  "topstep_reference": {
+    "account": "Trading Combine 50K",
+    "rules": {
+      "profit_target_usd": 3000,
+      "mll_usd": 2000,
+      "consistency": 0.55
+    },
+    "method": "moving_block_bootstrap_pooled_blocks_3_5_10_20",
+    "paths": 8000,
+    "seed": 20261004,
+    "horizon_35d": {
+      "pass_probability": 0.35025,
+      "mll_probability": 0.4305,
+      "expiry_probability": 0.21925
+    },
+    "horizon_60d": {
+      "pass_probability": 0.452375,
+      "mll_probability": 0.481125,
+      "expiry_probability": 0.0665
+    }
+  },
+  "governance": {
+    "no_retuning": true,
+    "whole_contracts_only": true,
+    "pass_rate_optimization_performed": false,
+    "prospective_start_after": "2026-10-02",
+    "caveat": "45.2375% is a retrospective bootstrap estimate, not a guaranteed pass probability or pristine OOS result."
+  },
+  "locked_inputs": {
+    "six_sleeve_daily_pnl": {
+      "path": "research/portfolio_integration_phase1/daily_sleeve_pnl.csv",
+      "sha256": "3d75d86530a2d0334f06179c0265eec0d38a504ecd5ebc8f44c6448f13494031"
+    },
+    "six_sleeve_timestamp_portfolio": {
+      "path": "research/portfolio_integration_phase1/common_timestamp_portfolio.csv",
+      "sha256": "3315d0046c2bc2c682ee3e396355f96ed1ccc9e28f5371a938e35f735a4e064f"
+    },
+    "mbt_ensemble_manifest": {
+      "path": "research/mbt_three_sleeve_freeze_20261004/vote_ensemble/ensemble_manifest.json",
+      "sha256": "0d65993d9f09632fa6910a91a06382a109b842e07fb54c88f855f4852beaad01"
+    },
+    "mbt_ensemble_daily": {
+      "path": "research/mbt_three_sleeve_freeze_20261004/vote_ensemble/daily_ensemble_results.csv",
+      "sha256": "b0fe2a8fab57f974f46022f61c321054b46b08477edb026f7be580230863e55a"
+    },
+    "nine_sleeve_study_metadata": {
+      "path": "research/mbt_nine_sleeve_topstep_20261004/run_metadata.json",
+      "sha256": "9afa12083022b0215fc7183a4cf251bc8fda5885712e35ad0be04eaadb20f06f"
+    },
+    "nine_sleeve_mapping_table": {
+      "path": "research/mbt_nine_sleeve_topstep_20261004/integer_mapping_table.csv",
+      "sha256": "6c0800f7d3f5da3dba5765ab517ca9cf1b47cceea4ba642be5ab47b0a99453c7"
+    },
+    "nine_sleeve_topstep_summary": {
+      "path": "research/mbt_nine_sleeve_topstep_20261004/topstep_summary.csv",
+      "sha256": "b7233267309ddd590e27ee3655f9e5fc2a3196dc116bd7b5ef814dde8d102c9a"
+    },
+    "nine_sleeve_nominal_daily_source": {
+      "path": "research/mbt_nine_sleeve_topstep_20261004/daily_nine_sleeves_nominal.csv",
+      "sha256": "f6486542c527d93fea01e23d247c844edba0778e5d2d85b0e76a1d5674321dc5"
+    }
+  }
+}

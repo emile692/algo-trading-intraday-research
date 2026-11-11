@@ -1,0 +1,35 @@
+{
+  "request": {
+    "dataset": "GLBX.MDP3",
+    "symbols": [
+      "GC.v.0",
+      "GC.v.1",
+      "GC.v.2",
+      "GC.v.3",
+      "GC.v.4",
+      "GC.v.5",
+      "GC.v.6",
+      "GC.v.7",
+      "GC.v.8",
+      "GC.v.9"
+    ],
+    "stype_in": "continuous",
+    "schema": "ohlcv-1m",
+    "start": "2015-01-02T00:00:00Z",
+    "end": "2023-03-17T00:00:00Z"
+  },
+  "fresh_estimated_cost_usd": 18.757453262806,
+  "cost_guard_usd": 20.0,
+  "estimated_record_count": 5137924,
+  "estimated_billable_size_bytes": 287723744,
+  "paid_get_range_calls": 1,
+  "rows": 5137924,
+  "first_timestamp": "2015-01-02 00:00:00+00:00",
+  "last_timestamp": "2023-03-16 23:59:00+00:00",
+  "distinct_instrument_ids": 110,
+  "duplicate_timestamp_instrument_rows": 0,
+  "raw_file": "data\\downloaded\\GC_v_0_to_v_9_1m_20150102_20230317.parquet",
+  "raw_file_size_bytes": 68059228,
+  "raw_sha256": "262ebb63cd9b9c519d9e9c1112ab304d085c5c1370d969f7be176dce12a3bc3b",
+  "api_key_persisted": false
+}

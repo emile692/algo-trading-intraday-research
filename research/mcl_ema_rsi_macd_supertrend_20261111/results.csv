@@ -1,0 +1,5 @@
+strategy,window,sessions,trades,net_usd,gross_usd,avg_r,win_rate,profit_factor,sharpe,t_stat,max_dd_usd,is_gate,note
+s6_ema_rsi_macd_supertrend,IS,609.0,137.0,197.50000000005627,814.0000000000562,-0.02654970110871958,0.39416058394160586,1.0455751701857756,0.12139721344811763,0.18871963763655403,-830.9999999999809,FAIL,
+s6_ema_rsi_macd_supertrend,PRE_CL,1620.0,363.0,-547.4999999999909,1086.0000000000093,-0.053450293607758916,0.40771349862258954,0.9166222492956692,-0.23537623220761833,-0.5967876723367078,-1361.00000000001,,
+s6_ema_rsi_macd_supertrend,OOS,,,,,,,,,,,,not read: failed IS gate
+s6_ema_rsi_macd_supertrend,FWD,,,,,,,,,,,,not read: failed IS gate

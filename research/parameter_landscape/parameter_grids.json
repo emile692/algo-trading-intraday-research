@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "selection_basis": "Frozen structural rules and conventional local neighborhoods only; no full-sample performance result was used.",
+  "is_start": "2019-05-06",
+  "is_end": "2023-12-31",
+  "reserved_oos_start": "2024-01-01",
+  "reserved_oos_end": "2026-03-19",
+  "stability": {
+    "metric": "sharpe_annualized",
+    "neighborhood": "Chebyshev distance <= 1 in grid-index space, including the focal combination",
+    "penalty": 0.5,
+    "plateau_node_rule": "at least 4 valid neighbors, neighborhood median Sharpe > 0, stability score > 0, at least two thirds of neighbor Sharpes positive, and minimum neighbor trade count >= 30",
+    "mechanism_plateau_rule": "at least 2 adjacent combinations satisfying the plateau-node rule"
+  },
+  "mechanisms": {
+    "atr_trend_flip": {
+      "parameters": {"atr_period": [7, 10, 14], "atr_multiplier": [2.5, 3.0, 3.5]},
+      "rationale": "ATR memory and band distance are the two native SuperTrend structure controls."
+    },
+    "channel_extreme_reversion": {
+      "parameters": {"channel_period": [14, 20, 30], "keltner_atr_multiplier": [1.5, 2.0, 2.5]},
+      "rationale": "Channel memory jointly sets EMA and ATR periods; multiplier controls extremity."
+    },
+    "compression_breakout": {
+      "parameters": {"nr_lookback": [5, 7, 10], "entry_buffer_ticks": [0, 1, 2]},
+      "rationale": "Compression rank horizon and breakout buffer define the setup and trigger."
+    },
+    "gap_continuation": {
+      "parameters": {"minimum_gap_atr_multiple": [0.75, 1.0, 1.25], "volume_threshold_multiple": [0.8, 1.0, 1.2]},
+      "rationale": "Gap size and confirmation volume are the two published continuation filters."
+    },
+    "gap_fade": {
+      "parameters": {"daily_atr_period": [10, 14, 20], "maximum_gap_atr_multiple": [0.75, 1.0, 1.25]},
+      "rationale": "ATR memory and maximum fadeable gap size define eligible gaps."
+    },
+    "ma_crossover_trend": {
+      "parameters": {"fast_ema_period": [5, 9, 12], "slow_ema_period": [18, 21, 30]},
+      "rationale": "The fast and slow EMA horizons define the crossover; ADX remains fixed."
+    },
+    "momentum_confirmed_breakout": {
+      "parameters": {"breakout_lookback": [10, 20, 30], "adx_threshold": [20.0, 25.0, 30.0]},
+      "rationale": "Breakout memory and trend-strength threshold define signal selectivity."
+    },
+    "range_structure_reversion": {
+      "parameters": {"range_lookback": [10, 20, 30], "entry_quartile_fraction": [0.2, 0.25, 0.3]},
+      "rationale": "Range memory and edge-zone depth define the reversion structure."
+    },
+    "regression_equilibrium_reversion": {
+      "parameters": {"regression_lookback": [10, 20, 30], "entry_residual_sigma": [1.5, 2.0, 2.5]},
+      "rationale": "Regression memory and residual deviation define equilibrium and entry extremity."
+    },
+    "rolling_range_breakout": {
+      "parameters": {"entry_channel_length": [20, 30, 40], "exit_channel_length": [5, 10, 15]},
+      "rationale": "Donchian entry and exit horizons are the mechanism's native structural pair."
+    },
+    "session_range_breakout": {
+      "parameters": {"opening_range_minutes": [15, 30, 45], "breakout_buffer_ticks": [0, 1, 2]},
+      "rationale": "Opening-range duration and breakout buffer define the session structure and trigger."
+    },
+    "short_horizon_pullback_reversion": {
+      "parameters": {"rsi_period": [2, 3, 4], "entry_rsi_extreme": [5.0, 10.0, 15.0]},
+      "rationale": "RSI memory and symmetric entry extremity define the short-horizon pullback."
+    },
+    "statistical_zscore_reversion": {
+      "parameters": {"mean_lookback": [10, 20, 30], "entry_z_abs": [1.5, 2.0, 2.5]},
+      "rationale": "Estimation window and absolute z-entry threshold define the statistical signal."
+    },
+    "trend_pullback_ma_structure": {
+      "parameters": {"short_ribbon_scale": [0.8, 1.0, 1.2], "long_ribbon_scale": [0.8, 1.0, 1.2]},
+      "rationale": "Separate proportional scaling of EMA 8/13/21 and EMA 34/55 tests local ribbon-horizon stability while retaining the five-EMA structure."
+    },
+    "volatility_breakout": {
+      "parameters": {"daily_atr_period": [10, 14, 20], "entry_atr_multiple": [0.4, 0.6, 0.8]},
+      "rationale": "Daily ATR memory and opening-distance multiple define the volatility breakout."
+    },
+    "vwap_equilibrium_reversion": {
+      "parameters": {"entry_band_sigma": [1.5, 2.0, 2.5], "minimum_completed_bars": [2, 3, 4]},
+      "rationale": "VWAP deviation and minimum intraday formation time define entry selectivity."
+    }
+  }
+}

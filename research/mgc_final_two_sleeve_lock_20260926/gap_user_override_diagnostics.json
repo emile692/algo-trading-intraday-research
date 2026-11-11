@@ -1,0 +1,106 @@
+{
+  "override_sha256": "651528e8763ea8b01673853b7d0d55ae319287f339ce580a1fceb64a04760fbd",
+  "data_sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96",
+  "passed_precommitted_freeze_gates": true,
+  "positive_complete_years": 6,
+  "period_metrics": [
+    {
+      "period": "is",
+      "sharpe_annualized": 0.8721453557458028,
+      "profit_factor": 1.529270592268845,
+      "max_drawdown_usd": -967.9999999999782,
+      "net_pnl_usd": 3087.500000000248,
+      "trade_count": 141,
+      "session_count": 1203
+    },
+    {
+      "period": "validation",
+      "sharpe_annualized": 0.8641387735291357,
+      "profit_factor": 1.5563219806614617,
+      "max_drawdown_usd": -1319.9999999999854,
+      "net_pnl_usd": 4516.500000000053,
+      "trade_count": 95,
+      "session_count": 572
+    }
+  ],
+  "yearly_metrics": [
+    {
+      "year": 2019,
+      "sharpe_annualized": -1.1243275565412596,
+      "profit_factor": 0.579846788450229,
+      "max_drawdown_usd": -482.4999999999927,
+      "net_pnl_usd": -356.4999999999736,
+      "trade_count": 17,
+      "session_count": 171
+    },
+    {
+      "year": 2020,
+      "sharpe_annualized": 2.362466917229006,
+      "profit_factor": 3.9930861093652625,
+      "max_drawdown_usd": -233.49999999999272,
+      "net_pnl_usd": 2381.0000000000446,
+      "trade_count": 28,
+      "session_count": 259
+    },
+    {
+      "year": 2021,
+      "sharpe_annualized": 0.8828563893487832,
+      "profit_factor": 1.4295462299557027,
+      "max_drawdown_usd": -561.4999999999854,
+      "net_pnl_usd": 629.5000000000664,
+      "trade_count": 39,
+      "session_count": 258
+    },
+    {
+      "year": 2022,
+      "sharpe_annualized": 0.1655266015768008,
+      "profit_factor": 1.0754877014419366,
+      "max_drawdown_usd": -967.9999999999782,
+      "net_pnl_usd": 133.50000000006276,
+      "trade_count": 33,
+      "session_count": 258
+    },
+    {
+      "year": 2023,
+      "sharpe_annualized": 0.5187576226128722,
+      "profit_factor": 1.3139717425432293,
+      "max_drawdown_usd": -284.9999999999927,
+      "net_pnl_usd": 300.00000000004775,
+      "trade_count": 24,
+      "session_count": 257
+    },
+    {
+      "year": 2024,
+      "sharpe_annualized": 0.6655097688929491,
+      "profit_factor": 1.316529640848163,
+      "max_drawdown_usd": -995.4999999999709,
+      "net_pnl_usd": 731.5000000000896,
+      "trade_count": 41,
+      "session_count": 259
+    },
+    {
+      "year": 2025,
+      "sharpe_annualized": 1.15046985868371,
+      "profit_factor": 1.74029810662013,
+      "max_drawdown_usd": -1319.9999999999782,
+      "net_pnl_usd": 2756.5000000000327,
+      "trade_count": 45,
+      "session_count": 258
+    },
+    {
+      "year": 2026,
+      "sharpe_annualized": 0.9488190253321266,
+      "profit_factor": 1.4935220729366194,
+      "max_drawdown_usd": -883.5000000000146,
+      "net_pnl_usd": 1028.4999999999309,
+      "trade_count": 9,
+      "session_count": 55
+    }
+  ],
+  "rolling_metrics": {
+    "rolling_observation_count": 1650,
+    "rolling_sharpe_median": 0.6775120482339424,
+    "rolling_sharpe_minimum": -1.6923748495903785,
+    "rolling_sharpe_positive_pct": 78.78787878787878
+  }
+}

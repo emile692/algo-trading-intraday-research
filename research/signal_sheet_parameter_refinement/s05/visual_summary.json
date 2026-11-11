@@ -1,0 +1,61 @@
+{
+  "cell_count": 25,
+  "positive_sharpe_is_and_oos": 12,
+  "axis_median_sharpe": {
+    "daily_atr_period": [
+      {
+        "daily_atr_period": 10,
+        "is": 0.1051012827709347,
+        "oos": 0.210088197364995
+      },
+      {
+        "daily_atr_period": 20,
+        "is": 0.2327140241891414,
+        "oos": 0.0678549636951008
+      },
+      {
+        "daily_atr_period": 30,
+        "is": 0.3981006822855564,
+        "oos": 0.0869608110547155
+      },
+      {
+        "daily_atr_period": 40,
+        "is": 0.3058505457839722,
+        "oos": -0.1625776014821486
+      },
+      {
+        "daily_atr_period": 50,
+        "is": 0.4022117548468033,
+        "oos": 0.0743574568605029
+      }
+    ],
+    "entry_atr_multiple": [
+      {
+        "entry_atr_multiple": 0.7,
+        "is": -0.0334816781612883,
+        "oos": -0.4069508868890983
+      },
+      {
+        "entry_atr_multiple": 0.9,
+        "is": 0.3058505457839722,
+        "oos": -0.1717755212237156
+      },
+      {
+        "entry_atr_multiple": 1.1,
+        "is": 0.4945715333854701,
+        "oos": 0.1327749209382586
+      },
+      {
+        "entry_atr_multiple": 1.3,
+        "is": 0.4845085453614881,
+        "oos": 0.2858470173791398
+      },
+      {
+        "entry_atr_multiple": 1.5,
+        "is": -0.0453079807071659,
+        "oos": 0.3206825920322088
+      }
+    ]
+  },
+  "selection_performed": false
+}

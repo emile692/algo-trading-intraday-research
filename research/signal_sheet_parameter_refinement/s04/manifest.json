@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "purpose": "diagnostic_landscape_no_selection",
+  "sheet": "04_mnq_atr_trend_flip",
+  "mechanism": "atr_trend_flip",
+  "instrument": "MNQ",
+  "periods": {
+    "start": "2019-05-06",
+    "end": "2026-03-19",
+    "is_end": "2023-12-31",
+    "oos_start": "2024-01-01"
+  },
+  "principal_parameters": {
+    "atr_period": "Fixe la vitesse d’adaptation de la volatilité qui déplace les bandes.",
+    "atr_multiplier": "Fixe directement la largeur des bandes et donc la fréquence des flips."
+  },
+  "grids": {
+    "atr_period": [
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "atr_multiplier": [
+      1.25,
+      1.5,
+      1.75,
+      2.0,
+      2.25
+    ]
+  },
+  "combination_count": 25,
+  "scope_count": 3,
+  "all_other_parameters": "frozen_at_current_value",
+  "selection_performed": false,
+  "profit_factor_definition": "sum positive net trade PnL / absolute sum negative net trade PnL",
+  "max_drawdown_definition": "minimum drawdown of cumulative daily net PnL including zero origin",
+  "worst_day_definition": "minimum realized net daily PnL; prop-firm daily-loss diagnostic, not intraday trailing loss",
+  "source": {
+    "data_path": "data\\processed\\parquet\\MNQ_c_0_1m_20260321_094501.parquet",
+    "data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"
+  },
+  "outputs": {
+    "grid_metrics": "research\\signal_sheet_parameter_refinement\\s04\\grid_metrics.csv",
+    "grid_metrics_sha256": "7eda7107fd2e7fc3b68aa1c719e964732f58e6ed4d05b32a0ebdad1bad1389fa"
+  }
+}

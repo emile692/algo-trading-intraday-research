@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "status": "LOCKED_BEFORE_DETAILED_VALIDATION",
+  "objective": "Validate or abandon two preselected MCL mechanisms without optimizing OOS Sharpe.",
+  "periods": {
+    "IS": ["2021-07-12", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"],
+    "FULL": ["2021-07-12", "2026-03-19"]
+  },
+  "frozen_mechanisms": [
+    "atr_trend_flip",
+    "channel_extreme_reversion",
+    "compression_breakout",
+    "gap_continuation",
+    "gap_fade",
+    "momentum_confirmed_breakout",
+    "range_structure_reversion",
+    "regression_equilibrium_reversion",
+    "rolling_range_breakout",
+    "session_range_breakout",
+    "statistical_zscore_reversion",
+    "trend_pullback_ma_structure",
+    "volatility_breakout",
+    "vwap_equilibrium_reversion"
+  ],
+  "representatives": {
+    "short_horizon_pullback_reversion": [
+      {"id": "rsi_diag_p4_e2", "rsi_period": 4, "entry_rsi_extreme": 2.0, "role": "diagonal_low_memory"},
+      {"id": "rsi_diag_p5_e5", "rsi_period": 5, "entry_rsi_extreme": 5.0, "role": "diagonal_lower_mid"},
+      {"id": "rsi_diag_p7_e10", "rsi_period": 7, "entry_rsi_extreme": 10.0, "role": "diagonal_center"},
+      {"id": "rsi_diag_p10_e15", "rsi_period": 10, "entry_rsi_extreme": 15.0, "role": "diagonal_upper_mid"},
+      {"id": "rsi_diag_p14_e20", "rsi_period": 14, "entry_rsi_extreme": 20.0, "role": "diagonal_high_memory"}
+    ],
+    "ma_crossover_trend": [
+      {"id": "ma_f5_s45", "fast_ema_period": 5, "slow_ema_period": 45, "role": "plateau_medoid"},
+      {"id": "ma_f3_s45", "fast_ema_period": 3, "slow_ema_period": 45, "role": "nearest_fast_lower"},
+      {"id": "ma_f8_s45", "fast_ema_period": 8, "slow_ema_period": 45, "role": "nearest_fast_upper"},
+      {"id": "ma_f5_s60", "fast_ema_period": 5, "slow_ema_period": 60, "role": "nearest_slow_upper"},
+      {"id": "ma_f3_s60", "fast_ema_period": 3, "slow_ema_period": 60, "role": "central_component_corner"}
+    ]
+  },
+  "selection_policy": {
+    "short_horizon_pullback_reversion": "Five points on the observed period/threshold diagonal; no ranking by Sharpe.",
+    "ma_crossover_trend": "Geometric medoid plus the four closest central cells in the common positive component; exclude the highest-Sharpe boundary cell.",
+    "automatic_best_sharpe_selection": false,
+    "new_wide_grid": false
+  },
+  "cost_scenarios": [
+    {"id": "nominal", "slippage_ticks_per_side": 1, "commission_per_side_usd": 1.25},
+    {"id": "slippage_2t", "slippage_ticks_per_side": 2, "commission_per_side_usd": 1.25},
+    {"id": "slippage_3t", "slippage_ticks_per_side": 3, "commission_per_side_usd": 1.25},
+    {"id": "slippage_2t_commission_2x", "slippage_ticks_per_side": 2, "commission_per_side_usd": 2.50}
+  ],
+  "rolling_sharpe": {"window_sessions": 126, "minimum_sessions": 63},
+  "local_stability": {"source": "locked_7x7_landscape", "radius_cells": 1},
+  "decision_guardrails": {
+    "minimum_trades_each_period": 100,
+    "minimum_representatives_positive_is_oos": 3,
+    "central_rep_must_remain_positive_oos_under_all_cost_scenarios": true,
+    "temporal_stability_is_required": true,
+    "oos_sharpe_is_not_a_ranking_criterion": true
+  }
+}

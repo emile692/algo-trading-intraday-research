@@ -1,0 +1,18 @@
+{
+  "audit_date": "2026-10-07",
+  "source_campaign": "research/mean_reversion_cross_asset_20261006/results",
+  "assets": ["M2K", "MES", "MNQ", "NQ"],
+  "mechanism": "gap_reversion",
+  "frozen_region": {
+    "thresholds_prior_session_range": [0.25, 0.5, 0.75, 1.0],
+    "entry_observation_bars": 3,
+    "entry_timing": "next_5m_bar_open",
+    "canonical_exit": "fair_value_previous_session_close"
+  },
+  "representative_diagnostic_cell": {
+    "threshold_prior_session_range": 0.5,
+    "note": "Inherited medoid from the prior campaign; not reselected in this audit."
+  },
+  "decision_labels": ["REJECTED", "REAL_EFFECT_NOT_YET_EXECUTABLE", "PROSPECTIVE_REGION_FREEZE"],
+  "prohibitions": ["no_new_search", "no_parameter_optimization", "no_tenth_sleeve"]
+}

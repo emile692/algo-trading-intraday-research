@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "start_date": "2019-05-06",
+  "end_date": "2026-03-19",
+  "initial_capital_usd": 50000.0,
+  "equal_weight_reference": {
+    "orb_vwap_atr": 0.25,
+    "volatility_breakout": 0.25,
+    "compression_breakout": 0.25,
+    "atr_trend_flip": 0.25
+  },
+  "sleeves": {
+    "orb_vwap_atr": {
+      "source": "export/mnq_orb_vwap_atr_retained/trades.csv",
+      "configuration": "baseline_fixed corrected retained implementation",
+      "risk_sizing": "0.5 percent nominal risk on 50000 USD; variable whole-contract quantity",
+      "time_exit": "16:00 America/New_York"
+    },
+    "volatility_breakout": {
+      "configuration_type": "parameter_vote_ensemble",
+      "ensemble_id": "mnq_volatility_breakout_atr10_22_mult05_06_duration270_360",
+      "ensemble_source": "strategy_registry/psf_mnq/frozen_ensembles/volatility_breakout_42.json",
+      "ensemble_source_sha256": "e3e912add4f77be6af7797904635a8b70a8ec7579c3d722215a4de4580c50fb9",
+      "parameter_region": {
+        "daily_atr_period": [10, 12, 14, 16, 18, 20, 22],
+        "entry_atr_multiple": [0.5, 0.6],
+        "max_holding_minutes": [270, 300, 360],
+        "cartesian_product": true,
+        "submodel_count": 42
+      },
+      "vote": {
+        "state_space": [-1, 0, 1],
+        "score": "arithmetic_mean_of_cell_position_states",
+        "threshold": 0.5,
+        "minimum_net_directional_votes": 21,
+        "exact_threshold_included": true
+      },
+      "quantity_mnq": 1,
+      "signal_timeframe_minutes": 5,
+      "exit": {
+        "type": "cell_time_stop_vote",
+        "max_holding_minutes": [270, 300, 360],
+        "aggregate_target_execution": "next_one_minute_open"
+      },
+      "supersedes_single_point": {
+        "daily_atr_period": 14,
+        "entry_atr_multiple": 0.6,
+        "max_holding_minutes": 240
+      }
+    },
+    "compression_breakout": {
+      "configuration_type": "parameter_vote_ensemble",
+      "ensemble_id": "mnq_compression_breakout_vote_27",
+      "ensemble_source": "strategy_registry/psf_mnq/frozen_ensembles/mnq_compression_breakout_vote_27.json",
+      "ensemble_source_sha256": "4666855d602f315eb2d87ce465e7ab1b261b3d1dd58f3e174761f59783425b63",
+      "parameter_region": {
+        "nr_lookback": [8, 10, 12],
+        "entry_buffer_ticks": [0, 1, 2],
+        "target_setup_range_multiple": [1.5, 2.0, 2.5],
+        "cartesian_product": true,
+        "submodel_count": 27
+      },
+      "vote": {
+        "state_space": [-1, 0, 1],
+        "score": "arithmetic_mean_of_cell_position_states",
+        "threshold": 0.5,
+        "minimum_net_directional_votes": 14,
+        "exact_threshold_included": true
+      },
+      "quantity_mnq": 1,
+      "signal_timeframe_minutes": 60,
+      "exit": {
+        "type": "cell_locked_baseline_vote",
+        "aggregate_target_execution": "next_one_minute_open"
+      },
+      "supersedes_single_point": {
+        "nr_lookback": 10,
+        "entry_buffer_ticks": 1,
+        "target_setup_range_multiple": 2.0
+      }
+    },
+    "atr_trend_flip": {
+      "configuration_type": "parameter_vote_ensemble",
+      "ensemble_id": "mnq_atr_trend_flip_vote_9",
+      "ensemble_source": "strategy_registry/psf_mnq/frozen_ensembles/mnq_atr_trend_flip_vote_9.json",
+      "ensemble_source_sha256": "25f751eb91b8ab39eda06e6d79084397ba34f79364f702f39211d65f97f83325",
+      "parameter_region": {
+        "atr_period": [8, 10, 12],
+        "atr_multiplier": [1.5, 1.75, 2.0],
+        "cartesian_product": true,
+        "submodel_count": 9
+      },
+      "vote": {
+        "state_space": [-1, 0, 1],
+        "score": "arithmetic_mean_of_cell_position_states",
+        "threshold": 0.5,
+        "minimum_net_directional_votes": 5,
+        "exact_threshold_included": true
+      },
+      "quantity_mnq": 1,
+      "signal_timeframe_minutes": 15,
+      "exit": {
+        "type": "cell_atr_stop_vote",
+        "stop_atr": 1.0,
+        "atr_definition": "Wilder ATR(14), latest completed 15-minute bar at each cell fill",
+        "aggregate_target_execution": "next_one_minute_open"
+      },
+      "supersedes_single_point": {
+        "atr_period": 10,
+        "atr_multiplier": 1.75,
+        "stop_atr": 1.0
+      }
+    }
+  },
+  "execution": {
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1,
+    "session_rules": "inherit each locked sleeve",
+    "hard_flatten": "inherit each locked sleeve"
+  },
+  "erc_input_definition": {
+    "return_basis": "daily net PnL divided by fixed 50000 USD reference capital",
+    "covariance_estimator": "full-period sample covariance with ddof=1",
+    "annualization_sessions": 252,
+    "optimization_performed": false
+  },
+  "lock_sources": {
+    "money_management_rules": "research/money_management_lab/final_mm_locked_exit_rules.json",
+    "money_management_rules_sha256": "7209d38b2b2e25cc5f9ffc523345a518e7bb728e5ae90889747dadc68ac3c419",
+    "volatility_breakout_ensemble": "strategy_registry/psf_mnq/frozen_ensembles/volatility_breakout_42.json",
+    "volatility_breakout_ensemble_sha256": "e3e912add4f77be6af7797904635a8b70a8ec7579c3d722215a4de4580c50fb9",
+    "compression_breakout_ensemble": "strategy_registry/psf_mnq/frozen_ensembles/mnq_compression_breakout_vote_27.json",
+    "compression_breakout_ensemble_sha256": "4666855d602f315eb2d87ce465e7ab1b261b3d1dd58f3e174761f59783425b63",
+    "atr_trend_flip_ensemble": "strategy_registry/psf_mnq/frozen_ensembles/mnq_atr_trend_flip_vote_9.json",
+    "atr_trend_flip_ensemble_sha256": "25f751eb91b8ab39eda06e6d79084397ba34f79364f702f39211d65f97f83325",
+    "orb_report": "export/mnq_orb_vwap_atr_retained/performance_report.md",
+    "orb_trades_sha256": "e4f5d74214127e4fa957bb40d035c08d9eb161796529b90a6f0a5322a997506c",
+    "mnq_minute_data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"
+  }
+}

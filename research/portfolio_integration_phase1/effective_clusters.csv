@@ -1,0 +1,7 @@
+cluster_id,sleeve
+1,mgc_gap_continuation
+1,mgc_volatility_breakout
+2,mnq_atr_trend_flip
+2,mnq_volatility_breakout
+3,mnq_compression_breakout
+4,mnq_orb_vwap_atr

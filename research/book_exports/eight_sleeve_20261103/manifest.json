@@ -1,0 +1,96 @@
+{
+  "package_id": "book_eight_sleeve_20261103_v1",
+  "source_repository": "algo-trading-intraday-research",
+  "source_lock": {
+    "portfolio_id": "eight_sleeve_equal_contract_reference_20261103",
+    "path": "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json",
+    "sha256": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3"
+  },
+  "sleeves": [
+    "mnq_orb_vwap_atr",
+    "mnq_volatility_breakout",
+    "mnq_compression_breakout",
+    "mgc_volatility_breakout",
+    "mgc_gap_continuation",
+    "mbt_rolling_range_breakout",
+    "mbt_trend_pullback_ma_structure",
+    "mbt_volatility_breakout"
+  ],
+  "units": "USD, one whole contract per sleeve, net of nominal costs",
+  "periods": {
+    "locked_window": {
+      "file": "book_daily_locked_window.csv",
+      "start": "2024-01-02",
+      "end": "2026-03-19",
+      "sessions": 564,
+      "intraday_marks": true,
+      "status": "IN_SAMPLE_INSPECTED",
+      "note": "Topstep reference window; already used for cluster selection and the S04 removal."
+    },
+    "forward_partial": {
+      "file": "book_daily_forward_partial.csv",
+      "start": "2026-03-20",
+      "end": "2026-10-02",
+      "sessions": 141,
+      "intraday_marks": false,
+      "sleeves_present": [
+        "mnq_orb_vwap_atr",
+        "mnq_volatility_breakout",
+        "mnq_compression_breakout",
+        "mgc_volatility_breakout",
+        "mgc_gap_continuation"
+      ],
+      "sleeves_missing": [
+        "mbt_rolling_range_breakout",
+        "mbt_trend_pullback_ma_structure",
+        "mbt_volatility_breakout"
+      ],
+      "status": "INSPECTED_PARTIAL",
+      "note": "MNQ/MGC only (no MBT data); motivated the S04 removal, so not out-of-sample for this book."
+    }
+  },
+  "columns": {
+    "<sleeve>": "net daily PnL of one contract of that sleeve",
+    "book_pnl_usd": "sum of the sleeve columns",
+    "book_intraday_min_usd": "worst book PnL from day start, adverse OHLC marks, closed trades included",
+    "book_traded": "at least one sleeve traded that session",
+    "sampler_traded": "six-sleeve traded flag used by the Topstep harness block sampler"
+  },
+  "reproduction_target": {
+    "method": "moving_block_bootstrap, pooled blocks 3/5/10/20, 2000 paths per block, RNG order horizon -> block -> path",
+    "seed": 20261004,
+    "blocks": [
+      3,
+      5,
+      10,
+      20
+    ],
+    "paths_per_block": 2000,
+    "horizons": [
+      35,
+      60
+    ],
+    "rules": {
+      "starting_balance_usd": 50000.0,
+      "profit_target_usd": 3000.0,
+      "mll_usd": 2000.0,
+      "consistency": 0.55
+    },
+    "expected": {
+      "35": {
+        "pass_probability": 0.30675,
+        "mll_probability": 0.379625,
+        "expiry_probability": 0.313625
+      },
+      "60": {
+        "pass_probability": 0.455875,
+        "mll_probability": 0.4495,
+        "expiry_probability": 0.094625
+      }
+    }
+  },
+  "files": {
+    "book_daily_locked_window.csv": "5d4c86dbf60225a2e64d945cdf3279003757e651384db3f30c4af389b606c0c4",
+    "book_daily_forward_partial.csv": "37fe8be065619c79c12b81d1db7116d2b711f770e6eb5d844aef9bc5718b177d"
+  }
+}

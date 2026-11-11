@@ -1,0 +1,191 @@
+[
+  {
+    "file": "bls_2010.html",
+    "url": "https://www.bls.gov/schedule/2010/home.htm",
+    "http_status": 200,
+    "bytes": 96927,
+    "sha256": "58ba6ad2df51d17ca2c64955044ecc7e0a1574babde17ea759640c9b78af0a76"
+  },
+  {
+    "file": "bls_2011.html",
+    "url": "https://www.bls.gov/schedule/2011/home.htm",
+    "http_status": 200,
+    "bytes": 95495,
+    "sha256": "7bf531385e6641dbe7c9b396119583df687a650cbc9e7f99c66bcc03ffd01e19"
+  },
+  {
+    "file": "bls_2012.html",
+    "url": "https://www.bls.gov/schedule/2012/home.htm",
+    "http_status": 200,
+    "bytes": 97427,
+    "sha256": "4d28d4564227e713e01078fa27bf9a899364ab8b24a77287031415971b0e1287"
+  },
+  {
+    "file": "bls_2013.html",
+    "url": "https://www.bls.gov/schedule/2013/home.htm",
+    "http_status": 200,
+    "bytes": 93640,
+    "sha256": "0f3454b4975f615361a5b9268f0519d0003ef18ba6737f04e759ec3668b28348"
+  },
+  {
+    "file": "bls_2014.html",
+    "url": "https://www.bls.gov/schedule/2014/home.htm",
+    "http_status": 200,
+    "bytes": 91662,
+    "sha256": "691e1abbb5d5ed080a5afa6e7eaee1570dd69f65fc3bd69601b609e1688adb66"
+  },
+  {
+    "file": "bls_2015.html",
+    "url": "https://www.bls.gov/schedule/2015/home.htm",
+    "http_status": 200,
+    "bytes": 96815,
+    "sha256": "515fcbfccaa4ca758a2376cc42560c8df4faefc46217268be8c9222c35eff416"
+  },
+  {
+    "file": "bls_2016.html",
+    "url": "https://www.bls.gov/schedule/2016/home.htm",
+    "http_status": 200,
+    "bytes": 96677,
+    "sha256": "da838eb21650da1f7aa3ae3355bdb9b5e1cd190a467232e74ae28621453a6c0a"
+  },
+  {
+    "file": "bls_2017.html",
+    "url": "https://www.bls.gov/schedule/2017/home.htm",
+    "http_status": 200,
+    "bytes": 95284,
+    "sha256": "cefc78608ffdf1cf295ca6ce29b60a34171b2be679aa4ff003defa56eb5dd781"
+  },
+  {
+    "file": "bls_2018.html",
+    "url": "https://www.bls.gov/schedule/2018/home.htm",
+    "http_status": 200,
+    "bytes": 98266,
+    "sha256": "0508017239cb944b6a865537e86706e89579347cd5703cfac73abc4116f70655"
+  },
+  {
+    "file": "bls_2019.html",
+    "url": "https://www.bls.gov/schedule/2019/home.htm",
+    "http_status": 200,
+    "bytes": 99273,
+    "sha256": "79d544badfec76a4e3687076a831e8ba4fb69c211898828f5edd173ba8e401fd"
+  },
+  {
+    "file": "bls_2020.html",
+    "url": "https://www.bls.gov/schedule/2020/home.htm",
+    "http_status": 200,
+    "bytes": 93767,
+    "sha256": "0ee7b9af2cdef3b326eb3924154d916f89b917a0f91ffc8b0046157dbf5c9e9e"
+  },
+  {
+    "file": "bls_2021.html",
+    "url": "https://www.bls.gov/schedule/2021/home.htm",
+    "http_status": 200,
+    "bytes": 98369,
+    "sha256": "f1c527292a25d8f8989abbe476fcf4f89a2cce1a1d8d4dcb17a172da5e547b0c"
+  },
+  {
+    "file": "bls_2022.html",
+    "url": "https://www.bls.gov/schedule/2022/home.htm",
+    "http_status": 200,
+    "bytes": 100703,
+    "sha256": "8a65fcdee01b1c42db14a2413b6b60a3d1f4e389159cbcbba68d5743d94358c1"
+  },
+  {
+    "file": "bls_2023.html",
+    "url": "https://www.bls.gov/schedule/2023/home.htm",
+    "http_status": 200,
+    "bytes": 100158,
+    "sha256": "dde426274a3f593a352e7b2b9d978799307ace879e032caf0b1e3dd184259412"
+  },
+  {
+    "file": "bls_2024.html",
+    "url": "https://www.bls.gov/schedule/2024/home.htm",
+    "http_status": 200,
+    "bytes": 101431,
+    "sha256": "989023c355a3a4d179e2a250da476468f3a63ad3e310b6a029b6814a6307f878"
+  },
+  {
+    "file": "fed_fomc_2010.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2010.htm",
+    "http_status": 200,
+    "bytes": 96220,
+    "sha256": "595eea154b6b7f3a3f58991aac2a587fb6acc1894fc287f4a7eb4b754ca9199e"
+  },
+  {
+    "file": "fed_fomc_2011.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2011.htm",
+    "http_status": 200,
+    "bytes": 98227,
+    "sha256": "f61a130c86ff68d2d8b4be0ce40280911dd10acc73d1df6425b4f1b4197e5190"
+  },
+  {
+    "file": "fed_fomc_2012.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2012.htm",
+    "http_status": 200,
+    "bytes": 98148,
+    "sha256": "1482866ca8d1b9e0994f0dd78bd9fbc1ddba9186f1faa60a4ae90f05c4175164"
+  },
+  {
+    "file": "fed_fomc_2013.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2013.htm",
+    "http_status": 200,
+    "bytes": 95809,
+    "sha256": "d2c9a454822b269da38a53d14b909c62d373360eb73b80ebe9552211deb43f75"
+  },
+  {
+    "file": "fed_fomc_2014.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2014.htm",
+    "http_status": 200,
+    "bytes": 96089,
+    "sha256": "4abf09262aa0c7b84f0cd2693d06fefa8e950b6557ec3cd013d6168896c2da9b"
+  },
+  {
+    "file": "fed_fomc_2015.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2015.htm",
+    "http_status": 200,
+    "bytes": 95241,
+    "sha256": "0fb9c84af3b705388f5309fcebd709e9d36fdef44dbee0e53ea9a54b81f7c926"
+  },
+  {
+    "file": "fed_fomc_2016.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2016.htm",
+    "http_status": 200,
+    "bytes": 95829,
+    "sha256": "5ee3ae0342f0880313d94cd710210b04e8859faeb0ecea986ddbc9768990b767"
+  },
+  {
+    "file": "fed_fomc_2017.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2017.htm",
+    "http_status": 200,
+    "bytes": 95200,
+    "sha256": "08b2193a55fc474c8be0acb163e8a9af5e058698bc66fb0709756b5b8e58c9f1"
+  },
+  {
+    "file": "fed_fomc_2018.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2018.htm",
+    "http_status": 200,
+    "bytes": 95705,
+    "sha256": "881e3109fbc2ac9658d34d70d2dfd1facfac9a7a1c38afe057f8bff0485f3728"
+  },
+  {
+    "file": "fed_fomc_2019.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2019.htm",
+    "http_status": 200,
+    "bytes": 97344,
+    "sha256": "514c1514b7a99605cbdb39cfb4e3b83ad820196f7feb45cd5d76a0f47ebbfa43"
+  },
+  {
+    "file": "fed_fomc_2020.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm",
+    "http_status": 200,
+    "bytes": 98555,
+    "sha256": "5b14067615219675ceb2c14a49d1faac788fb21055ec5c3c2ccb1bd35a9703f6"
+  },
+  {
+    "file": "fed_fomc_current.html",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "http_status": 200,
+    "bytes": 165751,
+    "sha256": "2e7c10db558349697d9772ba345adce65a717067e63c387ab482bdfb9b7eda5b"
+  }
+]

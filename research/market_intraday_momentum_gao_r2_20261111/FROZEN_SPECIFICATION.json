@@ -1,0 +1,126 @@
+{
+  "campaign": "market_intraday_momentum_gao_r2_20261111",
+  "reference": "Gao, Han, Li, Zhou (2018), Market Intraday Momentum, Journal of Financial Economics 129, 394-414",
+  "frozen_on": "2026-11-11",
+  "frozen_before_performance": true,
+  "approval": "User message 2026-11-11 'lance le backtest' after research_design.md and data_audit.md. The five open decisions of research_design.md are taken as proposed: (1) campaign A read on PRE, IS and OOS at once; (2) MGC/MCL principal clock 15:30-16:00 ET, native clock only as variant B5; (3) thresholds of section 7 unchanged; (4) no macro-announcement filter (no reliable calendar, FOMC not added); (5) no ES/SPY download, NQ is the academic benchmark.",
+  "disclosure_before_freeze": [
+    "No return signed by the R2 signal was computed before this freeze. The data audit (audit_data.py) computed coverage, volume and unsigned 30-minute amplitudes only.",
+    "Prior result seen: research/close_of_day_intraday_momentum (closed 2026-09-29) tested sign(previous close -> 15:30) traded on the last 30 minutes; 8/8 contracts negative after costs including NQ, MNQ, MES, MGC, MCL. R2 tests the paper's first-half-hour predictor, a different signal.",
+    "Prior result seen: open->open+h and rolling intraday momentum campaigns of 2026-11-11 were rejected (gross positive, smaller than costs).",
+    "Audit facts used to set the rules: MGC 15:30 bars are missing on 41-66 % of sessions in 2015-2018, so MGC has no PRE period; c.0 files lose the quarterly expiry day and the following Monday."
+  ],
+  "clarifications_at_freeze": [
+    "Holm correction is part of S1: the IS one-sided Newey-West p of MNQ, MES, MGC and MCL is Holm-adjusted and must be <= 0.05.",
+    "MGC has no PRE period, so it cannot satisfy S6; it is reported as a breadth test only.",
+    "Campaign B and C OOS read rule: B variants' OOS is read only if campaign A passes S1-S6 on at least one of MNQ, MES, MGC, MCL. A campaign C regime cell's OOS is read only if it is a CONDITIONAL candidate (section conditional_candidate). Otherwise OOS of B and C is not computed.",
+    "Marginal value in the book is positive if, on OOS, adding one contract of the strategy raises the book daily Sharpe and does not worsen the book max drawdown by more than 10 %."
+  ],
+  "instruments": {
+    "MNQ": {"role": "primary_1", "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet", "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef", "point_value": 2.0, "tick_size": 0.25, "commission_per_side": 1.25, "node_tolerance_minutes": 1, "clocks": ["equity"], "periods": ["IS", "OOS", "EXT"], "pre_proxy": "NQ"},
+    "MES": {"role": "primary_2", "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet", "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d", "point_value": 5.0, "tick_size": 0.25, "commission_per_side": 1.25, "node_tolerance_minutes": 1, "clocks": ["equity"], "periods": ["IS", "OOS"], "pre_proxy": "NQ"},
+    "MGC": {"role": "primary_3", "path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet", "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888", "point_value": 10.0, "tick_size": 0.1, "commission_per_side": 1.25, "node_tolerance_minutes": 5, "clocks": ["equity", "native_mgc"], "periods": ["IS", "OOS", "EXT"], "pre_proxy": null},
+    "MCL": {"role": "primary_4", "path": "data/downloaded/MCL_v_0_1m_20210712_20261111.parquet", "sha256": "5073f06dece2416beb887c65654160edc805a52f9007ccb22d3047e9ed5edc4b", "point_value": 100.0, "tick_size": 0.01, "commission_per_side": 1.25, "node_tolerance_minutes": 5, "clocks": ["equity", "native_mcl"], "periods": ["IS", "OOS", "EXT"], "pre_proxy": "CL"},
+    "NQ": {"role": "academic_benchmark", "path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet", "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8", "point_value": 20.0, "tick_size": 0.25, "commission_per_side": 1.25, "node_tolerance_minutes": 1, "clocks": ["equity"], "periods": ["PRE", "IS", "OOS"]},
+    "CL": {"role": "crude_pre_proxy_with_MCL_economics", "path": "data/downloaded/CL_v_0_1m_20150101_20210712.parquet", "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a", "point_value": 100.0, "tick_size": 0.01, "commission_per_side": 1.25, "node_tolerance_minutes": 5, "clocks": ["equity", "native_mcl"], "periods": ["PRE"]}
+  },
+  "periods": {
+    "PRE": {"NQ": ["2010-06-07", "2019-05-03"], "CL": ["2015-01-01", "2021-07-09"]},
+    "IS": ["2019-05-06", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"],
+    "EXT": ["2026-03-20", "2026-11-10"],
+    "note": "EXT is informational. The frozen book daily PnL covers OOS only."
+  },
+  "clocks_et": {
+    "equity": {"open": "09:30", "signal": "10:00", "entry": "15:30", "exit": "16:00"},
+    "native_mgc": {"open": "08:20", "signal": "08:50", "entry": "13:00", "exit": "13:30"},
+    "native_mcl": {"open": "09:00", "signal": "09:30", "entry": "14:00", "exit": "14:30"}
+  },
+  "price_conventions": {
+    "timezone": "America/New_York IANA zone; bars stamped at bar start",
+    "price_at_T_for_signal_or_exit": "close of the last bar in [T - tolerance, T - 1]",
+    "price_at_T_for_entry_or_open": "open of the first bar in [T, T + tolerance - 1]",
+    "full_session": "open, signal, entry and exit prices all present",
+    "early_close": "equity clock only: session not full and last bar between 09:30 and 17:00 stamped 13:14; not traded; its 13:00 price (close of last bar in [12:55, 12:59]) is the next session's previous close",
+    "previous_close": "exit price of the most recent full session, or 13:00 price of an early-close session, at most 5 calendar days before; exchange holidays with a Globex halt have no cash close and are skipped",
+    "roll_rule": "same instrument_id at previous close, open, signal, entry and exit; otherwise excluded",
+    "eligible": "full session, previous close available within 5 calendar days, roll rule satisfied"
+  },
+  "campaign_A": {
+    "signal": "sign(P_signal / previous_close - 1); zero -> no position",
+    "entry": "entry price, direction of the signal, 1 contract",
+    "exit": "exit price, no stop, no target",
+    "costs": "round trip USD = cost_multiplier * (2 * tick_size * point_value + 2 * commission_per_side); cost_multiplier = 1",
+    "units": "net bp of entry notional and net USD per contract; days without position count as 0",
+    "metrics": ["gross and net PnL", "daily Sharpe x sqrt(252)", "annualised return = mean net bp x 252", "max drawdown USD", "hit rate", "profit factor", "sessions and trades", "distribution quantiles 1/5/25/50/75/95/99, skew, kurtosis, worst and best day", "long and short separately", "calendar years", "VIX terciles", "rolling 252-session mean"],
+    "replication_regression": "r_last = a + b * r_first, Newey-West standard errors, R2; r_last = exit / entry - 1 unsigned",
+    "benchmarks": [
+      "always long, always short, same window, costs paid",
+      "comparable directional exposure: signal permuted across all sessions of the period (same number of longs, shorts and zeros), 5000 draws",
+      "placebo permutation: signal permuted within calendar year, 5000 draws",
+      "lag placebo: previous eligible session's signal",
+      "window placebo: same signal on 14:30->15:00 and 15:00->15:30"
+    ],
+    "tests": {
+      "newey_west_lag": "floor(4 * (N / 100) ^ (2 / 9))",
+      "bootstrap": "stationary block bootstrap of the mean net bp, mean block 10, 5000 draws, 95 % interval",
+      "seed": 20261111
+    },
+    "execution_sensitivities_not_selectable": ["cost x2", "entry at open of 15:31", "entry at close of the 15:30 bar", "exit at open of the 16:00 bar", "window shifted -5 min (15:25 -> 15:55)", "window shifted +5 min (15:35 -> 16:05)", "signal at 09:55", "signal at 10:05"],
+    "vol_regime": "VIX close of the last trading day before the session, ranked against the 252 VIX closes ending that day: terciles low / normal / high"
+  },
+  "gates_per_instrument": {
+    "S1": "IS mean net bp > 0, Newey-West t >= 2.0, and Holm-adjusted one-sided p <= 0.05 across MNQ, MES, MGC, MCL",
+    "S2": "IS within-year permutation p <= 0.05",
+    "S3": "IS mean net above comparable directional exposure: full-period permutation p <= 0.05",
+    "S4": "IS mean net > 0 at cost x2 and with entry at open of 15:31",
+    "S5": "more than half of IS calendar years with positive net sum",
+    "S6": "PRE proxy (NQ for MNQ/MES, CL for MCL) slope b > 0 with Newey-West t >= 2.0; MGC not applicable (fails)",
+    "S7": "OOS mean net > 0 with Newey-West t >= 1.0"
+  },
+  "verdict": {
+    "PASS": "S1-S7 on MNQ or MES and positive marginal value in the book",
+    "TRADEOFF": "S1-S7 on MNQ or MES and marginal value not positive",
+    "CONDITIONAL_PASS": "S1 fails on MNQ and MES but a conditional candidate of campaign C passes on OOS (mean net > 0, t >= 1.0)",
+    "FAIL": "otherwise, when IS slope is not significant or gross effect smaller than costs",
+    "INCONCLUSIVE": "fewer than 250 eligible IS sessions on MNQ and MES",
+    "MGC_MCL": "a pass on MGC or MCL is reported as an observation for a new pre-registered campaign, not a PASS of R2"
+  },
+  "campaign_B": {
+    "periods": ["PRE", "IS"],
+    "variants": {
+      "B1_vol_normalised": "z = r_first / sd(previous 20 eligible r_first, min 15); position sign(z) if |z| >= 0.5 else 0",
+      "B2_no_gap": "sign(P_10:00 / P_09:30 - 1)",
+      "B3_gap_only": "sign(P_09:30 / previous_close - 1)",
+      "B4_penultimate_half_hour": "sign(P_15:30 / P_15:00 - 1), P_15:30 = close of the 15:29 bar",
+      "B5_native_clock": "campaign A rule on the native clock, MGC and MCL (CL on PRE)"
+    },
+    "multiple_testing": "Holm over all IS (variant, instrument) one-sided Newey-West p",
+    "secondary_sensitivities_not_counted": ["signal at 09:45, 10:15, 10:30", "entry at 15:45, 15:15, 15:00 with exit 16:00"],
+    "no_replacement": "no variant replaces the reference rule"
+  },
+  "campaign_C": {
+    "periods": ["PRE", "IS"],
+    "categories": {
+      "vix": "VIX terciles as in campaign A",
+      "realized_first30": "|P_10:00 / P_09:30 - 1| ranked against the previous 252 eligible sessions (min 120): terciles",
+      "volume_first30": "volume 09:30-10:00 / median of the previous 20 eligible non-roll sessions, ranked against the previous 252 non-roll values (min 120): terciles; sessions within 10 calendar days before an instrument_id change are excluded"
+    },
+    "macro_announcements": "not tested (no reliable historical calendar)",
+    "outputs": "per tercile: N, slope b with NW t, mean net with NW t; high minus low difference of mean net and of slope (interaction) with NW t",
+    "one_filter_at_a_time": true,
+    "conditional_candidate": "MNQ or MES cell (category x tercile) with IS mean net > 0, Holm-adjusted one-sided p <= 0.05 over all IS C cells, within-year permutation p <= 0.05 inside the cell, more than half of IS years positive, and NQ PRE same cell slope > 0 with t >= 2.0; its OOS is then read once"
+  },
+  "diversification": {
+    "book": "research/locked_eight_sleeve_portfolio_20261103/daily_pnl.csv (read only)",
+    "window": "OOS 2024-01-02 -> 2026-03-19",
+    "strategy": "campaign A rule, 1 contract, each of MNQ, MES, MGC, MCL separately",
+    "outputs": ["correlation with book and with each sleeve", "correlation on negative book days", "PnL contribution", "Sharpe and max drawdown with and without", "leave-one-out on the 9-component book", "variance share of the strategy", "strategy PnL during the five worst book drawdowns"]
+  },
+  "prohibitions": [
+    "no other signal time, window, filter or threshold selected after the freeze",
+    "no variant replaces the reference",
+    "no change to the active book or frozen parameters",
+    "no OOS of B or C outside the read rule"
+  ]
+}

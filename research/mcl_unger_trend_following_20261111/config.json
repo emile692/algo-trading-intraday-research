@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "status": "LOCKED_BEFORE_PERFORMANCE",
+  "run_type": "mcl_unger_two_trend_following_strategies",
+  "source": "https://ungeracademy.com/blog/crude-oil-trading-cl-trend-following-strategies",
+  "source_caveat": "The page gives no EMA lengths, no Donchian length, no stop, no target, no cost and leaves its filters undefined. Every number below is a conventional default fixed here before any return was computed; nothing was fitted to the page's reported results.",
+  "policy": "One canonical spec per strategy, no grid, no tuning after performance. Same windows, costs, data and IS gate as the base config. OOS and FWD are read only for IS-gate passers.",
+  "base_config": "research/mcl_mudrex_strategies_20261111/mcl_mudrex_config.json",
+  "strategies": {
+    "s7_multiday_ema_cross": {
+      "page_rule": "15-minute bars, full NYMEX session 18:00-17:00, long when the fast EMA crosses above the slow EMA, short when below, positions held across sessions; unnamed pattern filters",
+      "ema_fast": 50, "ema_slow": 200,
+      "execution": "always in the market after warm-up; reverse at the open of the first 1m bar after the 15m close that shows the cross",
+      "stop": null, "target": null, "filters": "none (undefined on the page)",
+      "roll_cost": "one extra round trip charged at each contract roll while in position",
+      "metrics": "daily mark-to-market by trading day (18:00 ET roll); degraded-quality days are not removed because positions span them",
+      "topstep_note": "holds overnight and over weekends, which Topstep does not allow"
+    },
+    "s8_intraday_donchian": {
+      "page_rule": "15-minute bars, Donchian channel on the highest high / lowest low of N periods, positions held a few hours; undefined volatility, time and trend filters",
+      "donchian_bars": 20,
+      "channel": "highest high and lowest low of the last 20 closed 15m bars (full Globex session)",
+      "entry": "stop order one tick beyond the channel, 09:00-14:00 ET, first breakout of the day only",
+      "exit": "trailing stop on the opposite channel side (ratchets only in favour of the trade), else flatten at the last core bar; no target",
+      "filters": "none (undefined on the page); no entries 10:00-11:00 ET on EIA Wednesdays as in the base config",
+      "max_trades_per_day": 1
+    }
+  }
+}

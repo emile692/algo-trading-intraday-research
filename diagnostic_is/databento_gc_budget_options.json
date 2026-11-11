@@ -1,0 +1,227 @@
+{
+  "status": "estimate_only_awaiting_user_choice",
+  "credit_cap_usd": 24.0,
+  "estimates": {
+    "GC.v.0": {
+      "meaning": "rank 0 by traded volume; preferred liquid-contract proxy",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": "GC.v.0"
+      },
+      "estimated_cost_usd": 10.413340702653,
+      "estimated_record_count": 2852357,
+      "estimated_billable_size_bytes": 159731992
+    },
+    "GC.c.0": {
+      "meaning": "rank 0 by calendar expiration; nearest-expiry proxy",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": "GC.c.0"
+      },
+      "estimated_cost_usd": 0.421172752976,
+      "estimated_record_count": 115365,
+      "estimated_billable_size_bytes": 6460440
+    },
+    "GC.v.0+v.1": {
+      "meaning": "aggregate the two highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1"
+        ]
+      },
+      "estimated_cost_usd": 14.98008877039,
+      "estimated_record_count": 4103252,
+      "estimated_billable_size_bytes": 229782112
+    },
+    "GC.v.0+v.1+v.2": {
+      "meaning": "aggregate the three highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2"
+        ]
+      },
+      "estimated_cost_usd": 16.541127711534,
+      "estimated_record_count": 4530842,
+      "estimated_billable_size_bytes": 253727152
+    },
+    "GC.v.0..v.3": {
+      "meaning": "aggregate the 4 highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2",
+          "GC.v.3"
+        ]
+      },
+      "estimated_cost_usd": 17.361776605248,
+      "estimated_record_count": 4755629,
+      "estimated_billable_size_bytes": 266315224
+    },
+    "GC.v.0..v.4": {
+      "meaning": "aggregate the 5 highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2",
+          "GC.v.3",
+          "GC.v.4"
+        ]
+      },
+      "estimated_cost_usd": 17.976473793387,
+      "estimated_record_count": 4924003,
+      "estimated_billable_size_bytes": 275744168
+    },
+    "GC.v.0..v.5": {
+      "meaning": "aggregate the 6 highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2",
+          "GC.v.3",
+          "GC.v.4",
+          "GC.v.5"
+        ]
+      },
+      "estimated_cost_usd": 18.361682668328,
+      "estimated_record_count": 5029517,
+      "estimated_billable_size_bytes": 281652952
+    },
+    "GC.v.0..v.6": {
+      "meaning": "aggregate the 7 highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2",
+          "GC.v.3",
+          "GC.v.4",
+          "GC.v.5",
+          "GC.v.6"
+        ]
+      },
+      "estimated_cost_usd": 18.54244761169,
+      "estimated_record_count": 5079031,
+      "estimated_billable_size_bytes": 284425736
+    },
+    "GC.v.0..v.7": {
+      "meaning": "aggregate the 8 highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2",
+          "GC.v.3",
+          "GC.v.4",
+          "GC.v.5",
+          "GC.v.6",
+          "GC.v.7"
+        ]
+      },
+      "estimated_cost_usd": 18.659889698029,
+      "estimated_record_count": 5111200,
+      "estimated_billable_size_bytes": 286227200
+    },
+    "GC.v.0..v.8": {
+      "meaning": "aggregate the 9 highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2",
+          "GC.v.3",
+          "GC.v.4",
+          "GC.v.5",
+          "GC.v.6",
+          "GC.v.7",
+          "GC.v.8"
+        ]
+      },
+      "estimated_cost_usd": 18.726793974638,
+      "estimated_record_count": 5129526,
+      "estimated_billable_size_bytes": 287253456
+    },
+    "GC.v.0..v.9": {
+      "meaning": "aggregate the 10 highest-volume outright contracts",
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2015-01-02T00:00:00Z",
+        "end": "2023-03-17T00:00:00Z",
+        "symbols": [
+          "GC.v.0",
+          "GC.v.1",
+          "GC.v.2",
+          "GC.v.3",
+          "GC.v.4",
+          "GC.v.5",
+          "GC.v.6",
+          "GC.v.7",
+          "GC.v.8",
+          "GC.v.9"
+        ]
+      },
+      "estimated_cost_usd": 18.757453262806,
+      "estimated_record_count": 5137924,
+      "estimated_billable_size_bytes": 287723744
+    }
+  },
+  "paid_data_download_calls": 0,
+  "roll_control": "flag mapping changes and report roll +/-2 trading sessions separately",
+  "limitation": "single mapped outright contract at each timestamp; not aggregate volume across all GC contracts",
+  "api_key_persisted": false
+}

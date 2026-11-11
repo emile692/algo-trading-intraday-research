@@ -1,0 +1,33 @@
+{
+  "seed": 20261008,
+  "scope": "IS_ONLY",
+  "signal_a": {
+    "start": "2010-06-07",
+    "end": "2024-02-22",
+    "primary": "NQ",
+    "robustness": [
+      "MES",
+      "MNQ",
+      "M2K"
+    ]
+  },
+  "signal_b": {
+    "start": "2015-01-02",
+    "end": "2023-03-16",
+    "asset": "MGC"
+  },
+  "post_is_statistics_computed": false,
+  "atr14_definition": "Wilder EWM alpha=1/14 on daily true range, shifted one session",
+  "b_intraday_atr_definition": "median true range of prior 20 completed same-session 5m bars, minimum 10",
+  "b2_session_buckets": [
+    "08:20-09:30",
+    "09:30-11:00",
+    "11:00-13:25"
+  ],
+  "blocked_variables": [
+    "A1 macro calendar",
+    "A2 VIX/VIX3M",
+    "B0b GC volume",
+    "B1 announcement bars"
+  ]
+}

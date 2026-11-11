@@ -36,9 +36,16 @@ def pf_for_ranking(value: Any) -> float:
 def latest_path_for_symbol(symbol: str, input_paths: dict[str, Path] | None = None) -> Path:
     if input_paths is not None and symbol in input_paths:
         return Path(input_paths[symbol])
-    files = sorted((REPO_ROOT / "data" / "processed" / "parquet").glob(f"{symbol}_c_0_1m_*.parquet"))
+    roll_rule = "v" if symbol.upper() == "MGC" else "c"
+    files = sorted(
+        (REPO_ROOT / "data" / "processed" / "parquet").glob(
+            f"{symbol.upper()}_{roll_rule}_0_1m_*.parquet"
+        )
+    )
     if not files:
-        raise FileNotFoundError(f"No input dataset found for {symbol} in data/processed/parquet.")
+        raise FileNotFoundError(
+            f"No {roll_rule}.0 input dataset found for {symbol.upper()} in data/processed/parquet."
+        )
     return files[-1]
 
 

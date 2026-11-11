@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "objective": "Map edge boundaries and distinguish broad plateaus from isolated or boundary optima; do not select the maximum Sharpe.",
+  "is_start": "2019-05-06",
+  "is_end": "2023-12-31",
+  "reserved_oos_start": "2024-01-01",
+  "reserved_oos_end": "2026-03-19",
+  "analysis_rules": {
+    "positive_cell": "Sharpe > 0, expectancy/trade > 0, valid implementation checks, and profit factor > 1 or undefined because no losing trade exists; trade count is reported separately and does not redefine the observed performance sign",
+    "contiguity": "orthogonal four-neighbor adjacency in grid-index space",
+    "local_neighborhood": "Chebyshev distance <= 1 in grid-index space, focal cell included",
+    "stability_score": "median(neighborhood Sharpe) - 0.5 * population_std(neighborhood Sharpe)",
+    "robust_plateau_cell": "positive cell with at least 4 valid neighbors, positive stability score, at least two thirds positive neighbors, and minimum neighbor trade count >= 30",
+    "robust_plateau": "at least 2 orthogonally adjacent robust plateau cells",
+    "edge_boundary": "orthogonally adjacent positive and non-positive cells; exterior grid limits are reported separately and are not treated as observed edge disappearance",
+    "sensitivity": "median Sharpe and median expectancy by each parameter value, plus range of the conditional median Sharpe",
+    "boundary_optimum": "highest-Sharpe observed cell has at least one parameter at the minimum or maximum tested value",
+    "plateau_medoid": "robust cell minimizing summed Manhattan grid distance to all robust cells in the largest robust component; ties use stability score, then combination id"
+  },
+  "mechanisms": {
+    "atr_trend_flip": {
+      "parameters": {"atr_period": [5, 7, 10, 14, 20], "atr_multiplier": [2.0, 2.5, 3.0, 3.5, 4.0]}
+    },
+    "compression_breakout": {
+      "parameters": {"nr_lookback": [4, 6, 8, 10, 12, 16, 20], "entry_buffer_ticks": [0, 1, 2, 4]}
+    },
+    "gap_continuation": {
+      "parameters": {"minimum_gap_atr_multiple": [0.40, 0.60, 0.75, 0.90, 1.05, 1.25, 1.50], "volume_threshold_multiple": [0.5, 0.8, 1.0, 1.2, 1.5]}
+    },
+    "ma_crossover_trend": {
+      "parameters": {"fast_ema_period": [5, 8, 12, 16, 20], "slow_ema_period": [15, 21, 30, 40, 50, 60]},
+      "constraint": "fast_ema_period < slow_ema_period"
+    },
+    "session_range_breakout": {
+      "parameters": {"opening_range_minutes": [15, 30, 45, 60, 75, 90, 120], "breakout_buffer_ticks": [0, 1, 2, 4]}
+    },
+    "volatility_breakout": {
+      "parameters": {"daily_atr_period": [5, 10, 14, 20, 30], "entry_atr_multiple": [0.2, 0.4, 0.6, 0.8, 1.0, 1.2]}
+    }
+  }
+}

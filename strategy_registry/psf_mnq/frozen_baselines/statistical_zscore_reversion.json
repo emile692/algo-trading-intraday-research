@@ -1,0 +1,406 @@
+{
+  "schema_version": "1.0",
+  "specification_type": "strategy_baseline",
+  "specification_status": "frozen_ready_with_research_assumptions",
+  "mechanism_id": "statistical_zscore_reversion",
+  "strategy_id": "z-score-mean-reversion",
+  "research_family": "mean_reversion",
+  "complexity_grade": "B",
+  "source": {
+    "card_path": "cards/z-score-mean-reversion.md",
+    "logical_audit_path": "alpha_engine_logical_audit.csv",
+    "performance_information_used": false,
+    "parameter_optimization_used": false
+  },
+  "hypothesis": {
+    "statement": "A close more than two rolling standard deviations from its mean reverts toward that mean.",
+    "economic_rationale": "Temporary order imbalance can move price beyond its recent statistical equilibrium before liquidity provision restores it."
+  },
+  "direction": {
+    "long": "Buy when z-score crosses from >= -2 to < -2.",
+    "short": "Sell when z-score crosses from <= +2 to > +2."
+  },
+  "signal": {
+    "timeframe": "1H",
+    "calculation": "On completed RTH one-hour closes, compute SMA(20), population standard deviation with ddof=0, and z=(close-SMA)/sigma. Require 20 valid observations and sigma > 0.",
+    "signal_timestamp": "Close of the completed one-hour threshold-crossing bar."
+  },
+  "entry": {
+    "condition": "First threshold crossing while flat; persistent occupancy beyond the threshold does not create repeated entries.",
+    "execution_price": "Next one-minute bar open, with adverse rounding and one tick slippage.",
+    "execution_delay": "One one-minute execution bar after signal close.",
+    "last_entry_time": "15:55:00",
+    "last_entry_policy": "No new position may be opened after this timestamp. Strategy-specific entry rules may impose an earlier effective cutoff."
+  },
+  "exit": {
+    "target": "Indicator exit: long when completed-bar z >= -0.5; short when z <= +0.5. Execute next one-minute open.",
+    "stop": "Indicator stop: long when z <= -3.0; short when z >= +3.0. If target and stop conditions conflict, stop prevails.",
+    "time_exit": "Forced session flatten.",
+    "session_flatten": {
+      "enabled": true,
+      "daily_flatten": true,
+      "conditional_session_flatten": true,
+      "topstep_rules_applied": true,
+      "cash_close": "16:00:00",
+      "cash_close_action": "No automatic flatten unless exit.time_exit explicitly says cash close.",
+      "last_entry_time": "15:55:00",
+      "forced_flatten_time": "16:08:00",
+      "no_position_after_forced_flatten": true,
+      "timezone": "America/New_York",
+      "execution": "Exit at the open of the 16:08 one-minute bar. If that exact bar is absent, use the last available close strictly before 16:08. No position may remain afterward.",
+      "post_cash_close_monitoring": "From 16:00 through hard flatten, accept no new entries or strategy signals; continue monitoring already-known stops and targets on one-minute bars.",
+      "early_close_exception": {
+        "calendar": "official_CME_equity_index_futures_calendar",
+        "cash_close": "official early-close timestamp",
+        "last_entry_time": "min(strategy last_entry_time, early close minus 5 minutes)",
+        "forced_flatten_time": "min(16:08, early close minus 1 minute)",
+        "missing_calendar_policy": "reject_session"
+      }
+    }
+  },
+  "data_requirements": {
+    "instrument": "MNQ",
+    "contract_series": "provided_continuous_front_contract",
+    "source_granularity": "1min",
+    "signal_timeframe": "1H",
+    "execution_timeframe": "1min",
+    "required_fields": [
+      "timestamp",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "session_date"
+    ],
+    "timezone": "America/New_York",
+    "session": {
+      "start": "09:30:00",
+      "cash_close": "16:00:00",
+      "last_entry_time": "15:55:00",
+      "forced_flatten_time": "16:08:00",
+      "signal_window_end": "16:00:00",
+      "position_monitoring_end": "16:08:00",
+      "early_close_calendar_required": true
+    },
+    "bar_timestamp_semantics": "Input timestamp is bar open; resampled signal intervals are left-closed/right-open and become observable at interval end.",
+    "availability": true,
+    "notes": [
+      "One-minute execution data must extend through the applicable hard-flatten timestamp.",
+      "An official CME equity-index-futures calendar with early-close timestamps is mandatory; do not infer an early close from missing bars."
+    ]
+  },
+  "parameters": {
+    "structural": [
+      {
+        "name": "signal_timeframe",
+        "value": "1H",
+        "unit": "bar_interval",
+        "origin": "published_horizon",
+        "description": "Frozen signal timeframe selected without performance evidence."
+      },
+      {
+        "name": "mean_lookback",
+        "value": 20,
+        "unit": "1H_bars",
+        "origin": "published_rule",
+        "description": "Published SMA period."
+      },
+      {
+        "name": "standard_deviation_ddof",
+        "value": 0,
+        "unit": "degrees_of_freedom",
+        "origin": "research_assumption",
+        "description": "Population standard deviation convention."
+      },
+      {
+        "name": "entry_z_abs",
+        "value": 2.0,
+        "unit": "z_score",
+        "origin": "published_rule",
+        "description": "Published entry threshold."
+      },
+      {
+        "name": "entry_mode",
+        "value": "threshold_cross",
+        "unit": "rule",
+        "origin": "research_assumption",
+        "description": "Prevents repeated signals while already extreme."
+      }
+    ],
+    "risk_management": [
+      {
+        "name": "fixed_quantity",
+        "value": 1,
+        "unit": "MNQ_contract",
+        "origin": "research_assumption",
+        "description": "One contract keeps baseline sizing independent of signal logic."
+      },
+      {
+        "name": "hard_flatten_time",
+        "value": "16:08:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "No strategy position may remain open after the Topstep hard flatten."
+      },
+      {
+        "name": "target_z_abs",
+        "value": 0.5,
+        "unit": "z_score",
+        "origin": "published_rule",
+        "description": "Published reversion exit."
+      },
+      {
+        "name": "stop_z_abs",
+        "value": 3.0,
+        "unit": "z_score",
+        "origin": "published_rule",
+        "description": "Published invalidation."
+      },
+      {
+        "name": "partial_exit_z_abs",
+        "value": "disabled_one_contract",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Published +/-1 partial is disabled."
+      }
+    ],
+    "execution": [
+      {
+        "name": "tick_size",
+        "value": 0.25,
+        "unit": "index_points",
+        "origin": "repository_execution_default",
+        "description": "MNQ minimum price increment."
+      },
+      {
+        "name": "tick_value_usd",
+        "value": 0.5,
+        "unit": "USD_per_tick",
+        "origin": "repository_execution_default",
+        "description": "MNQ tick value per contract."
+      },
+      {
+        "name": "point_value_usd",
+        "value": 2.0,
+        "unit": "USD_per_point",
+        "origin": "repository_execution_default",
+        "description": "MNQ point value per contract."
+      },
+      {
+        "name": "commission_per_side_usd",
+        "value": 1.25,
+        "unit": "USD_per_contract",
+        "origin": "repository_execution_default",
+        "description": "Fixed commission on entry and exit."
+      },
+      {
+        "name": "slippage_ticks_per_side",
+        "value": 1,
+        "unit": "ticks",
+        "origin": "repository_execution_default",
+        "description": "Adverse slippage applied on entry and exit."
+      },
+      {
+        "name": "session_timezone",
+        "value": "America/New_York",
+        "unit": "IANA_timezone",
+        "origin": "repository_session_default",
+        "description": "All session times use New York civil time and DST."
+      },
+      {
+        "name": "rth_start",
+        "value": "09:30:00",
+        "unit": "local_time",
+        "origin": "repository_session_default",
+        "description": "Start of the research session."
+      },
+      {
+        "name": "cash_close",
+        "value": "16:00:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "Regular-day cash-session close; it is not an automatic flatten unless a strategy explicitly exits there."
+      },
+      {
+        "name": "last_entry_time",
+        "value": "15:55:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "No new position may be opened after this time."
+      },
+      {
+        "name": "forced_flatten_time",
+        "value": "16:08:00",
+        "unit": "local_time",
+        "origin": "user_topstep_rule",
+        "description": "Regular-day Topstep hard flatten; no position may remain afterward."
+      },
+      {
+        "name": "early_close_calendar",
+        "value": "official_CME_equity_index_futures_calendar",
+        "unit": "calendar",
+        "origin": "research_assumption",
+        "description": "Required source for early-close timestamps; never infer them from missing bars."
+      },
+      {
+        "name": "early_close_last_entry_buffer_minutes",
+        "value": 5,
+        "unit": "minutes",
+        "origin": "research_assumption",
+        "description": "On an early-close day, stop new entries five minutes before the official close."
+      },
+      {
+        "name": "early_close_flatten_buffer_minutes",
+        "value": 1,
+        "unit": "minutes",
+        "origin": "research_assumption",
+        "description": "On an early-close day, hard-flatten one minute before the official close."
+      },
+      {
+        "name": "position_policy",
+        "value": "one_position_no_pyramiding",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "At most one open position; no scaling or pyramiding."
+      },
+      {
+        "name": "bar_conflict_policy",
+        "value": "stop_before_target",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Conservative ordering when stop and target occur in one execution bar."
+      },
+      {
+        "name": "missing_execution_bar_policy",
+        "value": "skip_signal",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Skip a fill if the exact required next one-minute bar is absent."
+      },
+      {
+        "name": "price_rounding_policy",
+        "value": "adverse_to_strategy_to_valid_tick",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "Order levels are rounded to a valid tick without improving the assumed fill."
+      }
+    ]
+  },
+  "canonical_parameters": {
+    "structural": {
+      "signal_timeframe": "1H",
+      "mean_lookback": 20,
+      "standard_deviation_ddof": 0,
+      "entry_z_abs": 2.0,
+      "entry_mode": "threshold_cross"
+    },
+    "risk_management": {
+      "fixed_quantity": 1,
+      "hard_flatten_time": "16:08:00",
+      "target_z_abs": 0.5,
+      "stop_z_abs": 3.0,
+      "partial_exit_z_abs": "disabled_one_contract"
+    },
+    "execution": {
+      "tick_size": 0.25,
+      "tick_value_usd": 0.5,
+      "point_value_usd": 2.0,
+      "commission_per_side_usd": 1.25,
+      "slippage_ticks_per_side": 1,
+      "session_timezone": "America/New_York",
+      "rth_start": "09:30:00",
+      "cash_close": "16:00:00",
+      "last_entry_time": "15:55:00",
+      "forced_flatten_time": "16:08:00",
+      "early_close_calendar": "official_CME_equity_index_futures_calendar",
+      "early_close_last_entry_buffer_minutes": 5,
+      "early_close_flatten_buffer_minutes": 1,
+      "position_policy": "one_position_no_pyramiding",
+      "bar_conflict_policy": "stop_before_target",
+      "missing_execution_bar_policy": "skip_signal",
+      "price_rounding_policy": "adverse_to_strategy_to_valid_tick"
+    }
+  },
+  "lookahead_risks": [
+    {
+      "risk": "Using a signal bar's final high, low, close, volume, or indicator value before that bar closes.",
+      "control": "All signal calculations use completed bars only; no order based on that bar can fill before its close."
+    },
+    {
+      "risk": "Rolling windows accidentally include future bars or the current breakout observation in their reference level.",
+      "control": "Windows are trailing and causal; reference highs/lows explicitly exclude the bar being evaluated when stated by the strategy."
+    },
+    {
+      "risk": "A centered rolling mean or future-normalized sigma would leak future observations.",
+      "control": "Use trailing close observations ending at the completed signal bar only."
+    }
+  ],
+  "same_bar_risks": [
+    {
+      "risk": "A target and stop can both lie inside the same one-minute bar.",
+      "control": "Record the stop first, the conservative path, because intraminute ordering is unavailable."
+    },
+    {
+      "risk": "A close-confirmed signal cannot be filled at that same close.",
+      "control": "Use the exact next one-minute open and apply adverse slippage; skip the signal when that bar is missing."
+    }
+  ],
+  "execution_ambiguities": [
+    {
+      "risk": "The source cards do not define a universal execution and cost model.",
+      "control": "Use one MNQ contract, one tick adverse slippage per side, and USD 1.25 commission per side from repository defaults."
+    },
+    {
+      "risk": "The source cards do not consistently define end-of-session handling.",
+      "control": "Treat 16:00 cash close, the last-entry cutoff, and the 16:08 Topstep hard flatten as distinct events. Continue risk exits after cash close, but never retain a position after hard flatten."
+    },
+    {
+      "risk": "CME holiday sessions can close before the regular cash close and hard-flatten times.",
+      "control": "Require the official CME early-close timestamp; set last entry to min(strategy cutoff, early close minus five minutes) and hard flatten to min(16:08, early close minus one minute). Reject the session if the calendar value is unavailable."
+    },
+    {
+      "risk": "The standard-deviation convention and repeated-signal behavior are unspecified.",
+      "control": "Use population sigma and threshold crossings only."
+    }
+  ],
+  "remaining_assumptions": [
+    {
+      "type": "research_assumption",
+      "id": "rth_only_signal_bars",
+      "description": "Indicators and signal bars use only 09:30–16:00 RTH observations; completed prior sessions may remain in rolling history."
+    },
+    {
+      "type": "research_assumption",
+      "id": "frozen_signal_timeframe",
+      "description": "The signal timeframe is selected from the horizons published on the source card for mechanical compatibility with its rule, without performance comparison."
+    },
+    {
+      "type": "research_assumption",
+      "id": "one_contract_baseline",
+      "description": "All strategy baselines use exactly one MNQ contract and no pyramiding."
+    },
+    {
+      "type": "research_assumption",
+      "id": "common_execution_model",
+      "description": "All strategies share the repository's fixed MNQ commission, tick size, and slippage defaults."
+    },
+    {
+      "type": "research_assumption",
+      "id": "early_close_buffers",
+      "description": "On official CME early-close days, last entry is five minutes before the early close and hard flatten is one minute before it."
+    },
+    {
+      "type": "research_assumption",
+      "id": "zscore_population_sigma",
+      "description": "Use rolling population standard deviation with ddof=0."
+    },
+    {
+      "type": "research_assumption",
+      "id": "zscore_cross_entries",
+      "description": "Open only on a fresh crossing of +/-2, not on every bar beyond the threshold."
+    }
+  ],
+  "unresolved_ambiguities": [],
+  "ready_for_baseline_backtest": true
+}

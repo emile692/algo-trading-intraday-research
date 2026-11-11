@@ -1,0 +1,2 @@
+status,reason
+NOT_RUN_FAILED_PRIOR_GATES,All 18 cells are negative IS and the canonical OOS result is recent/regime-concentrated; Phase 11 gate was not reached.

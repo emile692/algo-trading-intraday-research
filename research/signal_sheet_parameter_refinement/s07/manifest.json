@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "purpose": "diagnostic_landscape_no_selection",
+  "sheet": "07_mbt_rolling_range_breakout",
+  "mechanism": "rolling_range_breakout",
+  "instrument": "MBT",
+  "periods": {
+    "start": "2021-05-03",
+    "end": "2026-10-02",
+    "is_end": "2025-05-28",
+    "oos_start": "2025-05-29"
+  },
+  "principal_parameters": {
+    "entry_channel_length": "Fixe la maturité du breakout exigé avant l’entrée.",
+    "exit_channel_length": "Fixe la vitesse de restitution des gains et la durée des tendances captées."
+  },
+  "grids": {
+    "entry_channel_length": [
+      16,
+      20,
+      24,
+      28,
+      32
+    ],
+    "exit_channel_length": [
+      5,
+      7,
+      10,
+      12,
+      15,
+      18
+    ]
+  },
+  "combination_count": 30,
+  "scope_count": 3,
+  "all_other_parameters": "frozen_at_current_value",
+  "selection_performed": false,
+  "profit_factor_definition": "sum positive net trade PnL / absolute sum negative net trade PnL",
+  "max_drawdown_definition": "minimum drawdown of cumulative daily net PnL including zero origin",
+  "worst_day_definition": "minimum realized net daily PnL; prop-firm daily-loss diagnostic, not intraday trailing loss",
+  "source": {
+    "data_path": "data\\downloaded\\MBT_v_0_1m_20210425_20261003.parquet",
+    "data_sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+    "excluded_roll_sessions": []
+  },
+  "outputs": {
+    "grid_metrics": "research\\signal_sheet_parameter_refinement\\s07\\grid_metrics.csv",
+    "grid_metrics_sha256": "fc15da4c55a4b4a6aa419664ad514f7b6660d023f60be1944d6a660bed4aaea3"
+  }
+}

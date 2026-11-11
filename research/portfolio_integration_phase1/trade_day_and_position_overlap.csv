@@ -1,0 +1,16 @@
+sleeve_left,sleeve_right,overlap_trade_days,trade_day_jaccard,simultaneous_position_minutes,same_direction_minutes,opposite_direction_minutes
+mnq_orb_vwap_atr,mnq_volatility_breakout,106,0.23766816143497757,9195,8813,382
+mnq_orb_vwap_atr,mnq_compression_breakout,53,0.16772151898734178,2443,1783,660
+mnq_orb_vwap_atr,mnq_atr_trend_flip,186,0.36904761904761907,18515,16992,1523
+mnq_orb_vwap_atr,mgc_volatility_breakout,16,0.05161290322580645,1300,755,545
+mnq_orb_vwap_atr,mgc_gap_continuation,40,0.12658227848101267,7703,4548,3155
+mnq_volatility_breakout,mnq_compression_breakout,43,0.12078651685393259,1626,1144,482
+mnq_volatility_breakout,mnq_atr_trend_flip,230,0.46938775510204084,30298,25746,4552
+mnq_volatility_breakout,mgc_volatility_breakout,44,0.14102564102564102,5080,2712,2368
+mnq_volatility_breakout,mgc_gap_continuation,53,0.15915915915915915,6760,3543,3217
+mnq_compression_breakout,mnq_atr_trend_flip,72,0.15483870967741936,2427,1545,882
+mnq_compression_breakout,mgc_volatility_breakout,8,0.048484848484848485,18,0,18
+mnq_compression_breakout,mgc_gap_continuation,19,0.10326086956521739,1117,502,615
+mnq_atr_trend_flip,mgc_volatility_breakout,49,0.1101123595505618,3578,1273,2305
+mnq_atr_trend_flip,mgc_gap_continuation,68,0.14912280701754385,9979,5175,4804
+mgc_volatility_breakout,mgc_gap_continuation,12,0.08108108108108109,948,948,0

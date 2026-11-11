@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "locked_before_execution": true,
+  "terminal_money_management_study": true,
+  "is_start": "2019-05-06",
+  "is_end": "2023-12-31",
+  "validation_start": "2024-01-01",
+  "validation_end": "2026-03-19",
+  "mechanisms": {
+    "compression_breakout": {
+      "alpha_parameters": {"nr_lookback": 10, "entry_buffer_ticks": 1},
+      "study": "none",
+      "forced_final_status": "MM_LOCKED_BASELINE"
+    },
+    "volatility_breakout": {
+      "alpha_parameters": {"daily_atr_period": 14, "entry_atr_multiple": 0.6},
+      "study": "time_stop",
+      "parameter_name": "max_holding_minutes",
+      "values": [60, 90, 120, 150, 180, 210, 240, 270, 300, 360],
+      "signal_timeframe_minutes": 5
+    },
+    "atr_trend_flip": {
+      "alpha_parameters": {"atr_period": 10, "atr_multiplier": 1.75},
+      "study": "atr_stop",
+      "parameter_name": "stop_atr",
+      "values": [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0],
+      "signal_timeframe_minutes": 15
+    }
+  },
+  "fixed_rules": {
+    "quantity": "1 MNQ",
+    "entry_signals": "strictly unchanged",
+    "hard_flatten": "unchanged",
+    "costs_and_execution": "unchanged frozen baseline conventions",
+    "atr_stop_definition": "Wilder ATR(14) on locked 15-minute signal timeframe; latest completed bar at fill"
+  },
+  "precommitted_lock_rule": {
+    "eligible_cell": "Sharpe > 0, PF > 1, trade_count >= 20, expectancy >= 80 percent of baseline, and absolute max DD <= baseline in both IS and Validation",
+    "stable_zone": "at least 3 adjacent eligible values in the ordered one-dimensional grid",
+    "modified_lock": "if a stable zone exists, lock its parameter medoid; ties use the lower parameter value",
+    "baseline_lock": "if no stable zone exists, retain the frozen baseline exit",
+    "performance_maximum_used": false
+  }
+}

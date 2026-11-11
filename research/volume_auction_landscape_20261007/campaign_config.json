@@ -1,0 +1,15 @@
+{
+  "campaign": "volume_auction_landscape_20261007",
+  "bar_frequency": "5min",
+  "primary_volume_history_sessions": 20,
+  "diagnostic_volume_history_sessions": [10, 20, 40],
+  "profile_method": "full completed-bar volume assigned to tick-rounded typical price",
+  "value_area_fraction": 0.70,
+  "profile_windows_sessions": [1, 3, 5],
+  "signal_execution": "signal at completed bar close; earliest fill next bar open",
+  "validation": "chronological 70% IS / 30% OOS by session date",
+  "default_holding_bars": 6,
+  "random_thinning_repetitions": 200,
+  "seed": 20261007,
+  "scope_note": "Frozen nine-sleeve portfolio is read only for final diversification diagnostics."
+}

@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.0",
+  "specification_type": "market_benchmark",
+  "specification_status": "frozen_benchmark_ready",
+  "mechanism_id": "MNQ_BUY_AND_HOLD",
+  "strategy_id": "MNQ_BUY_AND_HOLD",
+  "research_family": "market_benchmark",
+  "complexity_grade": "N/A",
+  "source": {
+    "card_path": null,
+    "repository_reference": "src/analytics/volume_climax_pullback_notebook_utils.py::build_buy_hold_benchmark_curve",
+    "performance_information_used": false,
+    "parameter_optimization_used": false
+  },
+  "hypothesis": {
+    "statement": "Continuous long exposure to MNQ represents the passive market return over the fixed evaluation window.",
+    "economic_rationale": "The benchmark measures broad Nasdaq futures price appreciation and drawdown independently of any active strategy signal."
+  },
+  "direction": {
+    "long": "Continuous normalized long exposure of 1.0 from the first eligible session close.",
+    "short": "Never short."
+  },
+  "signal": {
+    "timeframe": "1_session",
+    "calculation": "Take the last valid MNQ close at the 16:00 cash close, or at the official CME early close on a shortened session, and compute equity_t = initial_capital * close_t / first_close.",
+    "signal_timestamp": "Each applicable session close after that close is observed."
+  },
+  "entry": {
+    "condition": "First valid session close in the fixed evaluation window.",
+    "execution_price": "First valid session close, used only as the normalization denominator.",
+    "execution_delay": "None; this is a price-index benchmark, not an executable strategy fill model."
+  },
+  "exit": {
+    "target": null,
+    "stop": null,
+    "time_exit": "Last valid session close of the fixed evaluation window.",
+    "session_flatten": {
+      "enabled": false,
+      "daily_flatten": false,
+      "conditional_session_flatten": false,
+      "topstep_rules_applied": false,
+      "cash_close": "16:00:00",
+      "cash_close_action": "Sample the close for the continuous close-to-close curve; do not liquidate or reset exposure.",
+      "last_entry_time": null,
+      "forced_flatten_time": null,
+      "no_position_after_forced_flatten": null,
+      "timezone": "America/New_York",
+      "early_close_exception": {
+        "calendar": "official_CME_equity_index_futures_calendar",
+        "cash_close": "official early-close timestamp",
+        "effect": "Sample the shortened session's official close without flattening or resetting benchmark exposure.",
+        "missing_calendar_policy": "reject_session"
+      },
+      "reason": "MNQ_BUY_AND_HOLD is a continuous close-to-close market benchmark independent of Topstep rules."
+    }
+  },
+  "data_requirements": {
+    "instrument": "MNQ",
+    "contract_series": "provided_continuous_front_contract",
+    "source_granularity": "1min_or_session_close",
+    "signal_timeframe": "1_session",
+    "execution_timeframe": null,
+    "required_fields": [
+      "timestamp",
+      "close",
+      "session_date"
+    ],
+    "timezone": "America/New_York",
+    "session": {
+      "cash_close": "16:00:00",
+      "early_close_calendar_required": true,
+      "daily_flatten": false,
+      "last_entry_time": null,
+      "forced_flatten_time": null
+    },
+    "availability": true,
+    "notes": [
+      "The continuous-series construction and any back adjustment must remain fixed across all future reports.",
+      "The official CME equity-index-futures calendar supplies shortened-session close timestamps; do not infer them from missing bars.",
+      "Topstep entry cutoffs and hard-flatten rules never alter this benchmark curve."
+    ]
+  },
+  "parameters": {
+    "structural": [
+      {
+        "name": "price_column",
+        "value": "close",
+        "unit": "field",
+        "origin": "benchmark_convention",
+        "description": "Use the MNQ continuous-series close."
+      },
+      {
+        "name": "sampling",
+        "value": "last_close_per_session",
+        "unit": "frequency",
+        "origin": "repository_benchmark_convention",
+        "description": "Existing repository benchmark convention."
+      },
+      {
+        "name": "cash_close",
+        "value": "16:00:00",
+        "unit": "local_time",
+        "origin": "benchmark_convention",
+        "description": "Regular-session close used to sample the close-to-close market curve."
+      },
+      {
+        "name": "early_close_calendar",
+        "value": "official_CME_equity_index_futures_calendar",
+        "unit": "calendar",
+        "origin": "research_assumption",
+        "description": "On shortened sessions, sample the official CME early close."
+      },
+      {
+        "name": "exposure",
+        "value": 1.0,
+        "unit": "long_fraction",
+        "origin": "benchmark_convention",
+        "description": "Fully invested long market exposure."
+      },
+      {
+        "name": "initial_capital_usd",
+        "value": 50000.0,
+        "unit": "USD",
+        "origin": "repository_execution_default",
+        "description": "Normalization base for the benchmark equity curve."
+      },
+      {
+        "name": "equity_formula",
+        "value": "initial_capital * close_t / close_0",
+        "unit": "formula",
+        "origin": "repository_benchmark_convention",
+        "description": "Price-relative market benchmark."
+      }
+    ],
+    "risk_management": [],
+    "execution": [
+      {
+        "name": "transaction_costs",
+        "value": "not_applied_price_index_benchmark",
+        "unit": "policy",
+        "origin": "benchmark_convention",
+        "description": "Benchmark measures market price performance rather than a futures trading implementation."
+      },
+      {
+        "name": "roll_handling",
+        "value": "use_provided_continuous_series_unchanged",
+        "unit": "policy",
+        "origin": "research_assumption",
+        "description": "No synthetic roll reconstruction is introduced."
+      },
+      {
+        "name": "session_timezone",
+        "value": "America/New_York",
+        "unit": "IANA_timezone",
+        "origin": "repository_session_default",
+        "description": "Session closes are identified in New York time."
+      },
+      {
+        "name": "daily_flatten",
+        "value": false,
+        "unit": "boolean",
+        "origin": "benchmark_convention",
+        "description": "Keep continuous close-to-close exposure; do not flatten each day."
+      },
+      {
+        "name": "topstep_rules_applied",
+        "value": false,
+        "unit": "boolean",
+        "origin": "benchmark_convention",
+        "description": "The market benchmark is independent of Topstep entry and flatten rules."
+      }
+    ]
+  },
+  "canonical_parameters": {
+    "structural": {
+      "price_column": "close",
+      "sampling": "last_close_per_session",
+      "cash_close": "16:00:00",
+      "early_close_calendar": "official_CME_equity_index_futures_calendar",
+      "exposure": 1.0,
+      "initial_capital_usd": 50000.0,
+      "equity_formula": "initial_capital * close_t / close_0"
+    },
+    "risk_management": {},
+    "execution": {
+      "transaction_costs": "not_applied_price_index_benchmark",
+      "roll_handling": "use_provided_continuous_series_unchanged",
+      "session_timezone": "America/New_York",
+      "daily_flatten": false,
+      "topstep_rules_applied": false
+    }
+  },
+  "lookahead_risks": [
+    {
+      "risk": "Selecting the first or last date after inspecting strategy performance changes the benchmark window.",
+      "control": "Use exactly the same predeclared calendar window as the strategy report being compared."
+    },
+    {
+      "risk": "A continuous futures series may contain roll adjustment artifacts.",
+      "control": "Use the same frozen continuous MNQ series for every comparison and disclose its roll construction when available."
+    }
+  ],
+  "same_bar_risks": [],
+  "execution_ambiguities": [
+    {
+      "risk": "A normalized continuous-futures price curve is not a directly tradable cash buy-and-hold position.",
+      "control": "Label it as a market price benchmark and do not apply active-strategy commissions, slippage, or session flattening."
+    }
+  ],
+  "remaining_assumptions": [
+    {
+      "type": "research_assumption",
+      "id": "continuous_series_as_market_proxy",
+      "description": "The provided continuous MNQ close series is accepted unchanged as the passive market proxy."
+    },
+    {
+      "type": "research_assumption",
+      "id": "benchmark_window_lock",
+      "description": "The comparison window is fixed before active-strategy metrics are computed."
+    }
+  ],
+  "unresolved_ambiguities": [],
+  "ready_for_baseline_backtest": true
+}

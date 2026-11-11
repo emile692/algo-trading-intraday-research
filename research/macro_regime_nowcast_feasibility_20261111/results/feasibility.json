@@ -1,0 +1,135 @@
+{
+  "note": "No price/return/P&L data read. PRE/IS only; OOS not touched.",
+  "notebook_params": {
+    "lag": 4,
+    "window": 5,
+    "toAdj": 2
+  },
+  "windows": [
+    5,
+    10,
+    20
+  ],
+  "periods": {
+    "PRE": [
+      "2014-07-01",
+      "2019-04-30"
+    ],
+    "IS": [
+      "2019-05-01",
+      "2023-12-31"
+    ]
+  },
+  "coverage": {
+    "GDP_gdpnow": {
+      "PRE": {
+        "source_first_date": "2014-05-01",
+        "source_last_date": "2026-10-28",
+        "publication_days": 731,
+        "days_with_changed_value": 711,
+        "share_bdays_with_changed_value": 0.564,
+        "median_gap_days_between_changes": 2.0,
+        "max_gap_days_between_changes": 13.0,
+        "max_live_targets_per_date": 1
+      },
+      "IS": {
+        "source_first_date": "2014-05-01",
+        "source_last_date": "2026-10-28",
+        "publication_days": 732,
+        "days_with_changed_value": 714,
+        "share_bdays_with_changed_value": 0.586,
+        "median_gap_days_between_changes": 1.0,
+        "max_gap_days_between_changes": 12.0,
+        "max_live_targets_per_date": 1
+      }
+    },
+    "CPI_cleveland_yoy": {
+      "PRE": {
+        "source_first_date": "2013-08-20",
+        "source_last_date": "2026-11-10",
+        "publication_days": 1212,
+        "days_with_changed_value": 386,
+        "share_bdays_with_changed_value": 0.306,
+        "median_gap_days_between_changes": 5.0,
+        "max_gap_days_between_changes": 14.0,
+        "max_live_targets_per_date": 3
+      },
+      "IS": {
+        "source_first_date": "2013-08-20",
+        "source_last_date": "2026-11-10",
+        "publication_days": 1174,
+        "days_with_changed_value": 355,
+        "share_bdays_with_changed_value": 0.291,
+        "median_gap_days_between_changes": 6.0,
+        "max_gap_days_between_changes": 16.0,
+        "max_live_targets_per_date": 3
+      }
+    },
+    "CPI_breakeven10y": {
+      "PRE": {
+        "source_first_date": "2013-01-02",
+        "source_last_date": "2026-11-10",
+        "publication_days": 1208,
+        "days_with_changed_value": 1041,
+        "share_bdays_with_changed_value": 0.826,
+        "median_gap_days_between_changes": 1.0,
+        "max_gap_days_between_changes": 8.0,
+        "max_live_targets_per_date": 1
+      },
+      "IS": {
+        "source_first_date": "2013-01-02",
+        "source_last_date": "2026-11-10",
+        "publication_days": 1169,
+        "days_with_changed_value": 1055,
+        "share_bdays_with_changed_value": 0.866,
+        "median_gap_days_between_changes": 1.0,
+        "max_gap_days_between_changes": 6.0,
+        "max_live_targets_per_date": 1
+      }
+    }
+  },
+  "inflation_source_agreement": {
+    "w5_PRE_cpi_sign_agreement": 0.534,
+    "w5_IS_cpi_sign_agreement": 0.555,
+    "w10_PRE_cpi_sign_agreement": 0.526,
+    "w10_IS_cpi_sign_agreement": 0.542,
+    "w20_PRE_cpi_sign_agreement": 0.546,
+    "w20_IS_cpi_sign_agreement": 0.544,
+    "w5_PRE_regime_agreement": 0.489,
+    "w5_IS_regime_agreement": 0.511
+  },
+  "raw_sha256": {
+    "GDPTrackingModelDataAndForecasts.xlsx": "891ed121f1d101d54727a023708b6fa01b64dbcae471c5c0e05611fe4ccc8990",
+    "nowcast_month.json": "e00e8ec1eb9f8216c8e414eeff1d103832f1936d6936a5b26e8c678f3c065426",
+    "nowcast_quarter.json": "747ed89275cfc7b914a4cd2aadd71e2c7ff2d1353601ca3f5297db5f0b51284e",
+    "nowcast_year.json": "2bf6e7442c1052301d10cb234988773839e0ac6f199e770770841d9366f5d7dd",
+    "treasury\\tr_daily_treasury_real_yield_curve_2013.csv": "6819c5fbbbbfbd511dd7fef270857db7cf2c97f862805fd24589af7af2df8c15",
+    "treasury\\tr_daily_treasury_real_yield_curve_2014.csv": "1b7365254bdc3bd75a1fef774c9bba0a39fa3d499a13ae80e65a4eda4c61a92d",
+    "treasury\\tr_daily_treasury_real_yield_curve_2015.csv": "aec6d36e527bab697717aea76a04113e168392a15944bc8461690d05f9aa0b47",
+    "treasury\\tr_daily_treasury_real_yield_curve_2016.csv": "b38e72f59b7edbc660b00be57e1a82e1a49bc7f3128fcb520faddd05d99f7c49",
+    "treasury\\tr_daily_treasury_real_yield_curve_2017.csv": "94b310fafe718ca3f6717b7da4cd7d7bf335faecf1a302793f0f34733f164473",
+    "treasury\\tr_daily_treasury_real_yield_curve_2018.csv": "d1ef01905a1608957d06cbcd26593eac1e8b9bff9e92a1fa3a1b142a97ef0a95",
+    "treasury\\tr_daily_treasury_real_yield_curve_2019.csv": "593741b038e0970fe5be65a04e0047e17f00809da64e84948d1d306ab032e207",
+    "treasury\\tr_daily_treasury_real_yield_curve_2020.csv": "30c98a2d75a4474e08a338bc3874745241d63be8f4a0d07a7f04a454a332921c",
+    "treasury\\tr_daily_treasury_real_yield_curve_2021.csv": "9c614f8b16db601f1dc01ddd77db42d4e4a54b7243db4b4fc228270a08f747d3",
+    "treasury\\tr_daily_treasury_real_yield_curve_2022.csv": "70b21a92a05801c479f1ddaee21137b7f842d43d883d32d57f9bbae272111a48",
+    "treasury\\tr_daily_treasury_real_yield_curve_2023.csv": "ef28bcafaca75c45bb6b3491b4df4bd1b5e2ab7ff35ac014b6f8362df330c0ca",
+    "treasury\\tr_daily_treasury_real_yield_curve_2024.csv": "d3ff00a9287ebf68fdc80e72fb2d1895a73c84b3ff2a6ca8c6d64648cb470f16",
+    "treasury\\tr_daily_treasury_real_yield_curve_2025.csv": "d3d3131c41e1f93f4661d227ce7079049d51888b395aaff863b6ad8e08838b64",
+    "treasury\\tr_daily_treasury_real_yield_curve_2026.csv": "70b971639be02b087263ae2f18a8e21bfc6aeb360223558a63e4cd9dfff25494",
+    "treasury\\tr_daily_treasury_yield_curve_2013.csv": "1e1a98426d9274afcc68467962f9238104db775b8765e48f45ac7488b33ff338",
+    "treasury\\tr_daily_treasury_yield_curve_2014.csv": "8d560698e03e4c0d8d22ff8be7f5f7c5c0d472b1e33a22b6a75373a57e84aa0f",
+    "treasury\\tr_daily_treasury_yield_curve_2015.csv": "b7665d1ce46d6ed6d08fbda34aae1831de38e274e3c7caed81904042aac9b5bc",
+    "treasury\\tr_daily_treasury_yield_curve_2016.csv": "b4d0a8d86e2734bc64d84d9a9824434d841737621582daeac58f13c7129f325c",
+    "treasury\\tr_daily_treasury_yield_curve_2017.csv": "56074da7c32103a28cf4ba2bdf5eaa12f98fd49852047aef1a6eb16e64bd6e83",
+    "treasury\\tr_daily_treasury_yield_curve_2018.csv": "e8375524a7a8d3e8091bbe7690d0378b9365be09efff5b18b8eefddc25f718d3",
+    "treasury\\tr_daily_treasury_yield_curve_2019.csv": "83fc47c17325e222c45fd3a1eb26c69ae01f62d33b793030b4b8b350ca0a290b",
+    "treasury\\tr_daily_treasury_yield_curve_2020.csv": "edcf1c8be9622f3cd92eb7de1847aefc3977e2118e2ff9af67f46614a5c306a7",
+    "treasury\\tr_daily_treasury_yield_curve_2021.csv": "1be57e49c63a99f6002431a1030c8fbe539b71066c3eaf14f9f58ddc34492cea",
+    "treasury\\tr_daily_treasury_yield_curve_2022.csv": "c33cb2758e5e34c2c23b7ab759d18681091860f3f9e5960112859f64f31cd814",
+    "treasury\\tr_daily_treasury_yield_curve_2023.csv": "edb7f3904e11dcaa502cdcc03ad9b1b16c893802d166ce9bc5fa1118251249d4",
+    "treasury\\tr_daily_treasury_yield_curve_2024.csv": "6775840b76cd7fd41121f61d6f6c60184eca6b2ba49954ec7372c463cbeef34d",
+    "treasury\\tr_daily_treasury_yield_curve_2025.csv": "cf2fa3da7f160384b63d2ead698532b1d76cd9f789ce4911e2304db85b14e6d5",
+    "treasury\\tr_daily_treasury_yield_curve_2026.csv": "782e0953ac34dd4c9751bc061feae3b1a2e18f0be8c7c181a3d2a472d1bdcbe5"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "decision": "REAL_EFFECT_NOT_YET_EXECUTABLE",
+  "assets": [
+    "M2K",
+    "MES",
+    "MNQ",
+    "NQ"
+  ],
+  "thresholds": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "source_rows": 16,
+  "new_search": false,
+  "topstep_nq_excluded": true
+}

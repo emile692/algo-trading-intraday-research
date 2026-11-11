@@ -1,0 +1,12 @@
+{
+  "framework": "research.mbt_nine_sleeve_topstep_20261004.run_topstep",
+  "seed": 20261004,
+  "blocks": [
+    3,
+    5,
+    10,
+    20
+  ],
+  "paths_per_block": 2000,
+  "candidate_intraday_note": "five-minute candidate MAE added conservatively to unchanged minute nine-sleeve adverse path"
+}

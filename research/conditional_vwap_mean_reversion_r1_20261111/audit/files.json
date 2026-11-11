@@ -1,0 +1,26 @@
+{
+  "MNQ": {
+    "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet",
+    "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef"
+  },
+  "MES": {
+    "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+    "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d"
+  },
+  "MGC": {
+    "path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet",
+    "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888"
+  },
+  "MCL": {
+    "path": "data/downloaded/MCL_v_0_1m_20210712_20261111.parquet",
+    "sha256": "5073f06dece2416beb887c65654160edc805a52f9007ccb22d3047e9ed5edc4b"
+  },
+  "NQ": {
+    "path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet",
+    "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8"
+  },
+  "CL": {
+    "path": "data/downloaded/CL_v_0_1m_20150101_20210712.parquet",
+    "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a"
+  }
+}

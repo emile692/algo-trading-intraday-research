@@ -1,0 +1,23 @@
+{
+  "generated_utc": "2026-09-26T20:54:37.523709+00:00",
+  "purpose": "Permanent written trace before deletion of closed and regenerable research artifacts.",
+  "campaign_records": 180,
+  "file_records": 3657,
+  "total_bytes": 2795114545,
+  "narrative_closure": "docs/RESEARCH_CLOSURE_2026.md",
+  "active_reference": "docs/ACTIVE_EIGHT_SLEEVES.md",
+  "previous_active_reference": "docs/ACTIVE_NINE_SLEEVES.md",
+  "active_reference_promoted_on": "2026-11-03",
+  "preserved": [
+    "research/locked_four_sleeve_portfolio",
+    "research/mgc_final_two_sleeve_lock_20260926",
+    "research/money_management_lab",
+    "research/baseline_backtests",
+    "research/mgc_baseline_backtests",
+    "research/mgc_wide_parameter_landscape",
+    "strategy_registry",
+    "export/mnq_orb_vwap_atr_retained",
+    "data/downloaded",
+    "data/processed/parquet"
+  ]
+}

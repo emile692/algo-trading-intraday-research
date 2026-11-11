@@ -1,0 +1,73 @@
+{
+  "created_for": "signal_sheet_02",
+  "grid_rows": 770,
+  "daily_atr_periods": [
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24,
+    26,
+    28,
+    30
+  ],
+  "entry_atr_multiples": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8
+  ],
+  "max_holding_minutes": [
+    60,
+    90,
+    120,
+    150,
+    180,
+    210,
+    240,
+    270,
+    300,
+    360
+  ],
+  "is_period": [
+    "2019-05-06",
+    "2023-12-31"
+  ],
+  "oos_validation_period": [
+    "2024-01-01",
+    "2026-03-19"
+  ],
+  "retained_parameter_region": {
+    "daily_atr_period": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22
+    ],
+    "entry_atr_multiple": [
+      0.5,
+      0.6
+    ],
+    "max_holding_minutes": [
+      270,
+      300,
+      360
+    ],
+    "submodel_count": 42,
+    "vote_threshold": 0.5,
+    "minimum_net_directional_votes": 21
+  },
+  "data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174",
+  "frozen_spec_sha256": "62438e0ce9d1bd93f2c1382b71851a1804f596ef36108a48a934f1cbedd5c31d",
+  "all_backtests_valid": true,
+  "performance_maximum_used_for_lock": false
+}

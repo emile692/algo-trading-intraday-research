@@ -1,5 +1,40 @@
 # Note d'instruction - implementation du 3-state live dans `algo-trading-intraday-execution`
 
+> **Archive de recherche — instruction remplacée le 2026-09-16.** La référence
+> MNQ retenue pour l'exécution est `orb_vwap_atr` (ORB + VWAP + ATR), avec
+> sizing standard. Le sizing 3-state est définitivement écarté pour cette
+> référence. Ne pas appliquer le plan d'implémentation ci-dessous à la
+> configuration d'exécution actuelle. Voir
+> `docs/mnq_orb_strategy_institutional_memo.md`.
+
+> **Archive de recherche — instruction remplacée le 2026-09-16.** La référence
+> MNQ retenue pour l'exécution est `orb_vwap_atr` (ORB + VWAP + ATR), avec
+> sizing standard. Le sizing 3-state est définitivement écarté pour cette
+> référence. Ne pas appliquer le plan d'implémentation ci-dessous à la
+> configuration d'exécution actuelle. Voir
+> `docs/mnq_orb_strategy_institutional_memo.md`.
+
+> **Archive de recherche — instruction remplacée le 2026-09-16.** La référence
+> MNQ retenue pour l'exécution est `orb_vwap_atr` (ORB + VWAP + ATR), avec
+> sizing standard. Le sizing 3-state est définitivement écarté pour cette
+> référence. Ne pas appliquer le plan d'implémentation ci-dessous à la
+> configuration d'exécution actuelle. Voir
+> `docs/mnq_orb_strategy_institutional_memo.md`.
+
+> **Archive de recherche — instruction remplacée le 2026-09-16.** La référence
+> MNQ retenue pour l'exécution est `orb_vwap_atr` (ORB + VWAP + ATR), avec
+> sizing standard. Le sizing 3-state est définitivement écarté pour cette
+> référence. Ne pas appliquer le plan d'implémentation ci-dessous à la
+> configuration d'exécution actuelle. Voir
+> `docs/mnq_orb_strategy_institutional_memo.md`.
+
+> **Archive de recherche — instruction remplacée le 2026-09-16.** La référence
+> MNQ retenue pour l'exécution est `orb_vwap_atr` (ORB + VWAP + ATR), avec
+> sizing standard. Le sizing 3-state est définitivement écarté pour cette
+> référence. Ne pas appliquer le plan d'implémentation ci-dessous à la
+> configuration d'exécution actuelle. Voir
+> `docs/mnq_orb_strategy_institutional_memo.md`.
+
 ## Objectif
 
 Implementer dans le repo `algo-trading-intraday-execution` un **overlay de sizing 3-state** pour `mnq_orb`, sans changer la logique d'entree/sortie ORB deja en production locale.

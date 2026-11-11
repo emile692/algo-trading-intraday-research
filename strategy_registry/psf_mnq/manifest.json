@@ -1,0 +1,30 @@
+{
+  "snapshot_date": "2026-09-18",
+  "generated_at_utc": "2026-10-06T16:50:26+00:00",
+  "source_asset_url": "https://pinescriptforge.com/assets/index-DJyf-tLw.js",
+  "source_asset_sha256": "8899d5622b0133ed3414b4c1558de239f8e96bb6f41702d7ba10554fb87a8213",
+  "source_strategy_count": 310,
+  "ranked_card_count": 184,
+  "supplemental_card_count": 1,
+  "total_card_count": 185,
+  "supplemental_slug": "rsi-mean-reversion",
+  "duplicate_name_groups": {
+    "Z-Score Mean Reversion": [
+      "z-score-mean-reversion",
+      "z-score-reversion"
+    ],
+    "Pivot Point Breakout": [
+      "pivot-point-breakout",
+      "pivot-breakout"
+    ],
+    "Rainbow Moving Average": [
+      "rainbow-ma",
+      "rainbow-moving-average"
+    ],
+    "Relative Vigor Index": [
+      "relative-vigor-index",
+      "rvi-divergence"
+    ]
+  },
+  "selection_note": "184 entries reproduce the site's >=300 synthetic-trades display filter; RSI Mean Reversion is a published MNQ page outside that filter. Site performance metrics are excluded."
+}

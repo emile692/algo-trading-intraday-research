@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "locked_grid_path": "research/wide_parameter_landscape/wide_parameter_grids.json",
+  "locked_grid_sha256": "74f840a34fc57339eeccf9b3f1da3deffa68bb9100cbe8f2e81425422d7a98ac",
+  "is_start": "2019-05-06",
+  "is_end": "2023-12-31",
+  "validation_start": "2024-01-01",
+  "validation_end": "2026-03-19",
+  "consensus_score": "min(sharpe_IS, sharpe_VAL)",
+  "robust_cell": "sharpe_IS > 0 and sharpe_VAL > 0 and PF_IS > 1 and PF_VAL > 1",
+  "contiguity": "orthogonal four-neighbor adjacency in the original locked grid",
+  "largest_robust_region": "largest orthogonally connected component of robust cells",
+  "medoid": "cell in the largest robust component minimizing total Manhattan grid distance; ties use higher consensus_score then combination_id",
+  "is_positive_zone": "sharpe_IS > 0 and PF_IS > 1",
+  "entire_is_zone_collapsed": "at least one IS-positive cell exists and zero robust cells remain in validation",
+  "post_observation_tuning": false
+}

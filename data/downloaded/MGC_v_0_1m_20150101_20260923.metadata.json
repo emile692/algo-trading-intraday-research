@@ -1,0 +1,28 @@
+{
+  "request": {
+    "dataset": "GLBX.MDP3",
+    "symbols": "MGC.v.0",
+    "stype_in": "continuous",
+    "schema": "ohlcv-1m",
+    "start": "2015-01-01T00:00:00Z",
+    "end": "2026-09-23T00:00:00Z"
+  },
+  "estimated_cost_usd": 12.008514478803,
+  "cost_guard_usd": 12.1,
+  "paid_get_range_calls": 1,
+  "row_count": 3289297,
+  "first_timestamp": "2015-01-01 23:01:00+00:00",
+  "last_timestamp": "2026-09-22 23:59:00+00:00",
+  "duplicate_timestamps": 0,
+  "instrument_count": 60,
+  "raw_file": "data\\downloaded\\MGC_v_0_1m_20150101_20260923.parquet",
+  "raw_file_size_bytes": 50201575,
+  "raw_sha256": "80ea1f986f3b4a3a954c1b360e145609c805380d2954e739410cd588911b3875",
+  "processing": "rename index to timestamp and convert UTC to America/New_York",
+  "processed_file": "data\\processed\\parquet\\MGC_v_0_1m_20150101_20260923.parquet",
+  "processed_file_size_bytes": 50201640,
+  "processed_sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96",
+  "expected_processed_sha256": "2bbc2d10d59409fd347779fc00a23633fa6ad6aec0cf4b52e7a6d7a278426e96",
+  "matches_historical_processed_sha256": true,
+  "api_key_persisted": false
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "status": "LOCKED_BEFORE_PERFORMANCE",
+  "run_type": "mcl_ema_rsi_macd_supertrend_intraday_plan",
+  "source": "user-supplied Crude Oil Option Intraday Trading Plan (MCX, IST); the Buy/Sell setup text was truncated, rules below are inferred from its indicator section",
+  "policy": "One canonical spec, no grid, no tuning after performance. Same windows, costs, exclusions and IS gate as the base config.",
+  "base_config": "research/mcl_mudrex_strategies_20261111/mcl_mudrex_config.json",
+  "strategy": {
+    "name": "s6_ema_rsi_macd_supertrend",
+    "trend_15m": "close > EMA20 > EMA50 > EMA200 for long, mirrored for short (last closed 15m bar)",
+    "ema": [20, 50, 200],
+    "entry_5m": "on a closed 5m bar: RSI(14) > 60 (short: < 40), MACD(12,26,9) line crosses its signal in the trade direction on that bar, volume > 20-bar average, Supertrend(10,3) already on the trade side; market at next 1m open",
+    "rsi_period": 14, "rsi_long": 60, "rsi_short": 40, "macd": [12, 26, 9], "volume_avg_bars": 20,
+    "supertrend": [10, 3.0],
+    "exit": "trailing stop on the 5m Supertrend line (ratchets only in favour of the trade), else flatten at the last core bar; no profit target",
+    "entry_window": ["09:30", "14:00"],
+    "time_rules_mapping": "plan trades the MCX evening session from 6:30 PM IST = 09:00 ET and waits 15-30 min after the open; the 1-4 PM IST dead zone falls before the core session",
+    "news_filter": "no entries 10:00-11:00 ET on EIA Wednesdays",
+    "omitted": ["discretionary trendlines and price-action zones", "DXY / equity-index sentiment", "OBV", "options execution (futures traded instead)"]
+  }
+}

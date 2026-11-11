@@ -1,0 +1,41 @@
+{
+  "frozen_before_results": true,
+  "freeze_date": "2026-10-02",
+  "campaign": "cross_asset_lead_lag",
+  "pairs": [
+    {"leader": "MES", "target": "MNQ"},
+    {"leader": "M2K", "target": "MNQ"},
+    {"leader": "6E", "target": "MGC"},
+    {"leader": "ZN", "target": "MGC"}
+  ],
+  "periods": {
+    "is": ["2019-05-06", "2022-12-31"],
+    "validation": ["2023-01-01", "2023-12-31"],
+    "oos": ["2024-01-01", "2026-03-19"]
+  },
+  "bar_minutes": 5,
+  "beta_windows_bars": [60, 120],
+  "impulse_windows_minutes": [5, 15, 30],
+  "threshold_z": [1.5, 2.0, 2.5],
+  "underreaction_fraction": 0.5,
+  "forward_minutes": [5, 15, 30, 60],
+  "canonical": {"beta_window_bars": 120, "impulse_minutes": 15, "threshold_z": 2.0, "forward_minutes": 30},
+  "execution": {
+    "next_bar_required": true,
+    "additional_delay_minutes": 5,
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1,
+    "MNQ": {"tick_size": 0.25, "point_value": 2.0},
+    "MGC": {"tick_size": 0.1, "point_value": 10.0}
+  },
+  "inference": {
+    "bootstrap_samples": 1000,
+    "seed": 20261002,
+    "family_correction": "bonferroni",
+    "min_events_full": 80,
+    "min_events_oos": 25,
+    "minimum_positive_year_fraction": 0.6,
+    "neighbor_positive_fraction": 0.5
+  },
+  "failure_verdict": "REJECTED_NO_LEAD_LAG_EDGE"
+}

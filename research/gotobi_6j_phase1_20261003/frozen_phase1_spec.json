@@ -1,0 +1,75 @@
+{
+  "campaign": "gotobi_6j_phase1",
+  "frozen_on": "2026-10-03",
+  "frozen_sleeves_modified": false,
+  "market_data": {
+    "expected_file": "data/downloaded/6J_v_0_1m_20150101_20261003.parquet",
+    "expected_symbol": "6J.v.0",
+    "schema": "ohlcv-1m",
+    "source_timezone": "UTC",
+    "continuous_rule": "Databento volume-ranked front month, point-in-time mapping",
+    "roll_policy": "no back-adjustment; reject any measured window whose instrument_id changes"
+  },
+  "contract": {
+    "quote": "USD per JPY",
+    "contract_jpy": 12500000,
+    "tick_size": 0.0000005,
+    "tick_value_usd": 6.25,
+    "usd_jpy_direction": "inverse_of_6J"
+  },
+  "calendar": {
+    "definition_timezone": "Asia/Tokyo",
+    "bank_business_day": "weekday excluding official Japanese national holidays and BOJ Dec-31 through Jan-3 closure",
+    "anchors": [5, 10, 15, 20, 25, 30],
+    "nonbusiness_adjustment": "previous Japanese bank business day",
+    "february_rule": "do not invent day 30; study last business day separately",
+    "eom_rule": "last Japanese bank business day of each month"
+  },
+  "fix": {
+    "time": "09:55:00",
+    "timezone": "Asia/Tokyo",
+    "timezone_conversion": "zoneinfo Asia/Tokyo to America/Chicago; never fixed offset"
+  },
+  "event_windows_jst": [
+    "CME_reopen_to_09:30",
+    "09:30_to_09:50",
+    "09:50_to_09:55",
+    "09:55_to_10:00",
+    "10:00_to_10:15",
+    "10:00_to_10:30",
+    "10:00_to_11:00"
+  ],
+  "controls": [
+    "all_non_gotobi_Japan_business_days",
+    "weekday_matched_non_gotobi",
+    "prior_Japan_business_day_placebo",
+    "next_Japan_business_day_placebo"
+  ],
+  "topstep": {
+    "timezone": "America/Chicago",
+    "session_open": "17:00 previous calendar day",
+    "mandatory_flat": "15:10 session date",
+    "structural_result": "all requested fix windows are inside permitted hours",
+    "exception_policy": "require actual bars at every endpoint; never fill CME holiday closures"
+  },
+  "phase1b_gate": "run only if event-study sign, approach-to-fix structure, subperiods, and placebo contrast are coherent",
+  "candidate_rules_if_gate_passes": {
+    "pre_fix_central": "short 6J; scheduled decision 09:30 JST, next-bar entry at 09:31 open, scheduled exit at 09:54 open before fixing",
+    "post_fix_central": "long 6J, scheduled 09:56 JST open entry, exit 30 minutes later",
+    "post_fix_nearby_horizons_minutes": [15, 30, 60]
+  },
+  "costs": {
+    "topstepx_round_turn_usd": 4.22,
+    "baseline_slippage_ticks_per_side": 1,
+    "stress_slippage_ticks_per_side": 2
+  },
+  "forbidden": [
+    "modify_frozen_sleeves",
+    "reopen_hypothesis_1_or_2",
+    "large_parameter_grid",
+    "deflated_sharpe",
+    "ERC",
+    "complex_bootstrap",
+    "Topstep_account_simulation"
+  ]
+}

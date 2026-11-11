@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "status": "USER_SELECTED_PLATEAU_REPRESENTATIVE",
+  "mechanism_id": "gap_continuation",
+  "locked_parameters": {
+    "minimum_gap_atr_multiple": 0.5,
+    "volume_threshold_multiple": 0.6
+  },
+  "selection_basis": "Explicit user preference inside the already confirmed 81/81 robust local plateau; exact point is run once only as a confirmatory check.",
+  "parameter_optimization": false,
+  "fallback_allowed": false,
+  "validation_status": "adaptive_reused_not_pristine_oos"
+}

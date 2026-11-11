@@ -1,0 +1,74 @@
+{
+  "MNQ": {
+    "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet",
+    "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef",
+    "rows": 2592447,
+    "first": "2019-05-05 18:03:00-04:00",
+    "last": "2026-10-02 16:59:00-04:00",
+    "duplicated_timestamps": 0,
+    "n_instrument_ids": 31,
+    "nonpositive_prices": 0,
+    "zero_volume_bars": 0,
+    "round_trip_cost_usd": 3.5
+  },
+  "MES": {
+    "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+    "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d",
+    "rows": 2399361,
+    "first": "2019-05-05 18:00:00-04:00",
+    "last": "2026-03-20 09:29:00-04:00",
+    "duplicated_timestamps": 0,
+    "n_instrument_ids": 28,
+    "nonpositive_prices": 0,
+    "zero_volume_bars": 0,
+    "round_trip_cost_usd": 5.0
+  },
+  "NQ": {
+    "path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet",
+    "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8",
+    "rows": 5241154,
+    "first": "2010-06-06 20:00:00-04:00",
+    "last": "2026-03-20 09:29:00-04:00",
+    "duplicated_timestamps": 0,
+    "n_instrument_ids": 64,
+    "nonpositive_prices": 0,
+    "zero_volume_bars": 0,
+    "round_trip_cost_usd": 12.5
+  },
+  "MGC": {
+    "path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet",
+    "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888",
+    "rows": 3300217,
+    "first": "2015-01-01 18:01:00-05:00",
+    "last": "2026-10-02 16:59:00-04:00",
+    "duplicated_timestamps": 0,
+    "n_instrument_ids": 60,
+    "nonpositive_prices": 0,
+    "zero_volume_bars": 0,
+    "round_trip_cost_usd": 4.5
+  },
+  "MCL": {
+    "path": "data/downloaded/MCL_v_0_1m_20210712_20261111.parquet",
+    "sha256": "5073f06dece2416beb887c65654160edc805a52f9007ccb22d3047e9ed5edc4b",
+    "rows": 1815162,
+    "first": "2021-07-11 20:00:00-04:00",
+    "last": "2026-11-10 18:59:00-05:00",
+    "duplicated_timestamps": 0,
+    "n_instrument_ids": 65,
+    "nonpositive_prices": 0,
+    "zero_volume_bars": 0,
+    "round_trip_cost_usd": 4.5
+  },
+  "CL": {
+    "path": "data/downloaded/CL_v_0_1m_20150101_20210712.parquet",
+    "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a",
+    "rows": 2284901,
+    "first": "2015-01-01 18:00:00-05:00",
+    "last": "2021-07-11 19:59:00-04:00",
+    "duplicated_timestamps": 0,
+    "n_instrument_ids": 79,
+    "nonpositive_prices": 0,
+    "zero_volume_bars": 0,
+    "round_trip_cost_usd": 4.5
+  }
+}

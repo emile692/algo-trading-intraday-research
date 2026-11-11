@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED_COST_CONSTRAINED",
+  "closed_on": "2026-09-29",
+  "reason": "The raw effect replicates on 6E and ZN, but no tested instrument is profitable after the frozen all-in cost assumptions.",
+  "reopen_only_if": "Observed all-in round-trip execution cost is sustainably below the frozen gross break-even cost for at least one raw survivor, followed by prospective revalidation without changing the signal.",
+  "screening_cost_thresholds_usd_per_contract_round_trip": {
+    "6E": 7.100844109195428,
+    "ZN": 5.465760522959184
+  },
+  "threshold_warning": "These are zero-expectancy break-even ceilings, not target costs or evidence of deployability. A safety margin and prospective realized-fill evidence are required.",
+  "forbidden_on_reopen": [
+    "changing the 30-minute window",
+    "adding filters or thresholds",
+    "selecting long-only or short-only",
+    "increasing contract count to offset negative unit expectancy"
+  ],
+  "raw_effect_passed_instruments": [
+    "6E",
+    "ZN"
+  ],
+  "economically_replicated_instruments": []
+}

@@ -1,0 +1,4 @@
+series,OOS_trades,OOS_mean_net_R,OOS_sd_net_R,review_N,abandon_threshold_mean_net_R,finite_power_review,forward_start,kill_switch
+A_retained,304,0.03607926810217086,0.32246277444144583,361,0.01432912739610295,True,2026-03-20,trailing_365_calendar_day_net_R_strictly_negative_after_365_elapsed_days
+B_canonical,318,0.00847081330778177,0.1660886900678784,1734,0.003359275248673373,True,2026-09-23,trailing_365_calendar_day_net_R_strictly_negative_after_365_elapsed_days
+B_no_volume,547,0.0017733809501778277,0.17033036292682538,41587,0.0007029729136484911,True,2026-09-23,trailing_365_calendar_day_net_R_strictly_negative_after_365_elapsed_days

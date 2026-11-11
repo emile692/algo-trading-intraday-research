@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "configuration_type": "parameter_vote_ensemble",
+  "configuration_status": "frozen_after_historical_is_oos_review",
+  "frozen_on": "2026-10-29",
+  "instrument": "MNQ",
+  "mechanism_id": "volatility_breakout",
+  "ensemble_id": "mnq_volatility_breakout_atr10_22_mult05_06_duration270_360",
+  "parameter_region": {
+    "daily_atr_period": [10, 12, 14, 16, 18, 20, 22],
+    "entry_atr_multiple": [0.5, 0.6],
+    "max_holding_minutes": [270, 300, 360],
+    "cartesian_product": true,
+    "submodel_count": 42
+  },
+  "cell_definition": {
+    "signal": "Symmetric session-open breakout at entry_atr_multiple times the prior completed Wilder RTH daily ATR(daily_atr_period).",
+    "stop": "RTH session open.",
+    "exit": "Cell-specific max_holding_minutes time stop, then the common 16:08 ET safety flatten.",
+    "internal_quantity": "virtual_state_only",
+    "state_space": [-1, 0, 1]
+  },
+  "vote": {
+    "score": "arithmetic_mean_of_42_cell_position_states",
+    "long_target": "score >= 0.50",
+    "short_target": "score <= -0.50",
+    "flat_target": "-0.50 < score < 0.50",
+    "threshold": 0.5,
+    "minimum_net_directional_votes": 21,
+    "exact_threshold_included": true,
+    "conflict_policy": "opposing cell states offset in the arithmetic mean",
+    "target_space": [-1, 0, 1]
+  },
+  "aggregate_execution": {
+    "quantity_mnq": 1,
+    "target_change_execution": "open of the next available one-minute bar after the cell-state change becomes observable",
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1,
+    "hard_flatten_time": "16:08:00 America/New_York",
+    "cost_policy": "Costs apply only to changes in the aggregate target; virtual cell transitions are not charged as separate contracts.",
+    "no_position_after_hard_flatten": true
+  },
+  "historical_windows": {
+    "is": ["2019-05-06", "2023-12-31"],
+    "oos_validation_reused": ["2024-01-01", "2026-03-19"]
+  },
+  "selection_disclosure": "The region was frozen after inspection of both historical cubes. The second window is reused validation, not untouched prospective OOS.",
+  "research_evidence": {
+    "cell_metrics_path": "research/signal_sheet_02_cube/cube_metrics.csv",
+    "cell_metrics_sha256": "395128f590f38723767a8eab57525eeb083aa3d4dbd37206111f9922a1bd2e9a",
+    "minute_data_path": "data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet",
+    "minute_data_sha256": "3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174"
+  },
+  "execution_results": {
+    "executed_on": "2026-10-29",
+    "script": "scripts/rebuild_signal_sheet_02_cluster.py",
+    "result_directory": "research/signal_sheet_02_cluster",
+    "files": {
+      "summary.json": "14b52e9618357be46413a54fec627a4197bd083c691cd1f1db6be04d6abe45af",
+      "trades.csv": "07c2c73e3c1dd6decae9fd09f54ff67d15d7a2d1ee8e11498d434d706e511177",
+      "daily_results.csv": "e1f13ddc9938c908a13cbcd02c7a9b9fb5937981cfbc7116d3121502e3f32d1c",
+      "vote_events.csv": "3eeb1fd3dd1a36356aebe6663f3332e121fc43d3fe03de184ac920b99ce60b4c",
+      "cell_positions.csv": "4a92c72a0b126b9af0734697d3d1aeeb96c90f799b28751cb39dc1c04fade958",
+      "cell_checks.json": "5373f3b311a52b3dc40254be310d75daf456441c93942fe4e4521702030f522f"
+    },
+    "metrics": {
+      "full_sample": {"trade_count": 1085, "net_pnl_usd": 20259.0, "sharpe_annualized": 0.8728777320968748, "profit_factor": 1.2386682924243229, "max_drawdown_usd": -4790.5},
+      "is": {"trade_count": 726, "net_pnl_usd": 10980.0, "sharpe_annualized": 0.830829254394763, "profit_factor": 1.2208655596568336, "max_drawdown_usd": -4790.5},
+      "oos_validation_reused": {"trade_count": 359, "net_pnl_usd": 9279.0, "sharpe_annualized": 0.9708937288145515, "profit_factor": 1.2638328120557294, "max_drawdown_usd": -3714.0}
+    },
+    "audit": {
+      "cell_count": 42,
+      "cell_position_rows": 42591,
+      "vote_event_rows": 11705,
+      "entry_delay_minutes": 1,
+      "overlapping_aggregate_trades": 0,
+      "post_hard_flatten_violations": 0,
+      "all_cell_checks_valid": true,
+      "aggregate_backtest_valid": true
+    }
+  },
+  "supersedes_execution_point": {
+    "daily_atr_period": 14,
+    "entry_atr_multiple": 0.6,
+    "max_holding_minutes": 240
+  }
+}

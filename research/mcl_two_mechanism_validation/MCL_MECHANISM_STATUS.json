@@ -1,0 +1,24 @@
+{
+  "as_of": "2026-09-26",
+  "campaign": "MCL targeted two-mechanism robustness validation",
+  "policy": "No further MCL tuning or wide-grid search from these results.",
+  "decisions": {
+    "short_horizon_pullback_reversion": "ABANDON_AS_MCL_SLEEVE",
+    "ma_crossover_trend": "ABANDON_AS_MCL_SLEEVE",
+    "atr_trend_flip": "FROZEN_NOT_REOPENED",
+    "channel_extreme_reversion": "FROZEN_NOT_REOPENED",
+    "compression_breakout": "FROZEN_NOT_REOPENED",
+    "gap_continuation": "FROZEN_NOT_REOPENED",
+    "gap_fade": "FROZEN_NOT_REOPENED",
+    "momentum_confirmed_breakout": "FROZEN_NOT_REOPENED",
+    "range_structure_reversion": "FROZEN_NOT_REOPENED",
+    "regression_equilibrium_reversion": "FROZEN_NOT_REOPENED",
+    "rolling_range_breakout": "FROZEN_NOT_REOPENED",
+    "session_range_breakout": "FROZEN_NOT_REOPENED",
+    "statistical_zscore_reversion": "FROZEN_NOT_REOPENED",
+    "trend_pullback_ma_structure": "FROZEN_NOT_REOPENED",
+    "volatility_breakout": "FROZEN_NOT_REOPENED",
+    "vwap_equilibrium_reversion": "FROZEN_NOT_REOPENED"
+  },
+  "config_sha256": "4db861905c6ae2c65b3609cc2a2d69e529cdbd47495e2946ed4d28b69efac1b9"
+}

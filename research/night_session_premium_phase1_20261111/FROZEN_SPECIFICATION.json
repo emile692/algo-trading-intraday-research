@@ -1,0 +1,183 @@
+{
+  "campaign": "night_session_premium_phase1_20261111",
+  "phase": "phase_1_mechanism_and_selection_rule_test",
+  "frozen_on": "2026-11-11",
+  "frozen_before_performance": true,
+  "hypothesis": "Holding a long futures position during the Globex night session (18:00 -> 08:00 New York) earns a positive premium after costs, on every locally available market, with one common window. Documented priors: the overnight drift of US equity index futures, concentrated around the European open and stronger after a down US session (Boyarchenko, Larsen, Whelan), and the positive Asian-hours return of gold. Crude oil and bitcoin have no documented prior and are included as a breadth test of the same rule. Expected sign: positive net expectancy of the long position.",
+  "disclosure_before_freeze": [
+    "No return of this strategy was computed on any real instrument before the freeze. The runner was validated on synthetic data only (self-test).",
+    "Session coverage was counted before the freeze (counts of eligible nights per year only, for node tolerances of 5, 15 and 30 minutes). The tolerance was set to 15 minutes from those counts: at 5 minutes MBT keeps only 175 and 141 nights in 2022 and 2023 (234 and 224 at 15) and MGC 74 in 2015 (173 at 15); the other instruments are unchanged.",
+    "Prior information already seen in this repo: (a) conditional shock / overnight -> RTH transfer on MNQ and MGC is REJECTED (signal conditional on a shock, different rule); (b) intraday periodicity (cross-sectional, same time of day) is REJECTED and negative before costs; (c) gap continuation on MGC is a live sleeve and gap reversion on NQ/MNQ is in shadow: both trade the RTH session after the night, not the night itself; (d) rebalancing, London-fix and close-hedging flow mechanisms are REJECTED.",
+    "General market knowledge held before the freeze: equity indices and gold rose over 2019-2023 with a bear market in 2022. A long-only rule therefore carries market beta; gate G7 and the PRE holdout exist for that reason.",
+    "MCL exists from 2021-07-12 only. Crude oil before that date is CL, used in the PRE holdout with MCL contract economics. The 16-mechanism MCL campaigns closed on 2026-09-26 tested RTH rules; a night-session long premium is a different hypothesis.",
+    "The 2024-01 -> 2026-03 window was used as OOS by earlier campaigns on other strategies; it is unseen for this hypothesis."
+  ],
+  "universe": {
+    "MNQ": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet",
+      "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef",
+      "point_value": 2.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25
+    },
+    "MES": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet",
+      "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d",
+      "point_value": 5.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25
+    },
+    "M2K": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/M2K_c_0_1m_20260322_134808.parquet",
+      "sha256": "9eefeeebb0642214e981f9a4a82fb954ff4510e887772b37c4bead4b48f190c9",
+      "point_value": 5.0,
+      "tick_size": 0.1,
+      "commission_per_side": 1.25
+    },
+    "MGC": {
+      "cluster": "gold",
+      "path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet",
+      "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888",
+      "point_value": 10.0,
+      "tick_size": 0.1,
+      "commission_per_side": 1.25
+    },
+    "MCL": {
+      "cluster": "crude_oil",
+      "path": "data/downloaded/MCL_v_0_1m_20210712_20261111.parquet",
+      "sha256": "5073f06dece2416beb887c65654160edc805a52f9007ccb22d3047e9ed5edc4b",
+      "point_value": 100.0,
+      "tick_size": 0.01,
+      "commission_per_side": 1.25
+    },
+    "MBT": {
+      "cluster": "bitcoin",
+      "path": "data/downloaded/MBT_v_0_1m_20210425_20261003.parquet",
+      "sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+      "point_value": 0.1,
+      "tick_size": 5.0,
+      "commission_per_side": 1.41
+    }
+  },
+  "pre_sample_holdout_universe": {
+    "NQ": {
+      "cluster": "equity_index",
+      "path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet",
+      "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8",
+      "point_value": 20.0,
+      "tick_size": 0.25,
+      "commission_per_side": 1.25,
+      "periods": {"PRE": ["2010-06-07", "2019-05-03"]}
+    },
+    "MGC": {
+      "cluster": "gold",
+      "path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet",
+      "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888",
+      "point_value": 10.0,
+      "tick_size": 0.1,
+      "commission_per_side": 1.25,
+      "periods": {"PRE": ["2015-01-01", "2019-05-03"]}
+    },
+    "CL_as_MCL": {
+      "cluster": "crude_oil",
+      "path": "data/downloaded/CL_v_0_1m_20150101_20210712.parquet",
+      "sha256": "6fe3bd6a45cc2350b3a95378acb8bb889b3053e568d56cddbad33a9b1448097a",
+      "point_value": 100.0,
+      "tick_size": 0.01,
+      "commission_per_side": 1.25,
+      "periods": {"PRE": ["2015-01-01", "2021-07-09"]},
+      "note": "CL prices with MCL contract economics (MCL did not exist)."
+    }
+  },
+  "session": {
+    "timezone": "America/New_York (wall clock, daylight saving followed; the European open therefore falls at 03:00 except during the few weeks when US and EU clocks differ)",
+    "bar_semantics": "one-minute bars stamped at bar start",
+    "trade_date": "the weekday on which the night ends: night of trade date D runs from 18:00 on the previous calendar day to 08:00 on D (Sunday 18:00 for Monday)",
+    "nodes_et": ["18:00", "02:00", "03:00", "08:00"],
+    "node_tolerance_minutes": 15,
+    "node_price": "open of the first bar stamped in [node, node + tolerance - 1]",
+    "eligibility": "all four node prices available and positive, and a single instrument_id over the whole night (roll nights excluded)",
+    "why_08_00": "flat before the 08:30 US releases and before every RTH sleeve of the book (MGC starts 08:20, the others 09:30)"
+  },
+  "signal": {
+    "direction": "long only, one contract-equivalent, at most one trade per night",
+    "windows": "every ordered pair of nodes: 18:00->02:00, 18:00->03:00, 18:00->08:00, 02:00->03:00, 02:00->08:00, 03:00->08:00",
+    "conditions": {
+      "all": "trade every eligible night",
+      "after_down_rth": "trade only if the most recent RTH session before the night (09:30 open -> 16:00 close, at most 4 calendar days before the trade date) had a negative return; known at 16:00, two hours before the earliest entry"
+    },
+    "entry": "node price of the window start",
+    "exit": "node price of the window end; no stop, no target",
+    "sigma_night": "sqrt(mean of (price_08:00 / price_18:00 - 1)^2 over the 20 previous eligible nights), at least 15 values required (causal)"
+  },
+  "grid": {
+    "conditions": ["all", "after_down_rth"],
+    "cells": 12,
+    "note": "6 windows x 2 conditions, identical on every instrument. No per-asset parameter."
+  },
+  "costs": {
+    "rule": "1 tick slippage per side + commission per side; round trip USD = 2 * tick_size * point_value + 2 * commission_per_side",
+    "net_return": "(exit - entry) / entry - round_trip_usd / (point_value * entry)"
+  },
+  "unit": "R = net_return / sigma_night (risk-normalised). USD per contract is reported alongside.",
+  "pooling": {
+    "rule": "per trade date, average R across eligible instruments inside each cluster (no trade = 0), then average across clusters that have at least one eligible instrument that date",
+    "clusters": ["equity_index", "gold", "crude_oil", "bitcoin"],
+    "reason": "MNQ, MES and M2K are one bet; cluster balancing stops the equity index from counting three times"
+  },
+  "periods": {
+    "PRE": ["2010-06-07", "2021-07-09"],
+    "IS": ["2019-05-06", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"],
+    "EXT_informational": ["2026-03-20", "2026-10-02"],
+    "note": "PRE is set per instrument in pre_sample_holdout_universe: NQ 2010-06-07 -> 2019-05-03, MGC 2015-01-01 -> 2019-05-03, CL 2015-01-01 -> 2021-07-09. None of these instrument-periods is in IS. MCL enters IS on 2021-07-12 and MBT in 2021."
+  },
+  "selection_rule": {
+    "statistic": "daily Sharpe (mean/std) of the pooled net R series on IS for each of the 12 cells, all eligible dates (no-trade dates = 0)",
+    "choice": "the single cell with the highest Sharpe; ties broken by grid order",
+    "executed": "that one cell, the same on every instrument"
+  },
+  "tests_on_IS": {
+    "hac": "Newey-West t of the mean of the pooled net R series, 5 lags",
+    "max_stat_permutation": "5000 draws; each draw flips the sign of the gross return of whole dates (same flip for every instrument and cell, costs still paid); statistic = maximum Sharpe over the 12 cells; p = share of draws >= observed. Controls for the 12-cell search and for cross-asset correlation. Seed 20261111.",
+    "cscv": "12 contiguous time blocks, all 924 half/half splits; the selection rule is applied on the train half; logit of the relative rank of the chosen cell's Sharpe on the test half; PBO = share of splits with logit <= 0",
+    "rth_long_benchmark": "same instruments, same dates, same risk unit: long 09:30 open -> 16:00 close of the trade date, no cost; pooled the same way",
+    "diagnostics_not_gated": [
+      "per-instrument and per-cluster table for all 12 cells",
+      "cost x2",
+      "entry delayed by one bar",
+      "calendar years",
+      "worst single trade in USD per instrument"
+    ]
+  },
+  "gate_to_OOS": {
+    "all_required": [
+      "G1: selected cell pooled IS mean net R > 0 with HAC t >= 2.0",
+      "G2: max-stat permutation p <= 0.05",
+      "G3: CSCV PBO <= 0.35",
+      "G4: selected cell net mean R > 0 on IS in at least 3 of 4 clusters and at least 4 of 6 instruments",
+      "G5: more than half of IS calendar years have a positive pooled net sum",
+      "G6: selected cell on PRE (NQ, MGC, CL with MCL economics, cluster-balanced) has mean net R > 0 with HAC t >= 1.0",
+      "G7: on IS and on PRE, the selected cell's pooled mean net R is higher than the pooled mean R of the costless RTH long benchmark (the premium belongs to the night, it is not plain market beta)"
+    ],
+    "if_pass": "the user is asked before OOS is read; the same code and the same selected cell are then applied once to OOS as a verdict",
+    "if_fail": "OOS is not computed; hypothesis closed on this data"
+  },
+  "oos_verdict": {
+    "pass_if_all": [
+      "pooled OOS mean net R > 0 with HAC t >= 1.0",
+      "net mean R > 0 in at least 3 of 4 clusters"
+    ],
+    "EXT_instruments": ["MNQ", "MGC", "MCL", "MBT"],
+    "EXT": "informational, not part of the verdict"
+  },
+  "prohibitions": [
+    "no other node, window, condition, exit, stop or filter after the freeze",
+    "no per-asset parameter",
+    "no short leg and no single-cluster rescue",
+    "no OOS before the IS gate is evaluated and the user has approved the read"
+  ]
+}

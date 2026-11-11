@@ -1,0 +1,10 @@
+sleeve,source,expected_trades,reproduced_trades,max_abs_trade_pnl_diff_usd,status
+mnq_orb_vwap_atr,S01 source ledger reconstructed to q1,823,823,0.0,PASS
+mnq_volatility_breakout,frozen six-sleeve common ledger,291,291,0.0,PASS
+mnq_compression_breakout,frozen six-sleeve common ledger,110,110,0.0,PASS
+mnq_atr_trend_flip,frozen six-sleeve common ledger,659,659,0.0,PASS
+mgc_volatility_breakout,frozen six-sleeve common ledger,65,65,0.0,PASS
+mgc_gap_continuation,frozen six-sleeve common ledger,95,95,0.0,PASS
+mbt_rolling_range_breakout,executable MBT vote-ensemble ledger,288,288,0.0,PASS
+mbt_trend_pullback_ma_structure,executable MBT vote-ensemble ledger,693,693,0.0,PASS
+mbt_volatility_breakout,executable MBT vote-ensemble ledger,442,442,0.0,PASS

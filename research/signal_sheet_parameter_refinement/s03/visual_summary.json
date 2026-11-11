@@ -1,0 +1,68 @@
+{
+  "cell_count": 45,
+  "positive_sharpe_is_and_oos": 38,
+  "axis_median_sharpe": {
+    "nr_lookback": [
+      {
+        "nr_lookback": 6,
+        "is": 0.2269839995875113,
+        "oos": 0.1300983399648525
+      },
+      {
+        "nr_lookback": 8,
+        "is": 0.3342232447204938,
+        "oos": 0.0633067601015604
+      },
+      {
+        "nr_lookback": 10,
+        "is": 0.4995684247685015,
+        "oos": 0.5025639577507562
+      },
+      {
+        "nr_lookback": 12,
+        "is": 0.4118124676845239,
+        "oos": 0.520368705280602
+      },
+      {
+        "nr_lookback": 14,
+        "is": 0.4097175426956084,
+        "oos": 0.2374336749088847
+      }
+    ],
+    "entry_buffer_ticks": [
+      {
+        "entry_buffer_ticks": 0,
+        "is": 0.4358087709068567,
+        "oos": 0.2720799535545479
+      },
+      {
+        "entry_buffer_ticks": 1,
+        "is": 0.4118124676845239,
+        "oos": 0.2477911356178355
+      },
+      {
+        "entry_buffer_ticks": 2,
+        "is": 0.3886985096157631,
+        "oos": 0.2235490777718201
+      }
+    ],
+    "target_setup_range_multiple": [
+      {
+        "target_setup_range_multiple": 1.5,
+        "is": 0.6558941483775698,
+        "oos": 0.0119793144134043
+      },
+      {
+        "target_setup_range_multiple": 2.0,
+        "is": 0.3886985096157631,
+        "oos": 0.2374336749088847
+      },
+      {
+        "target_setup_range_multiple": 2.5,
+        "is": 0.3586872420749041,
+        "oos": 0.3983016194519116
+      }
+    ]
+  },
+  "selection_performed": false
+}

@@ -1,0 +1,8 @@
+MNQ: sessions=1884 intra-session contract changes=0 rolls=30
+   volume of the 5 sessions before roll / median of sessions 6-25 before (median over rolls): [0.86 0.41 0.24 0.18 0.12]
+MES: sessions=1747 intra-session contract changes=0 rolls=27
+   volume of the 5 sessions before roll / median of sessions 6-25 before (median over rolls): [0.72 0.29 0.19 0.16 0.11]
+MGC: sessions=3032 intra-session contract changes=0 rolls=59
+   volume of the 5 sessions before roll / median of sessions 6-25 before (median over rolls): [0.94 0.82 0.64 0.14 0.01]
+MCL: sessions=1378 intra-session contract changes=0 rolls=64
+   volume of the 5 sessions before roll / median of sessions 6-25 before (median over rolls): [0.95 0.89 0.83 0.28 0.05]

@@ -10,25 +10,29 @@
     "KEEP_FORWARD_TEST_ONLY": "Validated candidate remains outside the active portfolio pending genuinely prospective evidence."
   },
   "active_reference": {
-    "portfolio_id": "nine_sleeve_equal_contract_reference_20261004",
+    "portfolio_id": "eight_sleeve_equal_contract_reference_20261103",
     "status": "LOCKED_ACTIVE_REFERENCE",
     "canonical_lock": {
-      "path": "research/locked_nine_sleeve_portfolio/locked_nine_sleeve_config.json",
-      "sha256": "832b923777b1b4f67ed3ccbe2b89f6ee50a849f85978dfaf367b07f7a75ff8b4"
+      "path": "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json",
+      "sha256": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3"
     },
     "members": [
       "mnq_orb_vwap_atr",
       "mnq_volatility_breakout",
       "mnq_compression_breakout",
-      "mnq_atr_trend_flip",
       "mgc_volatility_breakout",
       "mgc_gap_continuation",
       "mbt_rolling_range_breakout",
       "mbt_trend_pullback_ma_structure",
       "mbt_volatility_breakout"
     ],
-    "prospective_start_after": "2026-10-02",
-    "note": "This registry does not copy or modify the nine sleeve definitions; the linked canonical lock remains authoritative."
+    "prospective_start_after": "2026-11-03",
+    "superseded_reference": {
+      "portfolio_id": "nine_sleeve_equal_contract_reference_20261101",
+      "path": "research/locked_nine_sleeve_portfolio_20261101/locked_nine_sleeve_config.json",
+      "sha256": "6e988107b1f0964aee3bab2de1d8dbdc7636409b7be45d34616cf9005884ac7b"
+    },
+    "note": "This registry does not copy or modify the eight sleeve definitions; the linked canonical lock remains authoritative."
   },
   "forward_monitoring": [
     {
@@ -97,6 +101,20 @@
       "forward_start": "first eligible Japanese month-end session strictly after 2026-10-03",
       "review_N": null,
       "allocation": 0
+    },
+    {
+      "id": "mnq_atr_trend_flip",
+      "legacy_id": "S04",
+      "display_name": "MNQ ATR Trend Flip — 9-cell vote",
+      "instrument": "MNQ",
+      "status": "SHADOW_FORWARD_ONLY",
+      "monitoring_mode": "shadow_forward",
+      "spec_path": "strategy_registry/psf_mnq/frozen_ensembles/mnq_atr_trend_flip_vote_9.json",
+      "spec_sha256": "25f751eb91b8ab39eda06e6d79084397ba34f79364f702f39211d65f97f83325",
+      "forward_start": "first MNQ session strictly after 2026-11-03",
+      "review_N": 252,
+      "allocation": 0,
+      "relationship": "Removed from the active book on 2026-11-03 (eight_sleeve_equal_contract_reference_20261103); reinstatement only by a new versioned decision after at least 252 shadow sessions."
     }
   ],
   "supersession": [

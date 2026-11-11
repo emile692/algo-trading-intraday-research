@@ -1,0 +1,101 @@
+{
+  "campaign": "rolling_momentum_cross_asset_phase1_20261111",
+  "phase": "phase_1_mechanism_and_selection_rule_test",
+  "frozen_on": "2026-11-11",
+  "frozen_before_performance": true,
+  "hypothesis": "Rolling time-series momentum on intraday bars: the sign of the recent price change (close.diff(n) on tf-minute bars), or the sign of a fast-minus-slow EMA spread, predicts the next bar's direction strongly enough to pay costs, with one common specification on every locally available futures market. Expected sign: positive net expectancy of holding the signal's direction.",
+  "disclosure_before_freeze": [
+    "No return of these rules was computed on any real instrument before the freeze. The runner was validated on synthetic data only (self-test).",
+    "Prior information already seen in this repo: (a) intraday_momentum_cross_asset_phase1_20261111 (open -> open+h, hold to close) was REJECTED on IS the same day: gross effect positive in all 15 cells, below costs in 11, only MBT positive; (b) ma_crossover_trend (EMA 9/21 on 15-minute bars WITH an ADX > 20 filter) was tested on MNQ, MGC, MCL, 6E, ZN and MBT and never retained; (c) atr_trend_flip (supertrend 15 min) was tested on every asset and is now MNQ shadow only; (d) close-of-day momentum is CLOSED_COST_CONSTRAINED.",
+    "This campaign is a new pre-registered hypothesis (continuous rolling signal, position held and flipped bar by bar), not a rescue of the open-anchored rule. It was requested explicitly after that rejection.",
+    "6E, ZN and MCL are not tested: their one-minute files are no longer on disk.",
+    "Session coverage per instrument is known from the previous campaign (counts only): MBT is thin in IS (116, 162, 81 eligible sessions in 2021-2023), MGC has no eligible session before 2016-02."
+  ],
+  "universe": {
+    "MNQ": {"cluster": "equity_index", "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet", "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef", "session_start": "09:30", "session_minutes": 390, "point_value": 2.0, "tick_size": 0.25, "commission_per_side": 1.25},
+    "MES": {"cluster": "equity_index", "path": "data/processed/parquet/MES_c_0_1m_20260322_135702.parquet", "sha256": "a2381ba268fd1b563a67291be735194830c747478784bb47ed5e692bcaba481d", "session_start": "09:30", "session_minutes": 390, "point_value": 5.0, "tick_size": 0.25, "commission_per_side": 1.25},
+    "M2K": {"cluster": "equity_index", "path": "data/processed/parquet/M2K_c_0_1m_20260322_134808.parquet", "sha256": "9eefeeebb0642214e981f9a4a82fb954ff4510e887772b37c4bead4b48f190c9", "session_start": "09:30", "session_minutes": 390, "point_value": 5.0, "tick_size": 0.1, "commission_per_side": 1.25},
+    "MGC": {"cluster": "gold", "path": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet", "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888", "session_start": "08:20", "session_minutes": 310, "point_value": 10.0, "tick_size": 0.1, "commission_per_side": 1.25},
+    "MBT": {"cluster": "bitcoin", "path": "data/downloaded/MBT_v_0_1m_20210425_20261003.parquet", "sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683", "session_start": "09:30", "session_minutes": 390, "point_value": 0.1, "tick_size": 5.0, "commission_per_side": 1.41}
+  },
+  "pre_sample_holdout_universe": {
+    "NQ": {"cluster": "equity_index", "path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet", "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8", "session_start": "09:30", "session_minutes": 390, "point_value": 20.0, "tick_size": 0.25, "commission_per_side": 1.25},
+    "MGC": "same file and contract as in universe"
+  },
+  "session": {
+    "timezone": "America/New_York",
+    "bar_semantics": "one-minute bars stamped at bar start; minute index m = minutes since session_start, 0 <= m < session_minutes; weekdays only",
+    "open_price": "open of the first one-minute bar with 0 <= m <= 4",
+    "exit_price": "close of the last one-minute bar with session_minutes-5 <= m <= session_minutes-1",
+    "eligibility": "at least 75% of the session's one-minute bars present, open_price and exit_price available, a single instrument_id over the session",
+    "tf_bars": "tf-minute bars aligned on session_start: bar b covers session minutes [b*tf, (b+1)*tf); O = first available one-minute open in the bar, C = last available one-minute close; the last bar may be partial; empty bars are skipped"
+  },
+  "signals": {
+    "series": "tf bars of all eligible sessions concatenated in time order (RTH only, overnight excluded from the bar sequence, but the price change across sessions is part of the signal)",
+    "diff": "s = sign(ln C_t - ln C_{t-n}); s = 0 if the two bars have different instrument_id or are more than 7 calendar days apart",
+    "ema": "s = sign(EMA_fast(ln C) - EMA_slow(ln C)), EMAs with adjust=False, restarted on each segment of constant instrument_id without a gap of more than 7 calendar days; s = 0 until the segment has at least slow bars",
+    "no_filter": "no ADX, volume, volatility or time filter"
+  },
+  "execution": {
+    "decision": "at the close of tf bar k of a session, target position = s_k in {-1, 0, +1}, one contract",
+    "fill": "the target is reached at O_{k+1}, the open of the next tf bar of the same session (first available one-minute open of that bar)",
+    "last_bar": "no decision at the close of the session's last tf bar; any position is closed at exit_price",
+    "overnight": "always flat between sessions",
+    "costs": "each one-contract side costs tick_size * point_value (1 tick slippage) + commission_per_side; a flip from -1 to +1 is two sides"
+  },
+  "grid": {
+    "families": {
+      "diff": {"tf_minutes": [5, 15, 30, 60], "n_bars": [1, 2, 4, 8, 16]},
+      "ema": {"tf_minutes": [5, 15, 30, 60], "fast_slow_bars": [[5, 20], [10, 40], [20, 80]]}
+    },
+    "cells": 32,
+    "note": "Identical on every instrument. No per-asset parameter. Cell order: diff (tf major, n minor), then ema (tf major, pair minor)."
+  },
+  "unit": "daily R = (gross USD - cost USD) / (point_value * open_price * sigma_day), sigma_day = sqrt(mean of ln(exit_price/open_price)^2 over the 20 previous eligible sessions), at least 15 values (causal). Sessions without sigma_day are dropped. USD per contract per day is reported alongside.",
+  "pooling": {
+    "rule": "per day, average R across eligible instruments inside each cluster, then average across clusters with at least one eligible instrument that day",
+    "clusters": ["equity_index", "gold", "bitcoin"]
+  },
+  "periods": {
+    "PRE": ["2010-06-07", "2019-05-03"],
+    "IS": ["2019-05-06", "2023-12-31"],
+    "OOS": ["2024-01-01", "2026-03-19"],
+    "EXT_informational": ["2026-03-20", "2026-10-02"]
+  },
+  "selection_rule": {
+    "statistic": "daily Sharpe of the pooled net R series on IS for each cell, then neighbourhood smoothing inside each family's 2-D grid: average of the cell and its orthogonal neighbours",
+    "choice": "the single cell with the highest smoothed Sharpe over the 32 cells; ties broken by cell order",
+    "executed": "that one cell, the same on every instrument"
+  },
+  "tests_on_IS": {
+    "hac": "Newey-West t of the mean of the pooled net R series, 5 lags",
+    "max_stat_permutation": "5000 draws; each draw flips the sign of the gross PnL of whole days (same flip for every instrument and cell, costs still paid); statistic = maximum smoothed Sharpe over the 32 cells; p = share of draws >= observed. Seed 20261111.",
+    "cscv": "12 contiguous time blocks, all 924 half/half splits; the selection rule is applied on the train half; logit of the relative rank of the chosen cell's Sharpe on the test half; PBO = share of splits with logit <= 0",
+    "diagnostics_not_gated": ["all 32 cells pooled, per cluster and per instrument, gross and net", "cost x2", "signal delayed by one extra tf bar", "calendar years", "sides traded per day"]
+  },
+  "gate_to_OOS": {
+    "all_required": [
+      "G1: selected cell pooled IS mean net R > 0 with HAC t >= 2.0",
+      "G2: max-stat permutation p <= 0.05",
+      "G3: CSCV PBO <= 0.35",
+      "G4: selected cell net mean R > 0 on IS in at least 2 of 3 clusters and at least 3 of 5 instruments",
+      "G5: more than half of IS calendar years have a positive pooled net sum",
+      "G6: selected cell on PRE (NQ 2010-06 -> 2019-05 with NQ costs, MGC, cluster-balanced) has mean net R > 0 with HAC t >= 1.0"
+    ],
+    "if_pass": "the user is asked before OOS is read; the same code and the same selected cell are then applied once to OOS as a verdict",
+    "if_fail": "OOS is not computed; hypothesis closed on this data"
+  },
+  "oos_verdict": {
+    "pass_if_all": [
+      "pooled OOS mean net R > 0 with HAC t >= 1.0",
+      "net mean R > 0 in at least 2 of 3 clusters"
+    ],
+    "EXT": "reported for MNQ, MGC and MBT only, informational"
+  },
+  "prohibitions": [
+    "no other timeframe, lookback, EMA pair, dead band, filter, stop or holding rule after the freeze",
+    "no per-asset parameter",
+    "no long-only or short-only selection",
+    "no OOS before the IS gate is evaluated and the user has approved the read"
+  ]
+}
