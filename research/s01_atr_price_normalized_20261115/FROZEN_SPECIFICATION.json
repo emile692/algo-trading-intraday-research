@@ -1,0 +1,103 @@
+{
+  "campaign": "s01_atr_price_normalized_20261115",
+  "phase": "single_campaign_is_gate_then_one_shot_holdouts",
+  "frozen_on": "2026-11-15",
+  "frozen_before_performance": true,
+  "requested_by": "user, 2026-11-15, after audit_20261115 (decision 1, option b)",
+  "hypothesis": "S01 (MNQ ORB long, VWAP confirmation, 18-model ATR vote) dries up because two of its rules are expressed in absolute MNQ units while the price doubled: (1) the ATR bands of the day filter are in points, (2) the trade is skipped when one contract risks more than the 250 USD budget. Expressing the ATR of the 1-minute bars as a fraction of price (ATR / close of the signal bar), with the same IS quantiles, restores the frequency of the filter without changing its economic meaning, and keeps a positive edge on data never used for S01, in particular NQ 2010-2019 where the price was 2 to 4 times lower than in the IS. Expected sign: positive net expectancy; frequency close to the IS frequency.",
+  "disclosure_before_freeze": [
+    "Reference S01 ATR 18 (research/signal_sheet_01_atr18, 701 trades) is fully known on IS 2019-05-05 -> 2024-02-27 and on the reused validation 2024-02-28 -> 2026-03-19; its one-shot (O) on 2026-03-20 -> 2026-10-02 was read on 2026-11-15: -390 USD on 11 trades (audit_20261115/04_holdout.md).",
+    "Descriptive diagnostic read before the freeze (audit_20261115/diag_s01_drying.py, outputs/s01_drying_by_quarter.csv): per quarter 2019Q2 -> 2026Q4, number of first-pass candidates, median ATR18 in points, median price, median ATR18/price in bp, share of candidates below / inside / above the median ATR18 band (7.75 - 20.07 points), and number of signals kept by the reference vote. ATR18/price was 9.2-9.4 bp in 2026Q2-Q3 versus 8.4-9.1 bp in 2023Q2-Q4, and 16.7-18.7 bp in 2022Q1-Q2.",
+    "Reference kept signals versus executed trades per quarter were read before the freeze (frozen trades.csv + audit (O) trades): about 10 % of kept signals are skipped for sizing before 2025 (int(250 / risk per contract) = 0), versus 2026Q2 15 -> 9 and 2026Q3 11 -> 2. This is why arm B exists.",
+    "No PnL, trade list or threshold of any price-normalised variant was computed before this freeze. The choice ATR / price (rather than a rolling quantile) was made from the mechanism, before any test. The arm-B cap of 500 USD (2 x the 250 USD budget, 1 % of the 50K account) is fixed a priori, not tuned.",
+    "NQ 1-minute 2010-06-07 -> 2019-05-03 (PRE) was never used for any ORB strategy in this repository. It was used by other, closed campaigns (VWAP R1, Gao R2, cross-asset momentum, night premium) with different rules.",
+    "General market knowledge: Nasdaq-100 rose about 4x over 2010-2019 and 2x over 2023-2026; 2022 was a bear market with high intraday volatility; 2020 had the Covid shock."
+  ],
+  "data": {
+    "MNQ": {
+      "path": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet",
+      "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef",
+      "economics": "MNQ: point value 2 USD, tick 0.25, commission 1.25 USD per side, slippage 1 tick per side (src.engine.execution_model defaults)"
+    },
+    "NQ_PRE": {
+      "path": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet",
+      "sha256": "a8c85d03dc386946958d6dad3c82d0550a1837c1d759b8d5854225ff893228c8",
+      "used_range": ["2010-06-07", "2019-05-03"],
+      "economics": "NQ prices traded with MNQ economics (same index, point value 2 USD, same costs), as in the repository's other PRE holdouts"
+    },
+    "reference_thresholds": {
+      "path": "research/signal_sheet_01_atr18/thresholds_is.csv",
+      "sha256": "5e2ff402faa5ada136c70ef1a677a52738f95d7357feee67830c73a1fc62fb94"
+    },
+    "reference_trades": {
+      "path": "research/signal_sheet_01_atr18/trades.csv",
+      "sha256": "23b8c9ad867c20153a39e1da8b7d72be115b73501b922a13a999d2307e2e52b9"
+    }
+  },
+  "unchanged_from_reference": [
+    "entry: ORB 15 min from 09:30 New York, long only, one trade per day, entry buffer 2 ticks, VWAP confirmation (continuous session VWAP from 18:00), entry on next open",
+    "exit: stop at OR low - 2 ticks, target 2R, time exit 16:00 (ExitConfig mode baseline)",
+    "vote: ATR periods {14, 16, 18} x q_low {20, 25, 30} x q_high {80, 85} = 18 models, day kept with at least 9 votes",
+    "IS calibration window: sessions 2019-05-05 -> 2024-02-27, quantiles of the first-pass candidate rows (calibrate_ensemble_thresholds)",
+    "sizing: quantity = int(0.5 % x 50 000 / risk per contract incl. 1 tick slippage and round-trip commission), no leverage cap; costs nominal"
+  ],
+  "arms": {
+    "REF": "reference S01 ATR 18: bands on atr_p in points, frozen thresholds_is.csv. Comparator only, never selected.",
+    "A": "bands on atr_p / close (close of the signal bar, known at the bar close), 18 models, IS quantiles of that ratio. Sizing unchanged: a signal whose single contract risks more than 250 USD is skipped.",
+    "B": "A + sizing floor: when int(250 / risk per contract) = 0 and the risk of one contract is <= 500 USD, trade 1 contract; above 500 USD, skip. Implemented as A's trades plus, on sessions A skipped, the trades of the same signals run with a 500 USD budget (quantity is then exactly 1; asserted)."
+  },
+  "windows": {
+    "IS": ["2019-05-05", "2024-02-27"],
+    "VAL": ["2024-02-28", "2026-03-19"],
+    "EXT": ["2026-03-20", "2026-10-02"],
+    "PRE": ["2010-06-07", "2019-05-03"]
+  },
+  "conventions": {
+    "daily_series": "net PnL per session in USD, calendar = weekday session dates present in the minute file within the window, sessions without trade = 0",
+    "sharpe": "mean / std of the daily series x sqrt(252), days without trade included",
+    "t_stat": "Lo (2002) HAC t of the Sharpe ratio (audit_20261115/stats.py::lo_sharpe, Newey-West lag floor(4 (T/100)^(2/9)))",
+    "R_units_PRE": "per trade, risk_pts = entry_price - stop_price; gross_pts = pnl_points + 0.5 (1 tick slippage each side added back); scaled cost = 1.75 points (round-trip MNQ commission 2.50 USD + 2 ticks) x entry_price / P_ref, with P_ref = median entry price of the selected arm's IS trades; gross R = gross_pts / risk_pts, net-scaled R = (gross_pts - scaled cost) / risk_pts; daily R on the PRE calendar, zero on days without trade",
+    "years_G4": ["2019", "2020", "2021", "2022", "2023"],
+    "years_P3": ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"]
+  },
+  "technical_gates_before_freeze_allowed": {
+    "T1": "REF replayed on the long MNQ file reproduces the 701 frozen trades exactly through 2026-03-19 (same sessions, times, quantities; PnL gap <= 0.01 USD)",
+    "T2": "points quantiles recalibrated on the long MNQ file with IS = sessions <= 2024-02-27 equal thresholds_is.csv (abs gap <= 1e-9)",
+    "T3": "arm-B construction on REF signals: every added trade has quantity 1 and risk per contract in (250, 500] USD, and REF trades are unchanged; no PnL is written"
+  },
+  "stage_0_frequency_pnl_free": {
+    "what": "executed trades per quarter for REF, A and B on MNQ 2019-05-05 -> 2026-10-02. The engine computes PnL but the runner keeps only session_date and quantity before writing anything.",
+    "G0": "median quarterly executed trades over 2025Q1-2026Q3 (7 quarters) >= 0.60 x median quarterly executed trades over the full IS quarters 2019Q3-2023Q4"
+  },
+  "stage_1_IS_gates": {
+    "G1": "IS trades >= 0.75 x REF IS trades",
+    "G2": "IS net PnL > 0 and HAC t >= 2.0",
+    "G3": "IS Sharpe >= 0.75 x REF IS Sharpe (same calendar and convention)",
+    "G4": "net PnL > 0 in at least 3 of the 5 years 2019-2023 (2019 from May; 2024-01/02 not counted)"
+  },
+  "arm_selection": "A if A passes G0-G4; otherwise B if B passes G0-G4; otherwise CLOSED_IS and no holdout is read. Only the selected arm is judged in stage 2. Trials counted for the deflated Sharpe: 2 (A, B).",
+  "stage_2_one_shot": {
+    "guard": "results/stage2.json is written once; the runner refuses a second stage-2 run.",
+    "PRE_gates_selected_arm": {
+      "P1": "PRE gross R: mean daily gross R > 0 and HAC t >= 2.0",
+      "P2": "PRE net-scaled R: mean > 0 and HAC t >= 1.65",
+      "P3": "PRE net-scaled R > 0 in at least 5 of the 9 years 2010-2018"
+    },
+    "VAL_gate_selected_arm": {
+      "V1": "VAL net PnL USD > 0 (label: partially contaminated, the hypothesis was motivated by the trade frequency observed in this window; no variant PnL was seen)"
+    },
+    "information_only": [
+      "PRE: raw net USD with fixed MNQ costs (penalised by the low price level), trades per year, REF arm (points bands) and the no-ATR-filter arm (all first-pass candidates) under the same R conventions",
+      "VAL: REF on the same window and the difference selected - REF",
+      "EXT 2026-03-20 -> 2026-10-02: selected arm PnL and trades; REF = -390 USD (already read); the (O) threshold -617.50 USD is quoted for context only",
+      "IS: PSR and DSR (2 trials, variance of the 2 arms' IS Sharpe)"
+    ]
+  },
+  "verdicts": {
+    "CLOSED_IS": "no arm passes G0-G4; holdouts not read",
+    "REJECTED_PRE": "selected arm fails P1, P2 or P3",
+    "REJECTED_VAL": "PRE passes, V1 fails",
+    "CANDIDATE_SHADOW": "P1-P3 and V1 pass: the selected arm goes to shadow forward next to S01 ATR 18 (reference unchanged). Replacing S01 in the active lock is a separate, versioned user decision; the recommended evidence is the forward read at H = 60 sessions under the low-side rule of audit_20261115."
+  },
+  "no_rescue_rule": "No threshold, period, cap, window or cost convention is changed after any stage result is read. A bug found after reading stage 2 is documented and the campaign stops."
+}

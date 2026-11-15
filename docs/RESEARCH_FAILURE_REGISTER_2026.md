@@ -43,6 +43,7 @@ Ce registre répond à une règle simple : un résultat négatif doit rester aus
 | Market intraday momentum (Gao et al. 2018) : signe clôture précédente → 10:00, position 15:30 → 16:00 ET, MNQ/MES/MGC/MCL (2026-11-11) | `REJECTED` | anomalie non répliquée : brut nul, pas seulement inférieur aux coûts ; pente portée par 2020 seule | 0/7 portes sur 4/4 instruments ; MNQ IS brut −0,08 bp, net −1,59 bp (t −1,15), permutation p 0,50 ; pente IS t 1,40, hors 2020 t −0,90 ; NQ 2010–2019 t 0,66 ; OOS MNQ −4 099 USD ; Sharpe du book 1,75 → 1,50 | fermé ; OOS de A lu (sans paramètre), OOS de B/C non lu ; réouverture seulement sur ES/SPY 1993–2019 ([fiche](../research/market_intraday_momentum_gao_r2_20261111/HYPOTHESIS_CLOSURE.md)) |
 | Mean reversion intraday conditionnelle autour du VWAP (R1) : écart au VWAP normalisé + filtre de tendance, épuisement de volatilité, réversion à l'heure du déjeuner ; MNQ, MGC, MCL (2026-11-11) | `REJECTED` | pas de réversion exploitable : continuation sur MNQ, réversion brute < coût sur MGC, négatif avant coûts sur MCL | 0/18 cellules centrales passent G1 ; 11/126 cellules IS positives (meilleur t 1,07) ; holdouts NQ 2010–2019 et CL 2015–2021 : 12/12 centrales négatives, t −2,5 à −6,9, négatives aussi en brut | fermé ; OOS non lu ; MES non lancé ; MNQ H2-D1 (épuisement + volume, +910 USD, t 0,67) vu après coup, à ne pas reprendre ([fiche](../research/conditional_vwap_mean_reversion_r1_20261111/HYPOTHESIS_CLOSURE.md)) |
 | Couche de risque du book à 8 sleeves sur Topstep 50K : budget ES statique, vol de l'instrument, plafond MBT, stops journaliers instrument/book, verrou de consistance (2026-11-12) | `REJECTED` (couche B) ; netting `ADOPT_AGGREGATION_ONLY` | budget ES infaisable avec 1 MBT = 1 lot ; stops et plafonds coupent plus de gains que de pertes ; seule la vol rapporte mais augmente la perte de XFA | cash net IS sur 126 séances : B0 548 USD, 1 contrat partout 486, +vol 728 (P(XFA perdu) +7,2 pts) ; PBO 0,63 ; OOS : retenue 866 contre B0 1 015 USD | netting adopté avec le sizing actuel ; réouverture seulement pour une vol à la baisse uniquement, nouvelle spec ; défaut de calendrier du lock du 3 novembre relevé (−509 USD) ([fiche](../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md)) |
+| S01 ORB MNQ, bandes d'ATR rapportées au prix pour corriger l'assèchement, avec ou sans plancher d'un contrat (2026-11-15) | `CLOSED_IS` | le filtre en ATR / prix ne rend qu'une partie de la fréquence ; le reste vient du saut des trades à plus de 250 USD de risque, et les trades rendus par le plancher perdent sur l'IS | A : fréquence 2025–2026 / IS 0,52 < 0,60, Sharpe IS 0,98 contre 1,25 pour REF (t 2,46) ; B : fréquence 0,95, mais Sharpe IS 0,84 < 0,94 ; B − A = −935 USD sur 44 trades | fermé ; PRE NQ 2010–2019, VAL et EXT non lus ; S01 ATR 18 inchangé ; réouverture seulement par nouvelle spec déclarant l'IS de A et B vu ([fiche](../research/s01_atr_price_normalized_20261115/HYPOTHESIS_CLOSURE.md)) |
 
 ## Fiches d'échec
 
@@ -164,6 +165,18 @@ Trois hypothèses, deux définitions chacune, une cellule centrale pré-enregist
 **Défaut relevé dans le lock.** Le PnL MGC/MBT y est aligné sur le calendrier MNQ, ce qui écarte 8 séances (rolls trimestriels) et −509 USD sur 2024-01 → 2026-03.
 
 **Réouverture.** Seulement pour une modulation qui baisse la taille quand la vol monte, sans la monter en vol basse, dans une nouvelle spec qui déclare que l'IS de B2 a été vu. L'OOS de B2 n'a pas été lu. Détail : [clôture](../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md).
+
+### 26. S01 — bandes d'ATR rapportées au prix
+
+Campagne lancée le 2026-11-15 après l'audit de la référence (décision 1). S01 s'asséchait en 2026 : 2, 9 et 2 trades sur les trois premiers trimestres, contre environ 35 par trimestre sur l'IS. Spec gelée avant tout calcul sur les variantes ; contrôles techniques sur la référence réussis (701 trades sur 701).
+
+**Bras.** A : vote à 18 modèles sur `ATR / close` au lieu de l'ATR en points, quantiles calibrés sur l'IS 2019-05 → 2024-02. B : A plus un plancher d'un contrat quand le risque d'un contrat est compris entre 250 et 500 USD.
+
+**Résultat.** A est significatif sur l'IS (t 2,46, DSR 0,98) mais ne rend qu'une partie de la fréquence : 9, 15 et 8 trades sur 2026 T1–T3, ratio 0,52 pour un seuil de 0,60. B retrouve la fréquence (0,95), mais son Sharpe IS tombe à 0,84 pour un seuil de 0,94. Les 44 trades qu'ajoute le plancher perdent 935 USD sur l'IS : sur 2019–2024, un contrat risquant plus de 250 USD signalait un range d'ouverture réellement large (0,7 à 1,6 % du prix).
+
+**Enseignement.** L'assèchement a deux causes : les bornes d'ATR en points, et surtout en 2026 le saut des trades par le dimensionnement, qui coupe désormais dès 0,4 % du prix. Le holdout NQ 2010–2019 reste vierge pour l'ORB.
+
+**Réouverture.** Nouvel identifiant, spec déclarant vus l'IS de A et B ; pas de G0 abaissé ni d'autre plafond que 500 USD. Un seuil de saut en pourcentage du prix ne pourrait être jugé proprement qu'en forward. Détail : [clôture](../research/s01_atr_price_normalized_20261115/HYPOTHESIS_CLOSURE.md).
 
 ## Candidats positifs non actifs — à ne pas classer comme échecs
 

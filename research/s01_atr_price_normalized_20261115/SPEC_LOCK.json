@@ -1,0 +1,6 @@
+{
+  "spec_file": "FROZEN_SPECIFICATION.json",
+  "spec_sha256": "e72463558c66b7c3eea84bdf60ff0dda47f7362d70671192adfca476aa0f586d",
+  "frozen_at": "2026-11-15T21:38:50+01:00",
+  "selftest_before_freeze": "results/selftest.json (T1-T3 passed, reference arm only)"
+}

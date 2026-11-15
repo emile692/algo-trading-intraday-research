@@ -1,0 +1,25 @@
+{
+  "T1": {
+    "frozen": 701,
+    "replayed_to_20260319": 701,
+    "only_frozen": 0,
+    "only_replayed": 0,
+    "max_abs_pnl_gap": 0.0,
+    "passed": true
+  },
+  "T2": {
+    "models": 18,
+    "max_abs_gap": 3.552713678800501e-15,
+    "passed": true
+  },
+  "T3": {
+    "ref_trades": 712,
+    "b_trades": 786,
+    "ref_subset_of_b": true,
+    "added": 74,
+    "passed": true
+  },
+  "all_passed": true,
+  "run_at": "2026-11-15T21:38:39+01:00",
+  "note": "reference arm only; PnL of REF is already known; no variant computed"
+}
