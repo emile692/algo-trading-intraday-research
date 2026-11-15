@@ -212,7 +212,7 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 - <em>décision 2 prise : R2 seule fait passer en shadow ; R0 et R3 sont des alertes « revue ». Règle versionnée <a href="../../strategy_registry/forward_monitoring/stop_rule_20261115.json"><code>stop_rule_20261115.json</code></a> ;</em>
 - <em>décision 3 prise : application rétroactive. S05, S07, S08 et S09 passent <code>ACTIVE_UNDER_REVIEW</code>, S04 reste en shadow, le book ne change pas ;</em>
 - <em>décision 5 autorisée : téléchargement des données forward, plafonné à 5 USD, après la clôture du 2026-12-02 ;</em>
-- <em>décision 4 : téléchargement des vendredis d'échéance MNQ autorisé, diagnostic en cours ;</em>
+- <em>décision 4 : vendredis d'échéance MNQ mesurés, effet neutre pour le book (voir l'écart n° 3) ; reste à confirmer qu'on les trade normalement ;</em>
 - <em>décision 6 (k = 3) : formalisée ; décision 7 (documentation) : faite, sauf l'export PDF des fiches ; décision 8 : la règle actuelle est conservée par défaut.</em></p>
 <ol>
 <li>
@@ -352,9 +352,9 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
-<td>Le fichier MNQ <code>c.0</code> n'a aucune barre sur les 27 vendredis d'échéance de 2019–2025 (ni sur le 2026-03-20) : les sleeves MNQ n'ont jamais été testées ces jours-là</td>
+<td>Le fichier MNQ <code>c.0</code> n'a aucune barre RTH sur les 27 vendredis d'échéance de 2019–2025 (ni sur le 2026-03-20 et le 2026-09-18) : les sleeves MNQ n'ont jamais été testées ces jours-là</td>
 <td>moyenne</td>
-<td>ouvert</td>
+<td><strong>mesuré le 15/11</strong> (<a href="../diag_expiry_fridays.py">diag_expiry_fridays.py</a>, MNQ <code>v.0</code> recalé de l'écart de roll mesuré le jeudi). Sleeves actives : vendredis +708 USD sur 28 trades (S01 −1 035 USD, 6 trades tous perdants ; S02 +1 510 USD, 18 trades ; S03 +233 USD, 4 trades), effets indirects sur les jours suivants −702 USD, soit environ 0 au total sur 2019–2025. S04 (shadow) : −629 USD et −640 USD. Les effets indirects de S02 viennent de son ATR quotidien lissé à la Wilder, à mémoire longue : ce n'est pas un effet propre au vendredi. Aucun motif d'exclure ces jours</td>
 </tr>
 <tr>
 <td style="text-align: right;">4</td>

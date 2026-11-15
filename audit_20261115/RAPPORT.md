@@ -63,7 +63,7 @@ Exécution agrégée, règle actuelle, palier XFA dynamique (2 lots, puis 3, pui
 - *décision 2 prise : R2 seule fait passer en shadow ; R0 et R3 sont des alertes « revue ». Règle versionnée [`stop_rule_20261115.json`](../strategy_registry/forward_monitoring/stop_rule_20261115.json) ;*
 - *décision 3 prise : application rétroactive. S05, S07, S08 et S09 passent `ACTIVE_UNDER_REVIEW`, S04 reste en shadow, le book ne change pas ;*
 - *décision 5 autorisée : téléchargement des données forward, plafonné à 5 USD, après la clôture du 2026-12-02 ;*
-- *décision 4 : téléchargement des vendredis d'échéance MNQ autorisé, diagnostic en cours ;*
+- *décision 4 : vendredis d'échéance MNQ mesurés, effet neutre pour le book (voir l'écart n° 3) ; reste à confirmer qu'on les trade normalement ;*
 - *décision 6 (k = 3) : formalisée ; décision 7 (documentation) : faite, sauf l'export PDF des fiches ; décision 8 : la règle actuelle est conservée par défaut.*
 
 1. **S01 s'assèche.**
@@ -131,7 +131,7 @@ Exécution agrégée, règle actuelle, palier XFA dynamique (2 lots, puis 3, pui
 |---:|---|---|---|
 | 1 | Le S01 des locks du 01/11 et du 03/11, du netting et du replay est `baseline_fixed` (823 trades), pas l'ensemble ATR 18 de la fiche (701 trades) | haute | **corrigé** par le lock du 15/11 et la règle de netting r2 |
 | 2 | Le calendrier du PnL quotidien suit MNQ et perd 8 vendredis d'échéance tradés par MGC et MBT (−509,26 USD) | moyenne | **corrigé** par le lock du 15/11 |
-| 3 | Le fichier MNQ `c.0` n'a aucune barre sur les 27 vendredis d'échéance de 2019–2025 (ni sur le 2026-03-20) : les sleeves MNQ n'ont jamais été testées ces jours-là | moyenne | ouvert |
+| 3 | Le fichier MNQ `c.0` n'a aucune barre RTH sur les 27 vendredis d'échéance de 2019–2025 (ni sur le 2026-03-20 et le 2026-09-18) : les sleeves MNQ n'ont jamais été testées ces jours-là | moyenne | **mesuré le 15/11** ([diag_expiry_fridays.py](diag_expiry_fridays.py), MNQ `v.0` recalé de l'écart de roll mesuré le jeudi). Sleeves actives : vendredis +708 USD sur 28 trades (S01 −1 035 USD, 6 trades tous perdants ; S02 +1 510 USD, 18 trades ; S03 +233 USD, 4 trades), effets indirects sur les jours suivants −702 USD, soit environ 0 au total sur 2019–2025. S04 (shadow) : −629 USD et −640 USD. Les effets indirects de S02 viennent de son ATR quotidien lissé à la Wilder, à mémoire longue : ce n'est pas un effet propre au vendredi. Aucun motif d'exclure ces jours |
 | 4 | Le Sharpe publié de S02 (0,873) est calculé sur les rendements d'un compte de 50K qui capitalise ; en USD, il vaut 0,848 | faible | ouvert (doc) |
 | 5 | Le Sharpe publié de S01 (1,156) est calculé sur un calendrier contenant 355 dimanches ; sur le calendrier MNQ, il vaut 1,281 | faible | ouvert (doc) |
 | 6 | Le `summary.json` de S02 cite un hash périmé du manifeste ; le lock cite le bon | faible | ouvert |

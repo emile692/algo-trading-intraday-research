@@ -1,0 +1,278 @@
+{
+  "dataset": "GLBX.MDP3",
+  "schema": "ohlcv-1m",
+  "symbol": "MNQ.v.0",
+  "purpose": "audit_20261115 gap 3, descriptive only",
+  "fridays": [
+    "2019-06-21",
+    "2019-09-20",
+    "2019-12-20",
+    "2020-03-20",
+    "2020-06-19",
+    "2020-09-18",
+    "2020-12-18",
+    "2021-03-19",
+    "2021-06-18",
+    "2021-09-17",
+    "2021-12-17",
+    "2022-03-18",
+    "2022-06-17",
+    "2022-09-16",
+    "2022-12-16",
+    "2023-03-17",
+    "2023-06-16",
+    "2023-09-15",
+    "2023-12-15",
+    "2024-03-15",
+    "2024-06-21",
+    "2024-09-20",
+    "2024-12-20",
+    "2025-03-21",
+    "2025-06-20",
+    "2025-09-19",
+    "2025-12-19",
+    "2026-03-20",
+    "2026-09-18"
+  ],
+  "requests": [
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2019-06-20T00:00:00Z",
+      "end": "2019-06-22T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2019-09-19T00:00:00Z",
+      "end": "2019-09-21T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2019-12-19T00:00:00Z",
+      "end": "2019-12-21T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2020-03-19T00:00:00Z",
+      "end": "2020-03-21T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2020-06-18T00:00:00Z",
+      "end": "2020-06-20T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2020-09-17T00:00:00Z",
+      "end": "2020-09-19T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2020-12-17T00:00:00Z",
+      "end": "2020-12-19T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2021-03-18T00:00:00Z",
+      "end": "2021-03-20T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2021-06-17T00:00:00Z",
+      "end": "2021-06-19T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2021-09-16T00:00:00Z",
+      "end": "2021-09-18T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2021-12-16T00:00:00Z",
+      "end": "2021-12-18T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2022-03-17T00:00:00Z",
+      "end": "2022-03-19T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2022-06-16T00:00:00Z",
+      "end": "2022-06-18T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2022-09-15T00:00:00Z",
+      "end": "2022-09-17T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2022-12-15T00:00:00Z",
+      "end": "2022-12-17T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2023-03-16T00:00:00Z",
+      "end": "2023-03-18T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2023-06-15T00:00:00Z",
+      "end": "2023-06-17T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2023-09-14T00:00:00Z",
+      "end": "2023-09-16T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2023-12-14T00:00:00Z",
+      "end": "2023-12-16T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2024-03-14T00:00:00Z",
+      "end": "2024-03-16T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2024-06-20T00:00:00Z",
+      "end": "2024-06-22T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2024-09-19T00:00:00Z",
+      "end": "2024-09-21T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2024-12-19T00:00:00Z",
+      "end": "2024-12-21T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2025-03-20T00:00:00Z",
+      "end": "2025-03-22T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2025-06-19T00:00:00Z",
+      "end": "2025-06-21T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2025-09-18T00:00:00Z",
+      "end": "2025-09-20T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2025-12-18T00:00:00Z",
+      "end": "2025-12-20T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2026-03-19T00:00:00Z",
+      "end": "2026-03-21T00:00:00Z"
+    },
+    {
+      "dataset": "GLBX.MDP3",
+      "symbols": "MNQ.v.0",
+      "stype_in": "continuous",
+      "schema": "ohlcv-1m",
+      "start": "2026-09-17T00:00:00Z",
+      "end": "2026-09-19T00:00:00Z"
+    }
+  ],
+  "estimated_cost_usd": 0.27902215719,
+  "paid_get_range_calls": 29,
+  "rows": 76428,
+  "sha256": "73dfebb6c2ec175eead97a56e50b1101a287caa4fb72a5df5c1cf3f0278c06c8",
+  "source_c0_file": "data\\processed\\parquet\\MNQ_c_0_1m_20190505_20261003.parquet",
+  "source_c0_sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef",
+  "api_key_persisted": false
+}

@@ -124,7 +124,7 @@ Ce stop ne modifie pas la règle r2 : la clause « aucun overlay » vise les cou
 
 **Défaut de calendrier corrigé le 15 novembre.** Le lock du 3 novembre alignait MGC et MBT sur le calendrier MNQ (−509 USD sur 8 séances). Le lock du 15 novembre est sur le calendrier union.
 
-**Défaut de données connu, non corrigé.** Le fichier MNQ `c.0` n'a aucune barre sur les vendredis d'échéance trimestrielle (27 jours de 2019 à 2025). Les sleeves MNQ n'ont donc jamais été backtestées ces jours-là, alors que la production les trade.
+**Défaut de données connu, mesuré le 15 novembre.** Le fichier MNQ `c.0` n'a aucune barre RTH sur les vendredis d'échéance trimestrielle (27 jours de 2019 à 2025, plus le 20 mars et le 18 septembre 2026). Les ledgers figés ne contiennent donc aucun trade MNQ ces jours-là. Rejouées sur MNQ `v.0` recalé de l'écart de roll, les sleeves actives y font +708 USD sur 28 trades, et l'effet sur les séances suivantes vaut −702 USD : le total est neutre ([audit, écart n° 3](../audit_20261115/RAPPORT.md)). S01 y perd ses 6 trades (−1 035 USD), mais 6 trades ne justifient pas un filtre ajouté après coup. Les sleeves MNQ tradent ces jours-là normalement, sur le contrat suivant.
 
 ## Sources canoniques
 
