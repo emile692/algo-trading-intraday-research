@@ -11,3 +11,6 @@ tests/test_active_netting_rule.py text eol=lf
 tests/test_locked_eight_sleeve_portfolio_20261115.py text eol=lf
 research/s01_atr_price_normalized_20261115/*.json text eol=lf
 research/s01_atr_price_normalized_20261115/*.py text eol=lf
+# Inputs of the 2026-11-15 lock whose sha256 was taken on LF bytes.
+scripts/rebuild_signal_sheet_01_atr18.py text eol=lf
+strategy_registry/psf_mnq/frozen_ensembles/volatility_breakout_42.json text eol=lf
