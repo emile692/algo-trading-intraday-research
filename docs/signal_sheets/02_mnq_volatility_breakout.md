@@ -98,9 +98,12 @@ forcer cible=0 au hard flatten
 
 ## 9. Validation historique
 
-- **Historique total — 2019-05-06 au 2026-03-19 :** 1 085 trades agrégés, `20 259 USD` nets, Sharpe `0,873`, PF `1,239`, maxDD `−4 790,50 USD`.
-- **IS — 2019-05-06 au 2023-12-31 :** 726 trades, `10 980 USD` nets, Sharpe `0,831`, PF `1,221`, maxDD `−4 790,50 USD`.
-- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 359 trades, `9 279 USD` nets, Sharpe `0,971`, PF `1,264`, maxDD `−3 714 USD`. La région de 42 cellules ayant été choisie après consultation de ce cube, cette fenêtre n'est plus un OOS prospectif vierge.
+- **Historique total — 2019-05-06 au 2026-03-19 :** 1 085 trades agrégés, `20 259 USD` nets, Sharpe `0,848`, PF `1,239`, maxDD `−4 790,50 USD`.
+- **IS — 2019-05-06 au 2023-12-31 :** 726 trades, `10 980 USD` nets, Sharpe `0,859`, PF `1,221`, maxDD `−4 790,50 USD`.
+- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 359 trades, `9 279 USD` nets, Sharpe `0,899`, PF `1,264`, maxDD `−3 714 USD`. La région de 42 cellules ayant été choisie après consultation de ce cube, cette fenêtre n'est plus un OOS prospectif vierge.
+
+*Convention de Sharpe (mise à jour le 15 novembre 2026, audit `audit_20261115`, phase 0) : PnL quotidien net en USD, annualisé par √252, jours sans trade inclus, calendrier des séances de semaine de l'instrument. Les valeurs publiées auparavant (0,873 / 0,831 / 0,971) étaient calculées sur les rendements d'un compte de 50 000 USD qui capitalise.*
+
 - Les couleurs des cubes restent des métriques **par cellule** ; les chiffres ci-dessus proviennent, eux, de la réexécution déterministe du vote agrégé avec coûts sur chaque changement de cible.
 
 ## 10. Checklist et limites

@@ -1,0 +1,3 @@
+method,scenario,horizon,block,paths,pass_probability,mll_probability,expiry_probability,median_days_to_pass,median_max_drawdown_usd,p05_max_drawdown_usd
+moving_block_bootstrap,equal_contract__nominal__eight__s01_atr18__union,35,pooled,8000,0.29025,0.38675,0.323,22.0,-1855.080000000009,-2619.447499999995
+moving_block_bootstrap,equal_contract__nominal__eight__s01_atr18__union,60,pooled,8000,0.4375,0.461375,0.101125,28.0,-2019.229999999996,-2883.5560000000037

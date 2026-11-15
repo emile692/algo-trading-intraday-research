@@ -96,7 +96,7 @@ Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des a
 
 **Ce qui change pour S01 : son stop et sa cible.** Ils restent posés chez le broker, mais comme ordres stop et limite *indépendants*. Leur quantité est l'effet qu'aurait la sortie de S01 sur la position nette, recalculée chaque minute. Le sizing historique (1 à 4 contrats pour un risque d'environ 250 USD) est conservé.
 
-Exemple réel, 31 janvier 2024 : S02 est short depuis 10:37 (vente 1 à 17 294,50). À 14:41, S01 entre long (achat 1 à 17 430,00, stop 17 354,50) : la cible MNQ devient 0 et **le compte est plat**. Le stop de S01 reste pourtant posé, en vente stop de 1 à 17 354,50. À 15:01, il est touché : S01 sort, la cible redevient −1 (le short de S02) et la vente stop exécutée rétablit ce short. Un stop attaché à la position du compte n'aurait pas existé dans ce cas.
+Exemple de mécanique, 31 janvier 2024. *Note du 15 novembre 2026 : ce trade S01 vient de l'ancien ledger `baseline_fixed`. La sleeve de cette fiche, référence du lock `eight_sleeve_equal_contract_reference_20261115`, ne trade pas ce jour-là. L'exemple reste valable pour la mécanique.* S02 est short depuis 10:37 (vente 1 à 17 294,50). À 14:41, S01 entre long (achat 1 à 17 430,00, stop 17 354,50) : la cible MNQ devient 0 et **le compte est plat**. Le stop de S01 reste pourtant posé, en vente stop de 1 à 17 354,50. À 15:01, il est touché : S01 sort, la cible redevient −1 (le short de S02) et la vente stop exécutée rétablit ce short. Un stop attaché à la position du compte n'aurait pas existé dans ce cas.
 
 ## 8. Pseudocode de réimplémentation
 
@@ -115,9 +115,12 @@ pour chaque séance:
 
 ## 9. Validation historique
 
-- **IS — 2019-05-05 au 2024-02-27 :** 514 trades, `13 852 USD` nets, Sharpe `1,143`, PF `1,322`, maxDD `−2 148,50 USD`.
-- **Historique OOS réutilisé — 2024-02-28 au 2026-03-20 :** 187 trades, `5 564,50 USD`, Sharpe `1,194`, PF `1,389`, maxDD `−875,50 USD`.
-- **Historique total — 2019-05-05 au 2026-03-20 :** 701 trades, PnL net `19 416,50 USD`, Sharpe `1,156`, PF `1,339`, maxDD `−2 148,50 USD`.
+- **IS — 2019-05-05 au 2024-02-27 :** 514 trades, `13 852 USD` nets, Sharpe `1,265`, PF `1,322`, maxDD `−2 148,50 USD`.
+- **Historique OOS réutilisé — 2024-02-28 au 2026-03-20 :** 187 trades, `5 564,50 USD`, Sharpe `1,325`, PF `1,389`, maxDD `−875,50 USD`.
+- **Historique total — 2019-05-05 au 2026-03-20 :** 701 trades, PnL net `19 416,50 USD`, Sharpe `1,281`, PF `1,339`, maxDD `−2 148,50 USD`.
+
+*Convention de Sharpe (mise à jour le 15 novembre 2026, audit `audit_20261115`, phase 0) : PnL quotidien net en USD, annualisé par √252, jours sans trade inclus, calendrier des séances de semaine de l'instrument. Les valeurs publiées auparavant (1,143 / 1,194 / 1,156) incluaient les dimanches dans le calendrier, ce qui diluait le Sharpe.*
+
 
 Le découpage temporel est inchangé et les seuils de quantiles restent calibrés exclusivement sur l'IS. En revanche, ce nouvel ensemble ayant été choisi après examen des cubes IS/OOS, la seconde fenêtre est désormais une validation historique réutilisée et non plus un test OOS indépendant.
 

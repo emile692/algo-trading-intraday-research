@@ -6,3 +6,11 @@ src/analytics/topstep_lifecycle/** text eol=lf
 strategy_registry/execution/** text eol=lf
 tests/test_book_aggregation_risk.py text eol=lf
 tests/test_active_netting_rule.py text eol=lf
+# Hash-frozen files of eight_sleeve_equal_contract_reference_20261115 and of its S01 source (LF bytes hashed).
+research/locked_eight_sleeve_portfolio_20261115/** text eol=lf
+research/signal_sheet_01_atr18/** text eol=lf
+tests/test_locked_eight_sleeve_portfolio_20261115.py text eol=lf
+research/s01_atr_price_normalized_20261115/*.json text eol=lf
+research/s01_atr_price_normalized_20261115/*.py text eol=lf
+research/s01_atr_price_normalized_20261115/results/*.json text eol=lf
+research/s01_atr_price_normalized_20261115/results/*.csv text eol=lf

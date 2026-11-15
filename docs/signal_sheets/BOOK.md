@@ -1,22 +1,24 @@
 # Book — portefeuille des neuf sleeves
 
-> **Note du 3 novembre 2026.** Ce book décrit la référence à neuf sleeves du 1er novembre 2026. La référence active compte désormais huit sleeves : `S04` est passée en shadow ([`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md)). Sans S04, la section 5 donne déjà le book restant : `31 661 USD`, Sharpe `1,751`.
+> **Note du 3 novembre 2026.** Ce book décrit la référence à neuf sleeves du 1er novembre 2026. La référence active compte désormais huit sleeves : `S04` est passée en shadow ([`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md)). Sans S04, la section 5 donne déjà le book restant : `30 858 USD`, Sharpe `1,712` (recalculé le 15 novembre ; `31 661 USD` et `1,751` avec l'ancien S01 et le calendrier MNQ).
 >
 > **Note du 13 novembre 2026.** Les huit sleeves actives ne sont plus exécutées séparément. Elles sont **agrégées par instrument** : une seule position nette sur MNQ, MGC et MBT (section 6). Les signaux et les tailles ne changent pas.
+>
+> **Note du 15 novembre 2026, mise à jour le même jour.** Les sections 1 à 5 sont désormais calculées avec le S01 de la fiche 01 (ensemble ATR 18) et sur le calendrier union de 572 séances : les huit sleeves du lock du 15 novembre, plus S04 (en shadow) reprise du lock du 1er novembre. La version précédente utilisait le ledger historique `baseline_fixed` (ATR 14 × q_high {90, 95}, 261 trades sur 2024-01 → 2026-03 contre 208) et le calendrier MNQ. La section 6 garde ses chiffres d'origine, calculés avec `baseline_fixed`. La référence active est désormais `eight_sleeve_equal_contract_reference_20261115` ([`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md)) : S01 de la fiche 01, calendrier union de 572 séances. Le book à 8 sleeves y fait `30 858 USD`, Sharpe `1,712`, drawdown `−5 870 USD`. Les mêmes chiffres figurent dans [l'audit, phase 1](../../audit_20261115/01_calendrier.md). **L'exemple 2 de la section 6 (31 janvier 2024) repose sur un trade S01 qui n'existe pas dans la sleeve de référence** : il illustre toujours correctement la mécanique du netting, mais pas un jour réel du book. Les exemples 1 et 5 restent des trades de la référence.
 
 ## 1. Construction et périmètre
 
-Le book additionne une copie exécutable de chaque sleeve : quatre MNQ, deux MGC et trois MBT, sans pondération fractionnaire. Il correspond à la référence `nine_sleeve_equal_contract_reference_20261101`, dans laquelle les sleeves 2 à 9 exécutent leurs ensembles de vote gelés. Les chiffres de cette section utilisent la fenêtre commune du **2 janvier 2024 au 19 mars 2026** (564 séances) et les PnL quotidiens nets de coûts nominaux. Cette fenêtre rend les comparaisons cohérentes ; elle ne constitue pas un nouvel OOS indépendant.
+Le book additionne une copie exécutable de chaque sleeve : quatre MNQ, deux MGC et trois MBT, sans pondération fractionnaire. Il correspond à la référence `nine_sleeve_equal_contract_reference_20261101`, dans laquelle les sleeves 2 à 9 exécutent leurs ensembles de vote gelés, avec S01 = ensemble ATR 18 de la fiche 01 comme dans le lock du 15 novembre. Les chiffres de cette section utilisent la fenêtre commune du **2 janvier 2024 au 19 mars 2026** (572 séances, calendrier union) et les PnL quotidiens nets de coûts nominaux. Cette fenêtre rend les comparaisons cohérentes ; elle ne constitue pas un nouvel OOS indépendant.
 
 ![Equity curve nette du book](assets/book_equity_curve.png)
 
-Sur cette fenêtre, le book cumule `37 044,22 USD`, avec une volatilité quotidienne de `677,34 USD`, un pire jour de `−1 664,46 USD` et un drawdown maximal clôture-à-clôture de `−6 305,18 USD`. La référence du 4 octobre 2026 affichait `43 225,22 USD` et un drawdown de `−6 014,42 USD` sur la même fenêtre : les anciens points S3–S6 y avaient été choisis, ce qui rendait ces chiffres optimistes. Ces pertes historiques ne bornent pas la perte future : gaps, slippage, liquidité ou défaillance d'exécution peuvent faire dépasser un stop théorique.
+Sur cette fenêtre, le book à neuf sleeves cumule `36 240,96 USD`, avec une volatilité quotidienne de `666,67 USD`, un pire jour de `−1 664,46 USD` et un drawdown maximal clôture-à-clôture de `−6 594,74 USD` (Sharpe `1,509`). Sans S04, le book actif à huit sleeves fait `30 857,96 USD`, Sharpe `1,712`, drawdown `−5 870,04 USD`. La référence du 4 octobre 2026 affichait `43 225,22 USD` et un drawdown de `−6 014,42 USD` sur la même fenêtre (ancien S01, calendrier MNQ) : les anciens points S3–S6 y avaient été choisis, ce qui rendait ces chiffres optimistes. Ces pertes historiques ne bornent pas la perte future : gaps, slippage, liquidité ou défaillance d'exécution peuvent faire dépasser un stop théorique.
 
 ## 2. Matrice de corrélation
 
 ![Matrice de corrélation des neuf sleeves](assets/book_correlation_matrix.png)
 
-La matrice est la corrélation de Pearson des **PnL quotidiens**, jours sans trade inclus. Les blocs les plus liés sont `S05–S06` (`0,66`, deux stratégies MGC), `S07–S08` (`0,63`, deux modèles MBT de tendance) et `S02–S04` (`0,57`, deux moteurs MNQ directionnels). Une corrélation faible n'empêche pas des pertes simultanées lors d'un choc ; elle décrit uniquement la co-mouvance moyenne observée.
+La matrice est la corrélation de Pearson des **PnL quotidiens**, jours sans trade inclus. Les blocs les plus liés sont `S05–S06` (`0,66`, deux stratégies MGC), `S07–S08` (`0,62`, deux modèles MBT de tendance) et `S02–S04` (`0,57`, deux moteurs MNQ directionnels). Une corrélation faible n'empêche pas des pertes simultanées lors d'un choc ; elle décrit uniquement la co-mouvance moyenne observée.
 
 | Code | Sleeve |
 |---|---|
@@ -52,17 +54,17 @@ Le **risque prévu** ci-dessous est la distance entre le fill et le niveau d'inv
 
 | Sleeve | Vol. quotidienne | Pire jour | Max drawdown | Contribution au risque du book |
 |---|---:|---:|---:|---:|
-| S01 | 145,57 USD | −249,00 USD | −1 081,50 USD | 5,9 % |
-| S02 | 290,74 USD | −1 138,00 USD | −3 714,00 USD | 33,1 % |
-| S03 | 58,95 USD | −268,50 USD | −940,50 USD | 3,2 % |
-| S04 | 279,22 USD | −823,50 USD | −4 212,50 USD | 30,3 % |
-| S05 | 123,33 USD | −874,50 USD | −1 622,50 USD | 5,3 % |
-| S06 | 149,96 USD | −909,50 USD | −1 399,00 USD | 6,8 % |
-| S07 | 73,76 USD | −355,32 USD | −1 285,80 USD | 3,3 % |
-| S08 | 105,46 USD | −533,64 USD | −1 449,10 USD | 5,4 % |
-| S09 | 99,84 USD | −229,32 USD | −2 068,58 USD | 6,8 % |
+| S01 | 130,74 USD | −249,00 USD | −875,50 USD | 4,6 % |
+| S02 | 288,70 USD | −1 138,00 USD | −3 714,00 USD | 33,4 % |
+| S03 | 58,53 USD | −268,50 USD | −940,50 USD | 3,3 % |
+| S04 | 277,26 USD | −823,50 USD | −4 212,50 USD | 30,5 % |
+| S05 | 122,88 USD | −874,50 USD | −1 622,50 USD | 5,4 % |
+| S06 | 149,08 USD | −909,50 USD | −1 564,50 USD | 7,0 % |
+| S07 | 73,36 USD | −355,32 USD | −1 285,80 USD | 3,4 % |
+| S08 | 105,16 USD | −533,64 USD | −1 542,56 USD | 5,6 % |
+| S09 | 99,36 USD | −229,32 USD | −1 916,40 USD | 6,9 % |
 
-La contribution au risque est la contribution marginale à la variance quotidienne du book equal-contract ; elle tient donc compte à la fois de la volatilité propre et des corrélations. `S02` et `S04` concentrent ensemble environ `63,4 %` du risque observé. Le contrôle opérationnel doit aussi agréger les expositions par instrument : quatre contrats MNQ peuvent être simultanément orientés dans le même sens, auxquels peut s'ajouter le MBT directionnel.
+La contribution au risque est la contribution marginale à la variance quotidienne du book equal-contract ; elle tient donc compte à la fois de la volatilité propre et des corrélations. `S02` et `S04` concentrent ensemble environ `63,9 %` du risque observé. Le contrôle opérationnel doit aussi agréger les expositions par instrument : quatre contrats MNQ peuvent être simultanément orientés dans le même sens, auxquels peut s'ajouter le MBT directionnel.
 
 ## 5. Analyse leave-one-out
 
@@ -72,17 +74,17 @@ Cette analyse retire **une seule sleeve à la fois**, sans réoptimiser les huit
 
 | Sleeve retirée | PnL du book restant | Variation de PnL | Sharpe annualisé | Max drawdown | Variation du drawdown |
 |---|---:|---:|---:|---:|---:|
-| S01 | 30 715,22 USD | −6 329,00 USD | 1,324 | −6 670,64 USD | −365,46 USD |
-| S02 | 27 765,22 USD | −9 279,00 USD | 1,595 | −5 704,60 USD | +600,58 USD |
-| S03 | 36 451,72 USD | −592,50 USD | 1,559 | −6 543,68 USD | −238,50 USD |
-| S04 | 31 661,22 USD | −5 383,00 USD | 1,751 | −5 425,58 USD | +879,60 USD |
-| S05 | 35 256,22 USD | −1 788,00 USD | 1,522 | −6 123,18 USD | +182,00 USD |
-| S06 | 32 946,22 USD | −4 098,00 USD | 1,433 | −6 416,78 USD | −111,60 USD |
-| S07 | 34 689,18 USD | −2 355,04 USD | 1,482 | −6 171,16 USD | +134,02 USD |
-| S08 | 32 699,12 USD | −4 345,10 USD | 1,419 | −6 368,38 USD | −63,20 USD |
-| S09 | 34 169,64 USD | −2 874,58 USD | 1,509 | −6 279,24 USD | +25,94 USD |
+| S01 | 30 205,96 USD | −6 035,00 USD | 1,292 | −7 007,24 USD | −412,50 USD |
+| S02 | 26 961,96 USD | −9 279,00 USD | 1,557 | −5 386,86 USD | +1 207,88 USD |
+| S03 | 35 648,46 USD | −592,50 USD | 1,528 | −6 833,24 USD | −238,50 USD |
+| S04 | 30 857,96 USD | −5 383,00 USD | 1,712 | −5 870,04 USD | +724,70 USD |
+| S05 | 34 523,46 USD | −1 717,50 USD | 1,494 | −6 262,24 USD | +332,50 USD |
+| S06 | 32 308,46 USD | −3 932,50 USD | 1,410 | −6 728,74 USD | −134,00 USD |
+| S07 | 34 031,88 USD | −2 209,08 USD | 1,457 | −6 097,86 USD | +496,88 USD |
+| S08 | 32 105,88 USD | −4 135,08 USD | 1,399 | −6 263,18 USD | +331,56 USD |
+| S09 | 33 283,66 USD | −2 957,30 USD | 1,473 | −6 373,20 USD | +221,54 USD |
 
-Le book complet affiche un PnL de `37 044,22 USD`, un Sharpe annualisé de `1,539` et un drawdown maximal de `−6 305,18 USD`. Toutes les sleeves ont une contribution nette positive sur cette fenêtre : en retirer une diminue donc toujours le PnL final. `S04` puis `S02` sont les principaux compromis rendement/risque : leur retrait réduit le PnL, mais améliore le Sharpe et le drawdown, ce qui confirme leur forte contribution au risque. À l'inverse, retirer `S01`, `S03`, `S06` ou `S08` dégrade le drawdown malgré la baisse d'exposition ; ces sleeves apportent une diversification utile sur cette fenêtre. `S03` a la plus faible contribution au PnL, mais son retrait aggrave le drawdown. Le gain de `S09` sur cette fenêtre provient surtout de 2024 et du début 2025 : son vote est nul sur son legacy OOS (fiche 09).
+Le book complet affiche un PnL de `36 240,96 USD`, un Sharpe annualisé de `1,509` et un drawdown maximal de `−6 594,74 USD`. Toutes les sleeves ont une contribution nette positive sur cette fenêtre : en retirer une diminue donc toujours le PnL final. `S04` puis `S02` sont les principaux compromis rendement/risque : leur retrait réduit le PnL, mais améliore le Sharpe et le drawdown, ce qui confirme leur forte contribution au risque. À l'inverse, retirer `S01`, `S03` ou `S06` dégrade le drawdown malgré la baisse d'exposition ; ces sleeves apportent une diversification utile sur cette fenêtre. `S03` a la plus faible contribution au PnL, mais son retrait aggrave le drawdown. Le gain de `S09` sur cette fenêtre provient surtout de 2024 et du début 2025 : son vote est nul sur son legacy OOS (fiche 09).
 
 Une variation de drawdown positive signifie que le drawdown devient moins sévère ; une variation négative signifie qu'il se dégrade. Cette analyse est descriptive et rétrospective : elle mesure la dépendance historique du book à chaque sleeve, sans valider une nouvelle allocation.
 
