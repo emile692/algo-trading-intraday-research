@@ -1,0 +1,8 @@
+# Hash-frozen files of the instrument netting rule (strategy_registry/execution/netting_rule_20261115.json).
+# Their sha256 was taken on LF bytes; keep LF on checkout whatever core.autocrlf says.
+research/book_aggregation_risk_r1_20261112/** text eol=lf
+src/portfolio/** text eol=lf
+src/analytics/topstep_lifecycle/** text eol=lf
+strategy_registry/execution/** text eol=lf
+tests/test_book_aggregation_risk.py text eol=lf
+tests/test_active_netting_rule.py text eol=lf
