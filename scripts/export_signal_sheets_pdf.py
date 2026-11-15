@@ -149,10 +149,17 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 
 
 def _git_csv(path: str) -> pd.DataFrame:
-    """Read a tracked research table without restoring deleted bulk exports."""
-    raw = subprocess.run(
-        ["git", "show", f"HEAD:{path}"], cwd=ROOT, check=True, capture_output=True
-    ).stdout.decode("utf-8")
+    """Read a research table from git without restoring deleted bulk exports.
+
+    The table is read at HEAD; if it was untracked since (commit 72ded70 untracked the
+    archived exports), it is read from the parent of the last commit that touched it.
+    """
+    shown = subprocess.run(["git", "show", f"HEAD:{path}"], cwd=ROOT, capture_output=True)
+    if shown.returncode != 0:
+        last = subprocess.run(["git", "rev-list", "-n", "1", "HEAD", "--", path], cwd=ROOT,
+                              check=True, capture_output=True).stdout.decode().strip()
+        shown = subprocess.run(["git", "show", f"{last}^:{path}"], cwd=ROOT, check=True, capture_output=True)
+    raw = shown.stdout.decode("utf-8")
     return pd.read_csv(io.StringIO(raw))
 
 
@@ -882,7 +889,8 @@ def build(output_dir: Path, mermaid_js: Path) -> list[Path]:
             else "1 NOVEMBRE 2026"
         )
         decorated = (
-            f'<div class="document-meta">FICHE SIGNAL {index:02d}/09 · DOCUMENT CLIENT · ÉDITION {edition}</div>'
+            f'<div class="document-meta">FICHE SIGNAL {index:02d}/09 · DOCUMENT CLIENT · ÉDITION {edition}'
+            f' · MISE À JOUR 13 NOVEMBRE 2026 : EXÉCUTION AGRÉGÉE</div>'
             + body
         )
         destination = output_dir / f"{source.stem}.html"
@@ -903,14 +911,14 @@ def build(output_dir: Path, mermaid_js: Path) -> list[Path]:
         f'<div class="document-meta">FICHE SIGNAL {index + 1:02d}/09 · DOCUMENT CLIENT</div>{body}</section>'
         for index, (anchor, _, body) in enumerate(rendered_sheets)
     )
-    sections += f'<section class="book-section" id="book"><div class="document-meta">BOOK · CORRÉLATIONS ET RISQUES</div>{book_body}</section>'
+    sections += f'<section class="book-section" id="book"><div class="document-meta">BOOK · CORRÉLATIONS, RISQUES ET EXÉCUTION AGRÉGÉE</div>{book_body}</section>'
     consolidated_body = f"""
 <section class="cover">
   <div class="eyebrow">Portefeuille intraday · Référence verrouillée</div>
   <h1>Les 9 sleeves<br>Fiches signal</h1>
   <div class="rule"></div>
   <p>Guide pédagogique complet : intuition, données, paramètres, construction, exécution, risques et procédure de réimplémentation.</p>
-  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]</div>
+  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]<br>Mise à jour du 13 novembre 2026 : S04 en shadow, exécution agrégée par instrument (Book, section 6)</div>
 </section>
 <section class="toc">
   <h1>Sommaire</h1>

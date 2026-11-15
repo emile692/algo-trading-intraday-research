@@ -90,6 +90,14 @@ Le signal existe lorsque la clôture observable franchit le bord supérieur tamp
 
 Tick MNQ `0,25` point = `0,50 USD`; valeur du point `2 USD`. Coûts de recherche : `1,25 USD` de commission et un tick défavorable par côté. Stop et cible ne sont évalués qu'avant la sortie de 16:00. Si stop et cible coexistent dans une minute, prendre le stop. Pas de position overnight.
 
+### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
+
+Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans **une seule cible nette MNQ**, et seule la différence avec la position du compte est envoyée ([Book, section 6](BOOK.md)). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.
+
+**Ce qui change pour S01 : son stop et sa cible.** Ils restent posés chez le broker, mais comme ordres stop et limite *indépendants*. Leur quantité est l'effet qu'aurait la sortie de S01 sur la position nette, recalculée chaque minute. Le sizing historique (1 à 4 contrats pour un risque d'environ 250 USD) est conservé.
+
+Exemple réel, 31 janvier 2024 : S02 est short depuis 10:37 (vente 1 à 17 294,50). À 14:41, S01 entre long (achat 1 à 17 430,00, stop 17 354,50) : la cible MNQ devient 0 et **le compte est plat**. Le stop de S01 reste pourtant posé, en vente stop de 1 à 17 354,50. À 15:01, il est touché : S01 sort, la cible redevient −1 (le short de S02) et la vente stop exécutée rétablit ce short. Un stop attaché à la position du compte n'aurait pas existé dans ce cas.
+
 ## 8. Pseudocode de réimplémentation
 
 ```text

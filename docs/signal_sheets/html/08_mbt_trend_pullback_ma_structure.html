@@ -58,7 +58,7 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 </style>
 </head>
 <body>
-<div class="document-meta">FICHE SIGNAL 08/09 · DOCUMENT CLIENT · ÉDITION 1 NOVEMBRE 2026</div><h1 id="fiche-signal-0809-mbt-trend-pullback-ma-structure">Fiche signal 08/09 — MBT trend pullback MA structure</h1>
+<div class="document-meta">FICHE SIGNAL 08/09 · DOCUMENT CLIENT · ÉDITION 1 NOVEMBRE 2026 · MISE À JOUR 13 NOVEMBRE 2026 : EXÉCUTION AGRÉGÉE</div><h1 id="fiche-signal-0809-mbt-trend-pullback-ma-structure">Fiche signal 08/09 — MBT trend pullback MA structure</h1>
 <h2 id="1-carte-didentite">1. Carte d'identité</h2>
 <table>
 <thead>
@@ -149,6 +149,10 @@ window.addEventListener("load", () => {
 <p>La taille exécutable est <strong>−1, 0 ou +1 MBT</strong>, jamais neuf contrats. Exemple : six cellules longues et trois flat donnent <code>m=6/9=0,67</code>, donc une cible <code>+1</code>. Pour un long de cellule, le SL initial est l'EMA la plus lente ; il ne peut ensuite que remonter. Il n'y a pas de TP fixe : la sortie vient du stop EMA, du croisement contraire ou du hard flatten.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>5</code> points = <code>0,50 USD</code>, point <code>0,10 USD</code>, commission <code>1,41 USD/côté</code>, slippage <code>1 tick/côté</code>. Les cellules sont des calculateurs d'état ; seul le changement de position agrégée paie les coûts. Hard flatten 16:08 ET.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MBT (S07 + S08 + S09) dans <strong>une seule cible nette MBT</strong>, de −3 à +3 contrats (<a href="BOOK.md">Book, section 6</a>). Signal, taille et PnL suivi inchangés.</p>
+<p>Exemple réel, 1er mars 2024 : S08 passe long à 09:46 (achat 1 à 62 520). S09 passe short à 10:39 : la cible nette revient à 0, on vend 1 à 62 210 et le compte est plat. S08 sort à 11:01 : la cible devient −1, on vend 1 à 62 075. S08 repasse long à 12:46 : la cible revient à 0. S09 sort à 13:42 : la cible devient +1. Flatten à 16:08. Les sleeves gardent chacune leur PnL, mais le compte n'est jamais long et short à la fois.</p>
+<p><strong>Limite Topstep.</strong> Un MBT compte pour 1 lot. Au premier palier XFA (2 lots), deux sleeves MBT dans le même sens remplissent déjà la limite : une troisième entrée, MBT ou micro, est réduite ou refusée tant que la place n'est pas libérée (<a href="BOOK.md">Book, exemple 5</a>).</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">pour f dans [.50,.60,.75], s dans [.75,1,1.25]:
   periods = strictly_increasing(round([8f,13f,21,34s,55s]))

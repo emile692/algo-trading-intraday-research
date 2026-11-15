@@ -1,0 +1,305 @@
+{
+  "ES95_per_contract_sleeve_is": {
+    "S01": 209.725,
+    "S02": 427.65833333333336,
+    "S03": 93.88333333333334,
+    "S05": 70.06557377048995,
+    "S06": 92.36885245901455,
+    "S07": 146.88818181818186,
+    "S08": 135.20727272727274,
+    "S09": 106.63818181818183
+  },
+  "weights": {
+    "S01": 2.0391385544562324,
+    "S02": 1.0,
+    "S03": 4.555210367477366,
+    "S05": 6.103687022305574,
+    "S06": 4.629897654332036,
+    "S07": 2.911455013192884,
+    "S08": 3.162983208721066,
+    "S09": 4.010367825498855
+  },
+  "sizing_by_k": {
+    "0.3": {
+      "lambda": null,
+      "fallback_all_ones": true,
+      "lambda_1_feasible": false,
+      "n": {
+        "S01": 1,
+        "S02": 1,
+        "S03": 1,
+        "S05": 1,
+        "S06": 1,
+        "S07": 1,
+        "S08": 1,
+        "S09": 1
+      },
+      "book_es95_is_common": 603.7539393939388,
+      "peak_lots_is_common": 3.3,
+      "instrument_es95_is": {
+        "MNQ": 505.775,
+        "MGC": 125.18852459016199,
+        "MBT": 243.64909090909097
+      },
+      "n_feasible_lambdas": 0
+    },
+    "0.4": {
+      "lambda": null,
+      "fallback_all_ones": true,
+      "lambda_1_feasible": false,
+      "n": {
+        "S01": 1,
+        "S02": 1,
+        "S03": 1,
+        "S05": 1,
+        "S06": 1,
+        "S07": 1,
+        "S08": 1,
+        "S09": 1
+      },
+      "book_es95_is_common": 603.7539393939388,
+      "peak_lots_is_common": 3.3,
+      "instrument_es95_is": {
+        "MNQ": 505.775,
+        "MGC": 125.18852459016199,
+        "MBT": 243.64909090909097
+      },
+      "n_feasible_lambdas": 0
+    },
+    "0.5": {
+      "lambda": null,
+      "fallback_all_ones": true,
+      "lambda_1_feasible": false,
+      "n": {
+        "S01": 1,
+        "S02": 1,
+        "S03": 1,
+        "S05": 1,
+        "S06": 1,
+        "S07": 1,
+        "S08": 1,
+        "S09": 1
+      },
+      "book_es95_is_common": 603.7539393939388,
+      "peak_lots_is_common": 3.3,
+      "instrument_es95_is": {
+        "MNQ": 505.775,
+        "MGC": 125.18852459016199,
+        "MBT": 243.64909090909097
+      },
+      "n_feasible_lambdas": 0
+    }
+  },
+  "sigma_ref": {
+    "MNQ": 0.012845321295497238,
+    "MGC": 0.008804543776274702,
+    "MBT": 0.046802724472442554
+  },
+  "b2_diagnostic": [
+    {
+      "sleeve": "S01",
+      "tercile": "low",
+      "sessions": 390,
+      "active_sessions": 167,
+      "pnl_per_contract_sum": 3974.5,
+      "pnl_per_contract_mean_active": 23.79940119760479
+    },
+    {
+      "sleeve": "S01",
+      "tercile": "mid",
+      "sessions": 389,
+      "active_sessions": 199,
+      "pnl_per_contract_sum": 4111.0,
+      "pnl_per_contract_mean_active": 20.65829145728643
+    },
+    {
+      "sleeve": "S01",
+      "tercile": "high",
+      "sessions": 389,
+      "active_sessions": 189,
+      "pnl_per_contract_sum": 1976.5,
+      "pnl_per_contract_mean_active": 10.457671957671957
+    },
+    {
+      "sleeve": "S02",
+      "tercile": "low",
+      "sessions": 390,
+      "active_sessions": 250,
+      "pnl_per_contract_sum": 3895.5,
+      "pnl_per_contract_mean_active": 15.582
+    },
+    {
+      "sleeve": "S02",
+      "tercile": "mid",
+      "sessions": 389,
+      "active_sessions": 242,
+      "pnl_per_contract_sum": 5802.5,
+      "pnl_per_contract_mean_active": 23.977272727272727
+    },
+    {
+      "sleeve": "S02",
+      "tercile": "high",
+      "sessions": 389,
+      "active_sessions": 225,
+      "pnl_per_contract_sum": 1282.0,
+      "pnl_per_contract_mean_active": 5.697777777777778
+    },
+    {
+      "sleeve": "S03",
+      "tercile": "low",
+      "sessions": 390,
+      "active_sessions": 73,
+      "pnl_per_contract_sum": -364.0,
+      "pnl_per_contract_mean_active": -4.986301369863014
+    },
+    {
+      "sleeve": "S03",
+      "tercile": "mid",
+      "sessions": 389,
+      "active_sessions": 69,
+      "pnl_per_contract_sum": 368.5,
+      "pnl_per_contract_mean_active": 5.340579710144928
+    },
+    {
+      "sleeve": "S03",
+      "tercile": "high",
+      "sessions": 389,
+      "active_sessions": 69,
+      "pnl_per_contract_sum": 1752.5,
+      "pnl_per_contract_mean_active": 25.39855072463768
+    },
+    {
+      "sleeve": "S05",
+      "tercile": "low",
+      "sessions": 396,
+      "active_sessions": 44,
+      "pnl_per_contract_sum": 538.0000000000746,
+      "pnl_per_contract_mean_active": 12.227272727274423
+    },
+    {
+      "sleeve": "S05",
+      "tercile": "mid",
+      "sessions": 395,
+      "active_sessions": 40,
+      "pnl_per_contract_sum": 1013.0000000000723,
+      "pnl_per_contract_mean_active": 25.325000000001808
+    },
+    {
+      "sleeve": "S05",
+      "tercile": "high",
+      "sessions": 396,
+      "active_sessions": 48,
+      "pnl_per_contract_sum": -132.99999999991314,
+      "pnl_per_contract_mean_active": -2.770833333331524
+    },
+    {
+      "sleeve": "S06",
+      "tercile": "low",
+      "sessions": 396,
+      "active_sessions": 55,
+      "pnl_per_contract_sum": 1521.5000000000941,
+      "pnl_per_contract_mean_active": 27.663636363638076
+    },
+    {
+      "sleeve": "S06",
+      "tercile": "mid",
+      "sessions": 395,
+      "active_sessions": 46,
+      "pnl_per_contract_sum": 1057.0000000000755,
+      "pnl_per_contract_mean_active": 22.97826086956686
+    },
+    {
+      "sleeve": "S06",
+      "tercile": "high",
+      "sessions": 396,
+      "active_sessions": 37,
+      "pnl_per_contract_sum": 519.5000000000709,
+      "pnl_per_contract_mean_active": 14.040540540542457
+    },
+    {
+      "sleeve": "S07",
+      "tercile": "low",
+      "sessions": 141,
+      "active_sessions": 52,
+      "pnl_per_contract_sum": 401.8600000000003,
+      "pnl_per_contract_mean_active": 7.728076923076928
+    },
+    {
+      "sleeve": "S07",
+      "tercile": "mid",
+      "sessions": 141,
+      "active_sessions": 64,
+      "pnl_per_contract_sum": 395.5200000000003,
+      "pnl_per_contract_mean_active": 6.180000000000004
+    },
+    {
+      "sleeve": "S07",
+      "tercile": "high",
+      "sessions": 141,
+      "active_sessions": 51,
+      "pnl_per_contract_sum": -389.81999999999977,
+      "pnl_per_contract_mean_active": -7.643529411764703
+    },
+    {
+      "sleeve": "S08",
+      "tercile": "low",
+      "sessions": 141,
+      "active_sessions": 125,
+      "pnl_per_contract_sum": 377.6600000000003,
+      "pnl_per_contract_mean_active": 3.021280000000003
+    },
+    {
+      "sleeve": "S08",
+      "tercile": "mid",
+      "sessions": 141,
+      "active_sessions": 131,
+      "pnl_per_contract_sum": 875.3200000000006,
+      "pnl_per_contract_mean_active": 6.681832061068706
+    },
+    {
+      "sleeve": "S08",
+      "tercile": "high",
+      "sessions": 141,
+      "active_sessions": 122,
+      "pnl_per_contract_sum": -416.0399999999995,
+      "pnl_per_contract_mean_active": -3.4101639344262233
+    },
+    {
+      "sleeve": "S09",
+      "tercile": "low",
+      "sessions": 141,
+      "active_sessions": 83,
+      "pnl_per_contract_sum": 919.9400000000005,
+      "pnl_per_contract_mean_active": 11.083614457831331
+    },
+    {
+      "sleeve": "S09",
+      "tercile": "mid",
+      "sessions": 141,
+      "active_sessions": 85,
+      "pnl_per_contract_sum": 969.3000000000003,
+      "pnl_per_contract_mean_active": 11.403529411764707
+    },
+    {
+      "sleeve": "S09",
+      "tercile": "high",
+      "sessions": 141,
+      "active_sessions": 58,
+      "pnl_per_contract_sum": 782.9400000000002,
+      "pnl_per_contract_mean_active": 13.498965517241384
+    }
+  ],
+  "s01_sizing_change_is": {
+    "native_net_usd": 12208.5,
+    "one_unit_net_usd": 10023.0,
+    "native_mean_qty": 1.416370106761566,
+    "trades": 562
+  },
+  "is_common_sessions": 653,
+  "code_sha256": {
+    "research/book_aggregation_risk_r1_20261112/run_study.py": "854c1d944f3385d3ba40db867631354d07f9e59e83ba188dd2a77f79a67f1788",
+    "src/portfolio/aggregator.py": "2fa0dd361d4325f8f6f452c6fc6f1f6df59bbc7d9fa4d130a84cc662b26926b3",
+    "src/analytics/topstep_lifecycle/simulator.py": "10fe20e4e0c3f30bd13b6b6e605cf3d3de43432888dcc11b87fe09f01754df88",
+    "tests/test_book_aggregation_risk.py": "210cff41e19497e96ad543c90e15198415b18545ae4896630046f8738364ddff"
+  }
+}

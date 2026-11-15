@@ -1,0 +1,65 @@
+{
+  "started": "2026-11-12T23:47:47+01:00",
+  "code_sha256": {
+    "research/book_aggregation_risk_r1_20261112/run_study.py": "854c1d944f3385d3ba40db867631354d07f9e59e83ba188dd2a77f79a67f1788",
+    "src/portfolio/aggregator.py": "2fa0dd361d4325f8f6f452c6fc6f1f6df59bbc7d9fa4d130a84cc662b26926b3",
+    "src/analytics/topstep_lifecycle/simulator.py": "10fe20e4e0c3f30bd13b6b6e605cf3d3de43432888dcc11b87fe09f01754df88",
+    "tests/test_book_aggregation_risk.py": "210cff41e19497e96ad543c90e15198415b18545ae4896630046f8738364ddff"
+  },
+  "pytest_returncode": 0,
+  "pytest_tail": [
+    "........................................................................ [ 90%]",
+    "........                                                                 [100%]",
+    "80 passed in 1.15s"
+  ],
+  "inputs_sha256": {
+    "export/mnq_orb_vwap_atr_retained/trades.csv": "e4f5d74214127e4fa957bb40d035c08d9eb161796529b90a6f0a5322a997506c",
+    "research/signal_sheet_02_cluster/trades.csv": "07c2c73e3c1dd6decae9fd09f54ff67d15d7a2d1ee8e11498d434d706e511177",
+    "research/signal_sheet_03_cluster/trades.csv": "ae0cdddf5b918318580da96683d970de6c2c433ae81ef44c82e60ed90020de9a",
+    "research/signal_sheet_05_cluster/trades.csv": "ab331a1335dba4dd31f4e05333a7cb29cf9d473f5832d83dbed5e6f370d68382",
+    "research/signal_sheet_06_cluster/trades.csv": "5f5066556442739fc2f5e2b6674038fab29031edd03aef520f296a88954c3031",
+    "research/signal_sheet_07_cluster/trades.csv": "b3a087a46cd4cb87fa3ee1e42d84f0b651470fc4c910b1af352054a473f2dbb1",
+    "research/signal_sheet_08_cluster/trades.csv": "3edf46be49fdfb0c79d123d44fecb0d1e2bf45809b0470188131e21b407fc1a0",
+    "research/signal_sheet_09_cluster/trades.csv": "373478033bab7d4d0ee11b352110f4d90f63bbfe56ab9be67fd11ce2a8d95590",
+    "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef",
+    "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888",
+    "data/downloaded/MBT_v_0_1m_20210425_20261003.parquet": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683",
+    "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3",
+    "research/locked_eight_sleeve_portfolio_20261103/daily_pnl.csv": "74b4a9b50a5958672121228ec740b5ac9267e155259dfef8085525781bb90e27"
+  },
+  "calendar_sha256": {
+    "research/signal_sheet_02_cluster/daily_results.csv": "e1f13ddc9938c908a13cbcd02c7a9b9fb5937981cfbc7116d3121502e3f32d1c",
+    "research/signal_sheet_03_cluster/daily_results.csv": "248e37441e700d97d24d180e8c25516fd4030037fc122ca0eb1f55731206918d",
+    "research/signal_sheet_05_cluster/daily_results.csv": "43e93351ea86bdcbeb6caf767868bf1458092b5b37a1ca31bf9a62b9909b579b",
+    "research/signal_sheet_06_cluster/daily_results.csv": "a2ceb550e1ad4e74c6f68c00ddd44697e9474c387c886a2c1bd93ab97e608acb",
+    "research/signal_sheet_07_cluster/daily_results.csv": "d797c8004a08c647afa9d39b8ebeccb5258dccd61c6f43c3c85c7a4f7eefebbd",
+    "research/signal_sheet_08_cluster/daily_results.csv": "2578a707add8d201277850e43d97d00b9dd7ad97bc77f7a733f24acc5340556a",
+    "research/signal_sheet_09_cluster/daily_results.csv": "f66702c10f72a376a408b6de427a96dc2126b80bd9888d57d872174d64e3fbbf"
+  },
+  "T1_netting": {
+    "sessions": 1203,
+    "max_abs_gross_diff": 2.7284841053187847e-12,
+    "cost_violations": 0,
+    "netted_costs": 10506.4,
+    "sleeve_costs": 10547.85999999951,
+    "passed": true
+  },
+  "T2_S01": {
+    "trades": 562,
+    "fills": 1124,
+    "fills_match": true,
+    "max_abs_net_diff": 0.0,
+    "passed": true
+  },
+  "T3_caps_real": {
+    "peak_units": 14,
+    "cap_units": 20,
+    "passed": true
+  },
+  "T5_sigma_no_lookahead": {
+    "sessions_checked": 793,
+    "identical": true,
+    "passed": true
+  },
+  "passed": true
+}

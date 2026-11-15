@@ -54,6 +54,25 @@ Enregistrée le 3 novembre 2026, elle s'applique prospectivement à toutes les s
 
 Rejouée à titre descriptif sur la fenêtre forward, la règle aurait coupé S04 le 17 juillet 2026, et elle est encore franchie au 2 octobre. Elle aurait aussi coupé **S05** `mgc_volatility_breakout` du 28 juillet au 25 août 2026, à `−1 789 USD` pour un seuil de `−1 021 USD`, surtout à cause de pertes de février–mars 2026. S05 est depuis remontée à `+700 USD` et n'est plus sous le seuil. Elle reste donc active, mais c'est le premier candidat à surveiller.
 
+## Exécution : netting par instrument (règle active depuis le 15 novembre 2026)
+
+Les sleeves ne sont plus envoyées séparément. Le mapping `[1,1,1,1,1,1,1,1]`, les signaux et les tailles restent ceux du lock ; seule l'exécution change.
+
+| Instrument | Position nette envoyée |
+|---|---|
+| MNQ | S01 + S02 + S03 (S01 à son sizing natif de 1 à 4 contrats, S04 en shadow exclue) |
+| MGC | S05 + S06 |
+| MBT | S07 + S08 + S09 |
+
+- **Ordres.** Seul l'écart entre la cible nette et la position du compte est envoyé, à l'open de la minute suivante. Le stop et la cible de S01 sont des ordres stop et limite indépendants. Leur quantité est l'effet qu'aurait la sortie de S01 sur la cible nette, recalculée chaque minute.
+- **Limites Topstep.** Un micro compte 0,1 lot, un MBT 1 lot (à confirmer dans TopstepX). Combine 50K : 5 lots. XFA : 2 lots sous 1 500 USD de solde, 3 lots jusqu'à 2 000, puis 5. Une entrée qui dépasserait la limite est réduite. Une position ouverte n'est jamais coupée. Quand de la place se libère, l'événement suivant sur l'instrument rejoint la cible nette, même si cet événement est une sortie (rattrapage).
+- **Aucun overlay.** Pas de stop journalier, de plafond MBT, de sizing par la vol ni de verrou de gain : tous ont été testés et rejetés.
+- **PnL.** Le PnL brut est identique à la somme des sleeves. Les coûts sont légèrement plus bas (10 506 contre 10 548 USD sur 1 203 séances IS). Chaque sleeve garde son PnL virtuel et sa règle d'arrêt.
+
+Règle gelée et empreintes : [`netting_rule_20261115.json`](../strategy_registry/execution/netting_rule_20261115.json), vérifié par [`test_active_netting_rule.py`](../tests/test_active_netting_rule.py). Étude, verdict `ADOPT_AGGREGATION_ONLY` : [clôture](../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md). Exemples réels : [Book, section 6](signal_sheets/BOOK.md).
+
+**Défaut connu du PnL de référence.** [`daily_pnl.csv`](../research/locked_eight_sleeve_portfolio_20261103/daily_pnl.csv) aligne MGC et MBT sur le calendrier MNQ, ce qui écarte 8 séances de 2024-01 → 2026-03 (−509 USD). Les chiffres Topstep de ce lock en sont légèrement optimistes. Une correction passe par un nouveau lock versionné.
+
 ## Sources canoniques
 
 - Configuration verrouillée : [`locked_eight_sleeve_config.json`](../research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json)

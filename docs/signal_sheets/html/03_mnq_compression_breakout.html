@@ -58,7 +58,7 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 </style>
 </head>
 <body>
-<div class="document-meta">FICHE SIGNAL 03/09 · DOCUMENT CLIENT · ÉDITION 1 NOVEMBRE 2026</div><h1 id="fiche-signal-0309-mnq-compression-breakout">Fiche signal 03/09 — MNQ compression breakout</h1>
+<div class="document-meta">FICHE SIGNAL 03/09 · DOCUMENT CLIENT · ÉDITION 1 NOVEMBRE 2026 · MISE À JOUR 13 NOVEMBRE 2026 : EXÉCUTION AGRÉGÉE</div><h1 id="fiche-signal-0309-mnq-compression-breakout">Fiche signal 03/09 — MNQ compression breakout</h1>
 <h2 id="1-carte-didentite">1. Carte d'identité</h2>
 <table>
 <thead>
@@ -200,6 +200,9 @@ window.addEventListener("load", () => {
 <p><strong>Exemple numérique.</strong> Une inside bar a un plus haut à <code>20 010</code>, un plus bas à <code>20 000</code> et une range de <code>10</code> points. Pour la cellule centrale (<code>b=1</code>, <code>c=2,0</code>), les ordres sont <code>buy stop=20 010,25</code> et <code>sell stop=19 999,75</code> ; si le haut casse seul, elle devient longue avec un SL à <code>20 000</code> et un TP à <code>20 030,25</code>. Si 16 cellules sont longues, 2 courtes et 9 flat, le score vaut <code>(16−2)/27=0,52</code> : la sleeve achète 1 MNQ. Avec 15 longues et 2 courtes, le score vaut <code>0,48</code> : elle reste flat.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>0,25</code> = <code>0,50 USD</code>, point <code>2 USD</code>, commission <code>1,25 USD/côté</code>, un tick de slippage par côté. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Dans chaque cellule, fill au niveau stop ou à l'open minute adverse s'il y a gap, et stop avant cible dans une barre ambiguë. Dernière entrée 15:55, hard flatten agrégé 16:08 ; early close piloté par calendrier officiel.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans <strong>une seule cible nette MNQ</strong>, et seule la différence avec la position du compte est envoyée (<a href="BOOK.md">Book, section 6</a>). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.</p>
+<p>Illustration : si S02 est long et que S03 passe short, la cible MNQ passe de +1 à 0. On vend 1 contrat, le compte est plat, et les deux sleeves continuent chacune leur suivi. Quand l'une d'elles sort, le compte reprend la position de l'autre. Ce cas s'est produit 23 jours entre janvier 2024 et mars 2026.</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">cellules = produit(n=[8,10,12], b=[0,1,2], c=[1.5,2.0,2.5])
 pour chaque cellule, à chaque clôture 1h:

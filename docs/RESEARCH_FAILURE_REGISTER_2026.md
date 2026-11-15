@@ -42,6 +42,7 @@ Ce registre répond à une règle simple : un résultat négatif doit rester aus
 | MCL, paysage de paramètres : signe EMA intraday (09:00–14:30 et 18:00 → 16:00) et Donchian intraday (2026-11-11) | `REJECTED` | zone positive limitée à MCL 2021–2023 ; aucune cellule positive à la fois en IS et sur CL 2015–2021 | 113 cellules : CL 0/113 > 0 ; IS 52/113 ; OOS 2/113 (max +0,01) ; corrélation de rang IS↔CL 0,02 / 0,13 / −0,40 | fermé ; **OOS 2024-01 → 2026-03 lu sur toute la grille** ; seule l'extension 2026-03 → 2026-11 reste vierge ([fiche](../research/mcl_trend_landscape_20261111/HYPOTHESIS_CLOSURE.md)) |
 | Market intraday momentum (Gao et al. 2018) : signe clôture précédente → 10:00, position 15:30 → 16:00 ET, MNQ/MES/MGC/MCL (2026-11-11) | `REJECTED` | anomalie non répliquée : brut nul, pas seulement inférieur aux coûts ; pente portée par 2020 seule | 0/7 portes sur 4/4 instruments ; MNQ IS brut −0,08 bp, net −1,59 bp (t −1,15), permutation p 0,50 ; pente IS t 1,40, hors 2020 t −0,90 ; NQ 2010–2019 t 0,66 ; OOS MNQ −4 099 USD ; Sharpe du book 1,75 → 1,50 | fermé ; OOS de A lu (sans paramètre), OOS de B/C non lu ; réouverture seulement sur ES/SPY 1993–2019 ([fiche](../research/market_intraday_momentum_gao_r2_20261111/HYPOTHESIS_CLOSURE.md)) |
 | Mean reversion intraday conditionnelle autour du VWAP (R1) : écart au VWAP normalisé + filtre de tendance, épuisement de volatilité, réversion à l'heure du déjeuner ; MNQ, MGC, MCL (2026-11-11) | `REJECTED` | pas de réversion exploitable : continuation sur MNQ, réversion brute < coût sur MGC, négatif avant coûts sur MCL | 0/18 cellules centrales passent G1 ; 11/126 cellules IS positives (meilleur t 1,07) ; holdouts NQ 2010–2019 et CL 2015–2021 : 12/12 centrales négatives, t −2,5 à −6,9, négatives aussi en brut | fermé ; OOS non lu ; MES non lancé ; MNQ H2-D1 (épuisement + volume, +910 USD, t 0,67) vu après coup, à ne pas reprendre ([fiche](../research/conditional_vwap_mean_reversion_r1_20261111/HYPOTHESIS_CLOSURE.md)) |
+| Couche de risque du book à 8 sleeves sur Topstep 50K : budget ES statique, vol de l'instrument, plafond MBT, stops journaliers instrument/book, verrou de consistance (2026-11-12) | `REJECTED` (couche B) ; netting `ADOPT_AGGREGATION_ONLY` | budget ES infaisable avec 1 MBT = 1 lot ; stops et plafonds coupent plus de gains que de pertes ; seule la vol rapporte mais augmente la perte de XFA | cash net IS sur 126 séances : B0 548 USD, 1 contrat partout 486, +vol 728 (P(XFA perdu) +7,2 pts) ; PBO 0,63 ; OOS : retenue 866 contre B0 1 015 USD | netting adopté avec le sizing actuel ; réouverture seulement pour une vol à la baisse uniquement, nouvelle spec ; défaut de calendrier du lock du 3 novembre relevé (−509 USD) ([fiche](../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md)) |
 
 ## Fiches d'échec
 
@@ -140,6 +141,29 @@ Réplication stricte, sans paramètre, gelée avant calcul : signe du rendement 
 ### 24. Mean reversion intraday conditionnelle autour du VWAP (R1)
 
 Trois hypothèses, deux définitions chacune, une cellule centrale pré-enregistrée par définition, testées séparément sur MNQ, MGC et MCL. Exécution : barres d'une minute, entrée au marché + 1 tick, stop + 1 tick, objectif en limite exigeant 1 tick au-delà, stop prioritaire, 1,25 USD par côté. H1 : écart au VWAP normalisé par les bandes σ du VWAP ou par σ_jour·√τ, avec un filtre anti-tendance (efficiency ratio), sortie au VWAP. H2 : mouvement de 30 min ≥ 2,5 σ suivi d'une contraction de volatilité ou d'une barre d'arrêt, sortie à 50 % du mouvement. H3 : 11:30–13:30, extension vers le VWAP ou le bord du range sur faible volume. Les 18 cellules centrales échouent G1 ; 11 cellules IS sur 126 sont positives (meilleur t 1,07), Holm 1,0 partout. Sur MNQ, le prix éloigné du VWAP continue plus souvent qu'il ne revient (H1 brut −0,03 à −0,05 R, MNQ H1-N1 −6 690 USD, t −2,24), filtre de tendance ou non ; la fenêtre du déjeuner ne change rien (H3-RANGE −5 230 USD, t −2,71). Sur MGC, une réversion brute existe (+0,02 à +0,07 R) mais reste inférieure à un aller-retour (≈ 0,08 R). Sur MCL, tout est négatif avant coûts. Holdouts NQ 2010–2019 (économie MNQ) et CL 2015–2021 (économie MCL) : les 12 cellules centrales sont négatives, t −2,5 à −6,9, et négatives aussi en brut. Seul effet de timing : épuisement MNQ avec contraction (H2-D1, placebo p 0,018, brut +0,15 R), net nul (+42 USD sur 299 trades), négatif à coût ×2 et sur NQ 2010–2019 (t −4,4). Troisième campagne, après `mean_reversion_cross_asset_20261006` et le fast-alpha, à trouver continuation ou neutralité plutôt que réversion intraday sur les indices. OOS non lu, MES non lancé, diversification sans objet. Détail : [rapport final](../research/conditional_vwap_mean_reversion_r1_20261111/final_report.md).
+
+### 25. Couche de risque du book à 8 sleeves sur Topstep 50K
+
+Étude d'agrégation et de risque du lock `eight_sleeve_equal_contract_reference_20261103`, spec gelée le 2026-11-12.
+
+**Méthode.** Couche A : position nette par instrument = somme des contributions des sleeves, ordres en delta au fill natif de chaque sleeve, SL/TP de S01 conservés comme ordres posés sur le compte. Couche B : budget ES statique (k ∈ {0,30 ; 0,40 ; 0,50} du MLL) ; modulation par la vol de l'instrument sur 20 jours, bornée à [0,5 ; 1,5] ; plafond MBT à 1 ou 2 ; stop journalier par instrument à 1,0 ou 1,5 ES ; stop du book à 1 000 USD ; verrou de gain à 55 % de l'objectif. Chaque option est jugée sur le cash net du cycle Combine → XFA → payout : 8 000 chemins, 126 séances, Scaling Plan XFA 2/3/5 lots, 1 MBT = 1 lot. Sélection séquentielle sur l'IS 2021-06 → 2023-12 (653 séances).
+
+**Netting.** Il reproduit le PnL brut des sleeves à 3·10⁻¹² USD près sur 1 203 séances, économise 41 USD de coûts, et reproduit exactement les 562 trades IS de S01.
+
+**Couche B.**
+- Aucune option n'est retenue.
+- Le budget ES est inerte : une sleeve MBT est 2,9 à 4 fois moins risquée par contrat que S02, donc dès λ = 1 elle dépasserait 5 lots.
+- Cash net espéré sur l'IS : B0 548 USD, 1 contrat partout 486. L'écart vient du sizing natif de S01, qui rapporte 12 209 USD contre 10 023 à 1 contrat.
+- La vol de l'instrument porte le cash espéré à 728 USD (+50 %, meilleur sur 59 % des chemins), mais relève P(XFA perdu) de 7,2 points.
+- Plafond MBT : 445 et 455 USD. Stops instrument : 356 et 472. Stop book : 482.
+- Le verrou ne se déclenche jamais : meilleure journée IS 1 201 USD.
+- PBO 0,63, donc repli imposé sur 1 contrat partout.
+
+**OOS lu une fois (572 séances).** Retenue 866 USD contre B0 1 015, meilleure sur 40 % des chemins. Le cash médian est négatif partout, et environ deux XFA sur trois sont perdus.
+
+**Défaut relevé dans le lock.** Le PnL MGC/MBT y est aligné sur le calendrier MNQ, ce qui écarte 8 séances (rolls trimestriels) et −509 USD sur 2024-01 → 2026-03.
+
+**Réouverture.** Seulement pour une modulation qui baisse la taille quand la vol monte, sans la monter en vol basse, dans une nouvelle spec qui déclare que l'IS de B2 a été vu. L'OOS de B2 n'a pas été lu. Détail : [clôture](../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md).
 
 ## Candidats positifs non actifs — à ne pas classer comme échecs
 

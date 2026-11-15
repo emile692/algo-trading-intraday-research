@@ -58,6 +58,8 @@ flowchart LR
     G --> H[Somme equal-contract des 9 sleeves]
 ```
 
+**Exécution agrégée (13 novembre 2026).** Les sleeves d'un même instrument ne sont plus envoyées séparément : une seule position nette par instrument (MNQ = S01 + S02 + S03, MGC = S05 + S06, MBT = S07 + S08 + S09), avec les mêmes signaux et les mêmes tailles. Règle et exemples réels : [Book, section 6](BOOK.md).
+
 Conventions transversales : horodatage `America/New_York`, aucune pyramide, information de barre disponible seulement à sa clôture, arrondi au tick défavorable, commission par côté, et aucune position après le hard flatten applicable. Si stop et cible sont touchés dans la même barre minute et que l'ordre intrabar est inconnu, le stop est prioritaire. Une barre d'exécution requise mais absente entraîne l'abandon du signal.
 
 ## Comment lire les fiches

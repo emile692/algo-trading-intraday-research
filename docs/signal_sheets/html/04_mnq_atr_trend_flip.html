@@ -58,7 +58,7 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 </style>
 </head>
 <body>
-<div class="document-meta">FICHE SIGNAL 04/09 · DOCUMENT CLIENT · ÉDITION 1 NOVEMBRE 2026</div><h1 id="fiche-signal-0409-mnq-atr-trend-flip">Fiche signal 04/09 — MNQ ATR trend flip</h1>
+<div class="document-meta">FICHE SIGNAL 04/09 · DOCUMENT CLIENT · ÉDITION 1 NOVEMBRE 2026 · MISE À JOUR 13 NOVEMBRE 2026 : EXÉCUTION AGRÉGÉE</div><h1 id="fiche-signal-0409-mnq-atr-trend-flip">Fiche signal 04/09 — MNQ ATR trend flip</h1>
 <h2 id="1-carte-didentite">1. Carte d'identité</h2>
 <table>
 <thead>
@@ -193,6 +193,8 @@ window.addEventListener("load", () => {
 <p><strong>Exemple.</strong> Pour une cellule entrée long à <code>20 000</code> avec <code>ATR14=80</code>, le SL vaut <code>19 920</code> et aucun TP n'est placé. Si 5 cellules sont longues et 4 flat, le score vaut <code>5/9=0,56</code> : la sleeve détient 1 MNQ. Si 4 sont longues, 1 courte et 4 flat, le score vaut <code>0,33</code> : elle est flat.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>0,25</code> = <code>0,50 USD</code>, commission <code>1,25 USD/côté</code>, slippage <code>1 tick/côté</code>. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Un signal sans minute suivante exacte est ignoré. Dernière entrée 15:55, hard flatten agrégé 16:08. L'open du hard-flatten est utilisé ; à défaut, dernière clôture disponible strictement antérieure.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>S04 est en <strong>shadow</strong> depuis le 3 novembre 2026 : elle n'entre pas dans la cible nette MNQ et n'envoie aucun ordre. Son état et son PnL sont suivis virtuellement, pour la règle d'arrêt et une éventuelle réintégration versionnée (<a href="BOOK.md">Book, section 6</a>).</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">bars15 = resample_RTH_causal(minutes)
 pour chaque cellule (p dans [8,10,12], m dans [1.5,1.75,2.0]):
