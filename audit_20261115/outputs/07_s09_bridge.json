@@ -1,0 +1,23 @@
+{
+  "window": [
+    "2025-05-29",
+    "2026-10-02"
+  ],
+  "a_vote_net": -73.21999999999889,
+  "b_cells_mean": 919.7550000000015,
+  "gap_b_minus_a": 992.9750000000004,
+  "1_couts": 844.2199999999989,
+  "2_decalage_une_minute": 87.5,
+  "3_seuil_jours_jamais_declenches": -1465.6250000000005,
+  "3_seuil_avant_entree": 948.7916666666663,
+  "3_seuil_sorties_anticipees": -16.708333333333336,
+  "3_seuil_exposition_pendant_le_vote": 1038.4166666666665,
+  "lineaire_sans_cout_sans_decalage": 1363.3750000000134,
+  "4_residu_execution_et_couts_des_cellules": -443.62000000001194,
+  "controle_additivite_3": 1.4438228390645236e-11,
+  "majorite_gagnante_vote_flat": {
+    "days": 0,
+    "cells_mean_pnl_on_those_days": 0.0,
+    "days_vote_flat_total": 107
+  }
+}

@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 1 — Correction du calendrier</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-1-correction-du-calendrier">Phase 1 — Correction du calendrier</h1>
+<p><em>Fenêtre : 2024-01-02 → 2026-03-19. PnL quotidien net en USD, coûts nominaux du lock. Sharpe : √252 × moyenne / écart-type, jours sans trade inclus. S01 : ensemble ATR 18 de la fiche 01 (décision du 2026-11-15). Script : <a href="../phase1_calendar.py">phase1_calendar.py</a>. Sorties : <a href="../outputs/daily_pnl_union.csv">daily_pnl_union.csv</a>, <a href="../outputs/01_missing_sessions.csv">01_missing_sessions.csv</a>, <a href="../outputs/01_section4_risk.csv">01_section4_risk.csv</a>, <a href="../outputs/01_section5_loo.csv">01_section5_loo.csv</a>.</em></p>
+<h2 id="ce-qui-change">Ce qui change</h2>
+<p>Le lock aligne les neuf sleeves sur les 564 séances du calendrier MNQ. Le calendrier union des trois instruments compte <strong>572 séances</strong> sur la même fenêtre. Les 8 séances ajoutées sont des jours où MGC ou MBT tradent sans séance MNQ dans les fichiers. Elles pèsent −509,26 USD pour le book à 8 sleeves et −509,26 USD pour le book à 9. Aucune séance du lock n'est absente de l'union (0).</p>
+<p>Deux corrections se cumulent dans la colonne C : le S01 de référence (B − A) et le calendrier (C − B). Contrôle : sur l'union, la somme quotidienne de chaque sleeve égale la somme de ses trades (écart max &lt; 10⁻⁶ USD).</p>
+<h2 id="book-avant-apres">Book avant / après</h2>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th style="text-align: right;">Book</th>
+<th style="text-align: right;">Séances</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Vol. quotidienne</th>
+<th style="text-align: right;">Sharpe</th>
+<th style="text-align: right;">Pire jour</th>
+<th style="text-align: right;">maxDD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A — lock publié (S01 <code>baseline_fixed</code>, calendrier MNQ)</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">564</td>
+<td style="text-align: right;">37 044,22</td>
+<td style="text-align: right;">677,34</td>
+<td style="text-align: right;">1,539</td>
+<td style="text-align: right;">−1 664,46</td>
+<td style="text-align: right;">−6 305,18</td>
+</tr>
+<tr>
+<td>A — lock publié (S01 <code>baseline_fixed</code>, calendrier MNQ)</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">564</td>
+<td style="text-align: right;">31 661,22</td>
+<td style="text-align: right;">509,00</td>
+<td style="text-align: right;">1,751</td>
+<td style="text-align: right;">−1 655,96</td>
+<td style="text-align: right;">−5 425,58</td>
+</tr>
+<tr>
+<td>B — S01 de référence, calendrier MNQ</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">564</td>
+<td style="text-align: right;">36 750,22</td>
+<td style="text-align: right;">671,07</td>
+<td style="text-align: right;">1,541</td>
+<td style="text-align: right;">−1 664,46</td>
+<td style="text-align: right;">−6 350,78</td>
+</tr>
+<tr>
+<td>B — S01 de référence, calendrier MNQ</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">564</td>
+<td style="text-align: right;">31 367,22</td>
+<td style="text-align: right;">503,43</td>
+<td style="text-align: right;">1,754</td>
+<td style="text-align: right;">−1 655,96</td>
+<td style="text-align: right;">−5 626,08</td>
+</tr>
+<tr>
+<td>C — <strong>S01 de référence, calendrier union (corrigé)</strong></td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">572</td>
+<td style="text-align: right;">36 240,96</td>
+<td style="text-align: right;">666,67</td>
+<td style="text-align: right;">1,509</td>
+<td style="text-align: right;">−1 664,46</td>
+<td style="text-align: right;">−6 594,74</td>
+</tr>
+<tr>
+<td>C — <strong>S01 de référence, calendrier union (corrigé)</strong></td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">572</td>
+<td style="text-align: right;">30 857,96</td>
+<td style="text-align: right;">500,28</td>
+<td style="text-align: right;">1,712</td>
+<td style="text-align: right;">−1 655,96</td>
+<td style="text-align: right;">−5 870,04</td>
+</tr>
+</tbody>
+</table>
+<p>Book à 8 sleeves corrigé : <strong>30 857,96 USD, Sharpe 1,712, maxDD −5 870,04, pire jour −1 655,96</strong> (lock publié : 31 661,22, 1,751, −5 425,58).</p>
+<h2 id="seances-manquantes-du-lock">Séances manquantes du lock</h2>
+<p>Les sleeves MNQ ne tradent pas ces jours-là : leurs colonnes, toutes nulles, sont omises.</p>
+<table>
+<thead>
+<tr>
+<th>session_date</th>
+<th>instruments</th>
+<th style="text-align: right;">S05</th>
+<th style="text-align: right;">S06</th>
+<th style="text-align: right;">S07</th>
+<th style="text-align: right;">S08</th>
+<th style="text-align: right;">S09</th>
+<th style="text-align: right;">book8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024-03-15</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−23,32</td>
+<td style="text-align: right;">−143,82</td>
+<td style="text-align: right;">−41,32</td>
+<td style="text-align: right;">−208,46</td>
+</tr>
+<tr>
+<td>2024-06-21</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">165,50</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−38,82</td>
+<td style="text-align: right;">−5,82</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">120,86</td>
+</tr>
+<tr>
+<td>2024-09-20</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−13,32</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−13,32</td>
+</tr>
+<tr>
+<td>2024-12-20</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">−85,50</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">21,18</td>
+<td style="text-align: right;">−28,32</td>
+<td style="text-align: right;">−92,64</td>
+</tr>
+<tr>
+<td>2025-03-21</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">−150,50</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−93,46</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−243,96</td>
+</tr>
+<tr>
+<td>2025-06-20</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−165,50</td>
+<td style="text-align: right;">−83,82</td>
+<td style="text-align: right;">65,18</td>
+<td style="text-align: right;">152,18</td>
+<td style="text-align: right;">−31,96</td>
+</tr>
+<tr>
+<td>2025-09-19</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">62,68</td>
+<td style="text-align: right;">0,18</td>
+<td style="text-align: right;">62,86</td>
+</tr>
+<tr>
+<td>2025-12-19</td>
+<td>MGC+MBT</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−102,64</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">−102,64</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td style="text-align: right;">−70,50</td>
+<td style="text-align: right;">−165,50</td>
+<td style="text-align: right;">−145,96</td>
+<td style="text-align: right;">−210,02</td>
+<td style="text-align: right;">82,72</td>
+<td style="text-align: right;">−509,26</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-4-recalculee-risque-realise-book-a-9-sleeves">Section 4 recalculée — risque réalisé, book à 9 sleeves</h2>
+<p>« Avant » = lock publié (A). « Après » = S01 de référence et calendrier union (C). Contribution au risque = cov(sleeve, book) / var(book).</p>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th style="text-align: right;">Vol. avant</th>
+<th style="text-align: right;">Vol. après</th>
+<th style="text-align: right;">Pire jour avant</th>
+<th style="text-align: right;">Pire jour après</th>
+<th style="text-align: right;">maxDD avant</th>
+<th style="text-align: right;">maxDD après</th>
+<th style="text-align: right;">Contrib. risque avant</th>
+<th style="text-align: right;">Contrib. risque après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">145,57</td>
+<td style="text-align: right;">130,74</td>
+<td style="text-align: right;">−249,00</td>
+<td style="text-align: right;">−249,00</td>
+<td style="text-align: right;">−1 081,50</td>
+<td style="text-align: right;">−875,50</td>
+<td style="text-align: right;">5,9 %</td>
+<td style="text-align: right;">4,6 %</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">290,74</td>
+<td style="text-align: right;">288,70</td>
+<td style="text-align: right;">−1 138,00</td>
+<td style="text-align: right;">−1 138,00</td>
+<td style="text-align: right;">−3 714,00</td>
+<td style="text-align: right;">−3 714,00</td>
+<td style="text-align: right;">33,1 %</td>
+<td style="text-align: right;">33,4 %</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">58,95</td>
+<td style="text-align: right;">58,53</td>
+<td style="text-align: right;">−268,50</td>
+<td style="text-align: right;">−268,50</td>
+<td style="text-align: right;">−940,50</td>
+<td style="text-align: right;">−940,50</td>
+<td style="text-align: right;">3,2 %</td>
+<td style="text-align: right;">3,3 %</td>
+</tr>
+<tr>
+<td>S04</td>
+<td style="text-align: right;">279,22</td>
+<td style="text-align: right;">277,26</td>
+<td style="text-align: right;">−823,50</td>
+<td style="text-align: right;">−823,50</td>
+<td style="text-align: right;">−4 212,50</td>
+<td style="text-align: right;">−4 212,50</td>
+<td style="text-align: right;">30,3 %</td>
+<td style="text-align: right;">30,5 %</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">123,33</td>
+<td style="text-align: right;">122,88</td>
+<td style="text-align: right;">−874,50</td>
+<td style="text-align: right;">−874,50</td>
+<td style="text-align: right;">−1 622,50</td>
+<td style="text-align: right;">−1 622,50</td>
+<td style="text-align: right;">5,3 %</td>
+<td style="text-align: right;">5,4 %</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">149,96</td>
+<td style="text-align: right;">149,08</td>
+<td style="text-align: right;">−909,50</td>
+<td style="text-align: right;">−909,50</td>
+<td style="text-align: right;">−1 399,00</td>
+<td style="text-align: right;">−1 564,50</td>
+<td style="text-align: right;">6,8 %</td>
+<td style="text-align: right;">7,0 %</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">73,76</td>
+<td style="text-align: right;">73,36</td>
+<td style="text-align: right;">−355,32</td>
+<td style="text-align: right;">−355,32</td>
+<td style="text-align: right;">−1 285,80</td>
+<td style="text-align: right;">−1 285,80</td>
+<td style="text-align: right;">3,3 %</td>
+<td style="text-align: right;">3,4 %</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">105,46</td>
+<td style="text-align: right;">105,16</td>
+<td style="text-align: right;">−533,64</td>
+<td style="text-align: right;">−533,64</td>
+<td style="text-align: right;">−1 449,10</td>
+<td style="text-align: right;">−1 542,56</td>
+<td style="text-align: right;">5,4 %</td>
+<td style="text-align: right;">5,6 %</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">99,84</td>
+<td style="text-align: right;">99,36</td>
+<td style="text-align: right;">−229,32</td>
+<td style="text-align: right;">−229,32</td>
+<td style="text-align: right;">−2 068,58</td>
+<td style="text-align: right;">−1 916,40</td>
+<td style="text-align: right;">6,8 %</td>
+<td style="text-align: right;">6,9 %</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-4-recalculee-book-actif-a-8-sleeves">Section 4 recalculée — book actif à 8 sleeves</h2>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th style="text-align: right;">Vol. avant</th>
+<th style="text-align: right;">Vol. après</th>
+<th style="text-align: right;">Pire jour avant</th>
+<th style="text-align: right;">Pire jour après</th>
+<th style="text-align: right;">maxDD avant</th>
+<th style="text-align: right;">maxDD après</th>
+<th style="text-align: right;">Contrib. risque avant</th>
+<th style="text-align: right;">Contrib. risque après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">145,57</td>
+<td style="text-align: right;">130,74</td>
+<td style="text-align: right;">−249,00</td>
+<td style="text-align: right;">−249,00</td>
+<td style="text-align: right;">−1 081,50</td>
+<td style="text-align: right;">−875,50</td>
+<td style="text-align: right;">8,9 %</td>
+<td style="text-align: right;">7,3 %</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">290,74</td>
+<td style="text-align: right;">288,70</td>
+<td style="text-align: right;">−1 138,00</td>
+<td style="text-align: right;">−1 138,00</td>
+<td style="text-align: right;">−3 714,00</td>
+<td style="text-align: right;">−3 714,00</td>
+<td style="text-align: right;">40,6 %</td>
+<td style="text-align: right;">41,0 %</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">58,95</td>
+<td style="text-align: right;">58,53</td>
+<td style="text-align: right;">−268,50</td>
+<td style="text-align: right;">−268,50</td>
+<td style="text-align: right;">−940,50</td>
+<td style="text-align: right;">−940,50</td>
+<td style="text-align: right;">3,6 %</td>
+<td style="text-align: right;">3,7 %</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">123,33</td>
+<td style="text-align: right;">122,88</td>
+<td style="text-align: right;">−874,50</td>
+<td style="text-align: right;">−874,50</td>
+<td style="text-align: right;">−1 622,50</td>
+<td style="text-align: right;">−1 622,50</td>
+<td style="text-align: right;">10,5 %</td>
+<td style="text-align: right;">10,7 %</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">149,96</td>
+<td style="text-align: right;">149,08</td>
+<td style="text-align: right;">−909,50</td>
+<td style="text-align: right;">−909,50</td>
+<td style="text-align: right;">−1 399,00</td>
+<td style="text-align: right;">−1 564,50</td>
+<td style="text-align: right;">12,7 %</td>
+<td style="text-align: right;">13,0 %</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">73,76</td>
+<td style="text-align: right;">73,36</td>
+<td style="text-align: right;">−355,32</td>
+<td style="text-align: right;">−355,32</td>
+<td style="text-align: right;">−1 285,80</td>
+<td style="text-align: right;">−1 285,80</td>
+<td style="text-align: right;">5,2 %</td>
+<td style="text-align: right;">5,2 %</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">105,46</td>
+<td style="text-align: right;">105,16</td>
+<td style="text-align: right;">−533,64</td>
+<td style="text-align: right;">−533,64</td>
+<td style="text-align: right;">−1 449,10</td>
+<td style="text-align: right;">−1 542,56</td>
+<td style="text-align: right;">8,7 %</td>
+<td style="text-align: right;">9,1 %</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">99,84</td>
+<td style="text-align: right;">99,36</td>
+<td style="text-align: right;">−229,32</td>
+<td style="text-align: right;">−229,32</td>
+<td style="text-align: right;">−2 068,58</td>
+<td style="text-align: right;">−1 916,40</td>
+<td style="text-align: right;">9,8 %</td>
+<td style="text-align: right;">9,9 %</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-5-recalculee-leave-one-out-book-a-9-sleeves">Section 5 recalculée — leave-one-out, book à 9 sleeves</h2>
+<table>
+<thead>
+<tr>
+<th>Sleeve retirée</th>
+<th style="text-align: right;">PnL avant</th>
+<th style="text-align: right;">PnL après</th>
+<th style="text-align: right;">Sharpe avant</th>
+<th style="text-align: right;">Sharpe après</th>
+<th style="text-align: right;">maxDD avant</th>
+<th style="text-align: right;">maxDD après</th>
+<th style="text-align: right;">ΔmaxDD après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">30 715,22</td>
+<td style="text-align: right;">30 205,96</td>
+<td style="text-align: right;">1,324</td>
+<td style="text-align: right;">1,292</td>
+<td style="text-align: right;">−6 670,64</td>
+<td style="text-align: right;">−7 007,24</td>
+<td style="text-align: right;">−412,50</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">27 765,22</td>
+<td style="text-align: right;">26 961,96</td>
+<td style="text-align: right;">1,595</td>
+<td style="text-align: right;">1,557</td>
+<td style="text-align: right;">−5 704,60</td>
+<td style="text-align: right;">−5 386,86</td>
+<td style="text-align: right;">1 207,88</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">36 451,72</td>
+<td style="text-align: right;">35 648,46</td>
+<td style="text-align: right;">1,559</td>
+<td style="text-align: right;">1,528</td>
+<td style="text-align: right;">−6 543,68</td>
+<td style="text-align: right;">−6 833,24</td>
+<td style="text-align: right;">−238,50</td>
+</tr>
+<tr>
+<td>S04</td>
+<td style="text-align: right;">31 661,22</td>
+<td style="text-align: right;">30 857,96</td>
+<td style="text-align: right;">1,751</td>
+<td style="text-align: right;">1,712</td>
+<td style="text-align: right;">−5 425,58</td>
+<td style="text-align: right;">−5 870,04</td>
+<td style="text-align: right;">724,70</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">35 256,22</td>
+<td style="text-align: right;">34 523,46</td>
+<td style="text-align: right;">1,522</td>
+<td style="text-align: right;">1,494</td>
+<td style="text-align: right;">−6 123,18</td>
+<td style="text-align: right;">−6 262,24</td>
+<td style="text-align: right;">332,50</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">32 946,22</td>
+<td style="text-align: right;">32 308,46</td>
+<td style="text-align: right;">1,433</td>
+<td style="text-align: right;">1,410</td>
+<td style="text-align: right;">−6 416,78</td>
+<td style="text-align: right;">−6 728,74</td>
+<td style="text-align: right;">−134,00</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">34 689,18</td>
+<td style="text-align: right;">34 031,88</td>
+<td style="text-align: right;">1,482</td>
+<td style="text-align: right;">1,457</td>
+<td style="text-align: right;">−6 171,16</td>
+<td style="text-align: right;">−6 097,86</td>
+<td style="text-align: right;">496,88</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">32 699,12</td>
+<td style="text-align: right;">32 105,88</td>
+<td style="text-align: right;">1,419</td>
+<td style="text-align: right;">1,399</td>
+<td style="text-align: right;">−6 368,38</td>
+<td style="text-align: right;">−6 263,18</td>
+<td style="text-align: right;">331,56</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">34 169,64</td>
+<td style="text-align: right;">33 283,66</td>
+<td style="text-align: right;">1,509</td>
+<td style="text-align: right;">1,473</td>
+<td style="text-align: right;">−6 279,24</td>
+<td style="text-align: right;">−6 373,20</td>
+<td style="text-align: right;">221,54</td>
+</tr>
+</tbody>
+</table>
+<h2 id="leave-one-out-book-actif-a-8-sleeves">Leave-one-out, book actif à 8 sleeves</h2>
+<table>
+<thead>
+<tr>
+<th>Sleeve retirée</th>
+<th style="text-align: right;">PnL avant</th>
+<th style="text-align: right;">PnL après</th>
+<th style="text-align: right;">Sharpe avant</th>
+<th style="text-align: right;">Sharpe après</th>
+<th style="text-align: right;">maxDD avant</th>
+<th style="text-align: right;">maxDD après</th>
+<th style="text-align: right;">ΔmaxDD après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">25 332,22</td>
+<td style="text-align: right;">24 822,96</td>
+<td style="text-align: right;">1,474</td>
+<td style="text-align: right;">1,433</td>
+<td style="text-align: right;">−5 995,08</td>
+<td style="text-align: right;">−6 239,04</td>
+<td style="text-align: right;">−369,00</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">22 382,22</td>
+<td style="text-align: right;">21 578,96</td>
+<td style="text-align: right;">1,727</td>
+<td style="text-align: right;">1,672</td>
+<td style="text-align: right;">−3 667,28</td>
+<td style="text-align: right;">−3 259,04</td>
+<td style="text-align: right;">2 611,00</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">31 068,72</td>
+<td style="text-align: right;">30 265,46</td>
+<td style="text-align: right;">1,771</td>
+<td style="text-align: right;">1,732</td>
+<td style="text-align: right;">−5 660,58</td>
+<td style="text-align: right;">−6 105,04</td>
+<td style="text-align: right;">−235,00</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">29 873,22</td>
+<td style="text-align: right;">29 140,46</td>
+<td style="text-align: right;">1,793</td>
+<td style="text-align: right;">1,758</td>
+<td style="text-align: right;">−5 124,28</td>
+<td style="text-align: right;">−5 285,74</td>
+<td style="text-align: right;">584,30</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">27 563,22</td>
+<td style="text-align: right;">26 925,46</td>
+<td style="text-align: right;">1,670</td>
+<td style="text-align: right;">1,641</td>
+<td style="text-align: right;">−5 440,28</td>
+<td style="text-align: right;">−5 752,24</td>
+<td style="text-align: right;">117,80</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">29 306,18</td>
+<td style="text-align: right;">28 648,88</td>
+<td style="text-align: right;">1,692</td>
+<td style="text-align: right;">1,660</td>
+<td style="text-align: right;">−4 860,52</td>
+<td style="text-align: right;">−5 236,98</td>
+<td style="text-align: right;">633,06</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">27 316,12</td>
+<td style="text-align: right;">26 722,88</td>
+<td style="text-align: right;">1,620</td>
+<td style="text-align: right;">1,596</td>
+<td style="text-align: right;">−4 407,94</td>
+<td style="text-align: right;">−4 815,54</td>
+<td style="text-align: right;">1 054,50</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">28 786,64</td>
+<td style="text-align: right;">27 900,66</td>
+<td style="text-align: right;">1,735</td>
+<td style="text-align: right;">1,687</td>
+<td style="text-align: right;">−5 270,22</td>
+<td style="text-align: right;">−5 536,38</td>
+<td style="text-align: right;">333,66</td>
+</tr>
+</tbody>
+</table>
+<p>Le panel corrigé <code>outputs/daily_pnl_union.csv</code> couvre 2019-05-06 → 2026-10-02 sur le calendrier union. Une sleeve y vaut NaN hors de la plage de ses données (MNQ/MGC après le 2026-03-19, MBT avant le 2021-05-03). Toutes les phases suivantes l'utilisent.</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

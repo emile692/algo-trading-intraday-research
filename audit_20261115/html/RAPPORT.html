@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audit de la référence intraday — rapport</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="audit-de-la-reference-intraday-rapport">Audit de la référence intraday — rapport</h1>
+<p><em>Audit du 2026-11-15. Référence auditée : <code>nine_sleeve_equal_contract_reference_20261101</code>, et son exécution agrégée par instrument du 13/11. Sauf mention contraire, les chiffres sont des PnL quotidiens nets en USD, avec les coûts nominaux du lock (1,25 USD de commission par côté sur MNQ et MGC, 1,41 sur MBT, 1 tick de slippage par côté). Les Sharpe sont annualisés par √252, jours sans trade inclus. Tout se relance avec <code>python -m audit_20261115.run_all</code>. Seules exceptions : les lectures one-shot <code>phase4b_s01_oneshot</code> (déjà faite, elle refuse une relance) et <code>forward_check</code> (à venir).</em></p>
+<hr>
+<h2 id="1-synthese">1. Synthèse</h2>
+<h3 id="sleeves-et-statuts">Sleeves et statuts</h3>
+<p>La référence active est désormais <code>eight_sleeve_equal_contract_reference_20261115</code>. Ce lock a été créé pendant l'audit, sur votre instruction : S01 y est l'ensemble ATR 18 de la fiche 01, et le PnL est calculé sur le calendrier union.</p>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th>Instrument</th>
+<th>Statut actuel</th>
+<th>Statut selon la règle uniforme proposée (au 2026-11-01)</th>
+<th>Significativité (total)</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01 ORB ATR 18</td>
+<td>MNQ</td>
+<td>actif</td>
+<td>actif</td>
+<td>distinguable de zéro</td>
+<td>one-shot (O) COHÉRENT, mais la sleeve s'assèche (2 à 9 trades par trimestre en 2026) : ses bornes d'ATR sont en points, et le prix de MNQ a doublé (décision 1)</td>
+</tr>
+<tr>
+<td>S02 vol. breakout</td>
+<td>MNQ</td>
+<td>actif</td>
+<td>actif</td>
+<td>distinguable, mais pas sur l'IS seul ; DSR 0,39</td>
+<td>41 % du risque du book</td>
+</tr>
+<tr>
+<td>S03 compression</td>
+<td>MNQ</td>
+<td>actif</td>
+<td>actif</td>
+<td>indistinguable</td>
+<td></td>
+</tr>
+<tr>
+<td>S04 ATR trend flip</td>
+<td>MNQ</td>
+<td>shadow</td>
+<td>shadow</td>
+<td>indistinguable</td>
+<td>cohérent avec la règle</td>
+</tr>
+<tr>
+<td>S05 vol. breakout</td>
+<td>MGC</td>
+<td>actif</td>
+<td><strong>revue</strong> (shadow avec la règle initiale « R0 ou R2 »)</td>
+<td>indistinguable</td>
+<td>R0, la règle déjà enregistrée, déclenchée du 2026-07-28 au 08-25</td>
+</tr>
+<tr>
+<td>S06 gap continuation</td>
+<td>MGC</td>
+<td>actif</td>
+<td>actif</td>
+<td>indistinguable (t = 1,97)</td>
+<td></td>
+</tr>
+<tr>
+<td>S07 range breakout</td>
+<td>MBT</td>
+<td>actif</td>
+<td><strong>revue</strong></td>
+<td>indistinguable</td>
+<td>R3 le 2026-08-18</td>
+</tr>
+<tr>
+<td>S08 trend pullback</td>
+<td>MBT</td>
+<td>actif</td>
+<td><strong>revue</strong></td>
+<td>indistinguable</td>
+<td>R3 de juin à août 2026</td>
+</tr>
+<tr>
+<td>S09 vol. breakout</td>
+<td>MBT</td>
+<td>actif</td>
+<td><strong>revue</strong></td>
+<td>distinguable, grâce à l'IS seulement</td>
+<td>validation nulle (−73 USD), R1 dès le 2025-08-13</td>
+</tr>
+</tbody>
+</table>
+<h3 id="chiffres-de-tete-sous-contrainte-topstep">Chiffres de tête, sous contrainte Topstep</h3>
+<p>Exécution agrégée, règle actuelle, palier XFA dynamique (2 lots, puis 3, puis 5 selon le solde), 1 MBT = 1 lot, book à 8 sleeves :</p>
+<table>
+<thead>
+<tr>
+<th>Fenêtre</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Sharpe</th>
+<th style="text-align: right;">maxDD</th>
+<th style="text-align: right;">Pire jour</th>
+<th style="text-align: right;">Séances réduites par la limite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IS 2021-05-03 → 2023-12-29</td>
+<td style="text-align: right;"><strong>29 142</strong></td>
+<td style="text-align: right;">2,32</td>
+<td style="text-align: right;">−2 567</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">21 / 689</td>
+</tr>
+<tr>
+<td>Validation réutilisée 2024-01-02 → 2026-03-19</td>
+<td style="text-align: right;"><strong>29 270</strong></td>
+<td style="text-align: right;">1,65</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">41 / 572</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Sans limite (le Combine 5 lots ne contraint jamais le book), la validation fait 30 886 USD.</li>
+<li>À 2 lots fixes, la validation fait 25 857 USD, avec 279 séances sur 572 réduites.</li>
+<li>Sur le cycle Combine → XFA → payout, l'IS donne un cash net espéré de 607 USD, mais un cash <strong>médian négatif</strong> (−50 USD). La probabilité d'au moins un payout est de 79 %, celle de perdre l'XFA de 65 %.</li>
+</ul>
+<h3 id="verdict-du-holdout">Verdict du holdout</h3>
+<ul>
+<li><strong>Aucune donnée vierge n'existe sur disque</strong> : tout s'arrête au 2026-10-02, et ces données ont déjà été lues.</li>
+<li><strong>(O) S01 ATR 18, du 2026-03-23 au 2026-10-02, 137 séances, partiellement contaminé : COHÉRENT.</strong> Le PnL est de −390 USD pour un seuil pré-enregistré de −617,50 USD. Le gate technique (701 trades sur 701 reproduits) est réussi. Il n'y a eu que 11 trades.</li>
+<li><strong>(P), le suivi prospectif après le 2026-11-03, n'est pas lu.</strong> Première lecture possible (H = 20) vers le 2026-12-03, après téléchargement des données.</li>
+</ul>
+<h3 id="regles-darret-proposees-a-decider">Règles d'arrêt proposées (à décider)</h3>
+<p><em>Proposition corrigée le 2026-11-15 (écart n° 12).</em></p>
+<ul>
+<li><strong>Alerte « revue »</strong> : R3 (le PnL sur 120 séances passe sous le p5) ou R0 (la règle déjà enregistrée).</li>
+<li><strong>Passage en shadow</strong> : R2 seule, quand le drawdown depuis le début du suivi dépasse le p99.</li>
+<li><strong>Réintégration</strong> : après 252 séances de shadow, par décision versionnée.</li>
+<li><strong>Compromis assumé</strong> :</li>
+<li>l'action automatique coupe à tort environ 7 % des sleeves saines en 250 séances ;</li>
+<li>en contrepartie, une dégradation n'est détectée que lentement : 14 à 23 % des sleeves à Sharpe vrai ≤ 0 en 250 séances ;</li>
+<li>garder R0 comme déclencheur du shadow (« R0 ou R2 ») ferait monter les coupures à tort à 21 %.</li>
+</ul>
+<hr>
+<h2 id="2-decisions-qui-vous-reviennent">2. Décisions qui vous reviennent</h2>
+<p><em>État au 2026-11-15 :</em>
+- <em>décision 6 prise : k = 3 ;</em>
+- <em>décision 1 : l'option (b) a été testée et fermée (<code>CLOSED_IS</code>). Le 2026-11-15, l'utilisateur a </em><em>mis S01 de côté, à reprendre plus tard</em><em>. En attendant, S01 ATR 18 reste tel quel dans le lock du 15/11 ;</em>
+- <em>décision 2 prise : R2 seule fait passer en shadow ; R0 et R3 sont des alertes « revue ». Règle versionnée <a href="../../strategy_registry/forward_monitoring/stop_rule_20261115.json"><code>stop_rule_20261115.json</code></a> ;</em>
+- <em>décision 3 prise : application rétroactive. S05, S07, S08 et S09 passent <code>ACTIVE_UNDER_REVIEW</code>, S04 reste en shadow, le book ne change pas ;</em>
+- <em>décision 5 autorisée : téléchargement des données forward, plafonné à 5 USD, après la clôture du 2026-12-02 ;</em>
+- <em>décision 4 : téléchargement des vendredis d'échéance MNQ autorisé, diagnostic en cours ;</em>
+- <em>décision 6 (k = 3) : formalisée ; décision 7 (documentation) : faite, sauf l'export PDF des fiches ; décision 8 : la règle actuelle est conservée par défaut.</em></p>
+<ol>
+<li>
+<p><strong>S01 s'assèche.</strong>
+   - <em>Mécanisme</em> :</p>
+<ul>
+<li>Le filtre de S01 est l'ATR des bougies 1 minute au moment du signal. Un breakout n'est pris que si cet ATR tombe entre deux bornes figées en <strong>points MNQ</strong>, calibrées sur l'IS 2019-05 → 2024-02. Pour les 6 modèles ATR 18, ces bornes valent en médiane 7,75 et 20,07 points.</li>
+<li>Une bougie d'une minute bouge en points à peu près proportionnellement au prix. MNQ est passé d'environ 12 000 en 2023 à 29 500 en 2026 : à agitation relative égale, l'ATR en points a plus que doublé.</li>
+<li><em>Diagnostic descriptif</em> : <a href="../diag_s01_drying.py">diag_s01_drying.py</a>, <a href="../outputs/s01_drying_by_quarter.csv">outputs/s01_drying_by_quarter.csv</a>. Aucun PnL n'est recalculé.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Trimestre</th>
+<th style="text-align: right;">Prix MNQ</th>
+<th style="text-align: right;">ATR 18 (points)</th>
+<th style="text-align: right;">ATR / prix (pb)</th>
+<th style="text-align: right;">Candidats au-dessus de la borne haute</th>
+<th style="text-align: right;">Signaux retenus par le vote</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023 T2–T4</td>
+<td style="text-align: right;">13 500–15 700</td>
+<td style="text-align: right;">11–14</td>
+<td style="text-align: right;">8,4–9,1</td>
+<td style="text-align: right;">0–8 %</td>
+<td style="text-align: right;">38–42</td>
+</tr>
+<tr>
+<td>2022 T1–T2</td>
+<td style="text-align: right;">12 600–14 600</td>
+<td style="text-align: right;">24–25</td>
+<td style="text-align: right;">16,7–18,7</td>
+<td style="text-align: right;">72–76 %</td>
+<td style="text-align: right;">10–13</td>
+</tr>
+<tr>
+<td>2026 T1</td>
+<td style="text-align: right;">24 950</td>
+<td style="text-align: right;">30,8</td>
+<td style="text-align: right;">12,4</td>
+<td style="text-align: right;">90 %</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>2026 T2–T3</td>
+<td style="text-align: right;">29 100–29 500</td>
+<td style="text-align: right;">26–27</td>
+<td style="text-align: right;">9,2–9,4</td>
+<td style="text-align: right;">71–80 %</td>
+<td style="text-align: right;">11–15</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<ul>
+<li><em>Lecture</em> :<ul>
+<li>En 2022, la borne haute coupait des journées réellement agitées : l'ATR rapporté au prix était de 17 à 19 pb, et le filtre jouait son rôle.</li>
+<li>En 2026 T2–T3, l'ATR rapporté au prix (9 pb) est au niveau de 2023, et la borne haute coupe pourtant 71 à 80 % des candidats. Le filtre ne mesure plus l'agitation : il mesure le niveau de prix.</li>
+<li>Le même biais existait en sens inverse en 2019, où la borne basse coupait 67 à 92 % des candidats.</li>
+</ul>
+</li>
+<li><em>Options</em> :<ul>
+<li>(a) ne rien changer et laisser le forward juger : la sleeve contribuera peu.</li>
+<li>(b) <strong>Recommandé.</strong> Ouvrir une nouvelle hypothèse pré-enregistrée avec des <strong>bandes en ATR / prix</strong>, quantiles calibrés sur l'IS de la fiche. Le sens économique du filtre ne change pas ; seul l'artefact d'échelle disparaît.</li>
+<li>(b′) Variante secondaire : bornes = quantiles <strong>roulants</strong> de l'ATR en points, par exemple sur les 252 dernières séances. Elle s'adapte toute seule, mais retient par construction toujours la même part de jours, y compris dans un régime durablement agité comme 2022 : le filtre change alors de sens (agitation relative au passé récent). Elle ajoute aussi un paramètre de fenêtre.</li>
+<li>(c) mettre S01 en revue.</li>
+</ul>
+</li>
+<li><em>Cadre de (b)</em> :<ul>
+<li>sélection sur l'IS 2019-05 → 2024-02 uniquement ;</li>
+<li>la validation 2024-02 → 2026-03 a déjà été vue, et la fenêtre 2026-03 → 10 a été consommée par (O) : le seul juge propre est le forward ;</li>
+<li>S01 ATR 18 reste la référence tant que (b) n'a pas été validé ;</li>
+<li>(b) n'a <strong>pas</strong> été testé ici : le faire dans l'audit serait un retuning.</li>
+</ul>
+</li>
+<li><strong>Suite du 2026-11-15 : (b) lancée hors audit, campagne fermée <code>CLOSED_IS</code>.</strong> Voir <a href="../../research/s01_atr_price_normalized_20261115/HYPOTHESIS_CLOSURE.md">research/s01_atr_price_normalized_20261115</a>.<ul>
+<li><strong>Bras A, bandes en ATR / prix</strong> : il ne rend qu'une partie de la fréquence. Il fait 9, 15 et 8 trades sur 2026 T1–T3, contre 2, 9 et 2 pour la référence, soit un ratio de 0,52 pour un seuil pré-enregistré de 0,60. Son Sharpe IS est de 0,98, contre 1,25 pour la référence.</li>
+<li><strong>Seconde cause de l'assèchement : le dimensionnement.</strong> Un trade est sauté quand un seul contrat risque plus de 250 USD ; en 2026, cela arrive dès qu'il y a 0,4 % du prix entre l'entrée et le stop. Le bras B (plancher d'un contrat jusqu'à 500 USD de risque) retrouve la fréquence, mais son Sharpe IS tombe à 0,84 pour un seuil de 0,94. Les trades ajoutés ont perdu 935 USD sur l'IS.</li>
+<li><strong>Aucun holdout lu</strong> : NQ 2010–2019 reste vierge pour l'ORB. S01 ATR 18 est inchangé, et il reste à choisir entre (a) et (c).
+2. <strong>Règle d'arrêt.</strong></li>
+</ul>
+</li>
+<li><em>Options</em> :<ul>
+<li>garder R0 seule : 17 % de fausses alarmes, 31 % de détection à Sharpe 0, délai d'environ 200 séances ;</li>
+<li><strong>recommandé</strong> : R3 et R0 en alerte, R2 seule pour le shadow ; 7 % de coupures à tort, 14 % de détection à Sharpe 0 ;</li>
+<li>« R0 ou R2 » pour le shadow : 21 % de coupures à tort, 36 % de détection à Sharpe 0 ;</li>
+<li>adopter R1 : plus rapide (environ 80 séances), mais 28 % de fausses alarmes.</li>
+</ul>
+</li>
+<li>Détail : <a href="05_regles_arret.html">05_regles_arret.md</a>.
+3. <strong>Statuts de S05, S07, S08 et S09.</strong></li>
+<li>Appliquée à la lettre avec les données du 2026-11-01, la règle R0 en vigueur mettrait <strong>S05 en shadow</strong> : elle a franchi son seuil du 28/07 au 25/08/2026, puis est remontée. Elle n'a pas été appliquée, parce qu'elle n'était enregistrée que pour le forward.</li>
+<li><strong>Avec la proposition corrigée, aucune sleeve active ne passe en shadow</strong> : aucune n'a déclenché R2. S05, S07, S08 et S09 passent « en revue », c'est-à-dire en surveillance renforcée, sans que le book change. S04 reste en shadow, puisque R2 s'est déclenchée pour elle du 09/09 au 02/10. Voir <a href="06_coherence_statuts.html">06_coherence_statuts.md</a>.</li>
+<li><em>Options</em> : appliquer la règle rétroactivement à la fenêtre du replay, ou la garder strictement prospective. Dans ce cas, l'asymétrie avec S04, sortie sur cette même fenêtre, doit être assumée.
+4. <strong>Implémentation en production.</strong></li>
+<li>La règle de netting r2 suppose que le moteur d'exécution calcule S01 avec l'ensemble ATR 18 et les seuils figés de <code>thresholds_is.csv</code>. Je n'ai rien changé côté exécution.</li>
+<li>Il faut aussi trancher le <strong>trou de données MNQ des vendredis d'échéance</strong> : faut-il acquérir des données par contrat pour backtester ces jours-là, que la production tradera ?
+5. <strong>Téléchargement des données forward</strong> (Databento, payant, avec garde-fou de coût), pour lire (P) à H = 20 vers le 2026-12-03, puis à 60, 120 et 250 séances.
+6. <strong>Stop catastrophe — DÉCIDÉ le 2026-11-15 : k = 3.</strong></li>
+<li>Le stop vaut 3 × l'ATR journalier de J−1, posé chez le broker sur la position nette. Il ne s'est jamais déclenché sur l'historique. C'est une protection contre une panne ou un gap, pas un outil de rendement.</li>
+<li>La borne journalière vient de la DLL Topstep de 1 000 USD, active par défaut. Aucun k testé ne borne une journée sous 500 USD.</li>
+<li><strong>Formalisé le 15/11</strong> dans la règle versionnée <a href="../../strategy_registry/execution/catastrophe_stop_20261115.json"><code>catastrophe_stop_20261115.json</code></a>, pointée par le registre, documentée dans <code>ACTIVE_EIGHT_SLEEVES.md</code> et vérifiée par <code>tests/test_catastrophe_stop_rule.py</code>. Reste à la coder dans votre plateforme d'exécution : le repo ne contient pas de moteur live.
+7. <strong>Documentation à corriger</strong> :</li>
+<li>BOOK.md, sections 1 à 5, calculées avec l'ancien S01 et sur le calendrier MNQ ;</li>
+<li>la convention de Sharpe de la fiche 02 ;</li>
+<li>le Sharpe de la fiche 01, calculé avec les dimanches ;</li>
+<li>l'exemple du 31/01 dans BOOK.md et dans la fiche 01, déjà annoté.
+8. <strong>Exécution.</strong> Aucune variante ne bat la règle actuelle sur l'IS : ni « pas de rattrapage tardif », ni priorité par contribution au risque, ni « pas de MBT sous 3 lots ». Je recommande de ne rien changer.</li>
+</ul>
+<hr>
+<h2 id="3-bugs-et-ecarts-trouves">3. Bugs et écarts trouvés</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">#</th>
+<th>Écart</th>
+<th>Gravité</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>Le S01 des locks du 01/11 et du 03/11, du netting et du replay est <code>baseline_fixed</code> (823 trades), pas l'ensemble ATR 18 de la fiche (701 trades)</td>
+<td>haute</td>
+<td><strong>corrigé</strong> par le lock du 15/11 et la règle de netting r2</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>Le calendrier du PnL quotidien suit MNQ et perd 8 vendredis d'échéance tradés par MGC et MBT (−509,26 USD)</td>
+<td>moyenne</td>
+<td><strong>corrigé</strong> par le lock du 15/11</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>Le fichier MNQ <code>c.0</code> n'a aucune barre sur les 27 vendredis d'échéance de 2019–2025 (ni sur le 2026-03-20) : les sleeves MNQ n'ont jamais été testées ces jours-là</td>
+<td>moyenne</td>
+<td>ouvert</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>Le Sharpe publié de S02 (0,873) est calculé sur les rendements d'un compte de 50K qui capitalise ; en USD, il vaut 0,848</td>
+<td>faible</td>
+<td>ouvert (doc)</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>Le Sharpe publié de S01 (1,156) est calculé sur un calendrier contenant 355 dimanches ; sur le calendrier MNQ, il vaut 1,281</td>
+<td>faible</td>
+<td>ouvert (doc)</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>Le <code>summary.json</code> de S02 cite un hash périmé du manifeste ; le lock cite le bon</td>
+<td>faible</td>
+<td>ouvert</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>L'exemple 2 de BOOK.md (31/01/2024) repose sur un trade S01 qui n'existe pas dans la référence</td>
+<td>faible</td>
+<td>annoté</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>Le seuil R0 est le minimum de l'historique de la sleeve : il ne peut pas se déclencher sur les MBT, dont l'historique va jusqu'au 2026-10-02, alors qu'il peut se déclencher pour MNQ et MGC</td>
+<td>moyenne</td>
+<td>ouvert (décision 3)</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>Les bandes ATR de S01 sont en points absolus, d'où l'assèchement en 2026 : en 2026 T2–T3, 71 à 80 % des candidats dépassent la borne haute, pour un ATR rapporté au prix égal à celui de 2023. Le dimensionnement (trade sauté au-delà de 250 USD de risque par contrat) est une seconde cause, la plus forte en 2026 T3 : 11 signaux, 2 trades</td>
+<td>haute</td>
+<td>correctif ATR / prix testé : <code>CLOSED_IS</code> ; ouvert (décision 1)</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td>Le vote S02 peut ouvrir une position jusqu'à 16:02, soit 6 minutes avant le flatten</td>
+<td>faible</td>
+<td>constat</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td>La mission supposait l'absence de règle d'arrêt ; R0 existe depuis le 03/11</td>
+<td>—</td>
+<td>pris en compte</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td><strong>Erreur de l'audit lui-même</strong> : la première version de la proposition annonçait environ 7 % de coupures à tort pour un shadow déclenché par « R2 ou R0 ». Ce chiffre ne valait que pour R2 seule ; la règle combinée, calculée le 15/11 sur les mêmes tirages, en donne 21 %</td>
+<td>moyenne</td>
+<td><strong>corrigé</strong> : phases 5 et 6 relancées, proposition révisée (R0 devient une alerte)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-phases">4. Phases</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Résultat principal</th>
+<th>Livrable</th>
+<th>Scripts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 — Reproduction</td>
+<td>85 contrôles sur 87 ; les 10 ledgers ré-exécutés depuis les barres brutes sont identiques ; deux écarts de définition tranchés (S01, Sharpe)</td>
+<td><a href="00_reproduction.html">00_reproduction.md</a></td>
+<td><a href="../phase0_reproduction.py">phase0_reproduction.py</a>, <a href="../phase0_engine.py">phase0_engine.py</a></td>
+</tr>
+<tr>
+<td>1 — Calendrier</td>
+<td>572 séances ; book à 8 sleeves : 30 858 USD, Sharpe 1,712, maxDD −5 870 ; book à 9 : 36 241, 1,509, −6 595</td>
+<td><a href="01_calendrier.html">01_calendrier.md</a></td>
+<td><a href="../phase1_calendar.py">phase1_calendar.py</a></td>
+</tr>
+<tr>
+<td>2 — Significativité</td>
+<td>seule S01 est significative sur chaque fenêtre (DSR 0,91–0,97) ; S03 à S08 sont indistinguables ; le book est significatif (t de 2,8 à 4,8), par diversification</td>
+<td><a href="02_significativite.html">02_significativite.md</a></td>
+<td><a href="../phase2_significance.py">phase2_significance.py</a>, <a href="../stats.py">stats.py</a></td>
+</tr>
+<tr>
+<td>3 — Inventaire</td>
+<td>pas de holdout vierge : tout s'arrête au 2026-10-02, déjà lu</td>
+<td><a href="03_inventaire_holdout.html">03_inventaire_holdout.md</a></td>
+<td><a href="../phase3_inventory.py">phase3_inventory.py</a></td>
+</tr>
+<tr>
+<td>4 — Holdout</td>
+<td>pré-enregistrement validé (<code>ca3b9b25…</code>) ; (O) COHÉRENT ; (P) à venir</td>
+<td><a href="preregistration.html">preregistration.md</a>, <a href="04_holdout.html">04_holdout.md</a></td>
+<td><a href="../phase4a_prereg.py">phase4a_prereg.py</a>, <a href="../phase4a_validate.py">phase4a_validate.py</a>, <a href="../phase4b_s01_oneshot.py">phase4b_s01_oneshot.py</a>, <a href="../forward_check.py">forward_check.py</a></td>
+</tr>
+<tr>
+<td>5 — Règles d'arrêt</td>
+<td>aucune règle n'est à la fois rapide et sûre ; proposition à deux niveaux, corrigée le 15/11 (R2 seule → shadow ; « R0 ou R2 » donnerait 21 % de coupures à tort)</td>
+<td><a href="05_regles_arret.html">05_regles_arret.md</a></td>
+<td><a href="../phase5_stop_rules.py">phase5_stop_rules.py</a></td>
+</tr>
+<tr>
+<td>6 — Cohérence des statuts</td>
+<td>avec la proposition corrigée, S05, S07, S08 et S09 passent en revue et aucune sleeve active ne passe en shadow (S05 passerait en shadow avec « R0 ou R2 ») ; le LOO de S04 a été calculé sur la fenêtre réutilisée</td>
+<td><a href="06_coherence_statuts.html">06_coherence_statuts.md</a></td>
+<td><a href="../phase6_status.py">phase6_status.py</a></td>
+</tr>
+<tr>
+<td>7 — Vote (exploratoire)</td>
+<td>sur l'IS, le vote bat la moyenne de ses cellules pour 7 sleeves sur 8 ; la taille proportionnelle au score est rejetée ; le vote nul de S09 en OOS vient d'abord de ses coûts</td>
+<td><a href="07_vote.html">07_vote.md</a></td>
+<td><a href="../phase7_vote.py">phase7_vote.py</a>, <a href="../phase7_s02_cells.py">phase7_s02_cells.py</a></td>
+</tr>
+<tr>
+<td>8 — Régimes</td>
+<td>le book perd 52 k USD les jours de range MNQ, via S01, S02 et S04 ; pas de pertes groupées à l'échelle du mois ; S02 porte 41 à 44 % du risque</td>
+<td><a href="08_regimes.html">08_regimes.md</a></td>
+<td><a href="../phase8_regimes.py">phase8_regimes.py</a></td>
+</tr>
+<tr>
+<td>9 — Topstep</td>
+<td>chiffres de tête sous contrainte ci-dessus ; la règle actuelle (i) est gardée</td>
+<td><a href="09_topstep.html">09_topstep.md</a></td>
+<td><a href="../phase9_topstep.py">phase9_topstep.py</a>, <a href="../sim_variants.py">sim_variants.py</a></td>
+</tr>
+<tr>
+<td>10 — Stop catastrophe</td>
+<td>k = 3 (aucun déclenchement), <strong>retenu le 2026-11-15</strong> ; borne journalière par la DLL de 1 000 USD</td>
+<td><a href="10_stop_catastrophe.html">10_stop_catastrophe.md</a></td>
+<td><a href="../phase10_cat_stop.py">phase10_cat_stop.py</a></td>
+</tr>
+<tr>
+<td>Diagnostic S01 (hors <code>run_all</code>)</td>
+<td>les bornes d'ATR en points coupent 71 à 80 % des candidats en 2026, à agitation relative égale à 2023</td>
+<td><a href="../outputs/s01_drying_by_quarter.csv">outputs/s01_drying_by_quarter.csv</a></td>
+<td><a href="../diag_s01_drying.py">diag_s01_drying.py</a></td>
+</tr>
+</tbody>
+</table>
+<p>Les tables brutes sont dans <a href="outputs/">outputs/</a>, et la version HTML de chaque page dans <a href="html/RAPPORT.html">html/</a>.</p>
+<hr>
+<h2 id="5-ce-que-laudit-ne-prouve-pas">5. Ce que l'audit ne prouve pas</h2>
+<ul>
+<li><strong>Aucune performance hors échantillon propre.</strong> Toutes les fenêtres de validation avaient été consultées avant le gel des clusters ; (O) est partiellement contaminé. Seul le forward après le 2026-11-03 sera un vrai test, et il faudra 120 à 250 séances pour qu'il discrimine.</li>
+<li><strong>Les distributions bootstrap supposent que le passé se répète.</strong> Les seuils (pré-enregistrement, règles d'arrêt) sont estimés sur l'historique déjà vu, y compris les fenêtres réutilisées pour la sélection. Pour S01, dont la fréquence de trades a chuté, la distribution historique n'est plus représentative.</li>
+<li><strong>Les coûts sont nominaux.</strong> Le slippage réel, les gaps à travers les stops, les coupures de flux et le comportement réel des ordres chez le broker ne sont pas testés.</li>
+<li><strong>Les données ont des trous</strong> : vendredis d'échéance MNQ absents ; contrats continus <code>c.0</code> (MNQ) et <code>v.0</code> (MGC, MBT), non ajustés.</li>
+<li><strong>Les règles Topstep changent souvent.</strong> 1 MBT = 1 lot reste à confirmer dans TopstepX. La DLL de 1 000 USD a été lue le 2026-11-15.</li>
+<li><strong>Le book n'est pas déflaté.</strong> Le nombre de configurations de book essayées (choix des sleeves, sortie de S04) n'est pas documenté : son Sharpe de 1,7 à 1,9 est donc un plafond.</li>
+<li><strong>Les analyses de régime sont descriptives.</strong> Le type de journée n'est connu qu'à la clôture ; rien n'en fait un filtre exploitable.</li>
+<li><strong>La phase 7 et les variantes de la phase 9 sont exploratoires.</strong> Elles ne valident aucune modification.</li>
+<li><strong>Écart au cadre de la mission</strong> : le lock du 15/11, la règle r2, le registre, la doc active et les tests ont été modifiés hors de <code>audit_20261115/</code>, sur votre instruction explicite du 15/11. Les références antérieures ne sont pas modifiées ; seuls une note <code>SUPERSEDED.md</code> et le test de registre de l'ancien lock ont été touchés.</li>
+</ul>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

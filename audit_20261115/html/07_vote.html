@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 7 — Diagnostic du vote seuillé (EXPLORATOIRE)</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-7-diagnostic-du-vote-seuille-exploratoire">Phase 7 — Diagnostic du vote seuillé (EXPLORATOIRE)</h1>
+<p><em>Aucune de ces variantes ne remplace la référence. Les conclusions s'appuient sur l'IS ; la validation et le total sont seulement reportés. Script : <a href="../phase7_vote.py">phase7_vote.py</a>. Tables : <a href="../outputs/07_vote.csv">07_vote.csv</a>, <a href="../outputs/07_s09_bridge.json">07_s09_bridge.json</a>. PnL net en USD, coûts nominaux, Sharpe √252 sur le calendrier de la sleeve.</em></p>
+<h2 id="gate-de-reproduction">Gate de reproduction</h2>
+<p>Le vote est ré-implémenté de façon vectorisée, avec une fonction cible injectable. Avec la cible de référence, il doit redonner le PnL quotidien gelé de chaque sleeve avant toute variante.</p>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th style="text-align: right;">Séances</th>
+<th style="text-align: right;">Écart max vs PnL gelé</th>
+<th>Gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">1747</td>
+<td style="text-align: right;">0.00e+00 USD</td>
+<td>réussi</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">1747</td>
+<td style="text-align: right;">0.00e+00 USD</td>
+<td>réussi</td>
+</tr>
+<tr>
+<td>S04</td>
+<td style="text-align: right;">1747</td>
+<td style="text-align: right;">0.00e+00 USD</td>
+<td>réussi</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1.46e-11 USD</td>
+<td>réussi</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1.27e-11 USD</td>
+<td>réussi</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">1085</td>
+<td style="text-align: right;">2.22e-16 USD</td>
+<td>réussi</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">1085</td>
+<td style="text-align: right;">2.84e-14 USD</td>
+<td>réussi</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">1085</td>
+<td style="text-align: right;">7.11e-15 USD</td>
+<td>réussi</td>
+</tr>
+</tbody>
+</table>
+<h2 id="variantes">Variantes</h2>
+<ul>
+<li><strong>(a)</strong> Vote seuillé de la référence : +1 si score ≥ 0,50, −1 si score ≤ −0,50, 0 sinon. Exécution à l'open de la minute suivante.</li>
+<li><strong>(b)</strong> Moyenne des PnL quotidiens nets des cellules, chacune avec son propre stop et ses propres coûts. C'est une référence théorique : la répliquer demanderait des fractions de contrat.</li>
+<li><strong>(c)</strong> q = arrondi(K × score) contrats, l'arrondi s'éloignant de zéro, pour K = 2 et 3, sur MNQ et MGC seulement. Coûts comptés par contrat à chaque changement de quantité.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th>Variante</th>
+<th style="text-align: right;">PnL IS</th>
+<th style="text-align: right;">Sharpe IS</th>
+<th style="text-align: right;">PnL validation</th>
+<th style="text-align: right;">Sharpe validation</th>
+<th style="text-align: right;">PnL total</th>
+<th style="text-align: right;">Sharpe total</th>
+<th style="text-align: right;">maxDD IS</th>
+<th style="text-align: right;">Contrats IS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S02</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">10 980</td>
+<td style="text-align: right;">0,859</td>
+<td style="text-align: right;">9 279</td>
+<td style="text-align: right;">0,899</td>
+<td style="text-align: right;">20 259</td>
+<td style="text-align: right;">0,848</td>
+<td style="text-align: right;">−4 790</td>
+<td style="text-align: right;">1 452</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">8 893</td>
+<td style="text-align: right;">0,786</td>
+<td style="text-align: right;">9 234</td>
+<td style="text-align: right;">0,989</td>
+<td style="text-align: right;">18 127</td>
+<td style="text-align: right;">0,846</td>
+<td style="text-align: right;">−4 061</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>(c) K=2</td>
+<td style="text-align: right;">18 364</td>
+<td style="text-align: right;">0,800</td>
+<td style="text-align: right;">20 147</td>
+<td style="text-align: right;">1,063</td>
+<td style="text-align: right;">38 510</td>
+<td style="text-align: right;">0,885</td>
+<td style="text-align: right;">−8 750</td>
+<td style="text-align: right;">2 706</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>(c) K=3</td>
+<td style="text-align: right;">28 080</td>
+<td style="text-align: right;">0,798</td>
+<td style="text-align: right;">28 148</td>
+<td style="text-align: right;">0,974</td>
+<td style="text-align: right;">56 228</td>
+<td style="text-align: right;">0,846</td>
+<td style="text-align: right;">−13 244</td>
+<td style="text-align: right;">4 162</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">1 663</td>
+<td style="text-align: right;">0,546</td>
+<td style="text-align: right;">592</td>
+<td style="text-align: right;">0,283</td>
+<td style="text-align: right;">2 256</td>
+<td style="text-align: right;">0,432</td>
+<td style="text-align: right;">−1 037</td>
+<td style="text-align: right;">438</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">1 500</td>
+<td style="text-align: right;">0,527</td>
+<td style="text-align: right;">739</td>
+<td style="text-align: right;">0,361</td>
+<td style="text-align: right;">2 239</td>
+<td style="text-align: right;">0,448</td>
+<td style="text-align: right;">−851</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>(c) K=2</td>
+<td style="text-align: right;">1 256</td>
+<td style="text-align: right;">0,222</td>
+<td style="text-align: right;">1 412</td>
+<td style="text-align: right;">0,311</td>
+<td style="text-align: right;">2 668</td>
+<td style="text-align: right;">0,253</td>
+<td style="text-align: right;">−2 152</td>
+<td style="text-align: right;">872</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>(c) K=3</td>
+<td style="text-align: right;">3 174</td>
+<td style="text-align: right;">0,372</td>
+<td style="text-align: right;">2 046</td>
+<td style="text-align: right;">0,311</td>
+<td style="text-align: right;">5 220</td>
+<td style="text-align: right;">0,336</td>
+<td style="text-align: right;">−3 029</td>
+<td style="text-align: right;">1 310</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">4 692</td>
+<td style="text-align: right;">0,354</td>
+<td style="text-align: right;">5 383</td>
+<td style="text-align: right;">0,543</td>
+<td style="text-align: right;">10 075</td>
+<td style="text-align: right;">0,424</td>
+<td style="text-align: right;">−3 063</td>
+<td style="text-align: right;">2 838</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">5 096</td>
+<td style="text-align: right;">0,406</td>
+<td style="text-align: right;">5 006</td>
+<td style="text-align: right;">0,578</td>
+<td style="text-align: right;">10 102</td>
+<td style="text-align: right;">0,468</td>
+<td style="text-align: right;">−3 126</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>(c) K=2</td>
+<td style="text-align: right;">5 306</td>
+<td style="text-align: right;">0,204</td>
+<td style="text-align: right;">4 374</td>
+<td style="text-align: right;">0,267</td>
+<td style="text-align: right;">9 680</td>
+<td style="text-align: right;">0,226</td>
+<td style="text-align: right;">−7 971</td>
+<td style="text-align: right;">5 846</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>(c) K=3</td>
+<td style="text-align: right;">10 472</td>
+<td style="text-align: right;">0,273</td>
+<td style="text-align: right;">10 058</td>
+<td style="text-align: right;">0,394</td>
+<td style="text-align: right;">20 530</td>
+<td style="text-align: right;">0,317</td>
+<td style="text-align: right;">−10 666</td>
+<td style="text-align: right;">8 714</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">1 418</td>
+<td style="text-align: right;">0,519</td>
+<td style="text-align: right;">1 718</td>
+<td style="text-align: right;">0,388</td>
+<td style="text-align: right;">3 136</td>
+<td style="text-align: right;">0,370</td>
+<td style="text-align: right;">−1 346</td>
+<td style="text-align: right;">264</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">1 069</td>
+<td style="text-align: right;">0,442</td>
+<td style="text-align: right;">324</td>
+<td style="text-align: right;">0,112</td>
+<td style="text-align: right;">1 393</td>
+<td style="text-align: right;">0,236</td>
+<td style="text-align: right;">−994</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>(c) K=2</td>
+<td style="text-align: right;">2 636</td>
+<td style="text-align: right;">0,563</td>
+<td style="text-align: right;">970</td>
+<td style="text-align: right;">0,148</td>
+<td style="text-align: right;">3 606</td>
+<td style="text-align: right;">0,280</td>
+<td style="text-align: right;">−1 710</td>
+<td style="text-align: right;">598</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>(c) K=3</td>
+<td style="text-align: right;">4 163</td>
+<td style="text-align: right;">0,582</td>
+<td style="text-align: right;">924</td>
+<td style="text-align: right;">0,098</td>
+<td style="text-align: right;">5 087</td>
+<td style="text-align: right;">0,272</td>
+<td style="text-align: right;">−2 785</td>
+<td style="text-align: right;">880</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">3 098</td>
+<td style="text-align: right;">0,878</td>
+<td style="text-align: right;">3 932</td>
+<td style="text-align: right;">0,732</td>
+<td style="text-align: right;">7 030</td>
+<td style="text-align: right;">0,677</td>
+<td style="text-align: right;">−962</td>
+<td style="text-align: right;">276</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">2 969</td>
+<td style="text-align: right;">0,861</td>
+<td style="text-align: right;">3 517</td>
+<td style="text-align: right;">0,664</td>
+<td style="text-align: right;">6 487</td>
+<td style="text-align: right;">0,635</td>
+<td style="text-align: right;">−867</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>(c) K=2</td>
+<td style="text-align: right;">5 838</td>
+<td style="text-align: right;">0,866</td>
+<td style="text-align: right;">5 656</td>
+<td style="text-align: right;">0,529</td>
+<td style="text-align: right;">11 494</td>
+<td style="text-align: right;">0,560</td>
+<td style="text-align: right;">−1 759</td>
+<td style="text-align: right;">562</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>(c) K=3</td>
+<td style="text-align: right;">8 710</td>
+<td style="text-align: right;">0,853</td>
+<td style="text-align: right;">9 571</td>
+<td style="text-align: right;">0,599</td>
+<td style="text-align: right;">18 281</td>
+<td style="text-align: right;">0,594</td>
+<td style="text-align: right;">−2 597</td>
+<td style="text-align: right;">854</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">1 135</td>
+<td style="text-align: right;">0,390</td>
+<td style="text-align: right;">947</td>
+<td style="text-align: right;">0,638</td>
+<td style="text-align: right;">2 082</td>
+<td style="text-align: right;">0,473</td>
+<td style="text-align: right;">−1 286</td>
+<td style="text-align: right;">636</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">758</td>
+<td style="text-align: right;">0,262</td>
+<td style="text-align: right;">1 112</td>
+<td style="text-align: right;">0,760</td>
+<td style="text-align: right;">1 871</td>
+<td style="text-align: right;">0,428</td>
+<td style="text-align: right;">−1 373</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">2 535</td>
+<td style="text-align: right;">0,621</td>
+<td style="text-align: right;">1 365</td>
+<td style="text-align: right;">0,687</td>
+<td style="text-align: right;">3 900</td>
+<td style="text-align: right;">0,642</td>
+<td style="text-align: right;">−1 543</td>
+<td style="text-align: right;">1 560</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">1 909</td>
+<td style="text-align: right;">0,490</td>
+<td style="text-align: right;">1 429</td>
+<td style="text-align: right;">0,742</td>
+<td style="text-align: right;">3 338</td>
+<td style="text-align: right;">0,573</td>
+<td style="text-align: right;">−1 512</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>(a) vote seuillé</td>
+<td style="text-align: right;">4 989</td>
+<td style="text-align: right;">1,314</td>
+<td style="text-align: right;">−73</td>
+<td style="text-align: right;">−0,040</td>
+<td style="text-align: right;">4 916</td>
+<td style="text-align: right;">0,874</td>
+<td style="text-align: right;">−985</td>
+<td style="text-align: right;">894</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>(b) moyenne des cellules</td>
+<td style="text-align: right;">4 376</td>
+<td style="text-align: right;">1,321</td>
+<td style="text-align: right;">920</td>
+<td style="text-align: right;">0,559</td>
+<td style="text-align: right;">5 296</td>
+<td style="text-align: right;">1,066</td>
+<td style="text-align: right;">−794</td>
+<td style="text-align: right;">—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="s09-de-a-a-b-sur-le-legacy-oos-2025-05-29-2026-10-02">S09 — de (a) à (b) sur le legacy OOS (2025-05-29 → 2026-10-02)</h2>
+<p>Décomposition additive. Les étapes 3a à 3d comparent, minute par minute, une exposition linéaire (q = score, fractionnaire) au vote, tous deux sans coût ni décalage.</p>
+<table>
+<thead>
+<tr>
+<th>Étape</th>
+<th style="text-align: right;">USD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(a) vote seuillé, net</td>
+<td style="text-align: right;">−73,22</td>
+</tr>
+<tr>
+<td>+ 1. coûts du vote</td>
+<td style="text-align: right;">844,22</td>
+</tr>
+<tr>
+<td>+ 2. décalage d'une minute (open suivant → close de la barre du signal)</td>
+<td style="text-align: right;">87,50</td>
+</tr>
+<tr>
+<td>+ 3a. jours où le vote ne se déclenche jamais</td>
+<td style="text-align: right;">−1 465,63</td>
+</tr>
+<tr>
+<td>+ 3b. minutes avant l'entrée du vote</td>
+<td style="text-align: right;">948,79</td>
+</tr>
+<tr>
+<td>+ 3c. minutes après une sortie anticipée (score repassé sous ±0,50)</td>
+<td style="text-align: right;">−16,71</td>
+</tr>
+<tr>
+<td>+ 3d. exposition linéaire − exposition du vote, de la première entrée à la dernière sortie</td>
+<td style="text-align: right;">1 038,42</td>
+</tr>
+<tr>
+<td>= exposition linéaire (q = score), sans coût ni décalage</td>
+<td style="text-align: right;">1 363,38</td>
+</tr>
+<tr>
+<td>+ 4. résidu : exécution propre des cellules (stops intrabarre) et leurs coûts</td>
+<td style="text-align: right;">−443,62</td>
+</tr>
+<tr>
+<td>= (b) moyenne des PnL des cellules</td>
+<td style="text-align: right;">919,76</td>
+</tr>
+</tbody>
+</table>
+<p>Jours où plus de la moitié des cellules gagnent alors que le vote reste flat toute la séance : <strong>0</strong> (sur 107 jours de vote flat), pour 0,00 USD de PnL moyen des cellules.</p>
+<h2 id="lecture">Lecture</h2>
+<p>Conclusions fondées sur l'IS uniquement.</p>
+<ol>
+<li><strong>Le vote seuillé ne détruit pas de valeur sur l'IS.</strong> Il fait mieux que la moyenne de ses cellules (b) pour 7 sleeves sur 8, en PnL (S02 10 980 contre 8 893 USD, S08 2 535 contre 1 909, S09 4 989 contre 4 376) et le plus souvent en Sharpe. Seule S04 fait moins bien que ses cellules (4 692 contre 5 096 USD). L'idée d'un vote qui « laisse de l'argent sur la table » n'est pas confirmée sur la fenêtre de sélection.</li>
+<li><strong>La taille proportionnelle au score (c) n'améliore pas le rendement ajusté du risque sur l'IS.</strong> Le PnL augmente avec K, mais le drawdown et les coûts augmentent davantage :
+   - S02 : Sharpe 0,86 → 0,80, avec un maxDD IS qui passe de −4 790 à −8 750 USD à K = 2 ;
+   - S03 et S04 : le Sharpe est divisé par 1,3 à 2,5 ;
+   - S06 est stable ;
+   - seule S05 progresse un peu (0,52 → 0,56–0,58), puis s'effondre sur la validation (0,39 → 0,10–0,15).</li>
+</ol>
+<p><strong>Aucune variante (c) n'est retenue.</strong> Pour un compte Topstep, elle multiplierait aussi les lots MNQ/MGC consommés.
+3. <strong>S09 sur son legacy OOS.</strong> L'écart de 993 USD entre (b) et (a) se décompose ainsi :
+   - les <strong>coûts du vote</strong> : 844 USD. Le vote change souvent de cible pour un gain par trade faible ;
+   - le <strong>décalage d'une minute</strong> : 88 USD ;
+   - le <strong>seuil</strong>, net : +505 USD. Le vote entre tard (+949 USD captés par l'exposition linéaire avant son entrée) et prend une exposition pleine (+1 038 USD de mieux pour l'exposition fractionnaire pendant le vote). Mais il évite les jours faibles : ne jamais se déclencher fait économiser 1 466 USD. Les sorties anticipées ne coûtent presque rien (−17 USD) ;
+   - l'exécution propre des cellules (stops intrabarre) et leurs coûts : −444 USD.</p>
+<p>Aucun jour n'a vu la majorité des cellules gagner pendant que le vote restait flat. Le vote nul de S09 sur son OOS s'explique d'abord par ses <strong>coûts de rotation</strong>, puis par le retard d'entrée. Ce n'est pas un défaut d'agrégation qu'un autre seuil corrigerait proprement.</p>
+<p>Toute modification du vote serait une nouvelle hypothèse, à pré-enregistrer et à juger sur des données neuves.</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

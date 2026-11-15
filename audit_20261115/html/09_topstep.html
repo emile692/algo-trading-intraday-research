@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 9 — Book sous contrainte Topstep</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-9-book-sous-contrainte-topstep">Phase 9 — Book sous contrainte Topstep</h1>
+<p><em>Exécution agrégée par instrument, book à 8 sleeves, S01 = ATR 18, calendrier union. IS 2021-05-03 → 2023-12-29 (choix), validation 2024-01-02 → 2026-03-19 (reportée). 1 MBT = 1 lot, un micro = 0,1 lot. Une entrée qui dépasse la limite est réduite ; une position ouverte n'est jamais coupée. Script : <a href="../phase9_topstep.py">phase9_topstep.py</a>, simulateur <a href="../sim_variants.py">sim_variants.py</a>. Tables : <a href="../outputs/09_topstep.csv">09_topstep.csv</a>, <a href="../outputs/09_lost_by_sleeve.csv">09_lost_by_sleeve.csv</a>, <a href="../outputs/09_lifecycle.csv">09_lifecycle.csv</a>.</em></p>
+<p><strong>Gate</strong> : avec la variante (i), le simulateur reproduit <code>src/portfolio/aggregator.py</code> sur les 4 configurations de limite (2, 3, 5 lots et sans limite), séance par séance, sur l'IS. Écart max : 0.0e+00 USD.</p>
+<h2 id="chiffres-de-tete-regle-actuelle-i-palier-xfa-dynamique">Chiffres de tête — règle actuelle (i), palier XFA dynamique</h2>
+<p>Le palier dynamique suit le solde d'un XFA qui part de 0 : 2 lots sous 1 500 USD, 3 lots jusqu'à 2 000, puis 5. La ligne « 5 lots » correspond au Combine 50K. Elle ne contraint presque jamais le book, dont le pic est de 3,3 lots.</p>
+<table>
+<thead>
+<tr>
+<th>Fenêtre</th>
+<th>Palier</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Sharpe</th>
+<th style="text-align: right;">maxDD</th>
+<th style="text-align: right;">Pire jour</th>
+<th style="text-align: right;">Séances réduites</th>
+<th style="text-align: right;">PnL perdu vs sans limite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IS</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 142</td>
+<td style="text-align: right;">2,316</td>
+<td style="text-align: right;">−2 567</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">21 / 689</td>
+<td style="text-align: right;">−574</td>
+</tr>
+<tr>
+<td>validation</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 270</td>
+<td style="text-align: right;">1,647</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">41 / 572</td>
+<td style="text-align: right;">1 616</td>
+</tr>
+<tr>
+<td>IS</td>
+<td>5 lots</td>
+<td style="text-align: right;">28 568</td>
+<td style="text-align: right;">2,253</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">0 / 689</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>validation</td>
+<td>5 lots</td>
+<td style="text-align: right;">30 886</td>
+<td style="text-align: right;">1,713</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">0 / 572</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pnl-perdu-a-cause-de-la-limite-par-sleeve-variante-i-palier-dynamique">PnL perdu à cause de la limite, par sleeve (variante i, palier dynamique)</h2>
+<p>Pour chaque instrument, la perte est exacte : PnL sans limite moins PnL avec limite. Sa répartition entre les sleeves de l'instrument se fait au prorata des contrats refusés à l'entrée.</p>
+<table>
+<thead>
+<tr>
+<th>Fenêtre</th>
+<th style="text-align: right;">S01</th>
+<th style="text-align: right;">S02</th>
+<th style="text-align: right;">S03</th>
+<th style="text-align: right;">S05</th>
+<th style="text-align: right;">S06</th>
+<th style="text-align: right;">S07</th>
+<th style="text-align: right;">S08</th>
+<th style="text-align: right;">S09</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IS — PnL perdu</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">−24</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">−631</td>
+<td style="text-align: right;">−61</td>
+</tr>
+<tr>
+<td>IS — contrats refusés</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>validation — PnL perdu</td>
+<td style="text-align: right;">−314</td>
+<td style="text-align: right;">949</td>
+<td style="text-align: right;">−410</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">556</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">560</td>
+</tr>
+<tr>
+<td>validation — contrats refusés</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">11</td>
+</tr>
+</tbody>
+</table>
+<h2 id="variantes-dexecution-signaux-inchanges">Variantes d'exécution (signaux inchangés)</h2>
+<ul>
+<li><strong>(i)</strong> Règle actuelle : premier arrivé, premier servi, avec rattrapage.</li>
+<li><strong>(ii)</strong> Pas de rattrapage après la dernière heure d'entrée de la ou des sleeves sous-servies de l'instrument.</li>
+<li><strong>(iii)</strong> Priorité fixée sur l'IS : une entrée ne peut pas consommer la place réservée aux sleeves à plat de priorité plus haute. Le score est le PnL IS par unité de contribution au risque et par dixième de lot.</li>
+<li><strong>(iv)</strong> Aucune sleeve MBT tant que le palier est inférieur à 3 lots.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th>Dernière entrée observée (IS)</th>
+<th style="text-align: right;">Contribution au risque IS</th>
+<th style="text-align: right;">PnL IS</th>
+<th style="text-align: right;">Priorité (iii), 0 = haute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>15:22</td>
+<td style="text-align: right;">29,6 %</td>
+<td style="text-align: right;">9 120</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>16:02</td>
+<td style="text-align: right;">51,2 %</td>
+<td style="text-align: right;">12 882</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>15:51</td>
+<td style="text-align: right;">2,6 %</td>
+<td style="text-align: right;">1 527</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>13:08</td>
+<td style="text-align: right;">1,8 %</td>
+<td style="text-align: right;">1 292</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>08:36</td>
+<td style="text-align: right;">2,0 %</td>
+<td style="text-align: right;">578</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>15:31</td>
+<td style="text-align: right;">4,2 %</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>15:47</td>
+<td style="text-align: right;">5,8 %</td>
+<td style="text-align: right;">435</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>15:55</td>
+<td style="text-align: right;">2,8 %</td>
+<td style="text-align: right;">2 672</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Fenêtre</th>
+<th>Palier</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Sharpe</th>
+<th style="text-align: right;">maxDD</th>
+<th style="text-align: right;">Pire jour</th>
+<th style="text-align: right;">Séances réduites</th>
+<th style="text-align: right;">PnL perdu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td>IS</td>
+<td>2 lots</td>
+<td style="text-align: right;">26 920</td>
+<td style="text-align: right;">2,283</td>
+<td style="text-align: right;">−2 331</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">196</td>
+<td style="text-align: right;">1 648</td>
+</tr>
+<tr>
+<td>i</td>
+<td>IS</td>
+<td>3 lots</td>
+<td style="text-align: right;">27 947</td>
+<td style="text-align: right;">2,243</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">620</td>
+</tr>
+<tr>
+<td>i</td>
+<td>IS</td>
+<td>5 lots</td>
+<td style="text-align: right;">28 568</td>
+<td style="text-align: right;">2,253</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>i</td>
+<td>IS</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 142</td>
+<td style="text-align: right;">2,316</td>
+<td style="text-align: right;">−2 567</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">−574</td>
+</tr>
+<tr>
+<td>i</td>
+<td>validation</td>
+<td>2 lots</td>
+<td style="text-align: right;">25 857</td>
+<td style="text-align: right;">1,582</td>
+<td style="text-align: right;">−5 359</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">279</td>
+<td style="text-align: right;">5 029</td>
+</tr>
+<tr>
+<td>i</td>
+<td>validation</td>
+<td>3 lots</td>
+<td style="text-align: right;">29 410</td>
+<td style="text-align: right;">1,674</td>
+<td style="text-align: right;">−5 481</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">113</td>
+<td style="text-align: right;">1 476</td>
+</tr>
+<tr>
+<td>i</td>
+<td>validation</td>
+<td>5 lots</td>
+<td style="text-align: right;">30 886</td>
+<td style="text-align: right;">1,713</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>i</td>
+<td>validation</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 270</td>
+<td style="text-align: right;">1,647</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">1 616</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>IS</td>
+<td>2 lots</td>
+<td style="text-align: right;">27 140</td>
+<td style="text-align: right;">2,299</td>
+<td style="text-align: right;">−2 331</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">196</td>
+<td style="text-align: right;">1 427</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>IS</td>
+<td>3 lots</td>
+<td style="text-align: right;">27 947</td>
+<td style="text-align: right;">2,243</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">620</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>IS</td>
+<td>5 lots</td>
+<td style="text-align: right;">28 568</td>
+<td style="text-align: right;">2,253</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>IS</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 258</td>
+<td style="text-align: right;">2,324</td>
+<td style="text-align: right;">−2 567</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">−690</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>validation</td>
+<td>2 lots</td>
+<td style="text-align: right;">25 909</td>
+<td style="text-align: right;">1,584</td>
+<td style="text-align: right;">−5 345</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">279</td>
+<td style="text-align: right;">4 977</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>validation</td>
+<td>3 lots</td>
+<td style="text-align: right;">29 410</td>
+<td style="text-align: right;">1,674</td>
+<td style="text-align: right;">−5 481</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">113</td>
+<td style="text-align: right;">1 476</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>validation</td>
+<td>5 lots</td>
+<td style="text-align: right;">30 886</td>
+<td style="text-align: right;">1,713</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>validation</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 291</td>
+<td style="text-align: right;">1,648</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">1 595</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>IS</td>
+<td>2 lots</td>
+<td style="text-align: right;">26 768</td>
+<td style="text-align: right;">2,249</td>
+<td style="text-align: right;">−2 694</td>
+<td style="text-align: right;">−973</td>
+<td style="text-align: right;">377</td>
+<td style="text-align: right;">1 799</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>IS</td>
+<td>3 lots</td>
+<td style="text-align: right;">27 468</td>
+<td style="text-align: right;">2,231</td>
+<td style="text-align: right;">−2 612</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">168</td>
+<td style="text-align: right;">1 100</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>IS</td>
+<td>5 lots</td>
+<td style="text-align: right;">28 568</td>
+<td style="text-align: right;">2,253</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>IS</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 389</td>
+<td style="text-align: right;">2,344</td>
+<td style="text-align: right;">−2 567</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">−821</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>validation</td>
+<td>2 lots</td>
+<td style="text-align: right;">25 886</td>
+<td style="text-align: right;">1,599</td>
+<td style="text-align: right;">−4 706</td>
+<td style="text-align: right;">−1 296</td>
+<td style="text-align: right;">447</td>
+<td style="text-align: right;">5 000</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>validation</td>
+<td>3 lots</td>
+<td style="text-align: right;">28 898</td>
+<td style="text-align: right;">1,673</td>
+<td style="text-align: right;">−5 542</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">222</td>
+<td style="text-align: right;">1 988</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>validation</td>
+<td>5 lots</td>
+<td style="text-align: right;">30 886</td>
+<td style="text-align: right;">1,713</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>validation</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">30 566</td>
+<td style="text-align: right;">1,720</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">320</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>IS</td>
+<td>2 lots</td>
+<td style="text-align: right;">25 416</td>
+<td style="text-align: right;">2,172</td>
+<td style="text-align: right;">−2 536</td>
+<td style="text-align: right;">−979</td>
+<td style="text-align: right;">413</td>
+<td style="text-align: right;">3 152</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>IS</td>
+<td>3 lots</td>
+<td style="text-align: right;">27 947</td>
+<td style="text-align: right;">2,243</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">620</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>IS</td>
+<td>5 lots</td>
+<td style="text-align: right;">28 568</td>
+<td style="text-align: right;">2,253</td>
+<td style="text-align: right;">−2 891</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>IS</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 334</td>
+<td style="text-align: right;">2,341</td>
+<td style="text-align: right;">−2 567</td>
+<td style="text-align: right;">−967</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">−767</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>validation</td>
+<td>2 lots</td>
+<td style="text-align: right;">21 584</td>
+<td style="text-align: right;">1,435</td>
+<td style="text-align: right;">−3 948</td>
+<td style="text-align: right;">−1 138</td>
+<td style="text-align: right;">495</td>
+<td style="text-align: right;">9 301</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>validation</td>
+<td>3 lots</td>
+<td style="text-align: right;">29 410</td>
+<td style="text-align: right;">1,674</td>
+<td style="text-align: right;">−5 481</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">113</td>
+<td style="text-align: right;">1 476</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>validation</td>
+<td>5 lots</td>
+<td style="text-align: right;">30 886</td>
+<td style="text-align: right;">1,713</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>validation</td>
+<td>XFA dynamique</td>
+<td style="text-align: right;">29 472</td>
+<td style="text-align: right;">1,665</td>
+<td style="text-align: right;">−5 863</td>
+<td style="text-align: right;">−1 656</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">1 414</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cycle-combine-xfa-payout-complement">Cycle Combine → XFA → payout (complément)</h2>
+<p>Les réglages sont ceux de l'étude d'agrégation : 8 000 chemins de 126 séances tradées, blocs de 3, 5, 10 et 20, seed 20261112, frais standard, palier XFA relu chaque séance. Les chemins sont tirés dans chaque fenêtre séparément.</p>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Fenêtre</th>
+<th style="text-align: right;">Cash net espéré</th>
+<th style="text-align: right;">Cash net médian</th>
+<th style="text-align: right;">P(payout)</th>
+<th style="text-align: right;">Séances médianes au 1er payout</th>
+<th style="text-align: right;">P(XFA perdu)</th>
+<th style="text-align: right;">P(PASS)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td>IS</td>
+<td style="text-align: right;">607</td>
+<td style="text-align: right;">−50</td>
+<td style="text-align: right;">78,8 %</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">64,8 %</td>
+<td style="text-align: right;">89,8 %</td>
+</tr>
+<tr>
+<td>i</td>
+<td>validation</td>
+<td style="text-align: right;">972</td>
+<td style="text-align: right;">−81</td>
+<td style="text-align: right;">71,6 %</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">73,7 %</td>
+<td style="text-align: right;">89,5 %</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>IS</td>
+<td style="text-align: right;">614</td>
+<td style="text-align: right;">−45</td>
+<td style="text-align: right;">78,9 %</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">64,8 %</td>
+<td style="text-align: right;">89,8 %</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>validation</td>
+<td style="text-align: right;">975</td>
+<td style="text-align: right;">−77</td>
+<td style="text-align: right;">71,7 %</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">73,6 %</td>
+<td style="text-align: right;">89,5 %</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>IS</td>
+<td style="text-align: right;">596</td>
+<td style="text-align: right;">−52</td>
+<td style="text-align: right;">78,4 %</td>
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">64,6 %</td>
+<td style="text-align: right;">89,8 %</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>validation</td>
+<td style="text-align: right;">1 030</td>
+<td style="text-align: right;">−84</td>
+<td style="text-align: right;">70,1 %</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">71,3 %</td>
+<td style="text-align: right;">89,5 %</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>IS</td>
+<td style="text-align: right;">527</td>
+<td style="text-align: right;">−84</td>
+<td style="text-align: right;">78,6 %</td>
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">66,0 %</td>
+<td style="text-align: right;">89,8 %</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>validation</td>
+<td style="text-align: right;">865</td>
+<td style="text-align: right;">−172</td>
+<td style="text-align: right;">69,3 %</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">71,3 %</td>
+<td style="text-align: right;">89,5 %</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lecture">Lecture</h2>
+<ol>
+<li><strong>Chiffre de tête sous contrainte</strong> (règle actuelle, palier XFA dynamique) : 29 142 USD sur l'IS 2021-05 → 2023-12 (Sharpe 2,32, maxDD −2 567 USD) et 29 270 USD sur la validation 2024-01 → 2026-03 (Sharpe 1,65, maxDD −5 863 USD, pire jour −1 656 USD). Sans limite, la validation fait 30 886 USD : la limite coûte 1 616 USD sur la validation, et en fait gagner 574 sur l'IS, où les entrées refusées étaient perdantes en moyenne.</li>
+<li><strong>La limite ne mord vraiment qu'au palier de 2 lots.</strong> Un XFA qui démarre à 0 passe vite au-dessus de 2 000 USD dans l'historique, d'où seulement 21 (IS) et 41 (validation) séances réduites en dynamique. À 2 lots fixes, 196 et 279 séances sont réduites. MBT, à 1 lot par contrat, est la cause : S08 a le plus de contrats refusés.</li>
+<li><strong>Choix sur l'IS, avec pour critère le cash net espéré du cycle complet (objectif payout)</strong> :
+   - (ii) fait +7 USD par rapport à (i), ce qui est indiscernable du bruit ;
+   - (iii) fait −11 USD ;
+   - (iv) fait −80 USD, et perd 3 152 USD de PnL historique à 2 lots.</li>
+</ol>
+<p><strong>Aucune variante ne bat nettement la règle actuelle : (i) reste la règle.</strong> (iv) est rejetée. Sur la validation, simplement reportée, (iii) fait un peu mieux (1 030 contre 972 USD) ; ce n'est pas un motif de changement, puisque l'IS ne la favorisait pas.
+4. <strong>Constat d'exécution.</strong> S02 a des entrées observées jusqu'à 16:02 sur l'IS, soit 6 minutes avant le flatten de 16:08. Son vote peut se retourner après la dernière entrée des cellules, quand une cellule sort.
+5. <strong>Le cycle reste défavorable à la médiane.</strong> Le cash net médian est négatif (−50 USD sur l'IS) et l'XFA est perdu dans 65 à 74 % des chemins, quelle que soit la variante. Le cash espéré positif vient d'une minorité de chemins à plusieurs payouts.</p>
+<p>La répartition du PnL perdu entre sleeves d'un même instrument est une approximation, au prorata des contrats refusés. Ses signes peuvent être contre-intuitifs quand les entrées refusées étaient perdantes.</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

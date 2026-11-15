@@ -1,0 +1,16 @@
+{
+  "freq_days_4plus_losing": 0.052339413164155434,
+  "max_abs": {
+    "MNQ": 4,
+    "MGC": 2,
+    "MBT": 3
+  },
+  "max_usd_per_point": {
+    "MNQ": 8.0,
+    "MGC": 20.0,
+    "MBT": 0.30000000000000004
+  },
+  "max_lots": 3.3,
+  "sessions": 1261,
+  "sessions_all_three_open": 182
+}

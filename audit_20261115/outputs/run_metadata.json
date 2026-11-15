@@ -1,0 +1,10 @@
+{
+  "python": "3.10.20 (main, Aug  7 2026, 02:23:44) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "numpy": "2.2.6",
+  "pandas": "2.3.3",
+  "pyarrow": "23.0.1",
+  "scipy": "1.15.3",
+  "git_head": "7f71d0eeff9d1903df3e0decebccda3511723b3a",
+  "seed": 20261115
+}

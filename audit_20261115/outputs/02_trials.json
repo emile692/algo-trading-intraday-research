@@ -1,0 +1,74 @@
+{
+  "S01": {
+    "n_low": 160,
+    "n_high": 400,
+    "source": "cube ATR × q_low × q_high, 160 cellules (git 72ded70^, data/exports/atr_local_robustness_20260320_194355)",
+    "high_note": "+ 224 variantes des campagnes ORB archivées (metrics_by_scope.csv) + 16 variantes des deux campagnes atr_ensemble du 2026-03-20",
+    "convention_note": "Sharpe du cube calculé dans l'ancien moteur ORB (avant la correction du cutoff du 18/09) ; sa dispersion est utilisée telle quelle",
+    "n_cells_with_sr": 160
+  },
+  "S02": {
+    "n_low": 770,
+    "n_high": 790,
+    "source": "cube S02, 770 cellules (research/signal_sheet_02_cube)",
+    "high_note": "+ 20 overlays de sortie du money_management_lab",
+    "convention_note": "Sharpe du cube en rendements d'un compte de 50K (même convention que la fiche 02)",
+    "n_cells_with_sr": 770
+  },
+  "S03": {
+    "n_low": 45,
+    "n_high": 45,
+    "source": "grille de raffinement s03, 45 cellules (research/signal_sheet_parameter_refinement/s03)",
+    "high_note": "aucune campagne antérieure retrouvée : N haut = N bas",
+    "convention_note": "Sharpe en USD (metric_block)",
+    "n_cells_with_sr": 45
+  },
+  "S04": {
+    "n_low": 25,
+    "n_high": 45,
+    "source": "grille de raffinement s04, 25 cellules (research/signal_sheet_parameter_refinement/s04)",
+    "high_note": "+ 20 overlays de sortie du money_management_lab",
+    "convention_note": "Sharpe en USD (metric_block)",
+    "n_cells_with_sr": 25
+  },
+  "S05": {
+    "n_low": 25,
+    "n_high": 187,
+    "source": "grille de raffinement s05, 25 cellules (research/signal_sheet_parameter_refinement/s05)",
+    "high_note": "+ 162 cellules de mgc_volatility_breakout_refinement_v0_20260925",
+    "convention_note": "Sharpe en USD (metric_block)",
+    "n_cells_with_sr": 25
+  },
+  "S06": {
+    "n_low": 25,
+    "n_high": 25,
+    "source": "grille de raffinement s06, 25 cellules (research/signal_sheet_parameter_refinement/s06)",
+    "high_note": "aucune campagne antérieure retrouvée : N haut = N bas",
+    "convention_note": "Sharpe en USD (metric_block)",
+    "n_cells_with_sr": 25
+  },
+  "S07": {
+    "n_low": 30,
+    "n_high": 38,
+    "source": "grille de raffinement s07, 30 cellules (research/signal_sheet_parameter_refinement/s07)",
+    "high_note": "+ cellules de mbt_three_sleeve_freeze_20261004",
+    "convention_note": "Sharpe en USD (metric_block)",
+    "n_cells_with_sr": 30
+  },
+  "S08": {
+    "n_low": 25,
+    "n_high": 34,
+    "source": "grille de raffinement s08, 25 cellules (research/signal_sheet_parameter_refinement/s08)",
+    "high_note": "+ cellules de mbt_three_sleeve_freeze_20261004",
+    "convention_note": "Sharpe en USD (metric_block)",
+    "n_cells_with_sr": 25
+  },
+  "S09": {
+    "n_low": 36,
+    "n_high": 48,
+    "source": "grille de raffinement s09, 36 cellules (research/signal_sheet_parameter_refinement/s09)",
+    "high_note": "+ cellules de mbt_three_sleeve_freeze_20261004",
+    "convention_note": "Sharpe en USD (metric_block)",
+    "n_cells_with_sr": 36
+  }
+}
