@@ -63,15 +63,13 @@ def test_stop_rule_thresholds_cover_all_nine_sleeves() -> None:
     assert thresholds.loc[SHADOW, "status"] == "SHADOW_FORWARD_ONLY"
 
 
-def test_forward_registry_points_to_active_lock_and_shadows_s04() -> None:
+def test_registry_records_this_lock_as_superseded_reference() -> None:
+    # Superseded on 2026-11-15 by eight_sleeve_equal_contract_reference_20261115 (see SUPERSEDED.md);
+    # the active-pointer test moved to tests/test_locked_eight_sleeve_portfolio_20261115.py.
     registry = json.loads((ROOT / "strategy_registry" / "forward_monitoring" / "registry.json").read_text(encoding="utf-8"))
-    lock = registry["active_reference"]["canonical_lock"]
-    assert lock["path"] == "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json"
-    assert _sha256(ROOT / lock["path"]) == lock["sha256"]
-    assert SHADOW not in registry["active_reference"]["members"]
-    shadow = next(entry for entry in registry["forward_monitoring"] if entry["id"] == SHADOW)
-    assert shadow["status"] == "SHADOW_FORWARD_ONLY" and shadow["allocation"] == 0
-    assert _sha256(ROOT / shadow["spec_path"]) == shadow["spec_sha256"]
+    superseded = registry["active_reference"]["superseded_reference"]
+    assert superseded["path"] == "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json"
+    assert _sha256(ROOT / superseded["path"]) == superseded["sha256"]
 
 
 def test_active_reference_pointer_targets_eight_sleeves() -> None:

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 6 — Cohérence des statuts S04 / S09</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-6-coherence-des-statuts-s04-s09">Phase 6 — Cohérence des statuts S04 / S09</h1>
+<p><em>Mêmes règles pour les 9 sleeves, avec les seules données disponibles au 2026-11-01. Script : <a href="../phase6_status.py">phase6_status.py</a>. Table : <a href="../outputs/06_status.csv">06_status.csv</a>. Rien n'est changé en production.</em></p>
+<h2 id="donnees-et-regle-appliquee">Données et règle appliquée</h2>
+<ul>
+<li><strong>S01</strong> : historique gelé ATR 18 jusqu'au 2026-03-19, plus la fenêtre du one-shot (O), du 2026-03-23 au 2026-10-02.</li>
+<li><strong>S02 à S06</strong> : replay forward des votes gelés jusqu'au 2026-10-02 (identique à l'historique gelé sur le recouvrement, vérifié).</li>
+<li><strong>S07 à S09</strong> : historique gelé jusqu'au 2026-10-02.</li>
+</ul>
+<p>Règle proposée en phase 5, appliquée en glissant sur toute la série :</p>
+<ul>
+<li><strong>shadow</strong> si R0 ou R2 s'est déclenchée dans les 252 dernières séances, puisqu'aucune réintégration n'est encore possible ;</li>
+<li><strong>revue</strong> si R3 s'est déclenchée dans les 120 dernières séances, ou si la classe de la phase 2 sur la validation réutilisée est « négative » ;</li>
+<li><strong>actif</strong> sinon.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th>Données jusqu'au</th>
+<th>R0 : 126 s. final / seuil</th>
+<th>R3 : 120 s. final / seuil</th>
+<th>maxDD 250 s. final / seuil R2</th>
+<th>Séances en alarme R0 · R1 · R2 · R3</th>
+<th>Classe total / validation</th>
+<th><strong>Statut règle</strong></th>
+<th>Statut actuel</th>
+<th>Motifs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>2026-10-02</td>
+<td>−390,00 / −890,50</td>
+<td>−449,00 / −639,52</td>
+<td>−840,50 / −2 806,05</td>
+<td>0 · 0 · 0 · 8</td>
+<td>distinguable de zéro / distinguable de zéro</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+<td>—</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>2026-10-02</td>
+<td>−949,50 / −4 019,00</td>
+<td>−1 413,50 / −2 177,57</td>
+<td>−3 065,50 / −6 595,51</td>
+<td>0 · 0 · 0 · 110</td>
+<td>distinguable de zéro / indistinguable</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+<td>—</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>2026-10-02</td>
+<td>281,50 / −975,00</td>
+<td>116,00 / −591,05</td>
+<td>−852,50 / −1 473,03</td>
+<td>0 · 0 · 0 · 109</td>
+<td>indistinguable / indistinguable</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+<td>—</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>2026-10-02</td>
+<td>−6 574,00 / −2 974,00</td>
+<td>−6 283,00 / −2 497,03</td>
+<td>−8 174,50 / −6 281,53</td>
+<td>36 · 55 · 17 · 54</td>
+<td>indistinguable / indistinguable</td>
+<td><strong>shadow</strong></td>
+<td>shadow</td>
+<td>R0 du 2026-07-17 au 2026-10-02; R2 du 2026-09-09 au 2026-10-02; R3 du 2026-07-01 au 2026-10-02</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>2026-10-02</td>
+<td>700,50 / −1 021,00</td>
+<td>700,50 / −982,02</td>
+<td>−1 841,00 / −2 591,51</td>
+<td>22 · 0 · 0 · 23</td>
+<td>indistinguable / indistinguable</td>
+<td><strong>shadow</strong></td>
+<td>actif</td>
+<td>R0 du 2026-07-28 au 2026-08-25; R3 du 2026-07-20 au 2026-08-18</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>2026-10-02</td>
+<td>995,00 / −1 006,50</td>
+<td>995,00 / −924,02</td>
+<td>−909,50 / −2 308,12</td>
+<td>0 · 0 · 0 · 1</td>
+<td>indistinguable / indistinguable</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+<td>—</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>2026-10-02</td>
+<td>−199,60 / −840,64</td>
+<td>−216,46 / −809,70</td>
+<td>−896,24 / −2 144,58</td>
+<td>0 · 0 · 0 · 3</td>
+<td>indistinguable / indistinguable</td>
+<td><strong>revue</strong></td>
+<td>actif</td>
+<td>R3 du 2026-08-18 au 2026-08-18</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>2026-10-02</td>
+<td>−739,78 / −1 284,10</td>
+<td>−750,68 / −1 149,57</td>
+<td>−1 653,28 / −3 009,66</td>
+<td>0 · 0 · 0 · 7</td>
+<td>indistinguable / indistinguable</td>
+<td><strong>revue</strong></td>
+<td>actif</td>
+<td>R3 du 2026-06-01 au 2026-08-12</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>2026-10-02</td>
+<td>−641,96 / −1 479,42</td>
+<td>−605,50 / −717,72</td>
+<td>−1 404,50 / −2 239,69</td>
+<td>0 · 144 · 0 · 76</td>
+<td>distinguable de zéro / négative</td>
+<td><strong>revue</strong></td>
+<td>actif</td>
+<td>R3 du 2026-06-16 au 2026-10-01; classe « négative » sur la validation réutilisée</td>
+</tr>
+</tbody>
+</table>
+<h2 id="incoherences-avec-les-statuts-actuels">Incohérences avec les statuts actuels</h2>
+<ul>
+<li><strong>S05</strong> : la règle donne « shadow », le statut actuel est « actif ». Motifs : R0 du 2026-07-28 au 2026-08-25; R3 du 2026-07-20 au 2026-08-18.</li>
+<li><strong>S07</strong> est active, alors que la règle la placerait « en revue » : R3 du 2026-08-18 au 2026-08-18.</li>
+<li><strong>S08</strong> est active, alors que la règle la placerait « en revue » : R3 du 2026-06-01 au 2026-08-12.</li>
+<li><strong>S09</strong> est active, alors que la règle la placerait « en revue » : R3 du 2026-06-16 au 2026-10-01; classe « négative » sur la validation réutilisée.</li>
+</ul>
+<h2 id="avec-la-proposition-corrigee-du-2026-11-15">Avec la proposition corrigée du 2026-11-15</h2>
+<p>La phase 5 a été corrigée : faire passer en shadow sur « R0 ou R2 » coupe à tort 21 % des sleeves saines, contre 7 % pour R2 seule. La proposition corrigée réserve le shadow à R2 ; R0 et R3 deviennent des alertes « revue » (déclenchées dans les 120 dernières séances).</p>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th>Règle initiale (R0 ou R2 → shadow)</th>
+<th>Proposition corrigée (R2 → shadow)</th>
+<th>Statut actuel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>actif</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>actif</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>actif</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>shadow</td>
+<td><strong>shadow</strong></td>
+<td>shadow</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>shadow</td>
+<td><strong>revue</strong></td>
+<td>actif</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>actif</td>
+<td><strong>actif</strong></td>
+<td>actif</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>revue</td>
+<td><strong>revue</strong></td>
+<td>actif</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>revue</td>
+<td><strong>revue</strong></td>
+<td>actif</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>revue</td>
+<td><strong>revue</strong></td>
+<td>actif</td>
+</tr>
+</tbody>
+</table>
+<p>Avec la proposition corrigée, aucune sleeve active ne passe en shadow. S04 y reste, puisque R2 s'est déclenchée pour elle. S05 passe « en revue » au lieu de « shadow ».</p>
+<h2 id="s04-et-s09-deux-poids-deux-mesures">S04 et S09 : deux poids, deux mesures</h2>
+<ul>
+<li><strong>La décision du 03/11 sur S04 s'appuie sur un leave-one-out calculé sur la fenêtre réutilisée</strong> 2024-01-02 → 2026-03-19 (validation réutilisée). Le book à 9 sleeves y passe d'un Sharpe de 1,539 à 1,751 sans S04, chiffres du lock publié. Après correction (S01 ATR 18, calendrier union), il passe de 1,509 à 1,712. Sur cette même fenêtre, S04 gagnait pourtant 5 383,00 USD : le leave-one-out mesure une baisse de risque, pas une perte.</li>
+<li>Le déclencheur réel a été le replay du 2026-03-20 au 2026-10-02, où S04 perd −6 363,50 USD. Cette fenêtre a ensuite été déclarée contaminée : la décision ne peut plus être validée que par le forward.</li>
+<li><strong>S09</strong> a une validation réutilisée nulle (−73,22 USD, Sharpe −0,040). R1 l'aurait signalée dès le 2025-08-13 (phase 5), et elle reste active. Avec la règle uniforme, S09 passe au moins « en revue ».</li>
+<li><strong>Asymétrie de données.</strong> Les seuils R0 sont le minimum de leur propre historique. Pour S07 à S09, cet historique va jusqu'au 2026-10-02 : R0 ne peut donc pas s'être déclenchée sur leurs données. Pour S01 à S06, elle peut se déclencher sur la fenêtre 2026-03-20 → 2026-10-02, absente de leur calibrage. À règle égale, les sleeves MBT ne peuvent pas être prises en défaut par R0.</li>
+<li><strong>S01</strong> : le one-shot (O) est COHÉRENT (−390,00 USD sur 137 séances, seuil −617,50). Mais il ne contient que 11 trades : la sleeve s'assèche (phase 4).</li>
+</ul>
+<p>Rien n'est modifié. Ces statuts sont une lecture de cohérence, à décider par vous.</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

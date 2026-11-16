@@ -1,0 +1,12 @@
+{
+  "portfolio_id": "eight_sleeve_equal_contract_reference_20261115",
+  "status": "LOCKED_ACTIVE_REFERENCE",
+  "files": {
+    "research/locked_eight_sleeve_portfolio_20261115/locked_eight_sleeve_config.json": "c15346293dd1ba8316fa6c1cf28f754fd78416cdf31c97cc624aa613ce9e381a",
+    "research/locked_eight_sleeve_portfolio_20261115/daily_pnl.csv": "201ae815c1a02135d6758a3ba10d10dc2ee38dd795ff79e7bc262930a8fd7515",
+    "research/locked_eight_sleeve_portfolio_20261115/sleeve_manifest.csv": "b5cb5ddd6fe5bd0af220e6b9f6b80e47a384af7c0b93f3d9a286525b76590b38",
+    "research/locked_eight_sleeve_portfolio_20261115/topstep_reference_metrics.csv": "a3f52e70f0f936e55e0873a8c7f79fd84329377690db950b70b7bd7cb0d58941",
+    "research/locked_eight_sleeve_portfolio_20261115/sleeve_stop_rule_thresholds.csv": "3b9499abf350d1fe23d793fe38f83cc83d001bbcfad56678cecc216bafac6cd2",
+    "research/locked_eight_sleeve_portfolio_20261115/netting_check.json": "b80c6693ce6fe2a2f48b4a47bf9f871bea65d38061393706bcf7c8c8888828f5"
+  }
+}

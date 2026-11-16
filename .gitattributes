@@ -1,0 +1,16 @@
+# Hash-frozen files of the instrument netting rule (strategy_registry/execution/netting_rule_20261115.json).
+# Their sha256 was taken on LF bytes; keep LF on checkout whatever core.autocrlf says.
+research/book_aggregation_risk_r1_20261112/** text eol=lf
+src/portfolio/** text eol=lf
+src/analytics/topstep_lifecycle/** text eol=lf
+strategy_registry/execution/** text eol=lf
+tests/test_book_aggregation_risk.py text eol=lf
+tests/test_active_netting_rule.py text eol=lf
+# The 2026-11-15 lock and its S01 source are hashed on Windows working-copy bytes (CRLF via core.autocrlf), like the
+# older locks: they must NOT be forced to LF. Only files hashed on LF bytes are listed below.
+tests/test_locked_eight_sleeve_portfolio_20261115.py text eol=lf
+research/s01_atr_price_normalized_20261115/*.json text eol=lf
+research/s01_atr_price_normalized_20261115/*.py text eol=lf
+# Inputs of the 2026-11-15 lock whose sha256 was taken on LF bytes.
+scripts/rebuild_signal_sheet_01_atr18.py text eol=lf
+strategy_registry/psf_mnq/frozen_ensembles/volatility_breakout_42.json text eol=lf

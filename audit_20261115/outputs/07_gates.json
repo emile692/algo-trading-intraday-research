@@ -1,0 +1,42 @@
+{
+  "S02": {
+    "max_abs_gap": 0.0,
+    "days": 1747,
+    "passed": true
+  },
+  "S03": {
+    "max_abs_gap": 0.0,
+    "days": 1747,
+    "passed": true
+  },
+  "S04": {
+    "max_abs_gap": 0.0,
+    "days": 1747,
+    "passed": true
+  },
+  "S05": {
+    "max_abs_gap": 1.4551915228366852e-11,
+    "days": 1775,
+    "passed": true
+  },
+  "S06": {
+    "max_abs_gap": 1.2732925824820995e-11,
+    "days": 1775,
+    "passed": true
+  },
+  "S07": {
+    "max_abs_gap": 2.220446049250313e-16,
+    "days": 1085,
+    "passed": true
+  },
+  "S08": {
+    "max_abs_gap": 2.842170943040401e-14,
+    "days": 1085,
+    "passed": true
+  },
+  "S09": {
+    "max_abs_gap": 7.105427357601002e-15,
+    "days": 1085,
+    "passed": true
+  }
+}

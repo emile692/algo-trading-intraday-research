@@ -1,0 +1,157 @@
+{
+  "campaign": "book_aggregation_risk_r1_20261112",
+  "frozen_on": "2026-11-12",
+  "frozen_before_performance": true,
+  "approval": "User message of 2026-11-12 giving the Topstep 50K parameters 'pour figer la specification' after research_design.md (proposal of 2026-11-12). Candidates, thresholds and windows of research_design.md taken as proposed.",
+  "disclosure_before_freeze": [
+    "No configuration of this campaign (netting, B1, B2, caps, overlays) has been simulated before this freeze.",
+    "Seen before freeze, on the OOS window 2024-01-02 -> 2026-03-19: daily std, VaR99, ES95 and worst day per sleeve, per instrument and for the book at one unit per sleeve (S02 ES95 585 USD, book ES95 799 USD); daily PnL correlations. This motivated the static risk budget, so OOS is contaminated for this layer.",
+    "Seen before freeze, on each instrument's common window including OOS and EXT: minutes of overlap and of opposite positions between sleeves, distribution of |net|, contracts saved by netting (<= 1.4 %).",
+    "Seen before freeze: the 2026-11-03 lock Topstep bootstrap on 2024-01 -> 2026-03, and a scratch lifecycle simulation of 2026-11-11 on the same window where fixed leverage beat cushion-indexed deleveraging, bigger accounts and the consistency payout path.",
+    "No statistic of this campaign was computed on the IS window 2019-05-06 -> 2023-12-31 beyond what the frozen sleeve sheets already report."
+  ],
+  "frozen_book": {
+    "lock_config": {"path": "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json", "sha256": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3"},
+    "lock_daily_pnl": {"path": "research/locked_eight_sleeve_portfolio_20261103/daily_pnl.csv", "sha256": "74b4a9b50a5958672121228ec740b5ac9267e155259dfef8085525781bb90e27"},
+    "sleeves_unchanged": true,
+    "sleeve_stop_rule_unchanged": "evaluated on each sleeve's virtual PnL, independent of the aggregation and risk layers"
+  },
+  "sleeves": {
+    "S01": {"id": "mnq_orb_vwap_atr", "instrument": "MNQ", "trades": "export/mnq_orb_vwap_atr_retained/trades.csv", "sha256": "e4f5d74214127e4fa957bb40d035c08d9eb161796529b90a6f0a5322a997506c", "execution_model": "native_entry_and_native_stop_target", "native_sizing_dropped": true, "note": "native quantity 1-4 (0.5 % risk) replaced by n_s; per-contract direction, entry, stop, target and exit times kept"},
+    "S02": {"id": "mnq_volatility_breakout", "instrument": "MNQ", "trades": "research/signal_sheet_02_cluster/trades.csv", "sha256": "07c2c73e3c1dd6decae9fd09f54ff67d15d7a2d1ee8e11498d434d706e511177", "execution_model": "vote_target_next_minute_open"},
+    "S03": {"id": "mnq_compression_breakout", "instrument": "MNQ", "trades": "research/signal_sheet_03_cluster/trades.csv", "sha256": "ae0cdddf5b918318580da96683d970de6c2c433ae81ef44c82e60ed90020de9a", "execution_model": "vote_target_next_minute_open"},
+    "S05": {"id": "mgc_volatility_breakout", "instrument": "MGC", "trades": "research/signal_sheet_05_cluster/trades.csv", "sha256": "ab331a1335dba4dd31f4e05333a7cb29cf9d473f5832d83dbed5e6f370d68382", "execution_model": "vote_target_next_minute_open"},
+    "S06": {"id": "mgc_gap_continuation", "instrument": "MGC", "trades": "research/signal_sheet_06_cluster/trades.csv", "sha256": "5f5066556442739fc2f5e2b6674038fab29031edd03aef520f296a88954c3031", "execution_model": "vote_target_next_minute_open"},
+    "S07": {"id": "mbt_rolling_range_breakout", "instrument": "MBT", "trades": "research/signal_sheet_07_cluster/trades.csv", "sha256": "b3a087a46cd4cb87fa3ee1e42d84f0b651470fc4c910b1af352054a473f2dbb1", "execution_model": "vote_target_next_minute_open"},
+    "S08": {"id": "mbt_trend_pullback_ma_structure", "instrument": "MBT", "trades": "research/signal_sheet_08_cluster/trades.csv", "sha256": "3edf46be49fdfb0c79d123d44fecb0d1e2bf45809b0470188131e21b407fc1a0", "execution_model": "vote_target_next_minute_open"},
+    "S09": {"id": "mbt_volatility_breakout", "instrument": "MBT", "trades": "research/signal_sheet_09_cluster/trades.csv", "sha256": "373478033bab7d4d0ee11b352110f4d90f63bbfe56ab9be67fd11ce2a8d95590", "execution_model": "vote_target_next_minute_open"}
+  },
+  "instruments": {
+    "MNQ": {"bars_1m": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet", "sha256": "72a785062d5040d5bba48d76a610bbf76536d92bfbb669442df90a2351388fef", "point_value": 2.0, "tick_size": 0.25, "commission_per_side": 1.25, "slippage_ticks_per_side": 1, "topstep_lot_per_contract": 0.1},
+    "MGC": {"bars_1m": "data/processed/parquet/MGC_v_0_1m_20150101_20261003.parquet", "sha256": "98ed4a18d8fef8f2cdac3b5f15090050a24df772020ec38c8a36792d20199888", "point_value": 10.0, "tick_size": 0.1, "commission_per_side": 1.25, "slippage_ticks_per_side": 1, "topstep_lot_per_contract": 0.1},
+    "MBT": {"bars_1m": "data/downloaded/MBT_v_0_1m_20210425_20261003.parquet", "sha256": "0da668f29ba77c58168c5a0902b6f369d5f02f370bf59041ae851a7f4a14a683", "point_value": 0.1, "tick_size": 5.0, "commission_per_side": 1.41, "slippage_ticks_per_side": 1, "topstep_lot_per_contract": 1.0, "lot_note": "Topstep MBT does not follow the 10:1 micro ratio; 1 MBT = 1 mini-equivalent lot, to be confirmed in TopstepX Risk Settings"}
+  },
+  "periods": {
+    "IS_by_sleeve": {"MNQ_MGC": ["2019-05-06", "2023-12-31"], "MBT": ["2021-05-10", "2023-12-31"], "use": "ES_s, sigma_ref_i, instrument ES95_i"},
+    "IS_common": {"range": ["2021-06-22", "2023-12-29"], "use": "lambda search for B1, Topstep lifecycle bootstrap, sequential selection, CSCV"},
+    "OOS": {"range": ["2024-01-02", "2026-03-19"], "use": "single verdict read, flagged contaminated (see disclosure)"},
+    "EXT": {"range": ["2026-03-20", "2026-10-02"], "use": "descriptive only, contaminated (used to remove S04)"},
+    "FORWARD": {"start_after": "2026-11-03", "use": "only clean verdict"}
+  },
+  "layer_A_aggregation": {
+    "virtual_state": "each sleeve keeps direction d_s in {-1,0,1}, virtual PnL and stop-rule statistics",
+    "net_target": "N_i = sum_s n_s * d_s, then caps and overlays of layer B; only the delta to the current position is traded",
+    "fills": {
+      "vote_sleeves": "delta executed at the open of the next minute after the vote change, +1 tick per side",
+      "S01_entry": "native S01 entry fill",
+      "S01_stop_target": "resting stop or limit order at the native S01 price (stop +1 tick); quantity = N_i(after S01 exit) - N_i(current), recomputed every minute, possibly zero when a cap binds",
+      "forced_exit": "each sleeve at its own time; whole book flat before 16:08 America/New_York"
+    },
+    "costs": "commission + slippage applied only to contracts actually traded at instrument level",
+    "expected_property": "without caps or overlays, netted gross PnL equals the sum of sleeve gross PnL (self-test T1)"
+  },
+  "layer_B_risk": {
+    "B0_reference": "lock 20261103: one unit per sleeve, S01 native sizing, no cap",
+    "B1_static_budget": {
+      "ES_s": "mean of the worst 5 % daily net PnL (positive number) for 1 contract, sleeve IS, inactive days included",
+      "weights": "w_s = max_s(ES_s) / ES_s",
+      "contracts": "n_s = max(1, floor(lambda * w_s + 0.5))",
+      "lambda_search": "grid 1.00, 1.05, ..., 10.00; keep the largest lambda such that netted book ES95 on IS_common <= k * 2000 USD and peak simultaneous lots on IS_common <= 5; if lambda = 1 already violates, n_s = 1 for all",
+      "k_candidates": [0.30, 0.40, 0.50],
+      "default": 0.40,
+      "no_sleeve_to_zero": true
+    },
+    "B2_instrument_vol": {
+      "sigma_it": "std of daily close-to-close log returns of instrument i over the 20 previous sessions (min 15), known before the session open",
+      "sigma_ref_i": "median of sigma_it over the instrument IS",
+      "multiplier": "m = clamp(sigma_ref_i / sigma_it, 0.5, 1.5)",
+      "contracts": "n_st = clamp(floor(n_s * m + 0.5), 1, ceil(1.5 * n_s))",
+      "candidates": ["off", "on"],
+      "default": "off",
+      "mandatory_diagnostic": "IS PnL per contract of each sleeve by tercile of sigma_it"
+    },
+    "B3_limits": {
+      "lots": "lots = (MNQ micros + MGC micros) / 10 + MBT contracts; Combine cap 5; XFA cap from the Scaling Plan tier",
+      "cap_overflow": "the event that would exceed a cap is reduced to the maximum allowed; open positions are not reduced",
+      "mbt_net_cap_candidates": [1, 2, null],
+      "mbt_net_cap_default": null,
+      "instrument_daily_stop": {"rule": "instrument intraday PnL (realised + unrealised since session open) <= -q * ES95_i -> instrument flat until session end; sleeves continue virtually", "ES95_i": "ES95 of the instrument daily netted PnL at the retained B1 sizing, instrument IS", "q_candidates": [null, 1.0, 1.5], "default": null},
+      "book_daily_stop": {"rule": "book intraday PnL <= -Y -> all flat until session end", "Y_candidates": [null, 1000.0], "default": null},
+      "consistency_profit_lock": {"rule": "Combine only: book intraday PnL >= 0.55 * current_target - 50 USD -> all flat until session end", "candidates": ["off", "on"], "default": "off"},
+      "no_take_profit_per_instrument": true
+    }
+  },
+  "topstep_50k_rules": {
+    "source": "user message of 2026-11-12 citing help.topstep.com (Scaling Plan, pricing, consistency, MBT restrictions); XFA payout path from the 2026-11-11 reading, not reconfirmed on 2026-11-12",
+    "combine": {
+      "starting_balance": 50000.0,
+      "max_lots": 5,
+      "profit_target": 3000.0,
+      "consistency": {"max_best_day_share": 0.55, "strict": true, "target_rule": "current_target = max(3000, best_day / 0.55)", "best_day_never_decreases": true},
+      "min_traded_days": 2,
+      "mll": {"distance": 2000.0, "level": "max end-of-session balance - 2000, capped at the starting balance", "breach": "intraday minute equity <= level"},
+      "daily_loss_limit": null
+    },
+    "xfa": {
+      "starting_balance": 0.0,
+      "scaling_plan": [{"balance_below": 1500.0, "max_lots": 2}, {"balance_from": 1500.0, "balance_to": 2000.0, "max_lots": 3}, {"balance_above": 2000.0, "max_lots": 5}],
+      "scaling_plan_effective": "tier read on the previous end-of-session balance",
+      "profit_target": null,
+      "consistency": null,
+      "mll": {"distance": 2000.0, "level": "max end-of-session balance - 2000, capped at 0; set to 0 after a payout", "breach": "intraday minute equity <= level"},
+      "payout_standard_path": {"eligibility": "5 winning days >= 150 USD since the last payout", "request_policy": "at the first eligible session end", "gross_amount": "min(0.5 * balance, 2000)", "trader_share": 0.90, "winning_day_counter_reset_after_payout": true}
+    },
+    "fees": {
+      "standard": {"combine_subscription_per_21_sessions": 49.0, "reset": 49.0, "xfa_activation": 149.0},
+      "no_activation_fee": {"combine_subscription_per_21_sessions": 95.0, "reset": 95.0, "xfa_activation": 0.0},
+      "selection_plan": "standard",
+      "reported_only": "no_activation_fee",
+      "taxes": "not modelled"
+    },
+    "lifecycle": {
+      "on_combine_mll": "reset (fee), new Combine",
+      "on_combine_pass": "activation fee, new XFA at balance 0",
+      "on_xfa_mll": "buy a new Combine (subscription restarts)",
+      "subscription_only_during_combine": true
+    }
+  },
+  "evaluation": {
+    "bootstrap": {"method": "moving block bootstrap of sessions, pooled block lengths 3/5/10/20", "paths": 8000, "seed": 20261112, "horizon_traded_sessions": 126, "session_unit": "each sampled session keeps the minute paths of all sleeves; caps, tiers and overlays are re-applied given the account state", "same_paths_for_all_candidates": true},
+    "primary_metric": "expected net cash after 126 traded sessions = 0.90 * gross payouts - fees, Standard plan",
+    "secondary_metrics": ["median sessions to first payout", "P(first payout <= 60 sessions)", "P(Combine MLL)", "P(at least one XFA lost to MLL)", "peak lots", "book daily Sharpe and intraday max drawdown"],
+    "sequential_selection": {
+      "order": ["B1_k", "B2", "mbt_net_cap", "instrument_daily_stop", "book_daily_stop", "consistency_profit_lock"],
+      "start": "layer A + B1 k=0.40, all other options at default",
+      "keep_non_default_only_if": ["delta primary >= 0.10 * |primary of incumbent| and delta > 0", "wins on >= 55 % of paired paths where the two values differ", "P(at least one XFA lost to MLL) not higher by more than 2 points"],
+      "tie": "keep the simpler (default)"
+    },
+    "cscv": {"blocks": 10, "window": "IS_common", "configurations": "all configurations evaluated in the sequential selection", "metric": "mean daily netted book PnL / ES95, Combine caps, no profit lock (proxy, the lifecycle metric is too costly for 252 splits)", "fallback_if_pbo_above": 0.5, "fallback_configuration": "layer A + B1 k=0.40, no B2, no cap beyond Topstep, no overlay"}
+  },
+  "verdicts": {
+    "ADOPT": "retained configuration beats B0 on OOS (primary metric, same paths, single read) and P(at least one XFA lost to MLL) not higher by more than 2 points; promotion as a new versioned lock, forward monitoring",
+    "ADOPT_AGGREGATION_ONLY": "layer A passes T1-T5 but no B option survives selection or OOS; netting adopted with B0 sizing",
+    "REJECT": "self-test failure, or layer B degraded on OOS; stay on B0",
+    "forward": "in all cases read on sessions after 2026-11-03",
+    "on_failure": "HYPOTHESIS_CLOSURE.md and a failure register entry"
+  },
+  "sensitivities_not_selected": ["No Activation Fee plan", "MBT counted as 0.1 lot", "100K account, Combine phase only (XFA 100K tiers not provided): MLL 3000, target 6000, 10 lots"],
+  "self_tests": {
+    "T1_netting": "B0 sizing without caps: netted daily gross PnL = sum of sleeve gross PnL within 0.01 USD; netted costs <= sum of sleeve costs",
+    "T2_S01": "at one unit and alone, every native S01 trade is reproduced (prices and times)",
+    "T3_caps": "lots and instrument caps never exceeded, including a synthetic scenario where all eight sleeves enter together, in Combine and in each XFA tier",
+    "T4_overlays": "after an instrument or book stop or profit lock, position stays zero until session end and virtual states keep evolving",
+    "T5_no_lookahead": "sigma_it, ES and caps use only data before the decision; perturbing later minutes changes no decision"
+  },
+  "implementation": {
+    "aggregator": "src/portfolio/aggregator.py (same code for backtest and live)",
+    "lifecycle": "src/analytics/topstep_lifecycle/",
+    "runner": "research/book_aggregation_risk_r1_20261112/run_study.py with subcommands selftest, estimate, is, oos, report; must verify this file against SPEC_LOCK.json and every input sha256 before running",
+    "performance_note": "per (session, configuration, lot cap) minute equity paths may be cached; the profit lock is applied on the cached path since it only truncates it"
+  },
+  "prohibitions": [
+    "no change to any sleeve signal, vote, threshold, exit or sizing other than the S01 native sizing replacement stated above",
+    "no candidate added or threshold changed after seeing IS results without a new versioned specification",
+    "OOS read once, after the IS selection is written to disk; never used to re-rank",
+    "EXT and OOS never used for estimation"
+  ]
+}

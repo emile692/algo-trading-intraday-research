@@ -61,6 +61,14 @@ La taille exécutable est **au maximum un contrat MBT** : les six cellules sont 
 
 MBT : tick `5` points = `0,50 USD`, point `0,10 USD`, commission `1,41 USD/côté`, slippage nominal `1 tick/côté` (stress : 2). Une décision à la clôture minute ne peut remplir qu'à l'open suivant. Hard flatten 16:08 ET. Pas de journée de roll intraday exclue sur l'export gelé.
 
+### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
+
+Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MBT (S07 + S08 + S09) dans **une seule cible nette MBT**, de −3 à +3 contrats ([Book, section 6](BOOK.md)). Signal, taille et PnL suivi inchangés.
+
+S07 et S08 sont dans le même sens 83 % du temps où S07 est en position : la cible MBT est souvent à +2 ou −2.
+
+**Limite Topstep.** Un MBT compte pour 1 lot. Au premier palier XFA (2 lots), deux sleeves MBT dans le même sens remplissent déjà la limite : une troisième entrée, MBT ou micro, est réduite ou refusée tant que la place n'est pas libérée ([Book, exemple 5](BOOK.md)).
+
 ## 8. Pseudocode de réimplémentation
 
 ```text

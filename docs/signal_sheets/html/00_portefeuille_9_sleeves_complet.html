@@ -64,7 +64,7 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
   <h1>Les 9 sleeves<br>Fiches signal</h1>
   <div class="rule"></div>
   <p>Guide pédagogique complet : intuition, données, paramètres, construction, exécution, risques et procédure de réimplémentation.</p>
-  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]</div>
+  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]<br>Mise à jour du 13 novembre 2026 : S04 en shadow, exécution agrégée par instrument (Book, section 6)</div>
 </section>
 <section class="toc">
   <h1>Sommaire</h1>
@@ -251,6 +251,10 @@ window.addEventListener("load", () => {
 <p><strong>Exemple numérique.</strong> Supposons <code>OR_high=20 020</code>, <code>OR_low=20 000</code>, VWAP <code>20 012</code> et 12 avis ATR favorables sur 18, soit un vote de <code>0,67</code>. Le seuil est <code>20 020,50</code> (deux ticks de <code>0,25</code>). Une clôture à <code>20 021</code>, suivie d'un fill à <code>20 021,25</code>, valide le long. Le stop est <code>19 999,50</code>, soit <code>21,75</code> points de risque ou <code>43,50 USD</code> par MNQ avant frais. Avec un budget de <code>250 USD</code>, <code>floor(250/43,50)=5</code> contrats. La cible 2R est <code>20 064,75</code>. Avec seulement 8 avis favorables sur 18 (<code>0,44</code>), aucun ordre ne serait envoyé.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick MNQ <code>0,25</code> point = <code>0,50 USD</code>; valeur du point <code>2 USD</code>. Coûts de recherche : <code>1,25 USD</code> de commission et un tick défavorable par côté. Stop et cible ne sont évalués qu'avant la sortie de 16:00. Si stop et cible coexistent dans une minute, prendre le stop. Pas de position overnight.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans <strong>une seule cible nette MNQ</strong>, et seule la différence avec la position du compte est envoyée (<a href="BOOK.md">Book, section 6</a>). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.</p>
+<p><strong>Ce qui change pour S01 : son stop et sa cible.</strong> Ils restent posés chez le broker, mais comme ordres stop et limite <em>indépendants</em>. Leur quantité est l'effet qu'aurait la sortie de S01 sur la position nette, recalculée chaque minute. Le sizing historique (1 à 4 contrats pour un risque d'environ 250 USD) est conservé.</p>
+<p>Exemple réel, 31 janvier 2024 : S02 est short depuis 10:37 (vente 1 à 17 294,50). À 14:41, S01 entre long (achat 1 à 17 430,00, stop 17 354,50) : la cible MNQ devient 0 et <strong>le compte est plat</strong>. Le stop de S01 reste pourtant posé, en vente stop de 1 à 17 354,50. À 15:01, il est touché : S01 sort, la cible redevient −1 (le short de S02) et la vente stop exécutée rétablit ce short. Un stop attaché à la position du compte n'aurait pas existé dans ce cas.</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">pour chaque séance:
   OR = extrêmes des 15 premières minutes
@@ -437,6 +441,9 @@ window.addEventListener("load", () => {
 <p><strong>Exemple de vote.</strong> Si 24 cellules sont longues, 3 courtes et 15 flat, le score vaut <code>(24−3)/42=0,50</code> : la cible agrégée devient <code>+1 MNQ</code> à l'open de la minute suivante. Avec 23 longues et 3 courtes, le score vaut <code>0,476</code> : la cible reste flat. Les 42 cellules sont donc des avis, pas 42 contrats.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>0,25</code> = <code>0,50 USD</code>; point <code>2 USD</code>; commission <code>1,25 USD/côté</code>; slippage <code>1 tick/côté</code>. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Si U et L d'une cellule sont touchés dans la même minute, cette cellule annule son signal. Si entrée et stop sont possibles dans sa minute de fill, chemin conservateur entrée puis stop. Hard flatten agrégé à 16:08 ET, avec calendrier officiel pour les early closes.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans <strong>une seule cible nette MNQ</strong>, et seule la différence avec la position du compte est envoyée (<a href="BOOK.md">Book, section 6</a>). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.</p>
+<p>Exemple réel, 27 juin 2024 : S02 passe long à 09:40 (achat 1 à 20 092,75). S01 entre long à 10:15 : la cible MNQ passe à +2 (achat 1 à 20 110,75, vente stop de 1 posée au stop de S01). Le stop de S01 est touché à 11:28 : la position revient à +1, celle de S02. S02 sort à 14:10 (vente 1 à 20 022,50). Le PnL MNQ du jour (−390,50 USD) est exactement la somme de S01 et S02.</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">cellules = produit(ATR=[10,12,14,16,18,20,22], multiple=[.5,.6], durée=[270,300,360])
 pour chaque cellule:
@@ -620,6 +627,9 @@ window.addEventListener("load", () => {
 <p><strong>Exemple numérique.</strong> Une inside bar a un plus haut à <code>20 010</code>, un plus bas à <code>20 000</code> et une range de <code>10</code> points. Pour la cellule centrale (<code>b=1</code>, <code>c=2,0</code>), les ordres sont <code>buy stop=20 010,25</code> et <code>sell stop=19 999,75</code> ; si le haut casse seul, elle devient longue avec un SL à <code>20 000</code> et un TP à <code>20 030,25</code>. Si 16 cellules sont longues, 2 courtes et 9 flat, le score vaut <code>(16−2)/27=0,52</code> : la sleeve achète 1 MNQ. Avec 15 longues et 2 courtes, le score vaut <code>0,48</code> : elle reste flat.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>0,25</code> = <code>0,50 USD</code>, point <code>2 USD</code>, commission <code>1,25 USD/côté</code>, un tick de slippage par côté. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Dans chaque cellule, fill au niveau stop ou à l'open minute adverse s'il y a gap, et stop avant cible dans une barre ambiguë. Dernière entrée 15:55, hard flatten agrégé 16:08 ; early close piloté par calendrier officiel.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans <strong>une seule cible nette MNQ</strong>, et seule la différence avec la position du compte est envoyée (<a href="BOOK.md">Book, section 6</a>). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.</p>
+<p>Illustration : si S02 est long et que S03 passe short, la cible MNQ passe de +1 à 0. On vend 1 contrat, le compte est plat, et les deux sleeves continuent chacune leur suivi. Quand l'une d'elles sort, le compte reprend la position de l'autre. Ce cas s'est produit 23 jours entre janvier 2024 et mars 2026.</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">cellules = produit(n=[8,10,12], b=[0,1,2], c=[1.5,2.0,2.5])
 pour chaque cellule, à chaque clôture 1h:
@@ -997,6 +1007,8 @@ window.addEventListener("load", () => {
 <p><strong>Exemple.</strong> Pour une cellule entrée long à <code>20 000</code> avec <code>ATR14=80</code>, le SL vaut <code>19 920</code> et aucun TP n'est placé. Si 5 cellules sont longues et 4 flat, le score vaut <code>5/9=0,56</code> : la sleeve détient 1 MNQ. Si 4 sont longues, 1 courte et 4 flat, le score vaut <code>0,33</code> : elle est flat.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>0,25</code> = <code>0,50 USD</code>, commission <code>1,25 USD/côté</code>, slippage <code>1 tick/côté</code>. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Un signal sans minute suivante exacte est ignoré. Dernière entrée 15:55, hard flatten agrégé 16:08. L'open du hard-flatten est utilisé ; à défaut, dernière clôture disponible strictement antérieure.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>S04 est en <strong>shadow</strong> depuis le 3 novembre 2026 : elle n'entre pas dans la cible nette MNQ et n'envoie aucun ordre. Son état et son PnL sont suivis virtuellement, pour la règle d'arrêt et une éventuelle réintégration versionnée (<a href="BOOK.md">Book, section 6</a>).</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">bars15 = resample_RTH_causal(minutes)
 pour chaque cellule (p dans [8,10,12], m dans [1.5,1.75,2.0]):
@@ -1359,6 +1371,9 @@ window.addEventListener("load", () => {
 <p><strong>Exemple.</strong> <code>O=2 500</code> et <code>ATR30_prev=20</code> donnent, pour la cellule centrale <code>30 / 1,10</code>, des seuils <code>2 522</code> et <code>2 478</code>. Les cellules <code>k=0,9</code> touchent plus tôt, celles à <code>k=1,3</code> plus tard : la sleeve n'achète que lorsqu'au moins 5 des 9 cellules nettes sont longues.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick MGC <code>0,10</code> point = <code>1 USD</code> ; point <code>10 USD</code> ; commission <code>1,25 USD/côté</code> ; slippage <code>1 tick/côté</code>. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Calendrier déterministe COMEX obligatoire pour les jours raccourcis. Stop prioritaire dans une minute ambiguë.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celle de l'autre sleeve MGC (S05 + S06) dans <strong>une seule cible nette MGC</strong> (<a href="BOOK.md">Book, section 6</a>). Signal, taille et PnL suivi inchangés. Depuis 2019, S05 et S06 n'ont jamais été en sens opposés : en pratique, l'agrégation additionne.</p>
+<p>Exemple réel, 7 juin 2024 : S06 est short depuis 08:36 (vente 1 à 2 334,6). S05 passe short à 12:00 : la cible MGC passe à −2 (vente 1 à 2 322,9). S05 sort à 13:31 : la cible revient à −1 (achat 1 à 2 323,8). Flatten à 16:08 (achat 1 à 2 305,9).</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">O = open 08:20
 pour chaque cellule (N dans [20,30,40], k dans [.9,1.1,1.3]):
@@ -1725,6 +1740,9 @@ window.addEventListener("load", () => {
 <p><strong>Exemple.</strong> Clôture veille <code>2 480</code>, open <code>2 500</code>, gap <code>+20</code>. Les cellules dont le seuil de gap et de volume est franchi deviennent longues à 08:35 ; un fill à <code>2 504</code> donne SL <code>2 490</code> (milieu du gap) et TP <code>2 544</code>. Si au moins 5 cellules nettes sont longues, la sleeve achète 1 MGC.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>0,10</code> = <code>1 USD</code>, point <code>10 USD</code>, commission <code>1,25 USD/côté</code>, slippage <code>1 tick/côté</code>. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Le timestamp de la spec source mentionne historiquement 09:30/09:45, mais la configuration MGC adaptée et exécutée est bien <strong>08:20/08:35 ET</strong>. Stop avant cible dans une minute ambiguë. Hard flatten 16:08 ou fermeture anticipée COMEX.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celle de l'autre sleeve MGC (S05 + S06) dans <strong>une seule cible nette MGC</strong> (<a href="BOOK.md">Book, section 6</a>). Signal, taille et PnL suivi inchangés. Depuis 2019, S05 et S06 n'ont jamais été en sens opposés : en pratique, l'agrégation additionne.</p>
+<p>Exemple réel, 7 juin 2024 : S06 passe short à 08:36 (vente 1 à 2 334,6). S05 la rejoint à 12:00 : position −2. S05 sort à 13:31 : position −1, celle de S06. Flatten à 16:08 (achat 1 à 2 305,9). S06 garde son propre PnL de la journée.</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">gap = open_0820 - close_RTH_précédent
 pour chaque cellule (g dans [.4,.5,.6], v dans [.5,.6,.7]):
@@ -2060,6 +2078,10 @@ window.addEventListener("load", () => {
 <p>La taille exécutable est <strong>au maximum un contrat MBT</strong> : les six cellules sont des votants, pas six contrats. Exemple : quatre cellules longues, une flat et une short donnent une moyenne <code>(4−1)/6=0,50</code>, donc une cible <code>+1 MBT</code>. Au passage de <code>+1</code> à <code>−1</code>, l'ordre porte sur deux contrats pour fermer le long puis ouvrir le short, mais la position finale reste <code>−1</code>.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>MBT : tick <code>5</code> points = <code>0,50 USD</code>, point <code>0,10 USD</code>, commission <code>1,41 USD/côté</code>, slippage nominal <code>1 tick/côté</code> (stress : 2). Une décision à la clôture minute ne peut remplir qu'à l'open suivant. Hard flatten 16:08 ET. Pas de journée de roll intraday exclue sur l'export gelé.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MBT (S07 + S08 + S09) dans <strong>une seule cible nette MBT</strong>, de −3 à +3 contrats (<a href="BOOK.md">Book, section 6</a>). Signal, taille et PnL suivi inchangés.</p>
+<p>S07 et S08 sont dans le même sens 83 % du temps où S07 est en position : la cible MBT est souvent à +2 ou −2.</p>
+<p><strong>Limite Topstep.</strong> Un MBT compte pour 1 lot. Au premier palier XFA (2 lots), deux sleeves MBT dans le même sens remplissent déjà la limite : une troisième entrée, MBT ou micro, est réduite ou refusée tant que la place n'est pas libérée (<a href="BOOK.md">Book, exemple 5</a>).</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">cells = produit({20,24}, {7,10,12})
 pour chaque cellule: mettre à jour sa position avec canaux décalés d'une barre
@@ -2374,6 +2396,10 @@ window.addEventListener("load", () => {
 <p>La taille exécutable est <strong>−1, 0 ou +1 MBT</strong>, jamais neuf contrats. Exemple : six cellules longues et trois flat donnent <code>m=6/9=0,67</code>, donc une cible <code>+1</code>. Pour un long de cellule, le SL initial est l'EMA la plus lente ; il ne peut ensuite que remonter. Il n'y a pas de TP fixe : la sortie vient du stop EMA, du croisement contraire ou du hard flatten.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>5</code> points = <code>0,50 USD</code>, point <code>0,10 USD</code>, commission <code>1,41 USD/côté</code>, slippage <code>1 tick/côté</code>. Les cellules sont des calculateurs d'état ; seul le changement de position agrégée paie les coûts. Hard flatten 16:08 ET.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MBT (S07 + S08 + S09) dans <strong>une seule cible nette MBT</strong>, de −3 à +3 contrats (<a href="BOOK.md">Book, section 6</a>). Signal, taille et PnL suivi inchangés.</p>
+<p>Exemple réel, 1er mars 2024 : S08 passe long à 09:46 (achat 1 à 62 520). S09 passe short à 10:39 : la cible nette revient à 0, on vend 1 à 62 210 et le compte est plat. S08 sort à 11:01 : la cible devient −1, on vend 1 à 62 075. S08 repasse long à 12:46 : la cible revient à 0. S09 sort à 13:42 : la cible devient +1. Flatten à 16:08. Les sleeves gardent chacune leur PnL, mais le compte n'est jamais long et short à la fois.</p>
+<p><strong>Limite Topstep.</strong> Un MBT compte pour 1 lot. Au premier palier XFA (2 lots), deux sleeves MBT dans le même sens remplissent déjà la limite : une troisième entrée, MBT ou micro, est réduite ou refusée tant que la place n'est pas libérée (<a href="BOOK.md">Book, exemple 5</a>).</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">pour f dans [.50,.60,.75], s dans [.75,1,1.25]:
   periods = strictly_increasing(round([8f,13f,21,34s,55s]))
@@ -2708,6 +2734,10 @@ window.addEventListener("load", () => {
 <p>La position finale est limitée à <strong>un MBT</strong>. Exemple : pour une cellule avec <code>O=100 000</code>, <code>ATR20=4 000</code> et <code>k=0,40</code>, les seuils sont <code>101 600</code> et <code>98 400</code>; le SL reste <code>100 000</code> et il n'y a pas de TP fixe. Si sept des douze cellules sont longues et les autres flat, <code>m=7/12=0,58</code> et la sleeve détient <code>+1 MBT</code>.</p>
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>5</code> points = <code>0,50 USD</code>, point <code>0,10 USD</code>, commission <code>1,41 USD/côté</code>, slippage nominal <code>1 tick/côté</code>, stress 2. Décision à la close minute, fill à l'open suivante. Exact ±0,5 arrondi vers la position. Hard flatten 16:08.</p>
+<h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MBT (S07 + S08 + S09) dans <strong>une seule cible nette MBT</strong>, de −3 à +3 contrats (<a href="BOOK.md">Book, section 6</a>). Signal, taille et PnL suivi inchangés.</p>
+<p>Exemple réel, 1er mars 2024 : S08 passe long à 09:46 (achat 1 à 62 520). S09 passe short à 10:39 : la cible nette revient à 0, on vend 1 à 62 210 et le compte est plat. S08 sort à 11:01 : la cible devient −1, on vend 1 à 62 075. S08 repasse long à 12:46 : la cible revient à 0. S09 sort à 13:42 : la cible devient +1. Flatten à 16:08. Les sleeves gardent chacune leur PnL, mais le compte n'est jamais long et short à la fois.</p>
+<p><strong>Limite Topstep.</strong> Un MBT compte pour 1 lot. Au premier palier XFA (2 lots), deux sleeves MBT dans le même sens remplissent déjà la limite : une troisième entrée, MBT ou micro, est réduite ou refusée tant que la place n'est pas libérée (<a href="BOOK.md">Book, exemple 5</a>).</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">cells = produit(N=[10,14,20,30], k=[.30,.40,.60])
 pour chaque cellule et séance:
@@ -2940,7 +2970,11 @@ window.addEventListener("load", () => {
 <li><strong>Inversion IS/OOS :</strong> la colonne <code>k = 0,80</code> a la meilleure médiane OOS de la grille (<code>1,085</code>) et la pire médiane IS (<code>0,274</code>), tandis que <code>k = 0,30</code> fait l'inverse (<code>IS 1,334 / OOS 0,609</code>). Le classement des multiples s'inverse donc entre les deux périodes, ce qui déconseille de lire le legacy OOS comme un départage — d'autant qu'il a été consulté pendant le freeze.</li>
 <li><strong>Risque prop firm :</strong> pire journée de la grille <code>−332,32 USD</code>, maxDD le plus profond <code>−2 891,72 USD</code>, pour <code>59</code> à <code>716</code> trades par cellule.</li>
 <li><strong>Cluster gelé :</strong> <code>N∈{10,14,20,30} × k∈{0,30;0,40;0,60}</code>, 12 cellules, région inchangée ; vote exécuté sur tout l'historique en section 9, nul sur le legacy OOS.</li>
-</ul></section><section class="book-section" id="book"><div class="document-meta">BOOK · CORRÉLATIONS ET RISQUES</div><h1 id="book-portefeuille-des-neuf-sleeves">Book — portefeuille des neuf sleeves</h1>
+</ul></section><section class="book-section" id="book"><div class="document-meta">BOOK · CORRÉLATIONS, RISQUES ET EXÉCUTION AGRÉGÉE</div><h1 id="book-portefeuille-des-neuf-sleeves">Book — portefeuille des neuf sleeves</h1>
+<blockquote>
+<p><strong>Note du 3 novembre 2026.</strong> Ce book décrit la référence à neuf sleeves du 1er novembre 2026. La référence active compte désormais huit sleeves : <code>S04</code> est passée en shadow (<a href="../ACTIVE_EIGHT_SLEEVES.md"><code>ACTIVE_EIGHT_SLEEVES.md</code></a>). Sans S04, la section 5 donne déjà le book restant : <code>31 661 USD</code>, Sharpe <code>1,751</code>.</p>
+<p><strong>Note du 13 novembre 2026.</strong> Les huit sleeves actives ne sont plus exécutées séparément. Elles sont <strong>agrégées par instrument</strong> : une seule position nette sur MNQ, MGC et MBT (section 6). Les signaux et les tailles ne changent pas.</p>
+</blockquote>
 <h2 id="1-construction-et-perimetre">1. Construction et périmètre</h2>
 <p>Le book additionne une copie exécutable de chaque sleeve : quatre MNQ, deux MGC et trois MBT, sans pondération fractionnaire. Il correspond à la référence <code>nine_sleeve_equal_contract_reference_20261101</code>, dans laquelle les sleeves 2 à 9 exécutent leurs ensembles de vote gelés. Les chiffres de cette section utilisent la fenêtre commune du <strong>2 janvier 2024 au 19 mars 2026</strong> (564 séances) et les PnL quotidiens nets de coûts nominaux. Cette fenêtre rend les comparaisons cohérentes ; elle ne constitue pas un nouvel OOS indépendant.</p>
 <p><img alt="Equity curve nette du book" src="file:///C:/Data_local/python_perso/algo-trading-intraday-research/docs/signal_sheets/assets/book_equity_curve.png"></p>
@@ -3222,11 +3256,356 @@ window.addEventListener("load", () => {
 </table>
 <p>Le book complet affiche un PnL de <code>37 044,22 USD</code>, un Sharpe annualisé de <code>1,539</code> et un drawdown maximal de <code>−6 305,18 USD</code>. Toutes les sleeves ont une contribution nette positive sur cette fenêtre : en retirer une diminue donc toujours le PnL final. <code>S04</code> puis <code>S02</code> sont les principaux compromis rendement/risque : leur retrait réduit le PnL, mais améliore le Sharpe et le drawdown, ce qui confirme leur forte contribution au risque. À l'inverse, retirer <code>S01</code>, <code>S03</code>, <code>S06</code> ou <code>S08</code> dégrade le drawdown malgré la baisse d'exposition ; ces sleeves apportent une diversification utile sur cette fenêtre. <code>S03</code> a la plus faible contribution au PnL, mais son retrait aggrave le drawdown. Le gain de <code>S09</code> sur cette fenêtre provient surtout de 2024 et du début 2025 : son vote est nul sur son legacy OOS (fiche 09).</p>
 <p>Une variation de drawdown positive signifie que le drawdown devient moins sévère ; une variation négative signifie qu'il se dégrade. Cette analyse est descriptive et rétrospective : elle mesure la dépendance historique du book à chaque sleeve, sans valider une nouvelle allocation.</p>
-<h2 id="6-garde-fous-de-production">6. Garde-fous de production</h2>
+<h2 id="6-execution-agregee-par-instrument-netting">6. Exécution agrégée par instrument (netting)</h2>
+<p><em>Ajouté le 13 novembre 2026. Étude complète : <a href="../../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md">clôture de la campagne</a>.</em></p>
+<h3 id="61-pourquoi">6.1 Pourquoi</h3>
+<p>Un compte de futures ne peut pas être long et short sur le même contrat. Si les sleeves d'un même instrument étaient envoyées comme des comptes indépendants, leurs ordres se compenseraient chez le broker de façon incontrôlée, et leurs stops et flattens se marcheraient dessus. On calcule donc <strong>une seule position par instrument</strong>, et c'est elle qu'on envoie.</p>
+<h3 id="62-la-regle">6.2 La règle</h3>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Sleeves agrégées</th>
+<th>Position nette possible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MNQ</td>
+<td>S01 + S02 + S03</td>
+<td>de −2 à +6 contrats (S01 : 1 à 4 contrats, long uniquement ; S02, S03 : ±1)</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td>S05 + S06</td>
+<td>de −2 à +2 contrats</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td>S07 + S08 + S09</td>
+<td>de −3 à +3 contrats</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Chaque sleeve garde son état comme si elle était seule : direction <code>−1/0/+1</code>, taille, PnL virtuel et règle d'arrêt. <strong>Rien ne change dans les signaux ni dans les tailles</strong> : 1 contrat par sleeve, S01 à son sizing historique de 1 à 4 contrats.</li>
+<li><strong>Cible nette de l'instrument = somme des positions des sleeves.</strong></li>
+<li>Seule la <strong>différence</strong> entre cette cible et la position réelle est envoyée, à l'open de la minute qui suit le signal, comme dans les backtests.</li>
+<li>Le stop et la cible de S01 restent posés chez le broker, comme ordres stop et limite indépendants. Leur quantité est recalculée chaque minute : c'est l'effet qu'aurait la sortie de S01 sur la position nette.</li>
+<li><strong>Limite Topstep.</strong> Une entrée qui ferait dépasser le nombre de lots autorisé est réduite au maximum permis. Une position ouverte n'est jamais coupée à cause de la limite. Combine 50K : 5 lots. XFA : 2 lots sous 1 500 USD de solde, 3 lots jusqu'à 2 000, puis 5. Un micro MNQ ou MGC compte 0,1 lot, <strong>un MBT compte 1 lot</strong>.</li>
+</ol>
+<pre class="mermaid">flowchart LR
+    S1[S01 ORB] --> N1[Cible nette MNQ]
+    S2[S02 vol. breakout] --> N1
+    S3[S03 compression] --> N1
+    S5[S05 vol. breakout] --> N2[Cible nette MGC]
+    S6[S06 gap] --> N2
+    S7[S07 range] --> N3[Cible nette MBT]
+    S8[S08 pullback MA] --> N3
+    S9[S09 vol. breakout] --> N3
+    N1 --> L[Limite de lots Topstep]
+    N2 --> L
+    N3 --> L
+    L --> O[Ordre = cible − position réelle]
+</pre>
+<h3 id="63-exemples-reels">6.3 Exemples réels</h3>
+<p>Séances rejouées avec le moteur d'agrégation. Les prix sont les prix bruts, avant le tick de slippage par côté.</p>
+<p><strong>Exemple 1 — MNQ, deux sleeves dans le même sens, puis le stop de S01 (27 juin 2024).</strong></p>
+<table>
+<thead>
+<tr>
+<th>Heure</th>
+<th>Événement</th>
+<th style="text-align: right;">S01</th>
+<th style="text-align: right;">S02</th>
+<th style="text-align: right;">Cible MNQ</th>
+<th>Ordre envoyé</th>
+<th style="text-align: right;">Position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>09:40</td>
+<td>S02 passe long</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">+1</td>
+<td>achat 1 à 20 092,75</td>
+<td style="text-align: right;">+1</td>
+</tr>
+<tr>
+<td>10:15</td>
+<td>S01 entre long (stop 19 989,25, cible 20 354,50)</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">+2</td>
+<td>achat 1 à 20 110,75 ; vente stop 1 posée à 19 989,25</td>
+<td style="text-align: right;">+2</td>
+</tr>
+<tr>
+<td>11:28</td>
+<td>le stop de S01 est touché</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">+1</td>
+<td>la vente stop de 1 est exécutée</td>
+<td style="text-align: right;">+1</td>
+</tr>
+<tr>
+<td>14:10</td>
+<td>S02 sort</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>vente 1 à 20 022,50</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>Résultat MNQ : −390,50 USD, exactement la somme de S01 (−246,50) et S02 (−144,00), avec les mêmes 4 contrats échangés.</p>
+<p><strong>Exemple 2 — MNQ, deux sleeves opposées : le stop de S01 <em>ouvre</em> un short (31 janvier 2024).</strong></p>
+<table>
+<thead>
+<tr>
+<th>Heure</th>
+<th>Événement</th>
+<th style="text-align: right;">S01</th>
+<th style="text-align: right;">S02</th>
+<th style="text-align: right;">Cible MNQ</th>
+<th>Ordre envoyé</th>
+<th style="text-align: right;">Position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10:37</td>
+<td>S02 passe short</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">−1</td>
+<td style="text-align: right;">−1</td>
+<td>vente 1 à 17 294,50</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>14:41</td>
+<td>S01 entre long (stop 17 354,50)</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">−1</td>
+<td style="text-align: right;">0</td>
+<td>achat 1 à 17 430,00 ; vente stop 1 posée à 17 354,50</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+<tr>
+<td>15:01</td>
+<td>le stop de S01 est touché</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">−1</td>
+<td style="text-align: right;">−1</td>
+<td>la vente stop de 1 est exécutée</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>16:08</td>
+<td>flatten</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>achat 1 à 17 249,50</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>Entre 14:41 et 15:01, le compte est <strong>plat</strong>, alors que S01 est long et S02 short. Le stop de S01 doit pourtant rester posé : s'il est touché, S01 sort et la position nette redevient le short de S02. Un stop « de position » classique, attaché à la position du compte, n'existerait pas ici. C'est pour cette raison que le stop de S01 est un ordre indépendant.</p>
+<p><strong>Exemple 3 — MBT, S08 et S09 en sens opposés (1er mars 2024).</strong></p>
+<table>
+<thead>
+<tr>
+<th>Heure</th>
+<th>Événement</th>
+<th style="text-align: right;">S08</th>
+<th style="text-align: right;">S09</th>
+<th style="text-align: right;">Cible MBT</th>
+<th>Ordre envoyé</th>
+<th style="text-align: right;">Position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>09:46</td>
+<td>S08 passe long</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">+1</td>
+<td>achat 1 à 62 520</td>
+<td style="text-align: right;">+1</td>
+</tr>
+<tr>
+<td>10:39</td>
+<td>S09 passe short</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">−1</td>
+<td style="text-align: right;">0</td>
+<td>vente 1 à 62 210</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>11:01</td>
+<td>S08 sort</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">−1</td>
+<td style="text-align: right;">−1</td>
+<td>vente 1 à 62 075</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>12:46</td>
+<td>S08 repasse long</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">−1</td>
+<td style="text-align: right;">0</td>
+<td>achat 1 à 62 725</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>13:42</td>
+<td>S09 sort</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">+1</td>
+<td>achat 1 à 63 165</td>
+<td style="text-align: right;">+1</td>
+</tr>
+<tr>
+<td>16:08</td>
+<td>flatten</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>vente 1 à 63 230</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>Même PnL et mêmes contrats que les sleeves séparées. La seule différence est qu'il n'y a jamais de long et de short simultanés sur le compte.</p>
+<p><strong>Exemple 4 — MGC, deux sleeves dans le même sens (7 juin 2024).</strong> S06 passe short à 08:36 (vente 1 à 2 334,6). S05 passe short à 12:00 (vente 1 à 2 322,9) : position −2. S05 sort à 13:31 (achat 1 à 2 323,8) : position −1. Flatten à 16:08 (achat 1 à 2 305,9). Sur MGC, les deux sleeves n'ont <strong>jamais</strong> été en sens opposés depuis 2019 : l'agrégation se résume à additionner.</p>
+<p><strong>Exemple 5 — la limite du premier palier XFA, 2 lots (8 janvier 2024).</strong> Sans limite, le book fait +1 093 USD ce jour-là. S06 est short sur MGC de 08:36 à 10:48 ; elle n'est pas reprise dans le tableau car elle n'interfère pas.</p>
+<table>
+<thead>
+<tr>
+<th>Heure</th>
+<th>Événement</th>
+<th>Cible</th>
+<th style="text-align: right;">Lots utilisés</th>
+<th>Ordre envoyé</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>09:46 / 09:58</td>
+<td>S01 puis S02 longs</td>
+<td>MNQ +2</td>
+<td style="text-align: right;">0,2</td>
+<td>achat 1 + achat 1</td>
+</tr>
+<tr>
+<td>10:31</td>
+<td>S07 long</td>
+<td>MBT +1</td>
+<td style="text-align: right;">1,3 (MNQ 0,2 + MGC 0,1 + MBT 1)</td>
+<td>achat 1 MBT</td>
+</tr>
+<tr>
+<td>10:48</td>
+<td>S06 sort</td>
+<td>MGC 0</td>
+<td style="text-align: right;">1,2</td>
+<td>achat 1 MGC</td>
+</tr>
+<tr>
+<td>11:46</td>
+<td>S08 long</td>
+<td>MBT +2</td>
+<td style="text-align: right;">2,2 &gt; 2</td>
+<td><strong>refusé</strong> : MBT reste à 1</td>
+</tr>
+<tr>
+<td>13:00</td>
+<td>S09 long</td>
+<td>MBT +3</td>
+<td style="text-align: right;">3,2 &gt; 2</td>
+<td><strong>refusé</strong></td>
+</tr>
+<tr>
+<td>14:11 / 15:00</td>
+<td>S01 (cible) puis S02 sortent</td>
+<td>MNQ 0</td>
+<td style="text-align: right;">1,0</td>
+<td>ventes MNQ</td>
+</tr>
+<tr>
+<td>16:01</td>
+<td>S09 sort</td>
+<td>MBT +2</td>
+<td style="text-align: right;">2,0</td>
+<td><strong>achat 1 MBT</strong> (rattrapage, la place est libre)</td>
+</tr>
+<tr>
+<td>16:08</td>
+<td>flatten</td>
+<td>0</td>
+<td style="text-align: right;">0</td>
+<td>vente 2 MBT</td>
+</tr>
+</tbody>
+</table>
+<p>Le jour finit à +776 USD au lieu de +1 093. À 16:01, la sortie de S09 déclenche un <em>achat</em> : la cible nette (S07 + S08 = 2) redevient atteignable, et la règle la rejoint. C'est conforme à la règle, mais peu utile à 7 minutes du flatten. Sur 2024-01 → 2026-03, au palier de 2 lots, <strong>287 séances sur 572</strong> voient au moins une entrée réduite. Avec 1 MBT = 1 lot, deux sleeves MBT suffisent à remplir le premier palier XFA.</p>
+<h3 id="64-ce-que-lagregation-change-dans-les-chiffres">6.4 Ce que l'agrégation change dans les chiffres</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">Sleeves séparées</th>
+<th style="text-align: right;">Agrégées</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PnL brut, 1 203 séances IS 2019–2023</td>
+<td style="text-align: right;">identique</td>
+<td style="text-align: right;">identique (écart &lt; 10⁻¹¹ USD)</td>
+</tr>
+<tr>
+<td>Coûts, même période</td>
+<td style="text-align: right;">10 548 USD</td>
+<td style="text-align: right;">10 506 USD</td>
+</tr>
+<tr>
+<td>PnL net 2024-01 → 2026-03 (somme des trades)</td>
+<td style="text-align: right;">31 152 USD</td>
+<td style="text-align: right;">31 180 USD</td>
+</tr>
+</tbody>
+</table>
+<p>Les contrats ne sont économisés que lorsque deux sleeves changent de sens <strong>à la même minute</strong>, ce qui est rare. La fréquence des sens opposés dépend de l'instrument :
+- <strong>MGC :</strong> jamais ;
+- <strong>MNQ :</strong> 7 à 23 jours sur 2024-01 → 2026-03, selon la paire ;
+- <strong>MBT :</strong> 111 jours pour S08/S09 et 54 jours pour S07/S09, sur 2021-06 → 2026-10.</p>
+<p>S07 et S08 sont dans le même sens pendant 83 % du temps où S07 est en position.</p>
+<p><strong>Écart avec la section 4–5.</strong> Le PnL quotidien du lock aligne MGC et MBT sur le calendrier MNQ. Il ignore ainsi 8 séances de 2024-01 → 2026-03 (vendredis de roll trimestriel notamment) où MGC et MBT tradent, soit −509 USD. Les chiffres S05–S09 des sections 4 et 5 en sont légèrement optimistes. La somme exacte des trades est donnée ci-dessus.</p>
+<h3 id="65-ce-qui-a-ete-teste-et-ecarte">6.5 Ce qui a été testé et écarté</h3>
+<p>Avant de retenir cette exécution simple, on a testé sur le cycle Topstep 50K complet (Combine → XFA → payout, 8 000 chemins) :
+- un budget de risque par sleeve ;
+- un sizing modulé par la volatilité de l'instrument ;
+- un plafond MBT ;
+- des stops journaliers par instrument et sur le book ;
+- un verrou de gain pour la règle de consistance.</p>
+<p><strong>Aucune option n'a été retenue.</strong> Le budget de risque est infaisable avec 1 MBT = 1 lot. Les stops et le plafond coupent plus de gains qu'ils n'évitent de pertes. Le verrou ne se déclenche jamais. La modulation par la vol rapporte plus, mais augmente le risque de perdre le XFA. Hors échantillon, garder les tailles actuelles fait mieux que passer S01 à 1 contrat.</p>
+<h2 id="7-garde-fous-de-production">7. Garde-fous de production</h2>
 <ul>
 <li>Calculer en temps réel le risque jusqu'au stop de chaque position, avec la quantité réellement remplie et les stops effectivement présents chez le broker.</li>
 <li>Traiter <code>S07</code> et les sleeves en vote comme des risques non bornés par un montant fixe tant qu'aucun stop portefeuille distinct n'est imposé : la cible agrégée ne porte pas les stops des cellules chez le broker.</li>
-<li>Suivre les expositions brutes par instrument, les pertes simultanées et le drawdown du book, pas seulement chaque sleeve isolément.</li>
+<li>Suivre la position nette par instrument, l'état virtuel de chaque sleeve, les pertes simultanées et le drawdown du book, pas seulement chaque sleeve isolément.</li>
+<li>Vérifier à chaque minute que la position du compte égale la cible nette plafonnée, et que la quantité de l'ordre stop et de l'ordre cible de S01 est à jour.</li>
 <li>Ne jamais utiliser le drawdown historique comme limite de perte garantie ; ajouter des limites de journée et de book indépendantes si le mandat d'exécution l'exige.</li>
 </ul>
 <p>Sources : <a href="../../research/locked_nine_sleeve_portfolio_20261101/daily_pnl.csv">PnL quotidien canonique des neuf sleeves</a>, <a href="../../research/locked_nine_sleeve_portfolio_20261101/locked_nine_sleeve_config.json">configuration verrouillée</a>, <a href="../../research/locked_nine_sleeve_portfolio_20261101/book_risk_comparison.csv">comparaison avec la référence remplacée</a>.</p></section>

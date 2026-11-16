@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 3 — Inventaire du holdout</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-3-inventaire-du-holdout">Phase 3 — Inventaire du holdout</h1>
+<p><em>Lu le 2026-11-15. Seuls les timestamps ont été lus, depuis les statistiques des row groups parquet. Aucun prix, rendement ni indicateur n'a été calculé. Script : <a href="../phase3_inventory.py">phase3_inventory.py</a>. Table : <a href="../outputs/03_inventory.csv">03_inventory.csv</a>.</em></p>
+<h2 id="dernier-timestamp-disponible-par-instrument">Dernier timestamp disponible par instrument</h2>
+<ul>
+<li><strong>MNQ</strong> : 2026-10-02 16:59 ET</li>
+<li><strong>MGC</strong> : 2026-10-02 16:59 ET</li>
+<li><strong>MBT</strong> : 2026-10-02 19:55 ET</li>
+</ul>
+<h2 id="fichiers">Fichiers</h2>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Instrument</th>
+<th>Premier timestamp (UTC)</th>
+<th>Dernier timestamp (ET)</th>
+<th style="text-align: right;">Lignes</th>
+<th>Méthode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data\downloaded\GC_v_0_to_v_9_1m_20150102_20230317.parquet</code></td>
+<td>GC</td>
+<td>2015-01-02 00:00</td>
+<td><strong>2023-03-16 19:59</strong></td>
+<td style="text-align: right;">5 137 924</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\downloaded\MBT_v_0_1m_20210425_20261003.parquet</code></td>
+<td>MBT</td>
+<td>2021-05-02 22:01</td>
+<td><strong>2026-10-02 19:55</strong></td>
+<td style="text-align: right;">1 365 286</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\downloaded\MGC_v_0_1m_20150101_20260923.parquet</code></td>
+<td>MGC</td>
+<td>2015-01-01 23:01</td>
+<td><strong>2026-09-22 19:59</strong></td>
+<td style="text-align: right;">3 289 297</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\downloaded\MGC_v_0_1m_20260923_20261003_extension.parquet</code></td>
+<td>MGC</td>
+<td>2026-09-23 00:00</td>
+<td><strong>2026-10-02 16:59</strong></td>
+<td style="text-align: right;">10 920</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\downloaded\MNQ_c_0_1m_20260320_20261003_extension.parquet</code></td>
+<td>MNQ</td>
+<td>2026-03-20 00:00</td>
+<td><strong>2026-10-02 16:59</strong></td>
+<td style="text-align: right;">191 547</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\downloaded\MNQ_c_0_1m_20260321_094501.parquet</code></td>
+<td>MNQ</td>
+<td>2019-05-05 22:03</td>
+<td><strong>2026-03-20 09:29</strong></td>
+<td style="text-align: right;">2 401 697</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\downloaded\NQ_c_0_1m_20260321_095036.parquet</code></td>
+<td>NQ</td>
+<td>2010-06-07 00:00</td>
+<td><strong>2026-03-20 09:29</strong></td>
+<td style="text-align: right;">5 241 154</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\GC_v_0_to_v_9_aggregate_volume_5m_20150102_20230317.parquet</code></td>
+<td>GC</td>
+<td>2015-01-02 00:00</td>
+<td><strong>2023-03-16 19:55</strong></td>
+<td style="text-align: right;">862 848</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MBT_v_0_5m_20210425_20261003.parquet</code></td>
+<td>MBT</td>
+<td>2021-05-02 22:00</td>
+<td><strong>2026-10-02 19:55</strong></td>
+<td style="text-align: right;">358 980</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MGC_c_0_1m_20260322_155729.parquet</code></td>
+<td>MGC</td>
+<td>2010-10-03 23:26</td>
+<td><strong>2026-03-20 16:59</strong></td>
+<td style="text-align: right;">1 648 698</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MGC_c_0_5m_20260322_155729.parquet</code></td>
+<td>MGC</td>
+<td>2010-10-03 23:25</td>
+<td><strong>2026-03-20 16:55</strong></td>
+<td style="text-align: right;">461 313</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MGC_v_0_1m_20150101_20260923.parquet</code></td>
+<td>MGC</td>
+<td>2015-01-01 23:01</td>
+<td><strong>2026-09-22 19:59</strong></td>
+<td style="text-align: right;">3 289 297</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MGC_v_0_1m_20150101_20261003.parquet</code></td>
+<td>MGC</td>
+<td>2015-01-01 23:01</td>
+<td><strong>2026-10-02 16:59</strong></td>
+<td style="text-align: right;">3 300 217</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MGC_v_0_5m_20150101_20260923.parquet</code></td>
+<td>MGC</td>
+<td>2015-01-01 23:00</td>
+<td><strong>2026-09-22 19:55</strong></td>
+<td style="text-align: right;">778 185</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MNQ_c_0_1m_20190505_20261003.parquet</code></td>
+<td>MNQ</td>
+<td>2019-05-05 22:03</td>
+<td><strong>2026-10-02 16:59</strong></td>
+<td style="text-align: right;">2 592 447</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MNQ_c_0_1m_20260321_094501.parquet</code></td>
+<td>MNQ</td>
+<td>2019-05-05 22:03</td>
+<td><strong>2026-03-20 09:29</strong></td>
+<td style="text-align: right;">2 401 697</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\MNQ_c_0_5m_20260321_094501.parquet</code></td>
+<td>MNQ</td>
+<td>2019-05-05 22:00</td>
+<td><strong>2026-03-20 09:25</strong></td>
+<td style="text-align: right;">482 559</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\NQ_c_0_1m_20260321_095036.parquet</code></td>
+<td>NQ</td>
+<td>2010-06-07 00:00</td>
+<td><strong>2026-03-20 09:29</strong></td>
+<td style="text-align: right;">5 241 154</td>
+<td>row-group statistics</td>
+</tr>
+<tr>
+<td><code>data\processed\parquet\NQ_c_0_5m_20260321_095036.parquet</code></td>
+<td>NQ</td>
+<td>2010-06-07 00:00</td>
+<td><strong>2026-03-20 09:25</strong></td>
+<td style="text-align: right;">1 097 001</td>
+<td>row-group statistics</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fenetres-deja-consultees">Fenêtres déjà consultées</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Fenêtre consultée</th>
+<th>Trace dans le repo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MNQ</td>
+<td>2019-05-06 → 2026-03-19</td>
+<td>IS + validation réutilisée des sleeves MNQ (fiches 01–04)</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td>2019-05-06 → 2026-03-19</td>
+<td>IS + validation réutilisée des sleeves MGC (fiches 05–06)</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td>2026-03-20 → 2026-10-02</td>
+<td>forward replay des votes gelés S02–S04 et de S01 <code>baseline_fixed</code> (research/frozen_vote_forward_replay_20261101) ; a motivé la sortie de S04 (ACTIVE_EIGHT_SLEEVES.md) ; déclarée EXT contaminée dans book_aggregation_risk_r1_20261112</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td>2026-03-20 → 2026-10-02</td>
+<td>forward replay S05–S06 (même dossier) ; règle d'arrêt rejouée sur S05 (forward_context.json)</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td>2021-05-03 → 2026-10-02</td>
+<td>IS + legacy OOS des sleeves MBT (fiches 07–09) ; S09 nul sur son legacy OOS</td>
+</tr>
+</tbody>
+</table>
+<h2 id="verdict">Verdict</h2>
+<p><strong>Aucune donnée vierge n'existe sur disque pour les signaux tels qu'ils sont tradés.</strong></p>
+<ul>
+<li>MNQ et MGC du 2026-03-20 au dernier timestamp : rejoués le 2026-11-01 pour toutes les sleeves MNQ/MGC du book. C'est cette fenêtre qui a fait sortir S04. Elle n'est plus un holdout.</li>
+<li>MBT après le 2026-10-02 : aucun fichier ne dépasse le 2026-10-02 au soir (séance Globex qui ouvre le dimanche 2026-10-04 non comprise).</li>
+<li>Quelques minutes de Globex du vendredi 2026-10-02 au soir peuvent dépasser la dernière séance RTH. Elles n'appartiennent à aucune séance tradée par les sleeves.</li>
+</ul>
+<p><strong>Cas particulier de S01 (ensemble ATR 18).</strong> Le forward replay du 2026-11-01 a rejoué S01 <code>baseline_fixed</code>, pas l'ensemble ATR 18 de la fiche. Le S01 de référence n'a donc jamais été calculé sur 2026-03-20 → 2026-10-02. Cette fenêtre n'est pas vierge pour autant : les deux versions partagent l'entrée, la sortie et le sizing, et 100 % des trades ATR 18 de 2024-01 → 2026-03 figurent dans <code>baseline_fixed</code>. Le PnL de <code>baseline_fixed</code> sur cette fenêtre est connu. Au mieux, c'est un holdout partiellement contaminé, valable pour S01 seul.</p>
+<p><strong>Conséquence pour la phase 4.</strong> La seule validation propre est le suivi prospectif. Il démarre à la première séance après le 2026-11-03 pour le book à 8 sleeves (registre <code>forward_monitoring</code>), et ses données ne sont pas encore sur disque. Le pré-enregistrement de la phase 4a porte donc sur ce suivi. Il fixe les critères par horizon (20, 60, 120 et 250 séances), à évaluer quand les données arriveront. Un test one-shot de S01 ATR 18 sur 2026-03-20 → 2026-10-02 est proposé en option, étiqueté « partiellement contaminé ».</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+{
+  "code_sha256": {
+    "research/book_aggregation_risk_r1_20261112/run_study.py": "854c1d944f3385d3ba40db867631354d07f9e59e83ba188dd2a77f79a67f1788",
+    "src/portfolio/aggregator.py": "2fa0dd361d4325f8f6f452c6fc6f1f6df59bbc7d9fa4d130a84cc662b26926b3",
+    "src/analytics/topstep_lifecycle/simulator.py": "598029da5c51cd2a624a7ccbe88d5ebf0313fc86737e1de1a530c12bc7b0f5a2",
+    "tests/test_book_aggregation_risk.py": "ebc9cd2abd17113c4032dcaf938d5676c4d70bdb563087fa9df887f1a4e62973"
+  },
+  "window": [
+    "2024-01-02",
+    "2026-03-19"
+  ],
+  "sessions": 572,
+  "contaminated": true,
+  "retained": "B1k0.40",
+  "retained_summary": {
+    "expected_net_cash": 865.5627437539108,
+    "median_net_cash": -168.49849999999995,
+    "median_sessions_to_first_payout": 85.0,
+    "p_first_payout_le_60": 0.319875,
+    "p_any_payout": 0.699125,
+    "p_combine_mll": 0.716875,
+    "p_xfa_lost": 0.7285,
+    "p_pass": 0.8775,
+    "median_sessions_to_pass": 53.0,
+    "mean_payouts": 1.556,
+    "mean_fees": 516.562,
+    "hist_mean_daily": 50.62580419580479,
+    "hist_sharpe": 1.6147136998606675,
+    "hist_intraday_max_dd": 6225.039999999943,
+    "hist_es95_daily": 791.8179310344833,
+    "hist_total": 28957.96000000034,
+    "cap20_peak_lots": 2.0,
+    "cap20_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap20_book_stop_days": 0,
+    "cap20_contracts": 3270,
+    "cap30_peak_lots": 3.0,
+    "cap30_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap30_book_stop_days": 0,
+    "cap30_contracts": 3820,
+    "cap50_peak_lots": 3.3,
+    "cap50_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap50_book_stop_days": 0,
+    "cap50_contracts": 4054
+  },
+  "b0_summary": {
+    "expected_net_cash": 1015.2192888134815,
+    "median_net_cash": -70.32299999999614,
+    "median_sessions_to_first_payout": 80.0,
+    "p_first_payout_le_60": 0.35025,
+    "p_any_payout": 0.7355,
+    "p_combine_mll": 0.711875,
+    "p_xfa_lost": 0.755125,
+    "p_pass": 0.899875,
+    "median_sessions_to_pass": 49.0,
+    "mean_payouts": 1.70925,
+    "mean_fees": 526.039125,
+    "hist_mean_daily": 54.51041958042018,
+    "hist_sharpe": 1.7107436134773972,
+    "hist_intraday_max_dd": 5969.539999999943,
+    "hist_es95_daily": 798.904137931035,
+    "hist_total": 31179.96000000034,
+    "cap20_peak_lots": 2.0,
+    "cap20_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap20_book_stop_days": 0,
+    "cap20_contracts": 3390,
+    "cap30_peak_lots": 3.0,
+    "cap30_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap30_book_stop_days": 0,
+    "cap30_contracts": 3942,
+    "cap50_peak_lots": 3.3,
+    "cap50_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap50_book_stop_days": 0,
+    "cap50_contracts": 4178
+  },
+  "comparison_vs_b0": {
+    "candidate": "B1k0.40",
+    "incumbent": "B0",
+    "delta_primary": -149.6565450595707,
+    "relative_delta": -0.14741302367735643,
+    "paired_win_fraction": 0.4023080621894534,
+    "paths_differing": 6239,
+    "delta_p_xfa_lost": -0.02662500000000001,
+    "keep": false
+  },
+  "verdict": "ADOPT_AGGREGATION_ONLY",
+  "ext": "not computed: frozen MNQ/MGC trade inputs end on 2026-03-19",
+  "read_at": "2026-11-13T09:00:14+01:00"
+}

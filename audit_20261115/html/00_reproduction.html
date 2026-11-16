@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 0 — Reproduction</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-0-reproduction">Phase 0 — Reproduction</h1>
+<p><em>Audit du 2026-11-15. Référence auditée : <code>nine_sleeve_equal_contract_reference_20261101</code>. Script : <a href="../phase0_reproduction.py">phase0_reproduction.py</a> et <a href="../phase0_engine.py">phase0_engine.py</a>. Table brute : <a href="../outputs/00_reproduction.csv">outputs/00_reproduction.csv</a>.</em></p>
+<h2 id="verdict">Verdict</h2>
+<p><strong>65 contrôles sur 67 passent. 2 échouent.</strong> L'audit s'est arrêté ici le 2026-11-15, conformément à la règle 5. Il a repris après les décisions de l'utilisateur, en fin de document.</p>
+<p>Les PnL, les nombres de trades, le book, le leave-one-out et le netting se reproduisent au centime. Les échecs ne viennent pas des données ni du moteur. Ils viennent de deux incohérences de définition dans la documentation : décision 0.1 (la version de S01) et décision 0.2 (la convention de Sharpe de S02).</p>
+<h2 id="conventions">Conventions</h2>
+<ul>
+<li>Sharpe : √252 × moyenne / écart-type (ddof = 1) du PnL quotidien net en USD, jours sans trade inclus, sur le calendrier du fichier source de chaque sleeve. Les Sharpe publiés étant arrondis à 3 décimales, c'est la valeur arrondie qui est comparée, avec la tolérance de 0,005.</li>
+<li>Coûts nominaux du lock : 1,25 USD de commission par côté (MNQ, MGC), 1,41 USD (MBT), 1 tick de slippage par côté.</li>
+<li>Fenêtres : MNQ/MGC 2019-05-06 → 2026-03-19 (IS ≤ 2023-12-31), MBT 2021-05-03 → 2026-10-02 (IS ≤ 2025-05-28), S01 2019-05-05 → 2026-03-20 (IS ≤ 2024-02-27), book 2024-01-02 → 2026-03-19.</li>
+<li>Niveau A : métriques recalculées depuis les fichiers gelés. Niveau B : ré-exécution des sleeves depuis les barres 1 minute avec les moteurs du repo, comparée trade par trade. Niveau C : moteur de netting <code>src/portfolio/aggregator.py</code>, barres coupées au 2026-03-19.</li>
+</ul>
+<h2 id="table-attendu-obtenu-ecart">Table attendu / obtenu / écart</h2>
+<table>
+<thead>
+<tr>
+<th>Élément</th>
+<th>Métrique</th>
+<th style="text-align: right;">Attendu</th>
+<th style="text-align: right;">Obtenu</th>
+<th style="text-align: right;">Écart</th>
+<th>OK</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01 full</td>
+<td>trades</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S01 full</td>
+<td>pnl</td>
+<td style="text-align: right;">19 416,50</td>
+<td style="text-align: right;">19 416,50</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S01 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,1560</td>
+<td style="text-align: right;">1,1555</td>
+<td style="text-align: right;">−0,0005</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S01 full</td>
+<td>pf</td>
+<td style="text-align: right;">1,3390</td>
+<td style="text-align: right;">1,3389</td>
+<td style="text-align: right;">−0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S01 full</td>
+<td>maxdd</td>
+<td style="text-align: right;">−2 148,50</td>
+<td style="text-align: right;">−2 148,50</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S02 full</td>
+<td>trades</td>
+<td style="text-align: right;">1085</td>
+<td style="text-align: right;">1085</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S02 full</td>
+<td>pnl</td>
+<td style="text-align: right;">20 259,00</td>
+<td style="text-align: right;">20 259,00</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S02 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,8730</td>
+<td style="text-align: right;">0,8476</td>
+<td style="text-align: right;">−0,0254</td>
+<td><strong>NON</strong></td>
+</tr>
+<tr>
+<td>S03 full</td>
+<td>trades</td>
+<td style="text-align: right;">329</td>
+<td style="text-align: right;">329</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S03 full</td>
+<td>pnl</td>
+<td style="text-align: right;">2 255,50</td>
+<td style="text-align: right;">2 255,50</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S03 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,4320</td>
+<td style="text-align: right;">0,4322</td>
+<td style="text-align: right;">0,0002</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S04 full</td>
+<td>trades</td>
+<td style="text-align: right;">2052</td>
+<td style="text-align: right;">2052</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S04 full</td>
+<td>pnl</td>
+<td style="text-align: right;">10 075,00</td>
+<td style="text-align: right;">10 075,00</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S04 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,4240</td>
+<td style="text-align: right;">0,4242</td>
+<td style="text-align: right;">0,0002</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S05 full</td>
+<td>trades</td>
+<td style="text-align: right;">197</td>
+<td style="text-align: right;">197</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S05 full</td>
+<td>pnl</td>
+<td style="text-align: right;">3 135,50</td>
+<td style="text-align: right;">3 135,50</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S05 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,3700</td>
+<td style="text-align: right;">0,3701</td>
+<td style="text-align: right;">0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S06 full</td>
+<td>trades</td>
+<td style="text-align: right;">231</td>
+<td style="text-align: right;">231</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S06 full</td>
+<td>pnl</td>
+<td style="text-align: right;">7 030,50</td>
+<td style="text-align: right;">7 030,50</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S06 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,6770</td>
+<td style="text-align: right;">0,6769</td>
+<td style="text-align: right;">−0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S07 full</td>
+<td>trades</td>
+<td style="text-align: right;">461</td>
+<td style="text-align: right;">461</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S07 full</td>
+<td>pnl</td>
+<td style="text-align: right;">2 082,48</td>
+<td style="text-align: right;">2 082,48</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S07 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,4730</td>
+<td style="text-align: right;">0,4727</td>
+<td style="text-align: right;">−0,0003</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S08 full</td>
+<td>trades</td>
+<td style="text-align: right;">1142</td>
+<td style="text-align: right;">1142</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S08 full</td>
+<td>pnl</td>
+<td style="text-align: right;">3 900,06</td>
+<td style="text-align: right;">3 900,06</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S08 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,6420</td>
+<td style="text-align: right;">0,6421</td>
+<td style="text-align: right;">0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S09 full</td>
+<td>trades</td>
+<td style="text-align: right;">668</td>
+<td style="text-align: right;">668</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S09 full</td>
+<td>pnl</td>
+<td style="text-align: right;">4 916,24</td>
+<td style="text-align: right;">4 916,24</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S09 full</td>
+<td>sharpe</td>
+<td style="text-align: right;">0,8740</td>
+<td style="text-align: right;">0,8741</td>
+<td style="text-align: right;">0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S09 val</td>
+<td>pnl</td>
+<td style="text-align: right;">−73,22</td>
+<td style="text-align: right;">−73,22</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S09 val</td>
+<td>sharpe</td>
+<td style="text-align: right;">−0,0400</td>
+<td style="text-align: right;">−0,0403</td>
+<td style="text-align: right;">−0,0003</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Book 9 (lock CSV)</td>
+<td>sessions</td>
+<td style="text-align: right;">564</td>
+<td style="text-align: right;">564</td>
+<td style="text-align: right;">0</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Book 9 (lock CSV)</td>
+<td>pnl</td>
+<td style="text-align: right;">37 044,22</td>
+<td style="text-align: right;">37 044,22</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Book 9 (lock CSV)</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,5390</td>
+<td style="text-align: right;">1,5393</td>
+<td style="text-align: right;">0,0003</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Book 9 (lock CSV)</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 305,18</td>
+<td style="text-align: right;">−6 305,18</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Book 9 (lock CSV)</td>
+<td>worst</td>
+<td style="text-align: right;">−1 664,46</td>
+<td style="text-align: right;">−1 664,46</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Book 9 reconstruit depuis les sources</td>
+<td>écart quotidien absolu max vs lock</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>S01 lock vs S01 signal_sheet_01_atr18</td>
+<td>écart quotidien absolu max</td>
+<td style="text-align: right;">0,00</td>
+<td style="text-align: right;">474,00</td>
+<td style="text-align: right;">474,00</td>
+<td><strong>NON</strong></td>
+</tr>
+<tr>
+<td>LOO sans S01</td>
+<td>pnl</td>
+<td style="text-align: right;">30 715,22</td>
+<td style="text-align: right;">30 715,22</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S01</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,3240</td>
+<td style="text-align: right;">1,3241</td>
+<td style="text-align: right;">0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S01</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 670,64</td>
+<td style="text-align: right;">−6 670,64</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S02</td>
+<td>pnl</td>
+<td style="text-align: right;">27 765,22</td>
+<td style="text-align: right;">27 765,22</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S02</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,5950</td>
+<td style="text-align: right;">1,5953</td>
+<td style="text-align: right;">0,0003</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S02</td>
+<td>maxdd</td>
+<td style="text-align: right;">−5 704,60</td>
+<td style="text-align: right;">−5 704,60</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S03</td>
+<td>pnl</td>
+<td style="text-align: right;">36 451,72</td>
+<td style="text-align: right;">36 451,72</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S03</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,5590</td>
+<td style="text-align: right;">1,5590</td>
+<td style="text-align: right;">−0,0000</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S03</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 543,68</td>
+<td style="text-align: right;">−6 543,68</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S04</td>
+<td>pnl</td>
+<td style="text-align: right;">31 661,22</td>
+<td style="text-align: right;">31 661,22</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S04</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,7510</td>
+<td style="text-align: right;">1,7508</td>
+<td style="text-align: right;">−0,0002</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S04</td>
+<td>maxdd</td>
+<td style="text-align: right;">−5 425,58</td>
+<td style="text-align: right;">−5 425,58</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S05</td>
+<td>pnl</td>
+<td style="text-align: right;">35 256,22</td>
+<td style="text-align: right;">35 256,22</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S05</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,5220</td>
+<td style="text-align: right;">1,5218</td>
+<td style="text-align: right;">−0,0002</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S05</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 123,18</td>
+<td style="text-align: right;">−6 123,18</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S06</td>
+<td>pnl</td>
+<td style="text-align: right;">32 946,22</td>
+<td style="text-align: right;">32 946,22</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S06</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,4330</td>
+<td style="text-align: right;">1,4331</td>
+<td style="text-align: right;">0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S06</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 416,78</td>
+<td style="text-align: right;">−6 416,78</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S07</td>
+<td>pnl</td>
+<td style="text-align: right;">34 689,18</td>
+<td style="text-align: right;">34 689,18</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S07</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,4820</td>
+<td style="text-align: right;">1,4824</td>
+<td style="text-align: right;">0,0004</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S07</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 171,16</td>
+<td style="text-align: right;">−6 171,16</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S08</td>
+<td>pnl</td>
+<td style="text-align: right;">32 699,12</td>
+<td style="text-align: right;">32 699,12</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S08</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,4190</td>
+<td style="text-align: right;">1,4191</td>
+<td style="text-align: right;">0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S08</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 368,38</td>
+<td style="text-align: right;">−6 368,38</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S09</td>
+<td>pnl</td>
+<td style="text-align: right;">34 169,64</td>
+<td style="text-align: right;">34 169,64</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S09</td>
+<td>sharpe</td>
+<td style="text-align: right;">1,5090</td>
+<td style="text-align: right;">1,5091</td>
+<td style="text-align: right;">0,0001</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>LOO sans S09</td>
+<td>maxdd</td>
+<td style="text-align: right;">−6 279,24</td>
+<td style="text-align: right;">−6 279,24</td>
+<td style="text-align: right;">0,00</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Netting 2024-01→2026-03</td>
+<td>PnL séparé (somme des trades)</td>
+<td style="text-align: right;">31 152,00</td>
+<td style="text-align: right;">31 151,96</td>
+<td style="text-align: right;">−0,04</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Netting 2024-01→2026-03</td>
+<td>PnL agrégé (moteur de netting, cap 5 lots)</td>
+<td style="text-align: right;">31 180,00</td>
+<td style="text-align: right;">31 179,96</td>
+<td style="text-align: right;">−0,04</td>
+<td>oui</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ecart-1-le-s01-du-book-nest-pas-le-s01-de-la-fiche-01-bloquant">Écart 1 — le S01 du book n'est pas le S01 de la fiche 01 (bloquant)</h2>
+<p>Les chiffres de la fiche 01 (701 trades, 19 416,50 USD, Sharpe 1,156) se reproduisent. Mais le book n'utilise pas cette sleeve. Trois ledgers S01 coexistent dans le repo :</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Définition</th>
+<th style="text-align: right;">Trades</th>
+<th style="text-align: right;">PnL total</th>
+<th>Utilisée par</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>research/signal_sheet_01_atr18/trades.csv</code></td>
+<td>vote de 18 modèles : ATR {14, 16, 18} × q_low {20, 25, 30} × q_high {80, 85}</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: right;">19 416,50</td>
+<td>fiche 01</td>
+</tr>
+<tr>
+<td><code>export/mnq_orb_vwap_atr_retained/trades.csv</code></td>
+<td><code>baseline_fixed</code> : ATR 14, q_low {20, 25, 30} × q_high {90, 95}</td>
+<td style="text-align: right;">823</td>
+<td style="text-align: right;">18 537,50</td>
+<td>étude de netting, règle de netting du 15/11</td>
+</tr>
+<tr>
+<td><code>research/portfolio_integration_phase1/sleeve_trades/mnq_orb_vwap_atr.csv</code></td>
+<td>extrait 2024+ de <code>baseline_fixed</code></td>
+<td style="text-align: right;">261</td>
+<td style="text-align: right;">6 329,00</td>
+<td>locks du 01/11 et du 03/11, BOOK.md sections 1–5</td>
+</tr>
+</tbody>
+</table>
+<p>Sur 2024-01-02 → 2026-03-19, le S01 du lock fait 6 329 USD sur 261 trades. Celui de la fiche fait 6 035 USD sur 208 trades. Les 208 trades de la fiche sont tous inclus dans les 261 du lock, qui en compte 53 de plus. L'écart quotidien maximal atteint 474,00 USD. Le forward replay (<code>frozen_vote_forward_replay_20261101</code>) et la règle de netting reprennent eux aussi <code>baseline_fixed</code>.</p>
+<p>Effet sur le book, fenêtre commune 2024-01-02 → 2026-03-19, 564 séances :</p>
+<table>
+<thead>
+<tr>
+<th>Version de S01</th>
+<th style="text-align: right;">Sleeves</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Sharpe</th>
+<th style="text-align: right;">maxDD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01 = <code>baseline_fixed</code> (lock, book, netting)</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">37 044,22</td>
+<td style="text-align: right;">1,539</td>
+<td style="text-align: right;">−6 305,18</td>
+</tr>
+<tr>
+<td>S01 = <code>baseline_fixed</code> (lock, book, netting)</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">31 661,22</td>
+<td style="text-align: right;">1,751</td>
+<td style="text-align: right;">−5 425,58</td>
+</tr>
+<tr>
+<td>S01 = ensemble ATR 18 (fiche 01)</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">36 750,22</td>
+<td style="text-align: right;">1,541</td>
+<td style="text-align: right;">−6 350,78</td>
+</tr>
+<tr>
+<td>S01 = ensemble ATR 18 (fiche 01)</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">31 367,22</td>
+<td style="text-align: right;">1,754</td>
+<td style="text-align: right;">−5 626,08</td>
+</tr>
+</tbody>
+</table>
+<p>L'effet sur le book est faible : −294 USD et Sharpe quasi inchangé. Le problème est ailleurs : la définition exécutable de S01 est ambiguë. La fiche, qui sert de spécification de réimplémentation, décrit un signal que ni le lock ni la production ne tradent.</p>
+<h2 id="ecart-2-le-sharpe-publie-de-s02-nest-pas-un-sharpe-en-usd">Écart 2 — le Sharpe publié de S02 n'est pas un Sharpe en USD</h2>
+<p>Le <code>summary.json</code> de S02 a été produit par <code>compute_metrics</code> du moteur de base. Ce moteur calcule le Sharpe sur le rendement quotidien d'un compte de 50 000 USD qui capitalise (<code>daily_pnl / equity_{t−1}</code>). S03 à S09 utilisent <code>metric_block</code>, qui calcule le Sharpe sur le PnL en USD. Les deux conventions divergent dès que l'equity s'éloigne de 50 000 USD.</p>
+<table>
+<thead>
+<tr>
+<th>S02</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Sharpe publié (rendements)</th>
+<th style="text-align: right;">Sharpe en USD (convention de l'audit)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IS 2019-05-06 → 2023-12-31</td>
+<td style="text-align: right;">10 980,00</td>
+<td style="text-align: right;">0,831</td>
+<td style="text-align: right;">0,859</td>
+</tr>
+<tr>
+<td>Validation 2024-01-01 → 2026-03-19</td>
+<td style="text-align: right;">9 279,00</td>
+<td style="text-align: right;">0,971</td>
+<td style="text-align: right;">0,899</td>
+</tr>
+<tr>
+<td>Total</td>
+<td style="text-align: right;">20 259,00</td>
+<td style="text-align: right;">0,873</td>
+<td style="text-align: right;">0,848</td>
+</tr>
+</tbody>
+</table>
+<p>Les Sharpe en rendements de S03 à S09 seraient aussi plus élevés (de +0,006 à +0,037). Seul S02 publie cette convention-là. Le PnL et les trades de S02 sont exacts.</p>
+<h2 id="points-secondaires-non-bloquants">Points secondaires, non bloquants</h2>
+<ul>
+<li><strong>Calendrier de S01.</strong> <code>signal_sheet_01_atr18/daily_results.csv</code> contient 2 143 lignes, dont 355 dimanches sans séance RTH. Le Sharpe publié de 1,156 est calculé avec ces zéros. Sur le calendrier MNQ de S02 (1 747 séances), le même PnL donne un Sharpe de 1,281. La sleeve n'a aucun trade un dimanche : seuls le dénominateur et la convention changent.</li>
+<li><strong>Hash périmé.</strong> <code>signal_sheet_02_cluster/summary.json</code> référence un hash du manifeste <code>volatility_breakout_42.json</code> (<code>a1cfe825…</code>) différent du hash actuel (<code>e3e912ad…</code>), qui est celui du lock. Le manifeste a été réécrit après l'exécution, quand le bloc <code>execution_results</code> y a été ajouté. Le lock pointe vers la bonne version.</li>
+<li><strong>Netting.</strong> 31 151,96 USD en séparé et 31 179,96 USD en agrégé (cap de 5 lots, jamais atteint : la position maximale théorique du book est de 3,8 lots : 0,6 MNQ + 0,2 MGC + 3 MBT). Les deux chiffres sont reproduits à 0,04 USD près, ce qui n'est qu'un arrondi de la publication.</li>
+</ul>
+<h2 id="re-execution-depuis-les-barres-brutes-niveau-b">Ré-exécution depuis les barres brutes (niveau B)</h2>
+<p>Non exécuté dans ce run (<code>--no-engine</code>).</p>
+<h2 id="decisions-prises-le-2026-11-15">Décisions prises le 2026-11-15</h2>
+<p><strong>0.1 — S01 de référence : l'ensemble ATR 18 de la fiche 01</strong> (ATR {14, 16, 18} × q_low {20, 25, 30} × q_high {80, 85}, 701 trades), décision de l'utilisateur. Conséquences :</p>
+<ul>
+<li>toutes les phases suivantes utilisent <code>research/signal_sheet_01_atr18</code> pour S01 ;</li>
+<li><strong>écart à corriger hors audit</strong> : les locks <code>nine_sleeve_…_20261101</code> et <code>eight_sleeve_…_20261103</code>, la règle de netting <code>netting_rule_20261115.json</code>, l'étude de netting et le forward replay contiennent <code>baseline_fixed</code>. Leurs chiffres de book ne décrivent donc pas le book de référence. La correction passe par un nouveau lock versionné ; l'audit n'y touche pas (règle 2) ;</li>
+<li>les chiffres « attendus » du book et du leave-one-out de la table ci-dessus restent ceux du lock publié. La phase 1 donne les chiffres du book de référence.</li>
+</ul>
+<p><strong>0.2 — Convention de Sharpe : PnL quotidien en USD pour toutes les sleeves</strong> (règle 4 de la mission). Le 0,873 de la fiche 02 est un Sharpe en rendements ; en USD, il vaut 0,848.</p>
+<p><strong>0.3 — Nouveau lock versionné, sur instruction explicite de l'utilisateur</strong> (« fais le nouveau lock versionné », 2026-11-15). C'est une dérogation à la règle 2 de la mission, demandée par l'utilisateur. Contenu :</p>
+<ul>
+<li><code>research/locked_eight_sleeve_portfolio_20261115/</code> (<code>eight_sleeve_equal_contract_reference_20261115</code>) : S01 = ensemble ATR 18 et calendrier union. Rien d'autre ne change ;</li>
+<li><code>strategy_registry/execution/netting_rule_20261115_r2.json</code> : même logique de netting, appliquée au nouveau lock ;</li>
+<li>le registre <code>forward_monitoring</code>, <code>ACTIVE_EIGHT_SLEEVES.md</code>, des notes datées dans BOOK.md et la fiche 01, et <code>SUPERSEDED.md</code> dans le lock du 03/11 ;</li>
+<li>les tests <code>tests/test_locked_eight_sleeve_portfolio_20261115.py</code> ; le test de registre de l'ancien lock est remplacé par un test « référence remplacée » ;</li>
+<li>le lock ne calcule pas S01 ATR 18 sur 2026-03-20 → 2026-10-02, fenêtre réservée par l'option (O) du pré-enregistrement.</li>
+</ul>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

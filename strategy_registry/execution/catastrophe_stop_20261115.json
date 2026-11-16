@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "rule_id": "catastrophe_stop_k3_20261115",
+  "status": "ACTIVE_PROTECTIVE_ORDER",
+  "decision_date": "2026-11-15",
+  "decision_authority": "explicit_user decision ('Stop catastrophe k=3 oui ok'), audit_20261115 decision 6",
+  "applies_to_portfolio": "eight_sleeve_equal_contract_reference_20261115",
+  "execution_rule": "strategy_registry/execution/netting_rule_20261115_r2.json",
+  "does_not_modify": "the netting rule r2 (its 'no overlay' clause refers to the rejected risk overlays: daily stop, MBT cap, volatility sizing, profit lock); this order never triggered on the history and leaves every sleeve's behaviour unchanged",
+  "purpose": "bound an orphan position (disconnection, platform or code bug) at about 3 daily ATR; it is not an alpha stop and does not bound the day. The day is bounded by the Topstep 50K daily loss limit of 1 000 USD (account level, read on help.topstep.com on 2026-11-15).",
+  "rule": {
+    "k": 3.0,
+    "scope": "one resting stop order per instrument (MNQ, MGC, MBT), at the broker, for the net position of the instrument",
+    "atr": "ATR14 of the previous session (J-1), in points: daily bars built from the 1-minute bars 09:30-16:00 New York on weekdays; true range = max(high - low, |high - previous close|, |low - previous close|); simple 14-session mean, shifted by one session",
+    "level": "long: average entry price - k x ATR(J-1); short: average entry price + k x ATR(J-1)",
+    "netting": {
+      "open_from_flat": "average price = fill; stop placed at the level above for the full quantity",
+      "increase_same_side": "average price weighted by quantity; stop level recomputed; quantity adjusted",
+      "reduce": "average price and stop level kept; quantity reduced",
+      "reverse": "average price = fill of the new side; stop recomputed on the other side",
+      "back_to_flat": "stop order cancelled"
+    },
+    "after_trigger": "the instrument stays flat until the end of the session; sleeves keep their virtual PnL and their own stop rule; S01's own stop and target orders are independent and remain in force",
+    "missing_atr": "if ATR(J-1) is not available (first 14 sessions of data), no catastrophe stop is placed and the session is flagged"
+  },
+  "evidence": {
+    "study": "audit_20261115/10_stop_catastrophe.md",
+    "script": "audit_20261115/phase10_cat_stop.py",
+    "history": "MNQ and MGC 2019-05-06 -> 2026-03-19, MBT 2021-05-03 -> 2026-03-19, 1 775 sessions, reference book with S01 = ATR 18, aggregated execution without lot cap",
+    "triggers_k3": {"MNQ": 0, "MGC": 0, "MBT": 0},
+    "triggers_k2": {"MNQ": 0, "MGC": 0, "MBT": 1},
+    "triggers_k1_5": {"MNQ": 4, "MGC": 0, "MBT": 2},
+    "open_position_bound_k3_usd": {"p50": 2498.61, "p99": 8385.37, "max": 13020.73},
+    "limits": "fill at the stop level minus one tick, gaps through the stop not modelled, 1-minute bars only"
+  },
+  "evidence_sha256_lf": {
+    "audit_20261115/phase10_cat_stop.py": "33cf49cf44bdf009c6cd242b6781a41f79980e91fa23b0a0c075e7af8d51648a",
+    "audit_20261115/outputs/10_summary.json": "75e254aa342e6838a3c75ee5259c6efecfb5542e518b7e5fc0175b06f7930366"
+  },
+  "evidence_hash_note": "sha256 of the file bytes after replacing CRLF by LF (the audit files are written with Windows line endings)",
+  "implementation_note": "the repository holds no live execution engine; this file is the executable definition to be coded in the execution platform"
+}

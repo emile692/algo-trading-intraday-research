@@ -1,0 +1,87 @@
+{
+  "checks": {
+    "calendars": {
+      "MNQ": [
+        "2019-05-06",
+        "2026-03-19",
+        1747
+      ],
+      "MGC": [
+        "2019-05-06",
+        "2026-03-19",
+        1775
+      ],
+      "MBT": [
+        "2021-05-03",
+        "2026-10-02",
+        1085
+      ]
+    },
+    "union_sessions": 1908,
+    "S01_rows_off_union": 367,
+    "S01_nonzero_rows_off_union": 0,
+    "S01_panel_minus_trades_abs": 0.0,
+    "S02_panel_minus_trades_abs": 0.0,
+    "S03_panel_minus_trades_abs": 0.0,
+    "S04_panel_minus_trades_abs": 0.0,
+    "S05_panel_minus_trades_abs": 0.0,
+    "S06_panel_minus_trades_abs": 0.0,
+    "S07_panel_minus_trades_abs": 0.0,
+    "S08_panel_minus_trades_abs": 1.8189894035458565e-12,
+    "S09_panel_minus_trades_abs": 9.094947017729282e-13
+  },
+  "missing_in_window": 8,
+  "lock_dates_not_in_union": 0,
+  "missing_pnl_book9": -509.2599999999899,
+  "missing_pnl_book8": -509.25999999998993,
+  "books": {
+    "A_lock_publie__9": {
+      "sessions": 564,
+      "pnl": 37044.22,
+      "vol": 677.3394823295299,
+      "sharpe": 1.539342392210432,
+      "worst_day": -1664.4599999999998,
+      "max_dd": -6305.179999999964
+    },
+    "A_lock_publie__8": {
+      "sessions": 564,
+      "pnl": 31661.22,
+      "vol": 509.0007077527243,
+      "sharpe": 1.7507753594448356,
+      "worst_day": -1655.9599999999998,
+      "max_dd": -5425.579999999965
+    },
+    "B_S01ref_calMNQ__9": {
+      "sessions": 564,
+      "pnl": 36750.22,
+      "vol": 671.0724643127528,
+      "sharpe": 1.541386995676116,
+      "worst_day": -1664.4599999999998,
+      "max_dd": -6350.77999999997
+    },
+    "B_S01ref_calMNQ__8": {
+      "sessions": 564,
+      "pnl": 31367.22000000001,
+      "vol": 503.427061127817,
+      "sharpe": 1.753721553378283,
+      "worst_day": -1655.9599999999998,
+      "max_dd": -5626.079999999965
+    },
+    "C_S01ref_union__9": {
+      "sessions": 572,
+      "pnl": 36240.96000000001,
+      "vol": 666.6705828191893,
+      "sharpe": 1.508664401585592,
+      "worst_day": -1664.4599999999998,
+      "max_dd": -6594.739999999947
+    },
+    "C_S01ref_union__8": {
+      "sessions": 572,
+      "pnl": 30857.960000000006,
+      "vol": 500.2760936286562,
+      "sharpe": 1.7118342181492683,
+      "worst_day": -1655.9599999999998,
+      "max_dd": -5870.03999999993
+    }
+  }
+}

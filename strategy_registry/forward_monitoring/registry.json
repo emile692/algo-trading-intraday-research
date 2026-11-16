@@ -7,14 +7,26 @@
     "LOCKED_ACTIVE_REFERENCE": "Funded/reference portfolio membership is already frozen elsewhere and linked here without alteration.",
     "SHADOW_FORWARD_ONLY": "Exact trading rule is frozen for prospective observation with zero allocation.",
     "FORWARD_MEASUREMENT_ONLY": "Series is frozen to measure a mechanism or control; it is not an approved portfolio sleeve.",
-    "KEEP_FORWARD_TEST_ONLY": "Validated candidate remains outside the active portfolio pending genuinely prospective evidence."
+    "KEEP_FORWARD_TEST_ONLY": "Validated candidate remains outside the active portfolio pending genuinely prospective evidence.",
+    "ACTIVE_UNDER_REVIEW": "Active sleeve whose R0 or R3 alert fired (stop_rule_20261115): reinforced weekly monitoring, no automatic action, allocation unchanged."
   },
   "active_reference": {
-    "portfolio_id": "eight_sleeve_equal_contract_reference_20261103",
+    "portfolio_id": "eight_sleeve_equal_contract_reference_20261115",
     "status": "LOCKED_ACTIVE_REFERENCE",
     "canonical_lock": {
-      "path": "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json",
-      "sha256": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3"
+      "path": "research/locked_eight_sleeve_portfolio_20261115/locked_eight_sleeve_config.json",
+      "sha256": "c15346293dd1ba8316fa6c1cf28f754fd78416cdf31c97cc624aa613ce9e381a"
+    },
+    "execution_rule": "strategy_registry/execution/netting_rule_20261115_r2.json",
+    "protective_orders": [
+      "strategy_registry/execution/catastrophe_stop_20261115.json"
+    ],
+    "stop_rule": "strategy_registry/forward_monitoring/stop_rule_20261115.json",
+    "under_review": {
+      "mgc_volatility_breakout": "R0 2026-07-28 -> 2026-08-25, R3 2026-07-20 -> 2026-08-18 (retroactive application, 2026-11-15)",
+      "mbt_rolling_range_breakout": "R3 2026-08-18 (retroactive application, 2026-11-15)",
+      "mbt_trend_pullback_ma_structure": "R3 2026-06-01 -> 2026-08-12 (retroactive application, 2026-11-15)",
+      "mbt_volatility_breakout": "R3 2026-06-16 -> 2026-10-01; null vote on its reused validation (retroactive application, 2026-11-15)"
     },
     "members": [
       "mnq_orb_vwap_atr",
@@ -28,9 +40,9 @@
     ],
     "prospective_start_after": "2026-11-03",
     "superseded_reference": {
-      "portfolio_id": "nine_sleeve_equal_contract_reference_20261101",
-      "path": "research/locked_nine_sleeve_portfolio_20261101/locked_nine_sleeve_config.json",
-      "sha256": "6e988107b1f0964aee3bab2de1d8dbdc7636409b7be45d34616cf9005884ac7b"
+      "portfolio_id": "eight_sleeve_equal_contract_reference_20261103",
+      "path": "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json",
+      "sha256": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3"
     },
     "note": "This registry does not copy or modify the eight sleeve definitions; the linked canonical lock remains authoritative."
   },

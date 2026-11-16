@@ -1,0 +1,14 @@
+{
+  "window": [
+    "2024-01-02",
+    "2026-03-19"
+  ],
+  "sessions": 572,
+  "separate_net_usd": 30857.960000000006,
+  "netted_net_usd": 30885.96000000034,
+  "gross_usd": 38523.00000000001,
+  "separate_costs_usd": 7665.040000000004,
+  "netted_costs_usd": 7637.040000000021,
+  "peak_lots_uncapped": 3.3,
+  "engine": "src/portfolio/aggregator.py (unchanged), S01 ledger = research/signal_sheet_01_atr18/trades.csv"
+}

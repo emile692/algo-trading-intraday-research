@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 5 — Règles d&#x27;arrêt</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-5-regles-darret">Phase 5 — Règles d'arrêt</h1>
+<p><em>Historique gelé de chaque sleeve, sur le calendrier de son instrument : MNQ/MGC du 2019-05-06 au 2026-03-19, MBT du 2021-05-03 au 2026-10-02. Book 8 sur le calendrier union, du 2021-05-03 au 2026-03-19. S01 = ATR 18. Bootstrap stationnaire, bloc moyen de 20 séances : 10 000 chemins de 500 séances pour les seuils, 4 000 par scénario pour les délais ; seed 20261120. Script : <a href="../phase5_stop_rules.py">phase5_stop_rules.py</a>. Tables : <a href="../outputs/05_detection.csv">05_detection.csv</a>, <a href="../outputs/05_historical_alarms.csv">05_historical_alarms.csv</a>, <a href="../outputs/05_distributions.csv">05_distributions.csv</a>, <a href="../outputs/05_reinstatement.csv">05_reinstatement.csv</a>.</em></p>
+<h2 id="point-de-depart-une-regle-existe-deja">Point de départ : une règle existe déjà</h2>
+<p>Contrairement à ce que dit la mission, une règle d'arrêt est enregistrée depuis le 2026-11-03 (<code>ACTIVE_EIGHT_SLEEVES.md</code>). C'est <strong>R0</strong> : la somme des 126 dernières séances doit rester au-dessus du minimum de cette même somme sur l'historique gelé. Par construction, R0 ne s'est jamais déclenchée sur l'historique. Ses fausses alarmes et ses délais ne se mesurent donc qu'en simulation.</p>
+<h2 id="regles-comparees">Règles comparées</h2>
+<p>Chaque règle est évaluée à chaque séance, depuis le début du suivi (h séances écoulées).</p>
+<ul>
+<li><strong>R0</strong>, la règle en vigueur : PnL sur 126 séances inférieur au minimum historique de cette somme.</li>
+<li><strong>R1</strong> : drawdown maximal depuis le début inférieur au p5(h) du maxDD bootstrap, soit une sévérité au-delà du p95.</li>
+<li><strong>R2</strong> : même chose avec le p1(h), soit une sévérité au-delà du p99.</li>
+<li><strong>R3</strong> : PnL roulant sur 120 séances inférieur au p5 du PnL bootstrap à 120 séances.</li>
+</ul>
+<h2 id="seuils">Seuils</h2>
+<table>
+<thead>
+<tr>
+<th>Série</th>
+<th>Historique</th>
+<th style="text-align: right;">R0 : seuil 126 s.</th>
+<th style="text-align: right;">R1 : maxDD p5 à 250 s.</th>
+<th style="text-align: right;">R2 : maxDD p1 à 250 s.</th>
+<th style="text-align: right;">R3 : p5 PnL 120 s.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>2019-05-06 → 2026-03-19 (1747)</td>
+<td style="text-align: right;">−890,50</td>
+<td style="text-align: right;">−2 210,57</td>
+<td style="text-align: right;">−2 806,05</td>
+<td style="text-align: right;">−639,52</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>2019-05-06 → 2026-03-19 (1747)</td>
+<td style="text-align: right;">−4 019,00</td>
+<td style="text-align: right;">−5 070,57</td>
+<td style="text-align: right;">−6 595,51</td>
+<td style="text-align: right;">−2 177,57</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>2019-05-06 → 2026-03-19 (1747)</td>
+<td style="text-align: right;">−975,00</td>
+<td style="text-align: right;">−1 128,03</td>
+<td style="text-align: right;">−1 473,03</td>
+<td style="text-align: right;">−591,05</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>2019-05-06 → 2026-03-19 (1747)</td>
+<td style="text-align: right;">−2 974,00</td>
+<td style="text-align: right;">−4 898,02</td>
+<td style="text-align: right;">−6 281,53</td>
+<td style="text-align: right;">−2 497,03</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>2019-05-06 → 2026-03-19 (1775)</td>
+<td style="text-align: right;">−1 021,00</td>
+<td style="text-align: right;">−1 868,05</td>
+<td style="text-align: right;">−2 591,51</td>
+<td style="text-align: right;">−982,02</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>2019-05-06 → 2026-03-19 (1775)</td>
+<td style="text-align: right;">−1 006,50</td>
+<td style="text-align: right;">−1 756,05</td>
+<td style="text-align: right;">−2 308,12</td>
+<td style="text-align: right;">−924,02</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>2021-05-03 → 2026-10-02 (1085)</td>
+<td style="text-align: right;">−840,64</td>
+<td style="text-align: right;">−1 642,53</td>
+<td style="text-align: right;">−2 144,58</td>
+<td style="text-align: right;">−809,70</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>2021-05-03 → 2026-10-02 (1085)</td>
+<td style="text-align: right;">−1 284,10</td>
+<td style="text-align: right;">−2 368,60</td>
+<td style="text-align: right;">−3 009,66</td>
+<td style="text-align: right;">−1 149,57</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>2021-05-03 → 2026-10-02 (1085)</td>
+<td style="text-align: right;">−1 479,42</td>
+<td style="text-align: right;">−1 751,25</td>
+<td style="text-align: right;">−2 239,69</td>
+<td style="text-align: right;">−717,72</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>2021-05-03 → 2026-03-19 (1261)</td>
+<td style="text-align: right;">n/d</td>
+<td style="text-align: right;">−6 397,54</td>
+<td style="text-align: right;">−8 285,41</td>
+<td style="text-align: right;">−1 067,77</td>
+</tr>
+</tbody>
+</table>
+<p>Les distributions à 20, 60, 120 et 250 séances (p5, p50 du PnL ; p50, p5, p1 du maxDD) sont dans <a href="../outputs/05_distributions.csv">05_distributions.csv</a>.</p>
+<h2 id="compromis-fausses-alarmes-delai-synthese-mediane-des-9-sleeves">Compromis fausses alarmes / délai — synthèse (médiane des 9 sleeves)</h2>
+<ul>
+<li><strong>Fausse alarme</strong> : probabilité qu'une sleeve dont le vrai Sharpe est celui de son historique soit coupée dans ses 250 premières séances de suivi.</li>
+<li><strong>Détection</strong> : même probabilité quand le PnL quotidien est décalé pour un Sharpe vrai de 0, puis de −0,5 (volatilité inchangée).</li>
+<li><strong>Délai</strong> : nombre de séances avant la première alarme, parmi les chemins qui en déclenchent une sur 500 séances.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Règle</th>
+<th style="text-align: right;">Fausse alarme médiane ≤ 250 s.</th>
+<th style="text-align: right;">Détection médiane ≤ 250 s., SR 0</th>
+<th style="text-align: right;">Détection médiane ≤ 250 s., SR −0,5</th>
+<th style="text-align: right;">Délai médian, SR −0,5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R0</td>
+<td style="text-align: right;">17,0 %</td>
+<td style="text-align: right;">30,7 %</td>
+<td style="text-align: right;">54,0 %</td>
+<td style="text-align: right;">204 séances</td>
+</tr>
+<tr>
+<td>R1</td>
+<td style="text-align: right;">28,4 %</td>
+<td style="text-align: right;">40,4 %</td>
+<td style="text-align: right;">53,5 %</td>
+<td style="text-align: right;">81 séances</td>
+</tr>
+<tr>
+<td>R2</td>
+<td style="text-align: right;">7,3 %</td>
+<td style="text-align: right;">14,4 %</td>
+<td style="text-align: right;">23,2 %</td>
+<td style="text-align: right;">178 séances</td>
+</tr>
+<tr>
+<td>R3</td>
+<td style="text-align: right;">24,8 %</td>
+<td style="text-align: right;">46,2 %</td>
+<td style="text-align: right;">66,3 %</td>
+<td style="text-align: right;">174 séances</td>
+</tr>
+<tr>
+<td>R0∪R2</td>
+<td style="text-align: right;">21,1 %</td>
+<td style="text-align: right;">35,8 %</td>
+<td style="text-align: right;">58,6 %</td>
+<td style="text-align: right;">182 séances</td>
+</tr>
+</tbody>
+</table>
+<h2 id="detail-par-serie">Détail par série</h2>
+<table>
+<thead>
+<tr>
+<th>Série</th>
+<th>Règle</th>
+<th style="text-align: right;">Fausse alarme ≤ 250 s. (sleeve saine)</th>
+<th style="text-align: right;">Détection ≤ 250 s., SR vrai 0</th>
+<th style="text-align: right;">délai médian</th>
+<th style="text-align: right;">Détection ≤ 250 s., SR vrai −0,5</th>
+<th style="text-align: right;">délai médian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>R0</td>
+<td style="text-align: right;">20,5 %</td>
+<td style="text-align: right;">69,6 %</td>
+<td style="text-align: right;">171</td>
+<td style="text-align: right;">84,7 %</td>
+<td style="text-align: right;">135</td>
+</tr>
+<tr>
+<td>S01</td>
+<td>R1</td>
+<td style="text-align: right;">33,4 %</td>
+<td style="text-align: right;">70,8 %</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">85,5 %</td>
+<td style="text-align: right;">51</td>
+</tr>
+<tr>
+<td>S01</td>
+<td>R2</td>
+<td style="text-align: right;">9,7 %</td>
+<td style="text-align: right;">38,0 %</td>
+<td style="text-align: right;">161</td>
+<td style="text-align: right;">58,7 %</td>
+<td style="text-align: right;">144</td>
+</tr>
+<tr>
+<td>S01</td>
+<td>R3</td>
+<td style="text-align: right;">31,1 %</td>
+<td style="text-align: right;">79,5 %</td>
+<td style="text-align: right;">147</td>
+<td style="text-align: right;">90,9 %</td>
+<td style="text-align: right;">122</td>
+</tr>
+<tr>
+<td>S01</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">25,9 %</td>
+<td style="text-align: right;">73,9 %</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">86,8 %</td>
+<td style="text-align: right;">126</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R0</td>
+<td style="text-align: right;">5,7 %</td>
+<td style="text-align: right;">18,0 %</td>
+<td style="text-align: right;">263</td>
+<td style="text-align: right;">30,0 %</td>
+<td style="text-align: right;">250</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R1</td>
+<td style="text-align: right;">26,9 %</td>
+<td style="text-align: right;">39,6 %</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">51,9 %</td>
+<td style="text-align: right;">122</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R2</td>
+<td style="text-align: right;">7,3 %</td>
+<td style="text-align: right;">13,7 %</td>
+<td style="text-align: right;">170</td>
+<td style="text-align: right;">23,2 %</td>
+<td style="text-align: right;">223</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R3</td>
+<td style="text-align: right;">23,2 %</td>
+<td style="text-align: right;">53,2 %</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">71,2 %</td>
+<td style="text-align: right;">162</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">10,2 %</td>
+<td style="text-align: right;">22,4 %</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: right;">34,8 %</td>
+<td style="text-align: right;">228</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R0</td>
+<td style="text-align: right;">4,0 %</td>
+<td style="text-align: right;">8,5 %</td>
+<td style="text-align: right;">284</td>
+<td style="text-align: right;">19,2 %</td>
+<td style="text-align: right;">266</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R1</td>
+<td style="text-align: right;">27,6 %</td>
+<td style="text-align: right;">36,9 %</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">51,5 %</td>
+<td style="text-align: right;">81</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R2</td>
+<td style="text-align: right;">7,1 %</td>
+<td style="text-align: right;">11,0 %</td>
+<td style="text-align: right;">78</td>
+<td style="text-align: right;">18,9 %</td>
+<td style="text-align: right;">199</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R3</td>
+<td style="text-align: right;">21,8 %</td>
+<td style="text-align: right;">36,3 %</td>
+<td style="text-align: right;">230</td>
+<td style="text-align: right;">57,6 %</td>
+<td style="text-align: right;">190</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">8,9 %</td>
+<td style="text-align: right;">14,7 %</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">25,4 %</td>
+<td style="text-align: right;">238</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R0</td>
+<td style="text-align: right;">16,8 %</td>
+<td style="text-align: right;">30,7 %</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">54,0 %</td>
+<td style="text-align: right;">204</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R1</td>
+<td style="text-align: right;">31,6 %</td>
+<td style="text-align: right;">44,5 %</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">62,1 %</td>
+<td style="text-align: right;">70</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R2</td>
+<td style="text-align: right;">8,2 %</td>
+<td style="text-align: right;">15,2 %</td>
+<td style="text-align: right;">94</td>
+<td style="text-align: right;">27,9 %</td>
+<td style="text-align: right;">176</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R3</td>
+<td style="text-align: right;">26,3 %</td>
+<td style="text-align: right;">43,5 %</td>
+<td style="text-align: right;">225</td>
+<td style="text-align: right;">66,3 %</td>
+<td style="text-align: right;">174</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">21,1 %</td>
+<td style="text-align: right;">35,8 %</td>
+<td style="text-align: right;">225</td>
+<td style="text-align: right;">58,6 %</td>
+<td style="text-align: right;">182</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R0</td>
+<td style="text-align: right;">17,0 %</td>
+<td style="text-align: right;">25,1 %</td>
+<td style="text-align: right;">249</td>
+<td style="text-align: right;">41,5 %</td>
+<td style="text-align: right;">215</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R1</td>
+<td style="text-align: right;">25,8 %</td>
+<td style="text-align: right;">30,7 %</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">40,8 %</td>
+<td style="text-align: right;">91</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R2</td>
+<td style="text-align: right;">6,9 %</td>
+<td style="text-align: right;">8,9 %</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: right;">13,9 %</td>
+<td style="text-align: right;">178</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R3</td>
+<td style="text-align: right;">18,3 %</td>
+<td style="text-align: right;">26,6 %</td>
+<td style="text-align: right;">247</td>
+<td style="text-align: right;">43,2 %</td>
+<td style="text-align: right;">209</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">19,9 %</td>
+<td style="text-align: right;">28,1 %</td>
+<td style="text-align: right;">234</td>
+<td style="text-align: right;">43,6 %</td>
+<td style="text-align: right;">204</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R0</td>
+<td style="text-align: right;">18,6 %</td>
+<td style="text-align: right;">44,0 %</td>
+<td style="text-align: right;">218</td>
+<td style="text-align: right;">67,7 %</td>
+<td style="text-align: right;">172</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R1</td>
+<td style="text-align: right;">28,4 %</td>
+<td style="text-align: right;">44,2 %</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">65,3 %</td>
+<td style="text-align: right;">111</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R2</td>
+<td style="text-align: right;">7,2 %</td>
+<td style="text-align: right;">16,3 %</td>
+<td style="text-align: right;">192</td>
+<td style="text-align: right;">32,0 %</td>
+<td style="text-align: right;">226</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R3</td>
+<td style="text-align: right;">23,1 %</td>
+<td style="text-align: right;">49,5 %</td>
+<td style="text-align: right;">207</td>
+<td style="text-align: right;">73,4 %</td>
+<td style="text-align: right;">159</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">21,4 %</td>
+<td style="text-align: right;">46,3 %</td>
+<td style="text-align: right;">206</td>
+<td style="text-align: right;">69,5 %</td>
+<td style="text-align: right;">162</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R0</td>
+<td style="text-align: right;">22,2 %</td>
+<td style="text-align: right;">38,2 %</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: right;">55,9 %</td>
+<td style="text-align: right;">192</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R1</td>
+<td style="text-align: right;">30,0 %</td>
+<td style="text-align: right;">39,6 %</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">51,7 %</td>
+<td style="text-align: right;">76</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R2</td>
+<td style="text-align: right;">8,2 %</td>
+<td style="text-align: right;">13,2 %</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">20,5 %</td>
+<td style="text-align: right;">175</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R3</td>
+<td style="text-align: right;">24,8 %</td>
+<td style="text-align: right;">40,9 %</td>
+<td style="text-align: right;">225</td>
+<td style="text-align: right;">58,1 %</td>
+<td style="text-align: right;">187</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">26,2 %</td>
+<td style="text-align: right;">42,1 %</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">58,7 %</td>
+<td style="text-align: right;">180</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R0</td>
+<td style="text-align: right;">20,5 %</td>
+<td style="text-align: right;">39,6 %</td>
+<td style="text-align: right;">224</td>
+<td style="text-align: right;">56,8 %</td>
+<td style="text-align: right;">190</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R1</td>
+<td style="text-align: right;">28,4 %</td>
+<td style="text-align: right;">40,4 %</td>
+<td style="text-align: right;">59</td>
+<td style="text-align: right;">53,5 %</td>
+<td style="text-align: right;">93</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R2</td>
+<td style="text-align: right;">6,8 %</td>
+<td style="text-align: right;">14,4 %</td>
+<td style="text-align: right;">142</td>
+<td style="text-align: right;">21,9 %</td>
+<td style="text-align: right;">198</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R3</td>
+<td style="text-align: right;">25,9 %</td>
+<td style="text-align: right;">46,2 %</td>
+<td style="text-align: right;">213</td>
+<td style="text-align: right;">64,1 %</td>
+<td style="text-align: right;">175</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">23,2 %</td>
+<td style="text-align: right;">42,5 %</td>
+<td style="text-align: right;">211</td>
+<td style="text-align: right;">58,8 %</td>
+<td style="text-align: right;">182</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R0</td>
+<td style="text-align: right;">3,5 %</td>
+<td style="text-align: right;">17,4 %</td>
+<td style="text-align: right;">271</td>
+<td style="text-align: right;">30,8 %</td>
+<td style="text-align: right;">245</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R1</td>
+<td style="text-align: right;">30,7 %</td>
+<td style="text-align: right;">49,5 %</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">64,5 %</td>
+<td style="text-align: right;">66</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R2</td>
+<td style="text-align: right;">8,6 %</td>
+<td style="text-align: right;">22,2 %</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">33,8 %</td>
+<td style="text-align: right;">177</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R3</td>
+<td style="text-align: right;">25,3 %</td>
+<td style="text-align: right;">54,6 %</td>
+<td style="text-align: right;">198</td>
+<td style="text-align: right;">74,9 %</td>
+<td style="text-align: right;">149</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">10,4 %</td>
+<td style="text-align: right;">27,6 %</td>
+<td style="text-align: right;">198</td>
+<td style="text-align: right;">41,6 %</td>
+<td style="text-align: right;">196</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R0</td>
+<td style="text-align: right;">0,0 %</td>
+<td style="text-align: right;">0,0 %</td>
+<td style="text-align: right;">n/d</td>
+<td style="text-align: right;">0,0 %</td>
+<td style="text-align: right;">n/d</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R1</td>
+<td style="text-align: right;">27,5 %</td>
+<td style="text-align: right;">72,8 %</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">86,1 %</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R2</td>
+<td style="text-align: right;">6,6 %</td>
+<td style="text-align: right;">41,3 %</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">61,4 %</td>
+<td style="text-align: right;">151</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R3</td>
+<td style="text-align: right;">25,0 %</td>
+<td style="text-align: right;">87,0 %</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">94,1 %</td>
+<td style="text-align: right;">120</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">6,6 %</td>
+<td style="text-align: right;">41,3 %</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">61,4 %</td>
+<td style="text-align: right;">151</td>
+</tr>
+</tbody>
+</table>
+<h2 id="application-glissante-sur-lhistorique-r1-a-r3">Application glissante sur l'historique (R1 à R3)</h2>
+<p>R1 et R2 sont appliquées ici au maxDD de chaque fenêtre glissante de 250 séances, R3 au PnL glissant sur 120 séances. Une sleeve « restée positive ensuite » est une sleeve dont le PnL des 120 (ou 250) séances suivant le déclenchement est positif : c'est une fausse alarme ex post. Ces seuils sont calibrés sur le même historique, ce qui sous-estime les déclenchements.</p>
+<table>
+<thead>
+<tr>
+<th>Série</th>
+<th>Règle</th>
+<th style="text-align: right;">Épisodes</th>
+<th style="text-align: right;">Séances en alarme</th>
+<th>Suivis de PnL &gt; 0 à +120</th>
+<th>à +250</th>
+<th>Premiers déclenchements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S01</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S01</td>
+<td>R3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td>2/2</td>
+<td>2/2</td>
+<td>2021-02-16, 2023-09-27</td>
+</tr>
+<tr>
+<td>S01</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">110</td>
+<td>3/3</td>
+<td>2/2</td>
+<td>2020-03-18, 2020-06-23, 2025-09-29</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">109</td>
+<td>4/4</td>
+<td>4/4</td>
+<td>2020-11-11, 2020-12-30, 2024-04-16, 2024-04-23</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">11</td>
+<td>3/3</td>
+<td>3/3</td>
+<td>2025-02-13, 2025-02-25, 2025-02-28, 2025-09-30, 2025-11-07</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>1/1</td>
+<td>1/1</td>
+<td>2020-09-08</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>1/1</td>
+<td>1/1</td>
+<td>2020-09-16</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>1/1</td>
+<td>1/1</td>
+<td>2024-11-22</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td>1/1</td>
+<td>0/0</td>
+<td>2025-09-23</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td>1/1</td>
+<td>1/1</td>
+<td>2025-05-14, 2026-08-18</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">7</td>
+<td>0/0</td>
+<td>0/0</td>
+<td>2026-06-01, 2026-08-03, 2026-08-10, 2026-08-12</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">144</td>
+<td>1/1</td>
+<td>1/1</td>
+<td>2025-08-13</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R3</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">76</td>
+<td>4/4</td>
+<td>3/3</td>
+<td>2025-07-09, 2025-08-08, 2025-09-17, 2025-10-09, 2026-06-16, 2026-06-19</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td>2/2</td>
+<td>0/0</td>
+<td>2025-08-18, 2025-09-25</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td>R0∪R2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td>0/0</td>
+<td>0/0</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="reintegration-proposee">Réintégration proposée</h2>
+<p>Une sleeve coupée passe en shadow. Elle revient après N séances de shadow si son PnL cumulé en shadow n'est jamais passé sous le p5(h) et qu'il est ≥ 0 à N. Table : probabilité de réintégration.</p>
+<table>
+<thead>
+<tr>
+<th>Série</th>
+<th style="text-align: right;">N</th>
+<th style="text-align: right;">P(réintégration), sleeve saine</th>
+<th style="text-align: right;">SR vrai 0</th>
+<th style="text-align: right;">SR vrai −0,5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">60,0 %</td>
+<td style="text-align: right;">27,5 %</td>
+<td style="text-align: right;">18,3 %</td>
+</tr>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">58,7 %</td>
+<td style="text-align: right;">19,8 %</td>
+<td style="text-align: right;">10,2 %</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">62,0 %</td>
+<td style="text-align: right;">38,6 %</td>
+<td style="text-align: right;">24,8 %</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">63,6 %</td>
+<td style="text-align: right;">34,2 %</td>
+<td style="text-align: right;">18,6 %</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">52,8 %</td>
+<td style="text-align: right;">39,8 %</td>
+<td style="text-align: right;">27,0 %</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">55,1 %</td>
+<td style="text-align: right;">38,1 %</td>
+<td style="text-align: right;">21,0 %</td>
+</tr>
+<tr>
+<td>S04</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">48,0 %</td>
+<td style="text-align: right;">34,1 %</td>
+<td style="text-align: right;">20,4 %</td>
+</tr>
+<tr>
+<td>S04</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">48,4 %</td>
+<td style="text-align: right;">31,6 %</td>
+<td style="text-align: right;">15,2 %</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">51,7 %</td>
+<td style="text-align: right;">35,9 %</td>
+<td style="text-align: right;">22,1 %</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">52,5 %</td>
+<td style="text-align: right;">37,4 %</td>
+<td style="text-align: right;">19,8 %</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">55,1 %</td>
+<td style="text-align: right;">30,9 %</td>
+<td style="text-align: right;">18,8 %</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">56,8 %</td>
+<td style="text-align: right;">29,0 %</td>
+<td style="text-align: right;">14,7 %</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">54,9 %</td>
+<td style="text-align: right;">41,1 %</td>
+<td style="text-align: right;">27,4 %</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">56,0 %</td>
+<td style="text-align: right;">38,1 %</td>
+<td style="text-align: right;">21,1 %</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">54,4 %</td>
+<td style="text-align: right;">36,8 %</td>
+<td style="text-align: right;">25,1 %</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">56,9 %</td>
+<td style="text-align: right;">34,9 %</td>
+<td style="text-align: right;">21,9 %</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">61,6 %</td>
+<td style="text-align: right;">38,6 %</td>
+<td style="text-align: right;">23,2 %</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">62,9 %</td>
+<td style="text-align: right;">34,0 %</td>
+<td style="text-align: right;">15,7 %</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">68,1 %</td>
+<td style="text-align: right;">27,7 %</td>
+<td style="text-align: right;">16,7 %</td>
+</tr>
+<tr>
+<td>Book 8</td>
+<td style="text-align: right;">252</td>
+<td style="text-align: right;">64,6 %</td>
+<td style="text-align: right;">13,1 %</td>
+<td style="text-align: right;">5,4 %</td>
+</tr>
+</tbody>
+</table>
+<h2 id="format-de-suivi-hebdomadaire">Format de suivi hebdomadaire</h2>
+<p>Gabarit : <a href="../05_suivi_hebdo_gabarit.csv">05_suivi_hebdo_gabarit.csv</a>. Une ligne par sleeve et par semaine ISO, plus une ligne « Book 8 ». Elle reprend : le PnL de la semaine, le cumul depuis le 2026-11-03, le roulant sur 126 séances et son écart au seuil R0, le maxDD depuis le début et le seuil R1/R2 à h, le roulant sur 120 séances et le seuil R3, l'alarme et un commentaire. Toute alarme déclenche une revue, jamais une action automatique.</p>
+<h2 id="lecture-et-choix-qui-vous-revient">Lecture et choix qui vous revient</h2>
+<ol>
+<li><strong>Aucune règle ne détecte vite sans fausses alarmes nombreuses.</strong> C'est la conséquence directe de la phase 2 : les sleeves ont des Sharpe de 0,4 à 1,3, donc 250 séances ne suffisent pas à distinguer une sleeve saine d'une sleeve à Sharpe nul.</li>
+<li><strong>R0, la règle en vigueur, est lente sans être sûre.</strong> Elle coupe à tort environ 17 % des sleeves saines en 250 séances (médiane), ne détecte un Sharpe vrai nul que 31 % du temps, et met environ 200 séances quand elle le fait. Son seuil « pire que tout l'historique » n'empêche pas les fausses alarmes, parce que l'historique contient moins de fenêtres indépendantes que le futur n'en tire.</li>
+<li><strong>R2 (drawdown au-delà du p99) est la seule règle à faible taux de fausses alarmes</strong> (environ 7 %). Elle rate en revanche la plupart des dégradations : 14 % de détection à SR 0, 23 % à SR −0,5.</li>
+<li><strong>R1 et R3 détectent plus, mais coupent à tort une sleeve saine sur quatre environ.</strong> R1 est la plus rapide (environ 80 séances), R3 la plus sensible (66 % de détection à SR −0,5).</li>
+<li><strong>Au niveau du book, la détection est bien meilleure</strong>, parce que son Sharpe est plus élevé : R3 détecte 87 % des books à Sharpe vrai nul en 250 séances, pour 25 % de fausses alarmes, et R2 en détecte 41 % pour 7 %.</li>
+<li><strong>La réintégration par le shadow discrimine mal.</strong> Après 252 séances, une sleeve saine n'est réintégrée que 48 à 65 % du temps, et une sleeve à Sharpe nul l'est encore 20 à 38 % du temps.</li>
+<li>
+<p><strong>Sur l'historique</strong>, R1 aurait signalé <strong>S09</strong> dès le 2025-08-13, au début de son legacy OOS (144 séances en alarme), et R3 signale <strong>S08</strong> en juin-août 2026.</p>
+</li>
+<li>
+<p><strong>Combiner R0 et R2 pour le passage en shadow coûte cher en fausses alarmes.</strong> Avec la règle « R0 ou R2 » (ligne R0∪R2, ajoutée le 2026-11-15 sur les mêmes tirages), une sleeve saine est coupée à tort dans 21 % des cas (médiane), contre 7 % pour R2 seule. La détection monte à 36 % à SR 0 et à 59 % à SR −0,5. <strong>Correction</strong> : la première version de cette page annonçait environ 7 % pour un passage en shadow sur « R2 ou R0 ». Ce chiffre ne valait que pour R2 seule.</p>
+</li>
+</ol>
+<p><strong>Proposition, à décider par vous</strong>, à deux niveaux, uniforme pour toutes les sleeves. Version corrigée le 2026-11-15 : R0 devient une alerte.</p>
+<ul>
+<li><strong>alerte « revue »</strong> si R3 (PnL sur 120 séances &lt; p5) ou R0 (règle déjà enregistrée) se déclenche, sans action automatique ;</li>
+<li><strong>passage en shadow</strong> si R2 se déclenche (drawdown depuis le début du suivi au-delà du p99 à h) ;</li>
+<li><strong>réintégration</strong> après 252 séances de shadow, par une décision versionnée, sur les critères de réintégration ci-dessus ;</li>
+<li><strong>au niveau du book</strong>, R3 en alerte et R2 en revue générale.</li>
+</ul>
+<p>Le compromis assumé : l'action automatique coupe peu de sleeves saines (environ 7 %), au prix d'une détection lente. Les alertes R3 et R0 servent à regarder plus tôt. Garder R0 comme déclencheur du shadow ferait passer les fausses coupures à 21 %.</p>
+<p>Limites : les seuils sont estimés sur l'historique déjà vu, qui inclut la validation réutilisée. Le bootstrap suppose que la distribution passée reste valable. Pour S01, dont la fréquence de trades s'est effondrée en 2026 (phase 4), la distribution historique surestime la volatilité actuelle : une dégradation de S01 serait encore plus lente à détecter.</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

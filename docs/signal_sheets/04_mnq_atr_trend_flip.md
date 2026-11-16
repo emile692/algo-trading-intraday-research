@@ -76,6 +76,10 @@ Chaque cellule tient une position **virtuelle** `−1/0/+1`. La sleeve moyenne l
 
 Tick `0,25` = `0,50 USD`, commission `1,25 USD/côté`, slippage `1 tick/côté`. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la **cible agrégée** change. Un signal sans minute suivante exacte est ignoré. Dernière entrée 15:55, hard flatten agrégé 16:08. L'open du hard-flatten est utilisé ; à défaut, dernière clôture disponible strictement antérieure.
 
+### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
+
+S04 est en **shadow** depuis le 3 novembre 2026 : elle n'entre pas dans la cible nette MNQ et n'envoie aucun ordre. Son état et son PnL sont suivis virtuellement, pour la règle d'arrêt et une éventuelle réintégration versionnée ([Book, section 6](BOOK.md)).
+
 ## 8. Pseudocode de réimplémentation
 
 ```text

@@ -1,0 +1,484 @@
+{
+  "code_sha256": {
+    "research/book_aggregation_risk_r1_20261112/run_study.py": "854c1d944f3385d3ba40db867631354d07f9e59e83ba188dd2a77f79a67f1788",
+    "src/portfolio/aggregator.py": "2fa0dd361d4325f8f6f452c6fc6f1f6df59bbc7d9fa4d130a84cc662b26926b3",
+    "src/analytics/topstep_lifecycle/simulator.py": "598029da5c51cd2a624a7ccbe88d5ebf0313fc86737e1de1a530c12bc7b0f5a2",
+    "tests/test_book_aggregation_risk.py": "ebc9cd2abd17113c4032dcaf938d5676c4d70bdb563087fa9df887f1a4e62973"
+  },
+  "sessions": 653,
+  "window": [
+    "2021-06-22",
+    "2023-12-29"
+  ],
+  "b0": {
+    "expected_net_cash": 547.8660909902386,
+    "median_net_cash": -82.65349999999887,
+    "median_sessions_to_first_payout": 78.0,
+    "p_first_payout_le_60": 0.307625,
+    "p_any_payout": 0.800625,
+    "p_combine_mll": 0.397375,
+    "p_xfa_lost": 0.717375,
+    "p_pass": 0.911625,
+    "median_sessions_to_pass": 56.0,
+    "mean_payouts": 1.663625,
+    "mean_fees": 457.71825,
+    "hist_mean_daily": 41.24609494640159,
+    "hist_sharpe": 2.1444231435265606,
+    "hist_intraday_max_dd": 2639.2099999999846,
+    "hist_es95_daily": 604.1781818181813,
+    "hist_total": 26933.700000000237,
+    "cap20_peak_lots": 2.0,
+    "cap20_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap20_book_stop_days": 0,
+    "cap20_contracts": 3386,
+    "cap30_peak_lots": 3.0,
+    "cap30_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap30_book_stop_days": 0,
+    "cap30_contracts": 3746,
+    "cap50_peak_lots": 3.3,
+    "cap50_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap50_book_stop_days": 0,
+    "cap50_contracts": 3896
+  },
+  "steps": [
+    {
+      "step": "B1_k",
+      "incumbent_before": "B1k0.40",
+      "comparisons": [
+        {
+          "candidate": "B1k0.30",
+          "incumbent": "B1k0.40",
+          "delta_primary": 0.0,
+          "relative_delta": 0.0,
+          "paired_win_fraction": 0.0,
+          "paths_differing": 0,
+          "delta_p_xfa_lost": 0.0,
+          "keep": false
+        },
+        {
+          "candidate": "B1k0.50",
+          "incumbent": "B1k0.40",
+          "delta_primary": 0.0,
+          "relative_delta": 0.0,
+          "paired_win_fraction": 0.0,
+          "paths_differing": 0,
+          "delta_p_xfa_lost": 0.0,
+          "keep": false
+        }
+      ],
+      "kept": null
+    },
+    {
+      "step": "B2",
+      "incumbent_before": "B1k0.40",
+      "comparisons": [
+        {
+          "candidate": "B1k0.40+B2",
+          "incumbent": "B1k0.40",
+          "delta_primary": 241.7605505507819,
+          "relative_delta": 0.4973332080158107,
+          "paired_win_fraction": 0.5918367346938775,
+          "paths_differing": 7203,
+          "delta_p_xfa_lost": 0.07150000000000001,
+          "keep": false
+        }
+      ],
+      "kept": null
+    },
+    {
+      "step": "mbt_net_cap",
+      "incumbent_before": "B1k0.40",
+      "comparisons": [
+        {
+          "candidate": "B1k0.40+mbtcap1",
+          "incumbent": "B1k0.40",
+          "delta_primary": -40.720105201172714,
+          "relative_delta": -0.08376660503255555,
+          "paired_win_fraction": 0.4725787631271879,
+          "paths_differing": 6856,
+          "delta_p_xfa_lost": -0.03312499999999996,
+          "keep": false
+        },
+        {
+          "candidate": "B1k0.40+mbtcap2",
+          "incumbent": "B1k0.40",
+          "delta_primary": -30.838498207031364,
+          "relative_delta": -0.06343884148489805,
+          "paired_win_fraction": 0.40746054519368724,
+          "paths_differing": 3485,
+          "delta_p_xfa_lost": -0.009000000000000008,
+          "keep": false
+        }
+      ],
+      "kept": null
+    },
+    {
+      "step": "instrument_daily_stop",
+      "incumbent_before": "B1k0.40",
+      "comparisons": [
+        {
+          "candidate": "B1k0.40+istop1.0",
+          "incumbent": "B1k0.40",
+          "delta_primary": -130.21636935058655,
+          "relative_delta": -0.2678721758275275,
+          "paired_win_fraction": 0.3872908717346639,
+          "paths_differing": 6814,
+          "delta_p_xfa_lost": -0.025999999999999912,
+          "keep": false
+        },
+        {
+          "candidate": "B1k0.40+istop1.5",
+          "incumbent": "B1k0.40",
+          "delta_primary": -14.23165977148443,
+          "relative_delta": -0.02927639349520426,
+          "paired_win_fraction": 0.48819586126493736,
+          "paths_differing": 3431,
+          "delta_p_xfa_lost": -0.00462499999999999,
+          "keep": false
+        }
+      ],
+      "kept": null
+    },
+    {
+      "step": "book_daily_stop",
+      "incumbent_before": "B1k0.40",
+      "comparisons": [
+        {
+          "candidate": "B1k0.40+bstop1000",
+          "incumbent": "B1k0.40",
+          "delta_primary": -3.6649799746093663,
+          "relative_delta": -0.0075393452072045905,
+          "paired_win_fraction": 0.2103386809269162,
+          "paths_differing": 561,
+          "delta_p_xfa_lost": -0.0020000000000000018,
+          "keep": false
+        }
+      ],
+      "kept": null
+    },
+    {
+      "step": "consistency_profit_lock",
+      "incumbent_before": "B1k0.40",
+      "comparisons": [
+        {
+          "candidate": "B1k0.40+lock",
+          "incumbent": "B1k0.40",
+          "delta_primary": 0.0,
+          "relative_delta": 0.0,
+          "paired_win_fraction": 0.0,
+          "paths_differing": 0,
+          "delta_p_xfa_lost": 0.0,
+          "keep": false
+        }
+      ],
+      "kept": null
+    }
+  ],
+  "incumbent_after_steps": "B1k0.40",
+  "cscv": {
+    "pbo": 0.626984126984127,
+    "splits": 252,
+    "configs": 9,
+    "median_logit": -0.4054651081081643,
+    "config_names": [
+      "B1k0.40",
+      "B1k0.30",
+      "B1k0.50",
+      "B1k0.40+B2",
+      "B1k0.40+mbtcap1",
+      "B1k0.40+mbtcap2",
+      "B1k0.40+istop1.0",
+      "B1k0.40+istop1.5",
+      "B1k0.40+bstop1000"
+    ]
+  },
+  "fallback_used": true,
+  "retained": {
+    "sizing": "B1",
+    "k": 0.4,
+    "b2": false,
+    "mbt_cap": null,
+    "q": null,
+    "Y": null,
+    "lock": false,
+    "mbt_lot_units": 10
+  },
+  "retained_name": "B1k0.40",
+  "retained_summary": {
+    "expected_net_cash": 486.1138300322308,
+    "median_net_cash": -112.17599999999783,
+    "median_sessions_to_first_payout": 82.0,
+    "p_first_payout_le_60": 0.2705,
+    "p_any_payout": 0.782875,
+    "p_combine_mll": 0.3425,
+    "p_xfa_lost": 0.67275,
+    "p_pass": 0.901875,
+    "median_sessions_to_pass": 59.0,
+    "mean_payouts": 1.563,
+    "mean_fees": 441.865625,
+    "hist_mean_daily": 40.22235834609531,
+    "hist_sharpe": 2.190475295149169,
+    "hist_intraday_max_dd": 2615.609999999986,
+    "hist_es95_daily": 603.6381818181814,
+    "hist_total": 26265.200000000237,
+    "cap20_peak_lots": 2.0,
+    "cap20_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap20_book_stop_days": 0,
+    "cap20_contracts": 3174,
+    "cap30_peak_lots": 3.0,
+    "cap30_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap30_book_stop_days": 0,
+    "cap30_contracts": 3534,
+    "cap50_peak_lots": 3.3,
+    "cap50_instrument_stop_days": [
+      0,
+      0,
+      0
+    ],
+    "cap50_book_stop_days": 0,
+    "cap50_contracts": 3684
+  },
+  "sensitivities": {
+    "retained_no_activation_fee": {
+      "expected_net_cash": 400.69383003223084,
+      "median_net_cash": -190.7734999999975,
+      "median_sessions_to_first_payout": 82.0,
+      "p_first_payout_le_60": 0.2705,
+      "p_any_payout": 0.782875,
+      "p_combine_mll": 0.3425,
+      "p_xfa_lost": 0.67275,
+      "p_pass": 0.901875,
+      "median_sessions_to_pass": 59.0,
+      "mean_payouts": 1.563,
+      "mean_fees": 527.285625,
+      "hist_mean_daily": 40.22235834609531,
+      "hist_sharpe": 2.190475295149169,
+      "hist_intraday_max_dd": 2615.609999999986,
+      "hist_es95_daily": 603.6381818181814,
+      "hist_total": 26265.200000000237,
+      "cap20_peak_lots": 2.0,
+      "cap20_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap20_book_stop_days": 0,
+      "cap20_contracts": 3174,
+      "cap30_peak_lots": 3.0,
+      "cap30_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap30_book_stop_days": 0,
+      "cap30_contracts": 3534,
+      "cap50_peak_lots": 3.3,
+      "cap50_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap50_book_stop_days": 0,
+      "cap50_contracts": 3684
+    },
+    "retained_mbt_0.1_lot": {
+      "expected_net_cash": 563.3898130332085,
+      "median_net_cash": -81.33549999999858,
+      "median_sessions_to_first_payout": 81.0,
+      "p_first_payout_le_60": 0.277625,
+      "p_any_payout": 0.782625,
+      "p_combine_mll": 0.34475,
+      "p_xfa_lost": 0.6825,
+      "p_pass": 0.901875,
+      "median_sessions_to_pass": 59.0,
+      "mean_payouts": 1.613375,
+      "mean_fees": 446.459875,
+      "hist_mean_daily": 40.22235834609531,
+      "hist_sharpe": 2.190475295149169,
+      "hist_intraday_max_dd": 2615.609999999986,
+      "hist_es95_daily": 603.6381818181814,
+      "hist_total": 26265.200000000237,
+      "cap20_peak_lots": 0.6,
+      "cap20_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap20_book_stop_days": 0,
+      "cap20_contracts": 3684,
+      "cap30_peak_lots": 0.6,
+      "cap30_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap30_book_stop_days": 0,
+      "cap30_contracts": 3684,
+      "cap50_peak_lots": 0.6,
+      "cap50_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap50_book_stop_days": 0,
+      "cap50_contracts": 3684
+    },
+    "B0_no_activation_fee": {
+      "expected_net_cash": 466.3049659902387,
+      "median_net_cash": -146.88999999999675,
+      "median_sessions_to_first_payout": 78.0,
+      "p_first_payout_le_60": 0.307625,
+      "p_any_payout": 0.800625,
+      "p_combine_mll": 0.397375,
+      "p_xfa_lost": 0.717375,
+      "p_pass": 0.911625,
+      "median_sessions_to_pass": 56.0,
+      "mean_payouts": 1.663625,
+      "mean_fees": 539.279375,
+      "hist_mean_daily": 41.24609494640159,
+      "hist_sharpe": 2.1444231435265606,
+      "hist_intraday_max_dd": 2639.2099999999846,
+      "hist_es95_daily": 604.1781818181813,
+      "hist_total": 26933.700000000237,
+      "cap20_peak_lots": 2.0,
+      "cap20_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap20_book_stop_days": 0,
+      "cap20_contracts": 3386,
+      "cap30_peak_lots": 3.0,
+      "cap30_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap30_book_stop_days": 0,
+      "cap30_contracts": 3746,
+      "cap50_peak_lots": 3.3,
+      "cap50_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap50_book_stop_days": 0,
+      "cap50_contracts": 3896
+    },
+    "B0_mbt_0.1_lot": {
+      "expected_net_cash": 637.4273836801813,
+      "median_net_cash": -49.611999999996954,
+      "median_sessions_to_first_payout": 78.0,
+      "p_first_payout_le_60": 0.31325,
+      "p_any_payout": 0.799125,
+      "p_combine_mll": 0.39825,
+      "p_xfa_lost": 0.71925,
+      "p_pass": 0.911625,
+      "median_sessions_to_pass": 56.0,
+      "mean_payouts": 1.726125,
+      "mean_fees": 460.384125,
+      "hist_mean_daily": 41.24609494640159,
+      "hist_sharpe": 2.1444231435265606,
+      "hist_intraday_max_dd": 2639.2099999999846,
+      "hist_es95_daily": 604.1781818181813,
+      "hist_total": 26933.700000000237,
+      "cap20_peak_lots": 0.6,
+      "cap20_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap20_book_stop_days": 0,
+      "cap20_contracts": 3896,
+      "cap30_peak_lots": 0.6,
+      "cap30_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap30_book_stop_days": 0,
+      "cap30_contracts": 3896,
+      "cap50_peak_lots": 0.6,
+      "cap50_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap50_book_stop_days": 0,
+      "cap50_contracts": 3896
+    },
+    "retained_100k_combine_only": {
+      "expected_net_cash": -270.2105,
+      "median_net_cash": -294.0,
+      "median_sessions_to_first_payout": Infinity,
+      "p_first_payout_le_60": 0.0,
+      "p_any_payout": 0.0,
+      "p_combine_mll": 0.10175,
+      "p_xfa_lost": 0.0,
+      "p_pass": 0.482625,
+      "median_sessions_to_pass": Infinity,
+      "mean_payouts": 0.0,
+      "mean_fees": 270.2105,
+      "hist_mean_daily": 40.22235834609531,
+      "hist_sharpe": 2.190475295149169,
+      "hist_intraday_max_dd": 2615.609999999986,
+      "hist_es95_daily": 603.6381818181814,
+      "hist_total": 26265.200000000237,
+      "cap100_peak_lots": 3.3,
+      "cap100_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap100_book_stop_days": 0,
+      "cap100_contracts": 3684
+    },
+    "B0_100k_combine_only": {
+      "expected_net_cash": -267.33175,
+      "median_net_cash": -294.0,
+      "median_sessions_to_first_payout": Infinity,
+      "p_first_payout_le_60": 0.0,
+      "p_any_payout": 0.0,
+      "p_combine_mll": 0.122,
+      "p_xfa_lost": 0.0,
+      "p_pass": 0.518,
+      "median_sessions_to_pass": 124.0,
+      "mean_payouts": 0.0,
+      "mean_fees": 267.33175,
+      "hist_mean_daily": 41.24609494640159,
+      "hist_sharpe": 2.1444231435265606,
+      "hist_intraday_max_dd": 2639.2099999999846,
+      "hist_es95_daily": 604.1781818181813,
+      "hist_total": 26933.700000000237,
+      "cap100_peak_lots": 3.3,
+      "cap100_instrument_stop_days": [
+        0,
+        0,
+        0
+      ],
+      "cap100_book_stop_days": 0,
+      "cap100_contracts": 3896
+    }
+  },
+  "written": "2026-11-12T23:56:07+01:00"
+}

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 10 — Stop catastrophe opérationnel</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-10-stop-catastrophe-operationnel">Phase 10 — Stop catastrophe opérationnel</h1>
+<p><em>Stop contre une déconnexion ou un bug, pas un stop alpha. Positions nettes du book de référence (S01 = ATR 18), exécution agrégée sans limite de lots. MNQ et MGC du 2019-05-06 au 2026-03-19, MBT du 2021-05-03 au 2026-03-19. ATR14 quotidien RTH de J−1, en points. Le remplissage se fait au stop moins un tick ; les gaps à travers le stop ne sont pas modélisés. Script : <a href="../phase10_cat_stop.py">phase10_cat_stop.py</a>. Tables : <a href="../outputs/10_triggers.csv">10_triggers.csv</a>, <a href="../outputs/10_summary.csv">10_summary.csv</a>, <a href="../outputs/10_bounds.csv">10_bounds.csv</a>.</em></p>
+<h2 id="regle-de-netting-du-stop">Règle de netting du stop</h2>
+<p>Un seul ordre stop par instrument, posé chez le broker, pour la position nette :</p>
+<ul>
+<li><strong>ouverture depuis flat</strong> : prix moyen = fill ; stop = prix moyen ∓ k × ATR(J−1) ;</li>
+<li><strong>augmentation dans le même sens</strong> : prix moyen pondéré, stop recalculé, quantité ajustée ;</li>
+<li><strong>réduction</strong> : prix moyen et niveau conservés, quantité réduite ;</li>
+<li><strong>retournement</strong> : prix moyen = fill du nouveau sens, stop recalculé de l'autre côté ;</li>
+<li><strong>retour à plat</strong> : ordre annulé.</li>
+</ul>
+<p>Une fois déclenché, l'instrument reste à plat jusqu'à la fin de la séance. Les sleeves continuent leur PnL virtuel. Ce stop est indépendant des ordres stop et cible de S01, qui restent posés.</p>
+<h2 id="resultats">Résultats</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">k</th>
+<th style="text-align: right;">Déclenchements MNQ</th>
+<th style="text-align: right;">MGC</th>
+<th style="text-align: right;">MBT</th>
+<th style="text-align: right;">PnL évité (+) / perdu (−) total</th>
+<th style="text-align: right;">Borne de perte de la position ouverte : médiane</th>
+<th style="text-align: right;">p99</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">Jours où la borne dépasse 500 USD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1,5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">−418</td>
+<td style="text-align: right;">1 250</td>
+<td style="text-align: right;">4 196</td>
+<td style="text-align: right;">6 515</td>
+<td style="text-align: right;">81,5 %</td>
+</tr>
+<tr>
+<td style="text-align: right;">2,0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">−355</td>
+<td style="text-align: right;">1 666</td>
+<td style="text-align: right;">5 593</td>
+<td style="text-align: right;">8 684</td>
+<td style="text-align: right;">85,4 %</td>
+</tr>
+<tr>
+<td style="text-align: right;">3,0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2 499</td>
+<td style="text-align: right;">8 385</td>
+<td style="text-align: right;">13 021</td>
+<td style="text-align: right;">89,1 %</td>
+</tr>
+</tbody>
+</table>
+<p>La « borne » est la perte maximale de la position ouverte si le stop est touché : position nette maximale de la journée × k × ATR × valeur du point, plus les coûts, sommée sur les instruments. Elle ne compte pas les pertes déjà réalisées dans la journée.</p>
+<h2 id="declenchements-historiques">Déclenchements historiques</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">k</th>
+<th>Date</th>
+<th>Instrument</th>
+<th style="text-align: right;">Position</th>
+<th style="text-align: right;">Entrée moyenne</th>
+<th style="text-align: right;">Stop</th>
+<th style="text-align: right;">PnL réel</th>
+<th style="text-align: right;">PnL avec stop</th>
+<th style="text-align: right;">Évité (+) / perdu (−)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1,5</td>
+<td>2019-08-01</td>
+<td>MNQ</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">7 919,25</td>
+<td style="text-align: right;">7 792,15</td>
+<td style="text-align: right;">−274</td>
+<td style="text-align: right;">−258</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,5</td>
+<td>2020-07-13</td>
+<td>MNQ</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">11 021,00</td>
+<td style="text-align: right;">10 721,38</td>
+<td style="text-align: right;">−887</td>
+<td style="text-align: right;">−790</td>
+<td style="text-align: right;">97</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,5</td>
+<td>2021-11-10</td>
+<td>MNQ</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">16 191,00</td>
+<td style="text-align: right;">15 918,11</td>
+<td style="text-align: right;">−448</td>
+<td style="text-align: right;">−549</td>
+<td style="text-align: right;">−101</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,5</td>
+<td>2022-11-08</td>
+<td>MBT</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">19 270,00</td>
+<td style="text-align: right;">20 052,68</td>
+<td style="text-align: right;">201</td>
+<td style="text-align: right;">−128</td>
+<td style="text-align: right;">−328</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,5</td>
+<td>2023-11-09</td>
+<td>MBT</td>
+<td style="text-align: right;">+2</td>
+<td style="text-align: right;">37 677,50</td>
+<td style="text-align: right;">35 924,11</td>
+<td style="text-align: right;">−300</td>
+<td style="text-align: right;">−414</td>
+<td style="text-align: right;">−114</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,5</td>
+<td>2025-03-04</td>
+<td>MNQ</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">20 102,50</td>
+<td style="text-align: right;">20 662,91</td>
+<td style="text-align: right;">−1 138</td>
+<td style="text-align: right;">−1 124</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr>
+<td style="text-align: right;">2,0</td>
+<td>2022-11-08</td>
+<td>MBT</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">19 270,00</td>
+<td style="text-align: right;">20 313,57</td>
+<td style="text-align: right;">201</td>
+<td style="text-align: right;">−154</td>
+<td style="text-align: right;">−355</td>
+</tr>
+</tbody>
+</table>
+<h2 id="limite-de-perte-journaliere">Limite de perte journalière</h2>
+<p>La DLL d'un compte 50K Topstep est de 1 000 USD. Elle est appliquée automatiquement aux nouveaux comptes (Responsible Trading Program). Sur 1775 séances, le book de référence :</p>
+<ul>
+<li>a fini la journée à −1 000 USD ou moins <strong>3 fois</strong> ;</li>
+<li>a touché −1 000 USD en intraday (marquage adverse) <strong>11 fois</strong>.</li>
+</ul>
+<p>Ces journées auraient été interrompues par la DLL. C'est un effet de la règle Topstep, distinct du stop catastrophe.</p>
+<h2 id="recommandation">Recommandation</h2>
+<p><strong>Aucun k de {1,5 ; 2 ; 3} ne borne la perte d'un jour à moins de X = 50 % de la DLL, soit 500 USD.</strong> Même à k = 1,5, la borne de la position ouverte dépasse 500 USD sur 81 % des jours (médiane 1 250 USD). Un ATR journalier MNQ vaut plusieurs centaines de points, à 2 USD le point, et S01 peut porter 4 contrats. Pour borner le p99 à 500 USD, il faudrait k ≈ 0,18 : ce serait un stop alpha serré, qui couperait les trades ordinaires.</p>
+<p>Je recommande donc de séparer les deux rôles.</p>
+<ul>
+<li><strong>Stop catastrophe chez le broker : k = 3.</strong> Il ne s'est jamais déclenché sur l'historique (2019–2026 pour MNQ et MGC, 2021–2026 pour MBT), ce qui veut dire qu'il ne touche pas au comportement des sleeves. À k = 1,5, il se serait déclenché 6 fois pour −418 USD au total ; à k = 2, une fois pour −355 USD. Son rôle est de borner une position orpheline (déconnexion, bug) à environ 3 ATR, pas de borner une journée.</li>
+<li><strong>Borne journalière : la DLL Topstep de 1 000 USD (X = 100 %)</strong>, appliquée par Topstep au niveau du compte. Historiquement, elle aurait interrompu 11 séances en intraday sur 1775. Un plafond plus serré relève d'une décision de risque au niveau du book. L'étude d'agrégation du 13/11 a rejeté un stop book de 1 000 USD, qui coupait plus de gains qu'il n'évitait de pertes.</li>
+</ul>
+<p>Limites : remplissage au niveau du stop (pas de gap modélisé), barres minute uniquement, positions sans limite de lots (Combine). Le comportement réel sur un gap d'ouverture ou une coupure de flux n'est pas testé.</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

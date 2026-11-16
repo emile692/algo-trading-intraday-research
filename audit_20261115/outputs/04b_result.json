@@ -1,0 +1,40 @@
+{
+  "preread": {
+    "written_at": "2026-11-15T19:13:07+01:00",
+    "window": [
+      "2026-03-20",
+      "2026-10-02"
+    ],
+    "H": 137,
+    "first_session": "2026-03-23",
+    "last_session": "2026-10-02",
+    "threshold_pnl_p05": -617.5,
+    "context_pnl_p50": 1455.0,
+    "context_pnl_p95": 3817.0,
+    "context_mdd_p05": -1888.575
+  },
+  "gate": {
+    "frozen": 701,
+    "replayed_to_20260319": 701,
+    "only_frozen": 0,
+    "only_replayed": 0,
+    "max_abs_pnl_gap": 0.0,
+    "passed": true
+  },
+  "H": 137,
+  "trades": 11,
+  "pnl_usd": -390.0,
+  "sharpe": -0.7557346217239203,
+  "max_dd_usd": -840.5,
+  "worst_day_usd": -245.0,
+  "win_rate_trades": 0.45454545454545453,
+  "verdict": "COHÉRENT",
+  "criterion": "ÉCHEC si PnL < p5(H=137) = -617.50 USD",
+  "info_baseline_fixed": {
+    "sessions_in_file": 141,
+    "pnl_usd": 503.0,
+    "note": "already read on 2026-11-01; reported for information only, no criterion"
+  },
+  "label": "partiellement contaminé (baseline_fixed déjà lu sur cette fenêtre)",
+  "read_at": "2026-11-15T19:13:52+01:00"
+}

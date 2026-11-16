@@ -1,0 +1,8 @@
+{
+  "spec_file": "FROZEN_SPECIFICATION.json",
+  "spec_sha256": "79dd2257084df5d2c12ec54d9c587e541cb17913df125fdbaa3d34139e424f5c",
+  "research_design_sha256": "295174824814543bc60925364b0539d6761e7c725d31ca0d48a0107cbefcc946",
+  "frozen_at": "2026-11-12T23:26:16+01:00",
+  "runner_sha256_at_freeze": null,
+  "runner_note": "run_study.py not written at freeze; its sha256 is recorded in run metadata at the first run and must not change between the selftest and the OOS read"
+}

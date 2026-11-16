@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 8 — Concentration et régimes</title>
+  <style>
+@page { size: A4; margin: 15mm 14mm 17mm; }
+* { box-sizing: border-box; }
+html { color: #172033; background: #fff; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; font-size: 9.45pt; line-height: 1.48; }
+h1, h2, h3 { color: #102b4e; page-break-after: avoid; }
+h1 { margin: 0 0 5mm; font-size: 22pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { margin: 6mm 0 2.2mm; padding-bottom: 1.1mm; border-bottom: 1px solid #b9c8d9; font-size: 14pt; }
+h3 { margin: 4mm 0 1.5mm; font-size: 11.2pt; }
+p { margin: 0 0 2.6mm; text-align: justify; hyphens: auto; }
+ul, ol { margin: 1.5mm 0 3mm; padding-left: 6mm; }
+li { margin-bottom: .8mm; text-align: justify; hyphens: auto; }
+strong { color: #102b4e; }
+a { color: #1769aa; text-decoration: none; }
+code { padding: .15em .35em; border-radius: 3px; background: #edf3f8; color: #17375e; font-family: Consolas, monospace; font-size: 8.6pt; }
+pre:not(.mermaid) { overflow-wrap: anywhere; white-space: pre-wrap; padding: 3.5mm; border: 1px solid #c9d5e2; border-radius: 5px; background: #f6f8fb; page-break-inside: avoid; }
+pre:not(.mermaid) code { padding: 0; background: transparent; }
+table { width: 100%; margin: 2.5mm 0 4mm; border-collapse: collapse; font-size: 8.25pt; page-break-inside: avoid; }
+thead { display: table-header-group; }
+th { background: #17375e; color: white; text-align: left; }
+th, td { padding: 1.8mm 2mm; border: 1px solid #c5d0dc; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f7fa; }
+blockquote { margin: 3mm 0; padding: 2.5mm 4mm; border-left: 4px solid #3a80b9; background: #eef5fb; }
+img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: auto; margin: 3mm auto 4mm; object-fit: contain; page-break-inside: avoid; }
+.interactive-cube { width: 100%; min-height: 620px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-figure { width: 100%; min-height: 450px; margin: 4mm auto 5mm; border: 1px solid #c9d5e2; border-radius: 8px; background: #fff; overflow: hidden; }
+.interactive-cube-note { margin: -2mm 0 4mm; color: #526174; font-size: 8.5pt; text-align: center; }
+.interactive-print { display: none; }
+.document-meta { margin: 0 0 6mm; padding: 2.3mm 3mm; border-radius: 4px; background: #102b4e; color: #fff; font-size: 8.5pt; letter-spacing: .02em; }
+.signal-sheet { page-break-before: always; }
+.signal-sheet.first { page-break-before: auto; }
+.book-section { page-break-before: always; }
+.mermaid { margin: 4mm auto 5mm; padding: 3mm; border: 1px solid #c9d5e2; border-radius: 6px; background: #fbfcfe; text-align: center; page-break-inside: avoid; }
+.mermaid svg { max-width: 100% !important; max-height: 215mm !important; width: auto !important; height: auto !important; }
+.cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; color: #fff; background: linear-gradient(145deg, #0d2747, #1769aa); margin: -15mm -14mm -17mm; padding: 30mm 24mm; }
+.cover .eyebrow { font-size: 11pt; text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.cover h1 { margin: 8mm 0 5mm; color: #fff; font-size: 34pt; }
+.cover p { max-width: 145mm; font-size: 14pt; }
+.cover .rule { width: 42mm; height: 1.5mm; margin: 8mm 0; background: #65c3ff; }
+.cover .date { margin-top: 18mm; font-size: 10pt; opacity: .78; }
+.toc { page-break-after: always; }
+.toc h1 { margin-bottom: 9mm; }
+.toc ol { padding-left: 8mm; font-size: 12pt; }
+.toc li { margin: 3mm 0; padding-left: 2mm; }
+.toc a { color: #102b4e; }
+.client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
+@media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media print {
+  .interactive-only { display: none !important; }
+  .interactive-print { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="document-meta">AUDIT 2026-11-15 · <a href="RAPPORT.html">rapport</a></div><h1 id="phase-8-concentration-et-regimes">Phase 8 — Concentration et régimes</h1>
+<p><em>Book à 8 sleeves (S01 = ATR 18), calendrier union, 2021-05-03 → 2026-03-19, sauf mention. Les sleeves sont mesurées sur tout leur historique, IS et validation réutilisée confondus : c'est une analyse </em><em>descriptive</em><em>. Barres quotidiennes RTH 09:30–16:00 ET, MNQ/MGC coupés au 2026-03-19, MBT au 2026-10-02. Les bornes des terciles sont fixées sur l'IS de chaque instrument. Script : <a href="../phase8_regimes.py">phase8_regimes.py</a>. Tables : <a href="../outputs/08_regimes.csv">08_regimes.csv</a>, <a href="../outputs/08_clustering.csv">08_clustering.csv</a>, <a href="../outputs/08_worst_weeks.csv">08_worst_weeks.csv</a>, <a href="../outputs/08_worst_months.csv">08_worst_months.csv</a>, <a href="../outputs/08_net_position_levels.csv">08_net_position_levels.csv</a>.</em></p>
+<h2 id="contribution-au-risque-book-a-8-sleeves-calendrier-corrige">Contribution au risque — book à 8 sleeves, calendrier corrigé</h2>
+<p><strong>2024-01-02 → 2026-03-19</strong></p>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Vol. quotidienne</th>
+<th style="text-align: right;">Pire jour</th>
+<th style="text-align: right;">maxDD</th>
+<th style="text-align: right;">Contribution au risque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">6 035,00</td>
+<td style="text-align: right;">130,74</td>
+<td style="text-align: right;">−249,00</td>
+<td style="text-align: right;">−875,50</td>
+<td style="text-align: right;">7,3 %</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">9 279,00</td>
+<td style="text-align: right;">288,70</td>
+<td style="text-align: right;">−1 138,00</td>
+<td style="text-align: right;">−3 714,00</td>
+<td style="text-align: right;">41,0 %</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">592,50</td>
+<td style="text-align: right;">58,53</td>
+<td style="text-align: right;">−268,50</td>
+<td style="text-align: right;">−940,50</td>
+<td style="text-align: right;">3,7 %</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">1 717,50</td>
+<td style="text-align: right;">122,88</td>
+<td style="text-align: right;">−874,50</td>
+<td style="text-align: right;">−1 622,50</td>
+<td style="text-align: right;">10,7 %</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">3 932,50</td>
+<td style="text-align: right;">149,08</td>
+<td style="text-align: right;">−909,50</td>
+<td style="text-align: right;">−1 564,50</td>
+<td style="text-align: right;">13,0 %</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">2 209,08</td>
+<td style="text-align: right;">73,36</td>
+<td style="text-align: right;">−355,32</td>
+<td style="text-align: right;">−1 285,80</td>
+<td style="text-align: right;">5,2 %</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">4 135,08</td>
+<td style="text-align: right;">105,16</td>
+<td style="text-align: right;">−533,64</td>
+<td style="text-align: right;">−1 542,56</td>
+<td style="text-align: right;">9,1 %</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">2 957,30</td>
+<td style="text-align: right;">99,36</td>
+<td style="text-align: right;">−229,32</td>
+<td style="text-align: right;">−1 916,40</td>
+<td style="text-align: right;">9,9 %</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2021-05-03 → 2026-03-19</strong></p>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">Vol. quotidienne</th>
+<th style="text-align: right;">Pire jour</th>
+<th style="text-align: right;">maxDD</th>
+<th style="text-align: right;">Contribution au risque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td style="text-align: right;">15 155,00</td>
+<td style="text-align: right;">136,91</td>
+<td style="text-align: right;">−249,00</td>
+<td style="text-align: right;">−2 148,50</td>
+<td style="text-align: right;">13,7 %</td>
+</tr>
+<tr>
+<td>S02</td>
+<td style="text-align: right;">22 160,50</td>
+<td style="text-align: right;">240,09</td>
+<td style="text-align: right;">−1 138,00</td>
+<td style="text-align: right;">−3 714,00</td>
+<td style="text-align: right;">44,0 %</td>
+</tr>
+<tr>
+<td>S03</td>
+<td style="text-align: right;">2 119,50</td>
+<td style="text-align: right;">50,84</td>
+<td style="text-align: right;">−268,50</td>
+<td style="text-align: right;">−1 202,50</td>
+<td style="text-align: right;">3,4 %</td>
+</tr>
+<tr>
+<td>S05</td>
+<td style="text-align: right;">3 009,00</td>
+<td style="text-align: right;">86,06</td>
+<td style="text-align: right;">−874,50</td>
+<td style="text-align: right;">−1 622,50</td>
+<td style="text-align: right;">8,1 %</td>
+</tr>
+<tr>
+<td>S06</td>
+<td style="text-align: right;">4 510,00</td>
+<td style="text-align: right;">105,00</td>
+<td style="text-align: right;">−909,50</td>
+<td style="text-align: right;">−1 564,50</td>
+<td style="text-align: right;">9,8 %</td>
+</tr>
+<tr>
+<td>S07</td>
+<td style="text-align: right;">2 242,22</td>
+<td style="text-align: right;">57,71</td>
+<td style="text-align: right;">−451,32</td>
+<td style="text-align: right;">−1 285,80</td>
+<td style="text-align: right;">5,0 %</td>
+</tr>
+<tr>
+<td>S08</td>
+<td style="text-align: right;">4 569,90</td>
+<td style="text-align: right;">79,87</td>
+<td style="text-align: right;">−533,64</td>
+<td style="text-align: right;">−1 542,56</td>
+<td style="text-align: right;">8,2 %</td>
+</tr>
+<tr>
+<td>S09</td>
+<td style="text-align: right;">5 629,48</td>
+<td style="text-align: right;">73,64</td>
+<td style="text-align: right;">−229,32</td>
+<td style="text-align: right;">−1 916,40</td>
+<td style="text-align: right;">7,8 %</td>
+</tr>
+</tbody>
+</table>
+<h2 id="position-nette-par-instrument-moteur-de-netting-sans-limite-de-lots">Position nette par instrument (moteur de netting, sans limite de lots)</h2>
+<p>Sur 1261 séances, la position nette maximale est de 4 MNQ, 2 MGC et 3 MBT, soit au plus 8 USD par point MNQ, 20 USD par point MGC et 0,3 USD par point MBT. Le pic simultané est de 3,3 lots Topstep (1 MBT = 1 lot). Les trois instruments sont en position le même jour sur 182 séances.</p>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th style="text-align: right;">Position nette</th>
+<th style="text-align: right;">Part du temps (09:30–16:08)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MNQ</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">0,1 %</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">19,8 %</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td style="text-align: right;">+0</td>
+<td style="text-align: right;">47,3 %</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">21,0 %</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td style="text-align: right;">+2</td>
+<td style="text-align: right;">10,4 %</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td style="text-align: right;">+3</td>
+<td style="text-align: right;">1,3 %</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">0,4 %</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">6,6 %</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td style="text-align: right;">+0</td>
+<td style="text-align: right;">86,1 %</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">6,9 %</td>
+</tr>
+<tr>
+<td>MGC</td>
+<td style="text-align: right;">+2</td>
+<td style="text-align: right;">0,1 %</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">3,4 %</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">8,3 %</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">13,4 %</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td style="text-align: right;">+0</td>
+<td style="text-align: right;">51,1 %</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">12,7 %</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td style="text-align: right;">+2</td>
+<td style="text-align: right;">7,0 %</td>
+</tr>
+<tr>
+<td>MBT</td>
+<td style="text-align: right;">+3</td>
+<td style="text-align: right;">4,2 %</td>
+</tr>
+</tbody>
+</table>
+<h2 id="regimes-book-a-8-sleeves">Régimes — book à 8 sleeves</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Instrument</th>
+<th>Régime</th>
+<th style="text-align: right;">Séances</th>
+<th style="text-align: right;">PnL</th>
+<th style="text-align: right;">PnL moyen</th>
+<th style="text-align: right;">Sharpe</th>
+<th style="text-align: right;">Jours gagnants</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MNQ</td>
+<td>bas</td>
+<td style="text-align: right;">519</td>
+<td style="text-align: right;">33 794</td>
+<td style="text-align: right;">65,11</td>
+<td style="text-align: right;">2,51</td>
+<td style="text-align: right;">49 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MNQ</td>
+<td>moyen</td>
+<td style="text-align: right;">411</td>
+<td style="text-align: right;">10 715</td>
+<td style="text-align: right;">26,07</td>
+<td style="text-align: right;">1,10</td>
+<td style="text-align: right;">49 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MNQ</td>
+<td>haut</td>
+<td style="text-align: right;">311</td>
+<td style="text-align: right;">15 082</td>
+<td style="text-align: right;">48,49</td>
+<td style="text-align: right;">1,82</td>
+<td style="text-align: right;">55 %</td>
+</tr>
+<tr>
+<td>Jour MNQ abs(C−O)/(H−L) (ex post)</td>
+<td>MNQ</td>
+<td>bas</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">−52 187</td>
+<td style="text-align: right;">−122,50</td>
+<td style="text-align: right;">−6,30</td>
+<td style="text-align: right;">26 %</td>
+</tr>
+<tr>
+<td>Jour MNQ abs(C−O)/(H−L) (ex post)</td>
+<td>MNQ</td>
+<td>moyen</td>
+<td style="text-align: right;">397</td>
+<td style="text-align: right;">−6 410</td>
+<td style="text-align: right;">−16,15</td>
+<td style="text-align: right;">−0,72</td>
+<td style="text-align: right;">44 %</td>
+</tr>
+<tr>
+<td>Jour MNQ abs(C−O)/(H−L) (ex post)</td>
+<td>MNQ</td>
+<td>haut</td>
+<td style="text-align: right;">418</td>
+<td style="text-align: right;">118 188</td>
+<td style="text-align: right;">282,75</td>
+<td style="text-align: right;">10,75</td>
+<td style="text-align: right;">81 %</td>
+</tr>
+<tr>
+<td>ER20 fin J−1 (ex ante)</td>
+<td>MNQ</td>
+<td>bas</td>
+<td style="text-align: right;">483</td>
+<td style="text-align: right;">26 375</td>
+<td style="text-align: right;">54,61</td>
+<td style="text-align: right;">2,36</td>
+<td style="text-align: right;">51 %</td>
+</tr>
+<tr>
+<td>ER20 fin J−1 (ex ante)</td>
+<td>MNQ</td>
+<td>moyen</td>
+<td style="text-align: right;">366</td>
+<td style="text-align: right;">9 472</td>
+<td style="text-align: right;">25,88</td>
+<td style="text-align: right;">0,95</td>
+<td style="text-align: right;">49 %</td>
+</tr>
+<tr>
+<td>ER20 fin J−1 (ex ante)</td>
+<td>MNQ</td>
+<td>haut</td>
+<td style="text-align: right;">392</td>
+<td style="text-align: right;">23 743</td>
+<td style="text-align: right;">60,57</td>
+<td style="text-align: right;">2,31</td>
+<td style="text-align: right;">52 %</td>
+</tr>
+<tr>
+<td>ER20 centré (ex post)</td>
+<td>MNQ</td>
+<td>bas</td>
+<td style="text-align: right;">482</td>
+<td style="text-align: right;">35 685</td>
+<td style="text-align: right;">74,04</td>
+<td style="text-align: right;">2,72</td>
+<td style="text-align: right;">52 %</td>
+</tr>
+<tr>
+<td>ER20 centré (ex post)</td>
+<td>MNQ</td>
+<td>moyen</td>
+<td style="text-align: right;">359</td>
+<td style="text-align: right;">20 056</td>
+<td style="text-align: right;">55,87</td>
+<td style="text-align: right;">2,01</td>
+<td style="text-align: right;">53 %</td>
+</tr>
+<tr>
+<td>ER20 centré (ex post)</td>
+<td>MNQ</td>
+<td>haut</td>
+<td style="text-align: right;">390</td>
+<td style="text-align: right;">4 153</td>
+<td style="text-align: right;">10,65</td>
+<td style="text-align: right;">0,54</td>
+<td style="text-align: right;">47 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MGC</td>
+<td>bas</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: right;">4 262</td>
+<td style="text-align: right;">26,81</td>
+<td style="text-align: right;">1,29</td>
+<td style="text-align: right;">52 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MGC</td>
+<td>moyen</td>
+<td style="text-align: right;">510</td>
+<td style="text-align: right;">22 031</td>
+<td style="text-align: right;">43,20</td>
+<td style="text-align: right;">2,14</td>
+<td style="text-align: right;">52 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MGC</td>
+<td>haut</td>
+<td style="text-align: right;">592</td>
+<td style="text-align: right;">33 103</td>
+<td style="text-align: right;">55,92</td>
+<td style="text-align: right;">1,88</td>
+<td style="text-align: right;">49 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MBT</td>
+<td>bas</td>
+<td style="text-align: right;">470</td>
+<td style="text-align: right;">27 740</td>
+<td style="text-align: right;">59,02</td>
+<td style="text-align: right;">2,45</td>
+<td style="text-align: right;">54 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MBT</td>
+<td>moyen</td>
+<td style="text-align: right;">406</td>
+<td style="text-align: right;">25 027</td>
+<td style="text-align: right;">61,64</td>
+<td style="text-align: right;">2,18</td>
+<td style="text-align: right;">49 %</td>
+</tr>
+<tr>
+<td>ATR% J−1 (ex ante)</td>
+<td>MBT</td>
+<td>haut</td>
+<td style="text-align: right;">371</td>
+<td style="text-align: right;">6 194</td>
+<td style="text-align: right;">16,70</td>
+<td style="text-align: right;">0,73</td>
+<td style="text-align: right;">48 %</td>
+</tr>
+</tbody>
+</table>
+<h2 id="regimes-sharpe-par-sleeve-et-par-tercile">Régimes — Sharpe par sleeve et par tercile</h2>
+<table>
+<thead>
+<tr>
+<th>Sleeve</th>
+<th>ATR% J−1 (ex ante) bas / moyen / haut (Sharpe)</th>
+<th>Jour MNQ abs(C−O)/(H−L) (ex post) bas / moyen / haut (Sharpe)</th>
+<th>ER20 fin J−1 (ex ante) bas / moyen / haut (Sharpe)</th>
+<th>ER20 centré (ex post) bas / moyen / haut (Sharpe)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S01</td>
+<td>1,73 / 1,06 / 0,94</td>
+<td>−6,69 / 0,95 / 7,22</td>
+<td>1,39 / 0,87 / 1,60</td>
+<td>1,25 / 1,09 / 1,53</td>
+</tr>
+<tr>
+<td>S02</td>
+<td>1,37 / 0,54 / 0,70</td>
+<td>−8,18 / −1,72 / 8,81</td>
+<td>1,63 / −0,26 / 0,93</td>
+<td>1,59 / 0,53 / −0,11</td>
+</tr>
+<tr>
+<td>S03</td>
+<td>−0,28 / 0,04 / 1,29</td>
+<td>0,45 / −0,80 / 1,19</td>
+<td>0,79 / −0,12 / 0,64</td>
+<td>0,50 / 0,56 / 0,25</td>
+</tr>
+<tr>
+<td>S04</td>
+<td>0,30 / 0,05 / 0,87</td>
+<td>−7,06 / 0,23 / 4,94</td>
+<td>0,81 / 0,59 / −0,08</td>
+<td>0,44 / 0,89 / −0,47</td>
+</tr>
+<tr>
+<td>S05</td>
+<td>1,22 / −0,20 / 0,49</td>
+<td>1,08 / 0,13 / 0,21</td>
+<td>0,40 / −0,22 / 0,65</td>
+<td>−0,39 / 1,00 / 0,20</td>
+</tr>
+<tr>
+<td>S06</td>
+<td>0,42 / −0,27 / 1,06</td>
+<td>1,25 / 0,57 / 0,22</td>
+<td>0,33 / 0,15 / 1,22</td>
+<td>1,42 / 0,91 / −1,09</td>
+</tr>
+<tr>
+<td>S07</td>
+<td>1,32 / 0,09 / −0,12</td>
+<td>0,60 / −0,98 / 2,26</td>
+<td>0,87 / −0,03 / 0,72</td>
+<td>−0,78 / 0,08 / 1,92</td>
+</tr>
+<tr>
+<td>S08</td>
+<td>1,09 / 0,34 / 0,76</td>
+<td>0,23 / −0,44 / 2,28</td>
+<td>2,08 / −0,70 / 0,42</td>
+<td>−0,15 / −0,15 / 2,22</td>
+</tr>
+<tr>
+<td>S09</td>
+<td>0,70 / 1,15 / 0,76</td>
+<td>−0,86 / 0,15 / 3,80</td>
+<td>1,38 / 1,19 / 0,15</td>
+<td>1,10 / 1,35 / 0,04</td>
+</tr>
+</tbody>
+</table>
+<p>Détail par sleeve (PnL, séances, jours gagnants) dans <a href="../outputs/08_regimes.csv">08_regimes.csv</a>.</p>
+<h2 id="regroupement-des-pertes">Regroupement des pertes</h2>
+<p>Jours où au moins 4 des 8 sleeves perdent simultanément : <strong>5,2 %</strong> des séances.</p>
+<p><strong>Les 10 pires semaines</strong></p>
+<table>
+<thead>
+<tr>
+<th>période</th>
+<th>book</th>
+<th>pire sleeve</th>
+<th>PnL pire sleeve</th>
+<th>sleeves perdantes</th>
+<th>jour MNQ dominant</th>
+<th>ER20 MNQ dominant (ex post)</th>
+<th>ATR% MNQ dominant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025-03-07</td>
+<td>−2 386,02</td>
+<td>S02</td>
+<td>−1 625,50</td>
+<td>3</td>
+<td>bas</td>
+<td>haut</td>
+<td>moyen</td>
+</tr>
+<tr>
+<td>2026-03-06</td>
+<td>−2 111,52</td>
+<td>S05</td>
+<td>−1 212,00</td>
+<td>4</td>
+<td>bas</td>
+<td>bas</td>
+<td>moyen</td>
+</tr>
+<tr>
+<td>2025-01-24</td>
+<td>−2 011,34</td>
+<td>S08</td>
+<td>−833,24</td>
+<td>6</td>
+<td>bas</td>
+<td>bas</td>
+<td>moyen</td>
+</tr>
+<tr>
+<td>2026-01-23</td>
+<td>−1 799,20</td>
+<td>S02</td>
+<td>−666,00</td>
+<td>5</td>
+<td>moyen</td>
+<td>moyen</td>
+<td>bas</td>
+</tr>
+<tr>
+<td>2025-01-31</td>
+<td>−1 709,92</td>
+<td>S02</td>
+<td>−1 360,00</td>
+<td>4</td>
+<td>moyen</td>
+<td>moyen</td>
+<td>moyen</td>
+</tr>
+<tr>
+<td>2022-05-13</td>
+<td>−1 341,20</td>
+<td>S02</td>
+<td>−1 340,50</td>
+<td>3</td>
+<td>moyen</td>
+<td>moyen</td>
+<td>haut</td>
+</tr>
+<tr>
+<td>2025-12-12</td>
+<td>−1 256,34</td>
+<td>S08</td>
+<td>−477,42</td>
+<td>6</td>
+<td>moyen</td>
+<td>moyen</td>
+<td>moyen</td>
+</tr>
+<tr>
+<td>2025-03-21</td>
+<td>−1 232,70</td>
+<td>S02</td>
+<td>−709,50</td>
+<td>5</td>
+<td>moyen</td>
+<td>bas</td>
+<td>haut</td>
+</tr>
+<tr>
+<td>2021-06-11</td>
+<td>−977,60</td>
+<td>S01</td>
+<td>−480,00</td>
+<td>4</td>
+<td>moyen</td>
+<td>haut</td>
+<td>bas</td>
+</tr>
+<tr>
+<td>2025-06-13</td>
+<td>−970,12</td>
+<td>S09</td>
+<td>−401,10</td>
+<td>5</td>
+<td>bas</td>
+<td>haut</td>
+<td>bas</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Les 5 pires mois</strong></p>
+<table>
+<thead>
+<tr>
+<th>période</th>
+<th>book</th>
+<th>pire sleeve</th>
+<th>PnL pire sleeve</th>
+<th>sleeves perdantes</th>
+<th>jour MNQ dominant</th>
+<th>ER20 MNQ dominant (ex post)</th>
+<th>ATR% MNQ dominant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025-03-31</td>
+<td>−3 787,44</td>
+<td>S02</td>
+<td>−2 235,00</td>
+<td>6</td>
+<td>moyen</td>
+<td>bas</td>
+<td>haut</td>
+</tr>
+<tr>
+<td>2025-01-31</td>
+<td>−2 816,68</td>
+<td>S02</td>
+<td>−1 818,00</td>
+<td>6</td>
+<td>moyen</td>
+<td>bas</td>
+<td>moyen</td>
+</tr>
+<tr>
+<td>2026-03-31</td>
+<td>−2 535,14</td>
+<td>S05</td>
+<td>−1 212,00</td>
+<td>6</td>
+<td>bas</td>
+<td>bas</td>
+<td>moyen</td>
+</tr>
+<tr>
+<td>2023-09-30</td>
+<td>−1 696,02</td>
+<td>S01</td>
+<td>−1 204,50</td>
+<td>7</td>
+<td>moyen</td>
+<td>bas</td>
+<td>bas</td>
+</tr>
+<tr>
+<td>2025-07-31</td>
+<td>−1 354,10</td>
+<td>S02</td>
+<td>−975,50</td>
+<td>4</td>
+<td>bas</td>
+<td>haut</td>
+<td>bas</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pertes simultanées par régime</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Régime</th>
+<th style="text-align: right;">Séances</th>
+<th style="text-align: right;">P(≥ 4 sleeves perdantes)</th>
+<th style="text-align: right;">PnL book</th>
+<th style="text-align: right;">PnL moyen</th>
+<th style="text-align: right;">Sharpe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jour MNQ (ex post)</td>
+<td>bas</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">6,3 %</td>
+<td style="text-align: right;">−52 187</td>
+<td style="text-align: right;">−122,50</td>
+<td style="text-align: right;">−6,30</td>
+</tr>
+<tr>
+<td>Jour MNQ (ex post)</td>
+<td>moyen</td>
+<td style="text-align: right;">397</td>
+<td style="text-align: right;">7,6 %</td>
+<td style="text-align: right;">−6 410</td>
+<td style="text-align: right;">−16,15</td>
+<td style="text-align: right;">−0,72</td>
+</tr>
+<tr>
+<td>Jour MNQ (ex post)</td>
+<td>haut</td>
+<td style="text-align: right;">418</td>
+<td style="text-align: right;">2,2 %</td>
+<td style="text-align: right;">118 188</td>
+<td style="text-align: right;">282,75</td>
+<td style="text-align: right;">10,75</td>
+</tr>
+<tr>
+<td>ER20 centré (ex post)</td>
+<td>bas</td>
+<td style="text-align: right;">482</td>
+<td style="text-align: right;">5,0 %</td>
+<td style="text-align: right;">35 685</td>
+<td style="text-align: right;">74,04</td>
+<td style="text-align: right;">2,72</td>
+</tr>
+<tr>
+<td>ER20 centré (ex post)</td>
+<td>moyen</td>
+<td style="text-align: right;">359</td>
+<td style="text-align: right;">6,1 %</td>
+<td style="text-align: right;">20 056</td>
+<td style="text-align: right;">55,87</td>
+<td style="text-align: right;">2,01</td>
+</tr>
+<tr>
+<td>ER20 centré (ex post)</td>
+<td>haut</td>
+<td style="text-align: right;">390</td>
+<td style="text-align: right;">4,9 %</td>
+<td style="text-align: right;">4 153</td>
+<td style="text-align: right;">10,65</td>
+<td style="text-align: right;">0,54</td>
+</tr>
+<tr>
+<td>ER20 fin J−1 (ex ante)</td>
+<td>bas</td>
+<td style="text-align: right;">483</td>
+<td style="text-align: right;">5,0 %</td>
+<td style="text-align: right;">26 375</td>
+<td style="text-align: right;">54,61</td>
+<td style="text-align: right;">2,36</td>
+</tr>
+<tr>
+<td>ER20 fin J−1 (ex ante)</td>
+<td>moyen</td>
+<td style="text-align: right;">366</td>
+<td style="text-align: right;">5,2 %</td>
+<td style="text-align: right;">9 472</td>
+<td style="text-align: right;">25,88</td>
+<td style="text-align: right;">0,95</td>
+</tr>
+<tr>
+<td>ER20 fin J−1 (ex ante)</td>
+<td>haut</td>
+<td style="text-align: right;">392</td>
+<td style="text-align: right;">5,9 %</td>
+<td style="text-align: right;">23 743</td>
+<td style="text-align: right;">60,57</td>
+<td style="text-align: right;">2,31</td>
+</tr>
+</tbody>
+</table>
+<h2 id="le-book-perd-il-de-facon-groupee-en-range-ou-en-retour-a-la-moyenne">Le book perd-il de façon groupée en range ou en retour à la moyenne ?</h2>
+<p><strong>À l'échelle de la journée, oui, et c'est le principal risque du book.</strong> Ce risque est concentré sur les sleeves MNQ directionnelles.</p>
+<ul>
+<li>Sur les journées de range MNQ (tercile bas de abs(C−O)/(H−L), ex post), le book à 8 sleeves perd 52 187 USD en 426 séances (Sharpe −6,3, 26 % de jours gagnants). Sur les journées de tendance (tercile haut), il gagne 118 188 USD (81 % de jours gagnants).</li>
+<li>Les pertes de range viennent de S01 (−25 713 USD), de S02 (−51 612 USD) et de S04 en shadow (−40 840 USD). Ce sont des stratégies de breakout, qui paient leurs faux départs les jours sans suite.</li>
+<li>Les sleeves MGC (S05, S06) et MBT (S07, S08) ne dépendent presque pas du type de journée MNQ. C'est leur apport de diversification.</li>
+<li>Les journées de range ne font pas perdre 4 sleeves ou plus en même temps beaucoup plus souvent : 6,3 % contre 5,2 % en moyenne et 2,2 % en tendance. La perte est groupée par instrument, pas sur tout le book.</li>
+</ul>
+<p><strong>À l'échelle du mois, non.</strong> Le book fait mieux pendant les mois de faible efficiency ratio MNQ, donc plus hachés (ER20 centré bas : Sharpe 2,72, contre 0,54 en ER20 haut). Les journées de tendance intraday surviennent aussi pendant les mois sans tendance de fond. L'ER20 ex ante, connu la veille, ne trie pas le résultat (Sharpe 2,36 / 0,95 / 2,31) : il n'y a là aucun filtre exploitable sans nouvelle hypothèse.</p>
+<p><strong>Concentration.</strong></p>
+<ul>
+<li>S02 porte 41 % du risque du book sur 2024-01 → 2026-03, et 44 % depuis 2021.</li>
+<li>Elle est la pire sleeve de 5 des 10 pires semaines et de 3 des 5 pires mois.</li>
+<li>Les pires périodes se regroupent sur janvier et mars 2025 (−6 604 USD à eux deux) et sur mars 2026.</li>
+</ul>
+<p>Ces résultats sont <strong>descriptifs</strong>. Le type de journée n'est connu qu'à la clôture et ne peut pas servir de filtre. Ils disent où le book est exposé, pas comment l'éviter.</p>
+
+
+<script>
+mermaid.initialize({startOnLoad:false, theme:"neutral", securityLevel:"loose", flowchart:{useMaxWidth:true, htmlLabels:true}});
+window.addEventListener("load", async () => {
+  try { await mermaid.run({querySelector:".mermaid"}); document.body.dataset.rendered = "true"; }
+  catch (error) { document.body.dataset.rendered = "error"; console.error(error); }
+});
+</script>
+</body>
+</html>

@@ -76,6 +76,12 @@ Dans chaque cellule, le premier seuil touché gagne. En gap au-delà du seuil, l
 
 Tick `0,25` = `0,50 USD`; point `2 USD`; commission `1,25 USD/côté`; slippage `1 tick/côté`. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la **cible agrégée** change. Si U et L d'une cellule sont touchés dans la même minute, cette cellule annule son signal. Si entrée et stop sont possibles dans sa minute de fill, chemin conservateur entrée puis stop. Hard flatten agrégé à 16:08 ET, avec calendrier officiel pour les early closes.
 
+### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
+
+Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans **une seule cible nette MNQ**, et seule la différence avec la position du compte est envoyée ([Book, section 6](BOOK.md)). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.
+
+Exemple réel, 27 juin 2024 : S02 passe long à 09:40 (achat 1 à 20 092,75). S01 entre long à 10:15 : la cible MNQ passe à +2 (achat 1 à 20 110,75, vente stop de 1 posée au stop de S01). Le stop de S01 est touché à 11:28 : la position revient à +1, celle de S02. S02 sort à 14:10 (vente 1 à 20 022,50). Le PnL MNQ du jour (−390,50 USD) est exactement la somme de S01 et S02.
+
 ## 8. Pseudocode de réimplémentation
 
 ```text
@@ -92,9 +98,12 @@ forcer cible=0 au hard flatten
 
 ## 9. Validation historique
 
-- **Historique total — 2019-05-06 au 2026-03-19 :** 1 085 trades agrégés, `20 259 USD` nets, Sharpe `0,873`, PF `1,239`, maxDD `−4 790,50 USD`.
-- **IS — 2019-05-06 au 2023-12-31 :** 726 trades, `10 980 USD` nets, Sharpe `0,831`, PF `1,221`, maxDD `−4 790,50 USD`.
-- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 359 trades, `9 279 USD` nets, Sharpe `0,971`, PF `1,264`, maxDD `−3 714 USD`. La région de 42 cellules ayant été choisie après consultation de ce cube, cette fenêtre n'est plus un OOS prospectif vierge.
+- **Historique total — 2019-05-06 au 2026-03-19 :** 1 085 trades agrégés, `20 259 USD` nets, Sharpe `0,848`, PF `1,239`, maxDD `−4 790,50 USD`.
+- **IS — 2019-05-06 au 2023-12-31 :** 726 trades, `10 980 USD` nets, Sharpe `0,859`, PF `1,221`, maxDD `−4 790,50 USD`.
+- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 359 trades, `9 279 USD` nets, Sharpe `0,899`, PF `1,264`, maxDD `−3 714 USD`. La région de 42 cellules ayant été choisie après consultation de ce cube, cette fenêtre n'est plus un OOS prospectif vierge.
+
+*Convention de Sharpe (mise à jour le 15 novembre 2026, audit `audit_20261115`, phase 0) : PnL quotidien net en USD, annualisé par √252, jours sans trade inclus, calendrier des séances de semaine de l'instrument. Les valeurs publiées auparavant (0,873 / 0,831 / 0,971) étaient calculées sur les rendements d'un compte de 50 000 USD qui capitalise.*
+
 - Les couleurs des cubes restent des métriques **par cellule** ; les chiffres ci-dessus proviennent, eux, de la réexécution déterministe du vote agrégé avec coûts sur chaque changement de cible.
 
 ## 10. Checklist et limites

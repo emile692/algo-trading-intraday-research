@@ -20,3 +20,6 @@ data/exports/
 *.png
 # SqueezeMetrics DIX/GEX: no redistribution licence, keep local only
 data/raw/squeezemetrics/
+
+# Regenerable caches of the 2026-11-15 audit and campaigns
+audit_20261115/cache/
