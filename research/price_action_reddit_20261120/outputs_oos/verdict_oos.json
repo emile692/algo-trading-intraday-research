@@ -1,0 +1,60 @@
+{
+  "A": {
+    "retained": false,
+    "criteria": {
+      "MNQ": {
+        "trades": 49,
+        "pf_net": 1.5266483071440142,
+        "expectancy_r_by_year": {
+          "2024": 0.47048744562235884,
+          "2025": 0.26460242249698357,
+          "2026": -0.12568586430319778
+        },
+        "pass_pf": true,
+        "pass_count": false,
+        "pass_years": true
+      },
+      "MES": {
+        "trades": 42,
+        "pf_net": 0.7674150834772596,
+        "expectancy_r_by_year": {
+          "2024": 0.3442530256453373,
+          "2025": -0.04754885569987905,
+          "2026": -0.452557714127055
+        },
+        "pass_pf": false,
+        "pass_count": false,
+        "pass_years": false
+      }
+    }
+  },
+  "B": {
+    "retained": false,
+    "criteria": {
+      "MNQ": {
+        "trades": 12,
+        "pf_net": 1.0119211370930765,
+        "expectancy_r_by_year": {
+          "2024": -0.11577987635389389,
+          "2025": -0.2035092353442433,
+          "2026": -1.013473789816905
+        },
+        "pass_pf": false,
+        "pass_count": false,
+        "pass_years": false
+      },
+      "MES": {
+        "trades": 16,
+        "pf_net": 1.24375,
+        "expectancy_r_by_year": {
+          "2024": -0.6891024798025627,
+          "2025": 0.13126856014907295,
+          "2026": 0.44701434048842953
+        },
+        "pass_pf": true,
+        "pass_count": false,
+        "pass_years": true
+      }
+    }
+  }
+}

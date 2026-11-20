@@ -18,3 +18,6 @@ research/s01_scale_invariant_20261118/*.json text eol=lf
 research/s01_scale_invariant_20261118/*.py text eol=lf
 research/vix_spike_riskoff_mnq_20261120/*.json text eol=lf
 research/vix_spike_riskoff_mnq_20261120/*.py text eol=lf
+# Price-action campaign 2026-11-20: code hashed on LF bytes in research/price_action_reddit_20261120/STRATEGIES.md.
+src/price_action/** text eol=lf
+research/price_action_reddit_20261120/*.py text eol=lf
