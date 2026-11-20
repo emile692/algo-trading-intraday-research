@@ -126,6 +126,13 @@ Ce stop ne modifie pas la règle r2 : la clause « aucun overlay » vise les cou
 
 **Défaut de données connu, mesuré le 15 novembre.** Le fichier MNQ `c.0` n'a aucune barre RTH sur les vendredis d'échéance trimestrielle (27 jours de 2019 à 2025, plus le 20 mars et le 18 septembre 2026). Les ledgers figés ne contiennent donc aucun trade MNQ ces jours-là. Rejouées sur MNQ `v.0` recalé de l'écart de roll, les sleeves actives y font +708 USD sur 28 trades, et l'effet sur les séances suivantes vaut −702 USD : le total est neutre ([audit, écart n° 3](../audit_20261115/RAPPORT.md)). S01 y perd ses 6 trades (−1 035 USD), mais 6 trades ne justifient pas un filtre ajouté après coup. Les sleeves MNQ tradent ces jours-là normalement, sur le contrat suivant.
 
+**Mesure complète sur MNQ `v.0`, le 20 novembre.** `c.0` garde aussi le contrat qui expire pendant toute la semaine du roll, et crée un faux gap (jusqu'à 276 points) au changement de contrat. J'ai rejoué toute la série sur `v.0`, le contrat que trade la production, avec les moteurs inchangés.
+- **Book actif S01–S03 :** 43 976 USD contre 41 931 gelés, Sharpe 1,42 contre 1,34, drawdown max 4 655 contre 5 027 USD. `c.0` ne flattait donc pas le book.
+- **S02 :** 21 % de ses trades changent, par effet de mémoire de l'ATR, mais son total tient. Le ledger de S02 n'est pas une référence fiable trade par trade.
+- **S04 (shadow) :** −2 525 USD (−25 %), presque entièrement dans les fenêtres de roll.
+
+Détail : [résultats](../research/mnq_v0_roll_replay_20261120/RESULTS.md).
+
 ## Sources canoniques
 
 - Configuration verrouillée : [`locked_eight_sleeve_config.json`](../research/locked_eight_sleeve_portfolio_20261115/locked_eight_sleeve_config.json)

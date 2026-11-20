@@ -1,0 +1,41 @@
+{
+  "dataset": "GLBX.MDP3",
+  "schema": "ohlcv-1m",
+  "purpose": "Download the full 1-minute history of MNQ.v.0 and MES.v.0 (volume-ranked front month, unadjusted).",
+  "estimated_cost_usd": 19.427656978368,
+  "files": [
+    {
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "symbols": "MNQ.v.0",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2019-05-01T00:00:00Z",
+        "end": "2026-11-20T00:00:00Z"
+      },
+      "estimated_cost_usd": 9.716712608933,
+      "path": "data\\downloaded\\MNQ_v_0_1m_20190501_20261120.parquet",
+      "rows": 2661541,
+      "first": "2019-05-05 18:03:00-04:00",
+      "last": "2026-11-19 18:59:00-05:00",
+      "sha256": "722338453215a5844ac22543371edad9dcaf92477fc983aaa79def77cd9bc74c"
+    },
+    {
+      "request": {
+        "dataset": "GLBX.MDP3",
+        "symbols": "MES.v.0",
+        "stype_in": "continuous",
+        "schema": "ohlcv-1m",
+        "start": "2019-05-01T00:00:00Z",
+        "end": "2026-11-20T00:00:00Z"
+      },
+      "estimated_cost_usd": 9.710944369435,
+      "path": "data\\downloaded\\MES_v_0_1m_20190501_20261120.parquet",
+      "rows": 2659961,
+      "first": "2019-05-05 18:00:00-04:00",
+      "last": "2026-11-19 18:59:00-05:00",
+      "sha256": "556ade7acb3260bf29b8f940cd7ee3ec9dc5bcd8e0a6f258a70259c9cc959371"
+    }
+  ],
+  "api_key_persisted": false
+}

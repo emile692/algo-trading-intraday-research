@@ -23,3 +23,4 @@ data/raw/squeezemetrics/
 
 # Regenerable caches of the 2026-11-15 audit and campaigns
 audit_20261115/cache/
+research/mnq_v0_roll_replay_20261120/cache/
