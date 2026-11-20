@@ -1,0 +1,6 @@
+{
+  "spec_file": "FROZEN_SPECIFICATION.json",
+  "spec_sha256": "91cb26324f6610aaee7a838859f758c4a8db2e07ed1dca9e33f1ba055b8f3e93",
+  "frozen_at": "2026-11-18T22:52:28+01:00",
+  "selftest_before_freeze": "results/selftest.json (T1-T2 passed, arms A and B only)"
+}

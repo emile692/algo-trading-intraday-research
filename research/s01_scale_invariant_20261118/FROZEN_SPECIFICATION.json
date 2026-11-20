@@ -1,0 +1,80 @@
+{
+  "campaign": "s01_scale_invariant_20261118",
+  "phase": "factorial_2x2_is_gate_then_one_shot_holdouts",
+  "frozen_on": "2026-11-18",
+  "frozen_before_performance": true,
+  "requested_by": "user, 2026-11-18: 'le but est de challenger les 2 mécanismes qui refroidissent S1', tests on the usual IS, USD cap 500",
+  "hypothesis": "S01 dries up because of two mechanisms expressed in absolute MNQ units: (M1) the ATR bands of the 18-model vote are in points; (M2) a signal is skipped when one contract risks more than the 250 USD budget. The primary arm C2 makes both scale-invariant: bands on ATR / price (frozen in the previous campaign) and a skip threshold on the stop distance in % of the entry price, calibrated on the IS so that the IS skip share equals that of the 250 USD rule, with at least one contract when the trade is allowed and a hard cap of 500 USD of risk per contract. Expected: trade frequency close to the IS frequency, positive net expectancy on the IS and on NQ 2010-2019, where the price was 2 to 4 times lower and the % rule binds while the USD rule almost never does.",
+  "disclosure_before_freeze": [
+    "Third family of variants on the same IS 2019-05-05 -> 2024-02-27. Already read on this IS: REF (S01 ATR 18, 514 IS trades, 13 852 USD, Sharpe 1.251), arm A of s01_atr_price_normalized_20261115 (ATR/price bands, 508 trades, 10 598 USD, Sharpe 0.976, frequency ratio 0.52) and arm B (A + 1 contract when risk is 250-500 USD, 552 trades, 9 664 USD, Sharpe 0.844, frequency ratio 0.95). That campaign closed CLOSED_IS on 2026-11-15; none of its holdouts was read.",
+    "IS-PnL information used in this design: the 44 trades B added to A (risk 250-500 USD) lost 935 USD on the IS; at 2019-2024 prices they were wide opening ranges relative to price (0.7 to 1.6 %). The % rule was designed from that observation. Its IS result is therefore expected to look favourable mechanically, and the IS gates are less informative than in a fresh campaign: the verdict rests on the PRE holdout.",
+    "Descriptive facts read before the freeze: per-quarter candidates, ATR in points and in bp of price, kept signals and executed trades of REF, A and B over 2019Q2 -> 2026Q4 (PnL-free, audit_20261115/diag_s01_drying.py and stage0 of the previous campaign); REF one-shot (O) on 2026-03-20 -> 2026-10-02: -390 USD, 11 trades.",
+    "No PnL of C1 or C2 was computed before this freeze. The calibration rule of the % threshold (match the IS skip share of the 250 USD rule) is PnL-free and was fixed before any computation. The 500 USD cap is the user's choice of 2026-11-18 (same bound as arm B).",
+    "NQ 1-minute 2010-06-07 -> 2019-05-03 (PRE) was never read for any ORB rule; VAL 2024-02-28 -> 2026-03-19 and EXT 2026-03-20 -> 2026-10-02 were read for REF only."
+  ],
+  "data": {
+    "MNQ": "data/processed/parquet/MNQ_c_0_1m_20190505_20261003.parquet",
+    "NQ_PRE": "data/processed/parquet/NQ_c_0_1m_20260321_095036.parquet (used range 2010-06-07 -> 2019-05-03, MNQ economics)",
+    "reference_thresholds": "research/signal_sheet_01_atr18/thresholds_is.csv",
+    "atr_over_price_thresholds": "research/s01_atr_price_normalized_20261115/results/thresholds_is_atr_over_price.csv (frozen output of the previous campaign, reused unchanged)",
+    "engine": "research/s01_atr_price_normalized_20261115/run_campaign.py functions (Data, kept, backtest, daily, metrics, r_units), themselves calling scripts/rebuild_signal_sheet_01_atr18.py unchanged"
+  },
+  "unchanged_from_reference": [
+    "entry: ORB 15 min from 09:30 New York, long only, one trade per day, entry buffer 2 ticks, VWAP confirmation, entry on next open",
+    "exit: stop at OR low - 2 ticks, target 2R, time exit 16:00",
+    "vote: ATR {14, 16, 18} x q_low {20, 25, 30} x q_high {80, 85}, at least 9 of 18 votes; band quantiles calibrated on the IS",
+    "sizing when one contract risks at most 250 USD: quantity = int(250 / risk per contract incl. 1 tick slippage and round-trip commission); costs nominal"
+  ],
+  "arms": {
+    "REF": "points bands, 250 USD skip rule. Known.",
+    "A": "ATR/price bands, 250 USD skip rule. IS already read (control).",
+    "C1": "points bands, % skip rule (threshold X_C1), floor 1 contract, cap 500 USD. Attribution of M2 only, never selected.",
+    "C2": "ATR/price bands, % skip rule (threshold X_C2), floor 1 contract, cap 500 USD. Primary and only judged arm."
+  },
+  "pct_skip_rule": {
+    "measure": "stop distance in % of price = (entry price - stop price) / entry price, both known at entry (entry includes 1 tick slippage)",
+    "trade_if": "stop distance % <= X_arm AND risk of one contract <= 500 USD",
+    "quantity": "max(1, int(250 / risk per contract)); i.e. 1 contract when the risk is between 250 and 500 USD",
+    "calibration": "on the IS signals kept by the arm's vote: s = share whose one-contract risk exceeds 250 USD; X_arm = (1 - s) quantile of their stop distance %. PnL is never read for this calibration (the engine is run with an unbounded budget and only entry and stop prices are kept).",
+    "implementation": "trades of the arm under the 250 USD rule, plus on the sessions it skipped the trades of the same signals run with a 500 USD budget (quantity asserted = 1), then drop every trade whose stop distance % exceeds X_arm"
+  },
+  "windows": {
+    "IS": ["2019-05-05", "2024-02-27"],
+    "VAL": ["2024-02-28", "2026-03-19"],
+    "EXT": ["2026-03-20", "2026-10-02"],
+    "PRE": ["2010-06-07", "2019-05-03"]
+  },
+  "conventions": "identical to s01_atr_price_normalized_20261115: daily net USD on weekday sessions of the file, days without trade = 0, Sharpe x sqrt(252), Lo (2002) HAC t; PRE in R units (gross R, and net R with the MNQ round-trip cost of 1.75 points scaled by entry price / P_ref, P_ref = median entry price of C2's IS trades)",
+  "technical_gates": {
+    "T1": "the reused functions reproduce stage 1 of the previous campaign exactly for A and B (IS trades, net USD, Sharpe to 1e-9)",
+    "T2": "ATR/price quantiles recalibrated on the IS equal the frozen thresholds_is_atr_over_price.csv (abs gap <= 1e-12)",
+    "T3": "for C1 and C2, the IS skip share of the % rule equals the IS skip share of the 250 USD rule on the same signals (abs gap <= 1 signal); every trade with risk in (250, 500] USD has quantity 1"
+  },
+  "stage_0_frequency_pnl_free": "executed trades per quarter of REF, A, C1, C2 on MNQ 2019-05-05 -> 2026-10-02 (only session_date and quantity kept). G0: median quarterly trades 2025Q1-2026Q3 >= 0.60 x median quarterly trades over the IS quarters 2019Q3-2023Q4",
+  "stage_1_IS_gates_C2": {
+    "G0": "frequency ratio >= 0.60",
+    "G1": "IS trades >= 0.75 x REF IS trades (514)",
+    "G2": "IS net PnL > 0 and HAC t >= 2.0",
+    "G3": "IS Sharpe >= 0.75 x REF IS Sharpe (1.251)",
+    "G4": "net PnL > 0 in at least 3 of the 5 years 2019-2023"
+  },
+  "attribution_IS": "2x2 table REF / A / C1 / C2 on the IS: trades, net USD, Sharpe, t; M1 effect = (A - REF + C2 - C1) / 2, M2 effect = (C1 - REF + C2 - A) / 2 on net USD and on trades. Descriptive.",
+  "deflation": "trials on this IS for the S01 scale question: A, B, C1, C2 (4); DSR of C2 with the variance of their IS Sharpe ratios; reported, not a gate",
+  "stage_2_one_shot_if_C2_passes": {
+    "guard": "results/stage2.json is written once; a second run is refused",
+    "PRE_gates": {
+      "P1": "gross R: mean daily gross R > 0 and HAC t >= 2.0",
+      "P2": "net-scaled R: mean > 0 and HAC t >= 1.65",
+      "P3": "net-scaled R > 0 in at least 5 of the 9 years 2010-2018"
+    },
+    "VAL_gate": {"V1": "VAL net PnL USD > 0 (partially contaminated: the question was motivated by the frequency observed in this window)"},
+    "information_only": "PRE for REF, A, C1 and the no-ATR-filter rule under the % skip rule; share of PRE signals cut by the % rule and by the 500 USD cap; VAL and EXT of REF and C2 side by side; EXT compared with REF's -390 USD"
+  },
+  "verdicts": {
+    "CLOSED_IS": "C2 fails any of G0-G4; holdouts not read",
+    "REJECTED_PRE": "C2 fails P1, P2 or P3",
+    "REJECTED_VAL": "PRE passes, V1 fails",
+    "CANDIDATE_SHADOW": "P1-P3 and V1 pass: C2 goes to shadow forward next to S01 ATR 18 (reference unchanged); replacing S01 in the lock is a separate versioned user decision"
+  },
+  "no_rescue_rule": "No threshold, cap, calibration rule, window or cost convention is changed after any stage result is read. A bug found after reading stage 2 is documented and the campaign stops."
+}

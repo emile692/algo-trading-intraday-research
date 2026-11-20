@@ -1,0 +1,19 @@
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:59: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  .apply(
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:95: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_nr4"] = nr4_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:96: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_nr7"] = nr7_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:97: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_inside_day"] = inside_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:98: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_outside_day"] = outside_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:99: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_triangle"] = triangle_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:100: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_strong_close"] = strong_close_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:101: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_weak_close"] = weak_close_raw.shift(1).fillna(False)
+T3: {"C1": {"X": 0.010600784893663697, "skip_share_usd_rule": 0.0705244122965642, "passed": true}, "C2": {"X": 0.009863252650327376, "skip_share_usd_rule": 0.07971014492753623, "passed": true}}
+stage 0: {"REF": [0.308, [2, 9, 2]], "A": [0.517, [9, 15, 8]], "C1": [0.469, [3, 14, 9]], "C2": [1.0, [31, 37, 30]]}
+stage 1 C2 gates: {"G0": true, "G1": true, "G2": true, "G3": false, "G4": true}

@@ -1,0 +1,36 @@
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:59: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  .apply(
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:95: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_nr4"] = nr4_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:96: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_nr7"] = nr7_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:97: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_inside_day"] = inside_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:98: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_outside_day"] = outside_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:99: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_triangle"] = triangle_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:100: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_strong_close"] = strong_close_raw.shift(1).fillna(False)
+C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\features.py:101: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  daily["pattern_weak_close"] = weak_close_raw.shift(1).fillna(False)
+Traceback (most recent call last):
+  File "C:\Users\EmileBELOT\AppData\Roaming\uv\python\cpython-3.10-windows-x86_64-none\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\Users\EmileBELOT\AppData\Roaming\uv\python\cpython-3.10-windows-x86_64-none\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "c:\Data_local\python_perso\algo-trading-intraday-research\research\s01_scale_invariant_20261118\run_campaign.py", line 217, in <module>
+    {"selftest": selftest, "run": run}[sys.argv[1] if len(sys.argv) > 1 else "run"]()
+  File "c:\Data_local\python_perso\algo-trading-intraday-research\research\s01_scale_invariant_20261118\run_campaign.py", line 123, in run
+    calib = {"C1": calibrate_x(data, final["points"]), "C2": calibrate_x(data, final["atrn"])}
+  File "c:\Data_local\python_perso\algo-trading-intraday-research\research\s01_scale_invariant_20261118\run_campaign.py", line 64, in calibrate_x
+    t = old.backtest(data, is_only(final), UNBOUNDED)[["session_date", "entry_price", "stop_price", "risk_per_contract_usd"]]
+  File "c:\Data_local\python_perso\algo-trading-intraday-research\research\s01_atr_price_normalized_20261115\run_campaign.py", line 161, in backtest
+    t = m.run_exit_variant_backtest(signal_df=sig, execution_model=m.ExecutionModel(), baseline=entry, exit_cfg=exp.exit)
+  File "C:\Data_local\python_perso\algo-trading-intraday-research\src\analytics\orb_research\exits.py", line 78, in run_exit_variant_backtest
+    return run_backtest(
+  File "C:\Data_local\python_perso\algo-trading-intraday-research\src\engine\backtester.py", line 97, in run_backtest
+    _validate_risk_inputs(account_size_usd, risk_per_trade_pct)
+  File "C:\Data_local\python_perso\algo-trading-intraday-research\src\engine\backtester.py", line 23, in _validate_risk_inputs
+    raise ValueError("risk_per_trade_pct must be in the (0, 100] interval.")
+ValueError: risk_per_trade_pct must be in the (0, 100] interval.

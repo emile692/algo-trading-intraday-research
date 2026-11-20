@@ -1,0 +1,20 @@
+{
+  "C1": {
+    "X": 0.010600784893663697,
+    "skip_share_usd_rule": 0.0705244122965642,
+    "is_signals_with_risk": 553,
+    "skipped_usd_rule": 39,
+    "skipped_pct_rule": 39,
+    "cap_binding_is": 0,
+    "passed": true
+  },
+  "C2": {
+    "X": 0.009863252650327376,
+    "skip_share_usd_rule": 0.07971014492753623,
+    "is_signals_with_risk": 552,
+    "skipped_usd_rule": 44,
+    "skipped_pct_rule": 44,
+    "cap_binding_is": 0,
+    "passed": true
+  }
+}

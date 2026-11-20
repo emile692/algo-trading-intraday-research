@@ -1,0 +1,42 @@
+{
+  "T1": {
+    "A": {
+      "trades": [
+        508,
+        508
+      ],
+      "net_usd": [
+        10598.0,
+        10598.0
+      ],
+      "sharpe": [
+        0.9761821325120158,
+        0.9761821325120158
+      ],
+      "passed": true
+    },
+    "B": {
+      "trades": [
+        552,
+        552
+      ],
+      "net_usd": [
+        9663.5,
+        9663.5
+      ],
+      "sharpe": [
+        0.8437312679828183,
+        0.8437312679828183
+      ],
+      "passed": true
+    }
+  },
+  "T2": {
+    "models": 18,
+    "max_abs_gap": 9.75781955236954e-17,
+    "passed": true
+  },
+  "all_passed": true,
+  "run_at": "2026-11-18T22:52:19+01:00",
+  "note": "arms A and B only (already read on 2026-11-15); no C1/C2 computation"
+}
