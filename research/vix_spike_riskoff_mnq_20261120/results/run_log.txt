@@ -1,0 +1,3 @@
+baseline IS: {"net_usd": 26024.5, "sharpe": 1.4175315034993148, "max_dd": -5027.0, "worst_day": -979.0, "days_below_500": 19, "sessions": 1203}
+selected: {"x_pct": 50.0, "y": 10.0, "z": 10.0, "cut_sessions": 149.0, "cut_share": 0.12385702410640066, "net_usd": 27146.5, "sharpe": 1.6225997876203249, "max_dd": -2568.5, "worst_day": -979.0, "days_below_500": 11.0, "pnl_on_cut_days": -1122.0, "plateau": 1.6090418827007578}
+pbo: {"pbo": 0.9047619047619048, "splits": 252, "configs": 101, "median_logit": -1.2339536365378718} boot: {"p_diff_gt_0": 0.8006, "diff_p05": -0.12351791548808326, "diff_p50": 0.17681740609139052, "diff_p95": 0.6105744979960853, "draws": 5000} gates: {"G1": true, "G2": false, "G3": false, "G4": true}

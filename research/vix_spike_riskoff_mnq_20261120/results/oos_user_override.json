@@ -1,0 +1,79 @@
+{
+  "label": "override after CLOSED_IS, on explicit user request of 2026-11-20; not a pre-registered verdict path",
+  "cell": {
+    "x_pct": 50,
+    "y": 10,
+    "z": 10
+  },
+  "read_at": "2026-11-20T22:15:04+01:00",
+  "VAL": {
+    "base": {
+      "sessions": 572,
+      "net_usd": 15906.5,
+      "sharpe": 1.2865466222189428,
+      "max_dd": -3893.5,
+      "worst_day": -1138.0,
+      "days_below_500": 15,
+      "days_below_1000": 2,
+      "worst_15_sessions": -3451.0
+    },
+    "overlay": {
+      "sessions": 572,
+      "net_usd": 10629.5,
+      "sharpe": 1.0727343431771068,
+      "max_dd": -2960.5,
+      "worst_day": -1138.0,
+      "days_below_500": 14,
+      "days_below_1000": 2,
+      "worst_15_sessions": -1858.0
+    },
+    "cut_sessions": 83,
+    "cut_share": 0.1451048951048951,
+    "pnl_on_cut_days": 5277.0,
+    "cut_months": {
+      "2024-01": 10,
+      "2024-08": 12,
+      "2024-12": 8,
+      "2025-01": 3,
+      "2025-03": 12,
+      "2025-04": 18,
+      "2025-05": 1,
+      "2025-10": 10,
+      "2026-03": 9
+    }
+  },
+  "EXT": {
+    "base": {
+      "sessions": 137,
+      "net_usd": 30.0,
+      "sharpe": 0.010397888642052473,
+      "max_dd": -3644.0,
+      "worst_day": -1334.0,
+      "days_below_500": 6,
+      "days_below_1000": 2,
+      "worst_15_sessions": -2030.5
+    },
+    "overlay": {
+      "sessions": 137,
+      "net_usd": -1758.5,
+      "sharpe": -0.630046158590799,
+      "max_dd": -3644.0,
+      "worst_day": -1334.0,
+      "days_below_500": 6,
+      "days_below_1000": 2,
+      "worst_15_sessions": -2030.5
+    },
+    "cut_sessions": 10,
+    "cut_share": 0.072992700729927,
+    "pnl_on_cut_days": 1788.5,
+    "cut_months": {
+      "2026-03": 7,
+      "2026-04": 3
+    }
+  },
+  "preregistered_criteria": {
+    "V1_sharpe_not_lower": false,
+    "V2_pnl_at_least_85pct": false
+  },
+  "outcome": "FAIL_V1_V2"
+}

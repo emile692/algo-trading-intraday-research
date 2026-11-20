@@ -1,0 +1,22 @@
+{
+  "T1": {
+    "overlap_days": 9132,
+    "max_abs_gap": 0.0,
+    "passed": true
+  },
+  "T2": {
+    "common_sessions": 572,
+    "max_abs_gap": 0.0,
+    "passed": true
+  },
+  "T3": {
+    "mnq_sessions": 1912,
+    "max_calendar_days_to_previous_vix_close": 4,
+    "first": "2019-05-06",
+    "last": "2026-10-02",
+    "passed": true
+  },
+  "all_passed": true,
+  "run_at": "2026-11-20T22:09:09+01:00",
+  "note": "no overlay PnL computed"
+}

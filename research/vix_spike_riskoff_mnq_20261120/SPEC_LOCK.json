@@ -1,0 +1,6 @@
+{
+  "spec_file": "FROZEN_SPECIFICATION.json",
+  "spec_sha256": "692433e22879a3434038f9d347af36fdd445630e2171f7acc62e3ce7315c1be3",
+  "frozen_at": "2026-11-20T22:09:16+01:00",
+  "selftest_before_freeze": "results/selftest.json (T1-T3 passed, no overlay PnL)"
+}

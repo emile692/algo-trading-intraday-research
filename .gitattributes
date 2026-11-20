@@ -14,3 +14,7 @@ research/s01_atr_price_normalized_20261115/*.py text eol=lf
 # Inputs of the 2026-11-15 lock whose sha256 was taken on LF bytes.
 scripts/rebuild_signal_sheet_01_atr18.py text eol=lf
 strategy_registry/psf_mnq/frozen_ensembles/volatility_breakout_42.json text eol=lf
+research/s01_scale_invariant_20261118/*.json text eol=lf
+research/s01_scale_invariant_20261118/*.py text eol=lf
+research/vix_spike_riskoff_mnq_20261120/*.json text eol=lf
+research/vix_spike_riskoff_mnq_20261120/*.py text eol=lf

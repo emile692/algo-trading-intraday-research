@@ -1,0 +1,64 @@
+{
+  "campaign": "vix_spike_riskoff_mnq_20261120",
+  "frozen_on": "2026-11-20",
+  "frozen_before_performance": true,
+  "requested_by": "user, 2026-11-20: 'si le VIX monte de plus de x % sur les y derniers jours alors on coupe z jours' for the MNQ part of the book",
+  "hypothesis": "After a sharp rise of the VIX, the MNQ sleeves of the active book (S01 18-model ATR vote, S02 volatility breakout, S03 compression breakout) perform worse than usual, so switching them off for a few sessions improves the risk-adjusted return of the MNQ sub-book. Expected sign: higher daily Sharpe with the overlay than without.",
+  "disclosure_before_freeze": [
+    "Seen before the freeze (audit_20261115 phase 8, full history incl. the reused validation): Sharpe of the book by tercile of MNQ ATR% J-1 is 2.51 / 1.10 / 1.82 (low / mid / high); S01 1.73 / 1.06 / 0.94, S02 1.37 / 0.54 / 0.70, S03 -0.28 / 0.04 / 1.29. ATR% is a level, not a change, but it is correlated with the VIX.",
+    "Seen: book_aggregation_risk_r1_20261112 rejected a size modulated by instrument volatility (IS cash +50 % but P(XFA lost) +7.2 points) and left open only a size that decreases when volatility rises. This overlay is of that kind.",
+    "Before the freeze the assistant told the user it expected a small loss of PnL and probably a failure of the gates.",
+    "No PnL of any VIX rule on these sleeves was computed before the freeze. The VIX files were only opened to read their first and last lines.",
+    "The validation window 2024-01-02 -> 2026-03-19 was used to select the sleeves' vote clusters, never for this overlay; the EXT window 2026-03-20 -> 2026-10-02 was read for the sleeves (replay and S01 one-shot)."
+  ],
+  "data": {
+    "daily_pnl": "audit_20261115/outputs/daily_pnl_union.csv columns S01, S02, S03 (S01 = 18-model ATR vote), MNQ sessions = rows where S02 is not empty, 2019-05-06 -> 2026-03-19",
+    "ext_daily": "research/frozen_vote_forward_replay_20261101/s02_daily.csv and s03_daily.csv, and audit_20261115/outputs/04b_s01_window_trades.csv for S01, 2026-03-20 -> 2026-10-02",
+    "vix": "data/raw/vix-cboe.csv (CBOE daily VIX, 1990-01-02 -> 2026-10-07), close column; cross-checked against data/raw/vix-daily.csv on the overlap",
+    "book_check": "research/locked_eight_sleeve_portfolio_20261115/daily_pnl.csv (sum of the three MNQ columns must equal the audit panel on the common sessions)"
+  },
+  "rule": {
+    "signal": "rise(t) = VIX close(t) / VIX close(t - y) - 1, t and t - y counted in VIX trading days",
+    "timing": "for an MNQ session on date d, the information is the VIX close of the last VIX trading day strictly before d (known at about 16:15 New York the day before)",
+    "trigger": "rise(t) >= x",
+    "action": "the three MNQ sleeves are flat (daily PnL = 0) on the next z MNQ sessions after t; a new trigger during a cut extends it to z sessions after the new trigger",
+    "unchanged": "signals, sizes and costs of the sleeves; MGC and MBT sleeves untouched"
+  },
+  "grid": {
+    "x_pct": [10, 20, 30, 50],
+    "y_vix_days": [1, 2, 3, 5, 10],
+    "z_mnq_sessions": [1, 2, 3, 5, 10],
+    "cells": 100
+  },
+  "windows": {
+    "IS": ["2019-05-06", "2023-12-29"],
+    "VAL": ["2024-01-02", "2026-03-19"],
+    "EXT": ["2026-03-20", "2026-10-02"]
+  },
+  "metric": "daily Sharpe of the MNQ sub-book S01 + S02 + S03 in USD, x sqrt(252), MNQ sessions of the window, days without trade and cut days at 0",
+  "selection_IS_only": "plateau score of a cell = median IS Sharpe of the cell and its existing neighbours at +/- 1 step on each axis (up to 27 cells); the selected cell maximises the plateau score; ties: fewer cut sessions, then smaller z, then larger x",
+  "technical_gates": {
+    "T1": "vix-cboe.csv and vix-daily.csv closes agree on their overlap (abs gap <= 0.01)",
+    "T2": "S01 + S02 + S03 of the audit panel equals the sum of the three MNQ columns of the 2026-11-15 lock on every common session (abs gap <= 1e-6)",
+    "T3": "every MNQ session has a VIX close strictly before it within 5 calendar days"
+  },
+  "IS_gates_selected_cell": {
+    "G1": "IS Sharpe(cell) - IS Sharpe(no overlay) >= 0.10, and plateau score > IS Sharpe(no overlay)",
+    "G2": "PBO of the 100 cells + no overlay (CSCV, 10 contiguous blocks, Sharpe) <= 0.40",
+    "G3": "paired stationary bootstrap of the IS Sharpe difference (mean block 20, 5 000 draws, seed 20261120): P(difference > 0) >= 0.90",
+    "G4": "share of IS MNQ sessions cut <= 20 %, and IS net PnL >= 85 % of the no-overlay PnL"
+  },
+  "one_shot_VAL_if_IS_passes": {
+    "guard": "results/validation.json is written once; a second run is refused",
+    "V1": "VAL Sharpe(cell) - VAL Sharpe(no overlay) >= 0",
+    "V2": "VAL net PnL >= 85 % of the no-overlay PnL",
+    "information": "EXT 2026-03-20 -> 2026-10-02 with and without the overlay; effect on the 8-sleeve book (union calendar) on VAL; worst day, max drawdown, days below -500 and -1 000 USD of the MNQ sub-book"
+  },
+  "information_IS_always": "full 100-cell table (IS only), cut share, PnL, max drawdown, worst day, days below -500 USD; the cut sessions of the selected cell",
+  "verdicts": {
+    "CLOSED_IS": "the selected cell fails any of G1-G4; VAL is not read",
+    "REJECTED_VAL": "IS passes, V1 or V2 fails",
+    "CANDIDATE_SHADOW": "IS and VAL pass: the overlay is tracked in shadow on the forward; adopting it is a separate versioned user decision"
+  },
+  "no_rescue_rule": "No grid value, threshold, window or metric is changed after any result is read."
+}
