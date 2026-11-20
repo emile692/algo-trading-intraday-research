@@ -1,0 +1,2 @@
+lag 1: A IS 0.732 OOS 1.265 | B IS median 0.537 pos 96% max 0.91 (np.int64(10), np.int64(45)) | OOS median 0.841 pos 99% max 1.48 (np.int64(15), np.int64(60)) | rank corr IS-OOS 0.69 | OOS of IS-best 1.17 | cells beating A: IS 6, OOS 9 / 99
+lag 0: A IS 0.683 OOS 1.250 | B IS median 0.544 pos 97% max 0.96 (np.int64(45), np.int64(60)) | OOS median 0.841 pos 100% max 1.54 (np.int64(15), np.int64(60)) | rank corr IS-OOS 0.64 | OOS of IS-best 1.23 | cells beating A: IS 14, OOS 9 / 99
