@@ -1,10 +1,17 @@
 """Download the forward 1-minute data (after 2026-10-02) for the prospective reads of audit_20261115.
 
-Same continuous symbols as the frozen history: MNQ.c.0, MGC.v.0, MBT.v.0, from 2026-10-03 00:00 UTC to --end
-(exclusive, a date after the last session to read).  Authorised by the user on 2026-11-15 with a 5 USD guard, to be run
-only after the close of 2026-12-02 (first horizon H = 20 sessions after 2026-11-03).  Raw files only: nothing is
-merged into the frozen history files.  The API key is requested with getpass and never persisted; without
-``--execute`` the script only estimates the cost.
+Continuous symbols MNQ.v.0, MNQ.c.0, MGC.v.0, MBT.v.0, from 2026-10-03 00:00 UTC to --end (exclusive, a date after
+the last session to read).  Authorised by the user on 2026-11-15 with a 5 USD guard, to be run only after the close of
+2026-12-02 (first horizon H = 20 sessions after 2026-11-03).  Raw files only: nothing is merged into the frozen
+history files.  The API key is requested with getpass and never persisted; without ``--execute`` the script only
+estimates the cost.
+
+MNQ (user decision of 2026-11-21): the active lock ``eight_sleeve_equal_contract_reference_20261121`` runs the MNQ
+sleeves on MNQ.v.0, so MNQ.v.0 is the MNQ forward series of the book.  The raw v.0 file is unadjusted: before any
+replay, chain it to the v.0 history with the same additive roll-spread back-adjustment as
+``research/mnq_v0_relock_20261121/build_v0_sleeves.py``.  MNQ.c.0 is still downloaded (a few cents) only because the
+prospective reads preregistered in ``audit_20261115/preregistration.md`` were defined on the 2026-11-15 lock (c.0);
+it is not a production series.
 
     python scripts/download_forward_20261203.py --end 2026-12-03            # estimate
     python scripts/download_forward_20261203.py --end 2026-12-03 --execute  # paid download
@@ -24,7 +31,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 DOWNLOADED = ROOT / "data" / "downloaded"
 DATASET, SCHEMA = "GLBX.MDP3", "ohlcv-1m"
-SYMBOLS = ("MNQ.c.0", "MGC.v.0", "MBT.v.0")
+SYMBOLS = ("MNQ.v.0", "MNQ.c.0", "MGC.v.0", "MBT.v.0")  # MNQ.v.0 = book series since lock 20261121
 START = "2026-10-03T00:00:00Z"
 EARLIEST_END = dt.date(2026, 12, 3)
 MAX_COST_USD = 5.00
@@ -56,7 +63,8 @@ def main() -> None:
         raise RuntimeError(f"Estimated cost ${total:.6f} exceeds guard ${MAX_COST_USD:.2f}")
     if not args.execute:
         return
-    meta = {"dataset": DATASET, "schema": SCHEMA, "purpose": "audit_20261115 prospective reads (forward_check.py)",
+    meta = {"dataset": DATASET, "schema": SCHEMA, "purpose": "forward reads: lock 20261121 (MNQ.v.0) and audit_20261115 prospective reads (MNQ.c.0)",
+            "mnq_book_series": "MNQ.v.0 (raw, to back-adjust before replay)",
             "estimated_cost_usd": total, "files": [], "api_key_persisted": False}
     tag = end.strftime("%Y%m%d")
     for r, est in zip(reqs, estimates):

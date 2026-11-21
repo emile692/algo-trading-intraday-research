@@ -21,3 +21,6 @@ research/vix_spike_riskoff_mnq_20261120/*.py text eol=lf
 # Price-action campaign 2026-11-20: code hashed on LF bytes in research/price_action_reddit_20261120/STRATEGIES.md.
 src/price_action/** text eol=lf
 research/price_action_reddit_20261120/*.py text eol=lf
+# Inputs of the 2026-11-21 lock (MNQ v.0) whose sha256 was taken on LF bytes.
+research/mnq_v0_relock_20261121/*.py text eol=lf
+research/locked_eight_sleeve_portfolio_20261121/*.py text eol=lf
