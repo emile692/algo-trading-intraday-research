@@ -66,8 +66,10 @@ def test_stop_rule_thresholds_cover_all_nine_sleeves() -> None:
 def test_registry_records_this_lock_as_superseded_reference() -> None:
     # Superseded on 2026-11-15 by eight_sleeve_equal_contract_reference_20261115 (see SUPERSEDED.md);
     # the active-pointer test moved to tests/test_locked_eight_sleeve_portfolio_20261115.py.
+    # Since 2026-11-21 (MNQ v.0 lock) it sits in the registry's list of earlier superseded references.
     registry = json.loads((ROOT / "strategy_registry" / "forward_monitoring" / "registry.json").read_text(encoding="utf-8"))
-    superseded = registry["active_reference"]["superseded_reference"]
+    superseded = next(r for r in registry["active_reference"]["earlier_superseded_references"]
+                      if r["portfolio_id"] == "eight_sleeve_equal_contract_reference_20261103")
     assert superseded["path"] == "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json"
     assert _sha256(ROOT / superseded["path"]) == superseded["sha256"]
 

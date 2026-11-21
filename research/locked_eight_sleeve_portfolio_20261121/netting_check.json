@@ -1,0 +1,14 @@
+{
+  "window": [
+    "2024-01-02",
+    "2026-03-19"
+  ],
+  "sessions": 572,
+  "separate_net_usd": 31639.460000000006,
+  "netted_net_usd": 31667.46000000034,
+  "gross_usd": 39343.00000000001,
+  "separate_costs_usd": 7703.540000000003,
+  "netted_costs_usd": 7675.540000000022,
+  "peak_lots_uncapped": 3.3,
+  "engine": "src/portfolio/aggregator.py (unchanged); MNQ bars and S01-S03 ledgers = v.0 back-adjusted"
+}

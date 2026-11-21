@@ -18,12 +18,15 @@ def _rule() -> dict:
     return json.loads(RULE.read_text(encoding="utf-8"))
 
 
-def test_rule_is_wired_into_the_registry():
+def test_rule_is_superseded_by_the_v0_rule_with_the_same_statuses():
+    # Superseded on 2026-11-21 by stop_rule_20261121.json (same rules, MNQ thresholds recomputed on MNQ v.0).
     rule, registry = _rule(), json.loads(REGISTRY.read_text(encoding="utf-8"))
     ref = registry["active_reference"]
-    assert rule["status"] == "ACTIVE_STOP_RULE"
-    assert rule["applies_to_portfolio"] == ref["portfolio_id"]
-    assert ref["stop_rule"] == "strategy_registry/forward_monitoring/stop_rule_20261115.json"
+    new = json.loads((ROOT / ref["stop_rule"]).read_text(encoding="utf-8"))
+    assert ref["stop_rule"] == "strategy_registry/forward_monitoring/stop_rule_20261121.json"
+    assert new["supersedes"]["rule_id"] == rule["rule_id"]
+    assert new["supersedes"]["sha256"] == hashlib.sha256(RULE.read_bytes()).hexdigest()
+    assert rule["applies_to_portfolio"] == ref["superseded_reference"]["portfolio_id"]
     under_review = {v["sleeve"] for v in rule["retroactive_application"]["statuses_as_of_2026_11_15"].values()
                     if v["status"] == "ACTIVE_UNDER_REVIEW"}
     assert under_review == set(ref["under_review"])

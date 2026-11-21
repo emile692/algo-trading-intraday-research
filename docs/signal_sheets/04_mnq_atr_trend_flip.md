@@ -98,9 +98,16 @@ pour chaque cellule (p dans [8,10,12], m dans [1.5,1.75,2.0]):
 
 ## 9. Validation historique
 
-- **Historique total — 2019-05-06 au 2026-03-19 :** 2 052 trades agrégés, `10 075 USD` nets, Sharpe `0,424`, PF `1,079`, maxDD `−4 212,50 USD`, pire journée `−1 028,50 USD`.
-- **IS — 2019-05-06 au 2023-12-31 :** 1 419 trades agrégés, `4 692 USD` nets, Sharpe `0,354`, PF `1,059`, maxDD `−3 063 USD`.
-- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 633 trades agrégés, `5 383 USD` nets, Sharpe `0,543`, PF `1,114`, maxDD `−4 212,50 USD`. Cette fenêtre a été lue avant le gel : ce n'est pas un OOS prospectif.
+> **Données MNQ depuis le 21 novembre 2026.** Ces chiffres sont calculés sur MNQ `v.0` (le contrat le plus échangé, celui que trade la production), ajusté en arrière de l'écart de roll. Ils remplacent ceux calculés sur `c.0`, qui posait trois problèmes :
+> - il gardait le contrat qui expire pendant la semaine du roll ;
+> - il n'avait aucune barre RTH les vendredis d'échéance ;
+> - il créait un faux gap dans l'ATR au changement de contrat.
+>
+> Le manifeste de vote gelé et les cellules sont inchangés. Les cubes et grilles de paramètres plus haut restent ceux calculés sur `c.0` lors de la sélection. Sur l'ancienne série `c.0`, la sleeve faisait : historique total 2 052 trades, `10 075 USD`, Sharpe `0,424` ; IS 1 419 trades, `4 692 USD` ; validation réutilisée 633 trades, `5 383 USD`. Référence : [lock du 21 novembre](../../research/locked_eight_sleeve_portfolio_20261121/locked_eight_sleeve_config.json).
+
+- **Historique total — 2019-05-06 au 2026-03-19 :** 2 089 trades agrégés, `7 550,50 USD` nets, Sharpe `0,314`, PF `1,058`, maxDD `−4 657 USD`, pire journée `−1 077,50 USD`.
+- **IS — 2019-05-06 au 2023-12-31 :** 1 446 trades agrégés, `2 686,50 USD` nets, Sharpe `0,199`, PF `1,033`, maxDD `−4 355 USD`.
+- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 643 trades agrégés, `4 864 USD` nets, Sharpe `0,487`, PF `1,102`, maxDD `−4 657 USD`. Cette fenêtre a été lue avant le gel : ce n'est pas un OOS prospectif.
 - **Comparaison avec l'ancien point `ATR10 × 1,75`**, même définition des métriques : Sharpe IS `0,310`, Sharpe validation `0,800`. Le vote améliore l'IS mais fait nettement moins bien en validation. La cartographie de la section 12 montre que le classement des cellules s'inverse entre les deux périodes sur cette sleeve : le chiffre de validation de l'ancien point n'était pas reproductible par une sélection faite sur l'IS.
 - Les Sharpe sont calculés sur le PnL quotidien net ; les couleurs de la vue de la section 4 restent des métriques **par cellule**.
 
@@ -110,9 +117,9 @@ pour chaque cellule (p dans [8,10,12], m dans [1.5,1.75,2.0]):
 - Distinguer l'ATR du signal (`p`) et l'ATR14 du stop.
 - Vérifier qu'un flip opposé n'invente pas une sortie différente du lock à stop fixe.
 - Ne jamais exécuter 9 contrats : seules les transitions de la cible agrégée `−1/0/+1` sont tradées et facturées.
-- Pire journée historique `−1 028,50 USD` : c'est la sleeve la plus exposée à une perte journalière, à surveiller face à une limite prop firm.
+- Pire journée historique `−1 077,50 USD` (`−1 028,50 USD` sur l'ancien `c.0`) : c'est la sleeve la plus exposée à une perte journalière, à surveiller face à une limite prop firm.
 
-Sources : [résultats exécutés du vote](../../research/signal_sheet_04_cluster/summary.json), [trades agrégés](../../research/signal_sheet_04_cluster/trades.csv), [manifeste gelé des 9 cellules](../../strategy_registry/psf_mnq/frozen_ensembles/mnq_atr_trend_flip_vote_9.json), [lock MNQ](../../research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json), [spécification gelée](../../strategy_registry/psf_mnq/frozen_baselines/atr_trend_flip.json).
+Sources : [résultats exécutés du vote sur MNQ v.0](../../research/signal_sheet_04_cluster_v0/summary.json), [trades agrégés v.0](../../research/signal_sheet_04_cluster_v0/trades.csv), [résultats sur l'ancien c.0](../../research/signal_sheet_04_cluster/summary.json), [manifeste gelé des 9 cellules](../../strategy_registry/psf_mnq/frozen_ensembles/mnq_atr_trend_flip_vote_9.json), [lock MNQ](../../research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json), [spécification gelée](../../strategy_registry/psf_mnq/frozen_baselines/atr_trend_flip.json).
 
 ## 11. Equity curves FS et OOS/validation
 

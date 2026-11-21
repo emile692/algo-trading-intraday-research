@@ -106,9 +106,16 @@ pour chaque cellule, à chaque minute:
 
 ## 9. Validation historique
 
-- **Historique total — 2019-05-06 au 2026-03-19 :** 329 trades agrégés, `2 255,50 USD` nets, Sharpe `0,432`, PF `1,198`, maxDD `−1 202,50 USD`, pire journée `−268,50 USD`.
-- **IS — 2019-05-06 au 2023-12-31 :** 219 trades agrégés, `1 663 USD` nets, Sharpe `0,546`, PF `1,239`, maxDD `−1 037 USD`.
-- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 110 trades agrégés, `592,50 USD` nets, Sharpe `0,283`, PF `1,134`, maxDD `−940,50 USD`. Cette fenêtre a été lue avant le gel : ce n'est pas un OOS prospectif.
+> **Données MNQ depuis le 21 novembre 2026.** Ces chiffres sont calculés sur MNQ `v.0` (le contrat le plus échangé, celui que trade la production), ajusté en arrière de l'écart de roll. Ils remplacent ceux calculés sur `c.0`, qui posait trois problèmes :
+> - il gardait le contrat qui expire pendant la semaine du roll ;
+> - il n'avait aucune barre RTH les vendredis d'échéance ;
+> - il créait un faux gap dans l'ATR au changement de contrat.
+>
+> Le manifeste de vote gelé et les cellules sont inchangés. Les cubes et grilles de paramètres plus haut restent ceux calculés sur `c.0` lors de la sélection. Sur l'ancienne série `c.0`, la sleeve faisait : historique total 329 trades, `2 255,50 USD`, Sharpe `0,432` ; IS 219 trades, `1 663 USD` ; validation réutilisée 110 trades, `592,50 USD`. Référence : [lock du 21 novembre](../../research/locked_eight_sleeve_portfolio_20261121/locked_eight_sleeve_config.json).
+
+- **Historique total — 2019-05-06 au 2026-03-19 :** 332 trades agrégés, `2 612 USD` nets, Sharpe `0,493`, PF `1,228`, maxDD `−1 202,50 USD`, pire journée `−268,50 USD`.
+- **IS — 2019-05-06 au 2023-12-31 :** 222 trades agrégés, `1 733,50 USD` nets, Sharpe `0,559`, PF `1,244`, maxDD `−1 032 USD`.
+- **OOS / validation réutilisée — 2024-01-01 au 2026-03-19 :** 110 trades agrégés, `878,50 USD` nets, Sharpe `0,415`, PF `1,201`, maxDD `−940,50 USD`. Cette fenêtre a été lue avant le gel : ce n'est pas un OOS prospectif.
 - **Comparaison avec l'ancien point `NR10 / 1 / 2,0`**, même définition des métriques : Sharpe IS `0,494`, Sharpe validation `0,503`. Le vote améliore l'IS mais fait moins bien en validation. L'ancien point avait été retenu après lecture de cette fenêtre, ce qui rendait son chiffre de validation optimiste.
 - Les Sharpe sont calculés sur le PnL quotidien net ; les couleurs de la vue de la section 4 restent des métriques **par cellule**.
 
@@ -118,9 +125,9 @@ pour chaque cellule, à chaque minute:
 - Exclure la barre courante de toute information non encore terminée.
 - Tester égalités de range, doubles touches et plusieurs setups actifs, cellule par cellule.
 - Ne jamais exécuter 27 contrats : seules les transitions de la cible agrégée `−1/0/+1` sont tradées et facturées.
-- Faible fréquence, environ 48 trades par an : incertitude statistique forte, et validation 2024–2026 faible (Sharpe `0,283`).
+- Faible fréquence, environ 48 trades par an : incertitude statistique forte, et validation 2024–2026 faible (Sharpe `0,415` sur `v.0`, `0,283` sur l'ancien `c.0`).
 
-Sources : [résultats exécutés du vote](../../research/signal_sheet_03_cluster/summary.json), [trades agrégés](../../research/signal_sheet_03_cluster/trades.csv), [manifeste gelé des 27 cellules](../../strategy_registry/psf_mnq/frozen_ensembles/mnq_compression_breakout_vote_27.json), [lock MNQ](../../research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json), [spécification gelée](../../strategy_registry/psf_mnq/frozen_baselines/compression_breakout.json).
+Sources : [résultats exécutés du vote sur MNQ v.0](../../research/signal_sheet_03_cluster_v0/summary.json), [trades agrégés v.0](../../research/signal_sheet_03_cluster_v0/trades.csv), [résultats sur l'ancien c.0](../../research/signal_sheet_03_cluster/summary.json), [manifeste gelé des 27 cellules](../../strategy_registry/psf_mnq/frozen_ensembles/mnq_compression_breakout_vote_27.json), [lock MNQ](../../research/locked_four_sleeve_portfolio/locked_four_sleeve_config.json), [spécification gelée](../../strategy_registry/psf_mnq/frozen_baselines/compression_breakout.json).
 
 ## 11. Equity curves FS et OOS/validation
 

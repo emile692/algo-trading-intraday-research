@@ -1,6 +1,15 @@
 # Référence opérationnelle — huit sleeves equal-contract
 
-Date de référence : **15 novembre 2026**. Statut : **LOCKED_ACTIVE_REFERENCE**. Identifiant : `eight_sleeve_equal_contract_reference_20261115`.
+Date de référence : **21 novembre 2026**. Statut : **LOCKED_ACTIVE_REFERENCE**. Identifiant : `eight_sleeve_equal_contract_reference_20261121`.
+
+> **Relock du 21 novembre 2026 : données MNQ `v.0`.** Il remplace `eight_sleeve_equal_contract_reference_20261115`. Seule la donnée MNQ change : `MNQ.c.0` est remplacé par `MNQ.v.0`, le contrat le plus échangé, celui que trade la production. La série est ajustée en arrière de l'écart de roll et figée dans `data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet`, sur la même fenêtre que le lock précédent. `c.0` posait trois problèmes :
+> - il gardait le contrat qui expire pendant la semaine du roll ;
+> - il n'avait aucune barre RTH les vendredis d'échéance ;
+> - il créait un faux gap (jusqu'à 276 points) dans l'ATR quotidien au changement de contrat.
+>
+> S01–S04 sont reconstruites avec les mêmes moteurs, paramètres, manifestes de vote et seuils IS de S01. MGC et MBT sont inchangées. Les seuils de la règle d'arrêt des sleeves MNQ et du book sont recalculés sur `v.0`.
+>
+> Sur 2024-01-02 → 2026-03-19, le book fait `31 639,46 USD`, contre `30 857,96 USD` sur `c.0`. Le Sharpe passe de `1,712` à `1,782`. Le drawdown clôture passe de `−5 870` à `−5 458 USD`, le drawdown intraday de `−6 505` à `−6 089 USD`.
 
 > **Relock du 15 novembre 2026.** Il remplace `eight_sleeve_equal_contract_reference_20261103` et corrige deux défauts relevés par l'audit `audit_20261115`, sans rien retuner :
 > - **S01 est désormais la sleeve de la fiche 01** : le vote de 18 modèles ATR {14, 16, 18} × q_low {20, 25, 30} × q_high {80, 85}, 701 trades. Le lock du 3 novembre contenait le ledger historique `baseline_fixed` (ATR 14 × q_high {90, 95}, 823 trades).
@@ -30,7 +39,7 @@ Chaque valeur représente une copie entière de la sleeve correspondante. Aucun 
 | 9 | `mbt_volatility_breakout` | MBT | 1 | vote de 12 cellules — `ACTIVE_UNDER_REVIEW` depuis le 15/11 |
 | 4 | `mnq_atr_trend_flip` | MNQ | **0** | **SHADOW_FORWARD_ONLY**, vote de 9 cellules suivi sans allocation |
 
-S02 à S09 gardent octet pour octet les sources gelées du 1er novembre 2026. S01 pointe vers `research/signal_sheet_01_atr18`, avec les seuils IS de `thresholds_is.csv` figés : ils ne sont jamais recalibrés. Les tests du lock vérifient les deux. Les numéros S01–S09 des fiches signal restent inchangés.
+Depuis le 21 novembre 2026, les sleeves MNQ pointent vers leurs reconstructions sur MNQ `v.0` : `research/signal_sheet_01_atr18_v0`, `research/signal_sheet_02_cluster_v0`, `research/signal_sheet_03_cluster_v0` et `research/signal_sheet_04_cluster_v0`. Leurs manifestes de vote du 1er novembre 2026 ne changent pas. S01 garde les seuils IS de `thresholds_is.csv`, calibrés sur `c.0`, copiés tels quels et jamais recalibrés. S05 à S09 gardent octet pour octet leurs sources du 1er novembre 2026. Les tests du lock vérifient les deux. Les numéros S01–S09 des fiches signal restent inchangés.
 
 ## Pourquoi S04 sort
 
@@ -42,7 +51,18 @@ Ces chiffres de bloc incluent S01 `baseline_fixed`. Le S01 de référence (ATR 1
 
 ## Référence Topstep 50K
 
-**Lock du 15 novembre** : même harnais (bootstrap mobile groupé, 8 000 chemins, blocs 3/5/10/20, seed `20261004`, mêmes règles 50K), sur 2024-01-02 → 2026-03-19. Le calendrier union compte 572 séances, et l'échantillonneur porte sur les séances où au moins une sleeve active trade. Les trajectoires diffèrent donc de celles des locks précédents.
+**Lock du 21 novembre (MNQ `v.0`)** : même harnais (bootstrap mobile groupé, 8 000 chemins, blocs 3/5/10/20, seed `20261004`, règles 50K), sur 2024-01-02 → 2026-03-19, calendrier union de 572 séances.
+
+| Horizon | PASS | MLL | EXPIRY | PASS du book `c.0` sur les mêmes chemins |
+|---|---:|---:|---:|---:|
+| 35 jours tradés | 30,7375 % | 38,2000 % | 31,0625 % | 29,0125 % |
+| **60 jours tradés** | **45,3125 %** | **45,8500 %** | **8,8375 %** | 43,8625 % |
+
+Le harnais reproduit d'abord exactement le PnL et les métriques de risque du lock du 15 novembre, à partir de ses sources. Détail : [`topstep_summary.csv`](../research/locked_eight_sleeve_portfolio_20261121/topstep_summary.csv). Ce sont des estimations bootstrap rétrospectives, pas des probabilités garanties.
+
+*Lock du 15 novembre, conservé pour comparaison :*
+
+Même harnais (bootstrap mobile groupé, 8 000 chemins, blocs 3/5/10/20, seed `20261004`, mêmes règles 50K), sur 2024-01-02 → 2026-03-19. Le calendrier union compte 572 séances, et l'échantillonneur porte sur les séances où au moins une sleeve active trade. Les trajectoires diffèrent donc de celles des locks précédents.
 
 | Horizon | PASS | MLL | EXPIRY |
 |---|---:|---:|---:|
@@ -60,14 +80,14 @@ Avant d'écrire quoi que ce soit, le harnais reproduit exactement les PASS publi
 
 Sur la fenêtre commune, le book passe de `37 044 USD` à `31 661 USD`, mais le Sharpe quotidien remonte de `1,54` à `1,75` et le drawdown intraday maximal de `−7 256 USD` à `−6 060 USD`. Le PASS à 60 jours gagne 6,6 points, le MLL en perd 9,7 ; à 35 jours, le PASS est stable et les comptes expirent plus souvent, faute de rendement suffisant. Sur cette fenêtre, S04 était encore rentable : le gain Topstep vient de la baisse du risque, pas de la suppression de pertes. Ce sont des estimations bootstrap rétrospectives, pas des probabilités garanties.
 
-## Règle d'arrêt des sleeves (version du 15 novembre 2026)
+## Règle d'arrêt des sleeves (version du 15 novembre 2026, seuils MNQ du 21 novembre)
 
 Décidée le 15 novembre 2026 après l'audit, elle remplace la règle du 3 novembre. Elle s'applique à toutes les sleeves, actives ou en shadow, ainsi qu'au book. Le suivi commence à la première séance après le 3 novembre 2026 ; h désigne le nombre de séances écoulées depuis.
 
 | Niveau | Déclencheur | Action |
 |---|---|---|
-| **Shadow** | **R2** : le drawdown maximal depuis le début du suivi dépasse le p99 du drawdown bootstrap à h ([courbe des seuils](../audit_20261115/outputs/05_r2_threshold_curve.csv)) | La sleeve passe en `SHADOW_FORWARD_ONLY` dans un nouveau lock versionné, sans aucun retuning |
-| **Revue** | **R0** : la somme des 126 dernières séances passe sous le pire de l'historique ([seuils](../research/locked_eight_sleeve_portfolio_20261115/sleeve_stop_rule_thresholds.csv)). **R3** : la somme des 120 dernières séances passe sous son p5 | Statut `ACTIVE_UNDER_REVIEW` : suivi hebdomadaire renforcé, sans action automatique ni changement d'allocation |
+| **Shadow** | **R2** : le drawdown maximal depuis le début du suivi dépasse le p99 du drawdown bootstrap à h ([courbe des seuils](../research/locked_eight_sleeve_portfolio_20261121/r2_threshold_curve_v0.csv)) | La sleeve passe en `SHADOW_FORWARD_ONLY` dans un nouveau lock versionné, sans aucun retuning |
+| **Revue** | **R0** : la somme des 126 dernières séances passe sous le pire de l'historique ([seuils](../research/locked_eight_sleeve_portfolio_20261121/sleeve_stop_rule_thresholds.csv)). **R3** : la somme des 120 dernières séances passe sous son p5 | Statut `ACTIVE_UNDER_REVIEW` : suivi hebdomadaire renforcé, sans action automatique ni changement d'allocation |
 | **Book** | R3 en alerte, R2 en revue générale | Aucune action automatique |
 
 - **Pourquoi R2 seule.** C'est la seule règle qui coupe rarement une sleeve saine : environ 7 % en 250 séances (médiane des 9 sleeves en simulation). Faire passer en shadow sur « R0 ou R2 » en couperait 21 %. En contrepartie, la détection est lente : seulement 14 % des sleeves à Sharpe nul sont détectées en 250 séances. Avec 250 séances, aucune règle ne sépare de façon fiable une sleeve saine d'une sleeve morte ([audit, phase 5](../audit_20261115/05_regles_arret.md)).
@@ -81,7 +101,19 @@ Décidée le 15 novembre 2026 après l'audit, elle remplace la règle du 3 novem
   - **S09** `mbt_volatility_breakout` passe en revue : R3 du 16 juin au 1er octobre, et son vote est nul sur sa validation réutilisée ;
   - aucune sleeve active ne passe en shadow, donc le book ne change pas.
 
-Règle versionnée et seuils : [`stop_rule_20261115.json`](../strategy_registry/forward_monitoring/stop_rule_20261115.json), vérifiée par [`test_sleeve_stop_rule_20261115.py`](../tests/test_sleeve_stop_rule_20261115.py). Gabarit de suivi hebdomadaire : [`05_suivi_hebdo_gabarit.csv`](../audit_20261115/05_suivi_hebdo_gabarit.csv).
+**Seuils recalculés sur MNQ `v.0` le 21 novembre.** Même méthode et même graine que l'audit. Le recalcul reproduit d'abord à l'identique les seuils publiés sur `c.0` ([script](../research/locked_eight_sleeve_portfolio_20261121/stop_rule_thresholds_v0.py)). MGC et MBT gardent leurs seuils, puisque leurs données n'ont pas changé.
+
+| Série | R0 (126 séances) | R2 à h = 250 | R3 (120 séances, p5) |
+|---|---:|---:|---:|
+| S01 | −1 033,50 (`c.0` : −890,50) | −2 840,01 (−2 806,05) | −701,05 (−639,52) |
+| S02 | −2 813,00 (−4 019,00) | −6 267,56 (−6 595,51) | −1 874,07 (−2 177,57) |
+| S03 | −940,50 (−975,00) | −1 479,51 (−1 473,03) | −575,50 (−591,05) |
+| S04 (shadow) | −3 431,50 (−2 974,00) | −6 755,64 (−6 281,53) | −2 742,57 (−2 497,03) |
+| Book 8 | — | −8 084,58 (−8 285,41) | −960,84 (−1 067,77) |
+
+Les statuts de l'application rétroactive ci-dessus ont été établis le 15 novembre sur `c.0`. Ils sont conservés tels quels : la fenêtre du 20 mars au 2 octobre n'est pas relue sur `v.0`.
+
+Règle versionnée et seuils : [`stop_rule_20261121.json`](../strategy_registry/forward_monitoring/stop_rule_20261121.json), qui remplace [`stop_rule_20261115.json`](../strategy_registry/forward_monitoring/stop_rule_20261115.json). Elle est vérifiée par [`test_locked_eight_sleeve_portfolio_20261121.py`](../tests/test_locked_eight_sleeve_portfolio_20261121.py). Gabarit de suivi hebdomadaire : [`05_suivi_hebdo_gabarit.csv`](../audit_20261115/05_suivi_hebdo_gabarit.csv).
 
 ## Exécution : netting par instrument (règle active depuis le 15 novembre 2026)
 
@@ -96,9 +128,9 @@ Les sleeves ne sont plus envoyées séparément. Le mapping `[1,1,1,1,1,1,1,1]`,
 - **Ordres.** Seul l'écart entre la cible nette et la position du compte est envoyé, à l'open de la minute suivante. Le stop et la cible de S01 sont des ordres stop et limite indépendants. Leur quantité est l'effet qu'aurait la sortie de S01 sur la cible nette, recalculée chaque minute.
 - **Limites Topstep.** Un micro compte 0,1 lot, un MBT 1 lot (à confirmer dans TopstepX). Combine 50K : 5 lots. XFA : 2 lots sous 1 500 USD de solde, 3 lots jusqu'à 2 000, puis 5. Une entrée qui dépasserait la limite est réduite. Une position ouverte n'est jamais coupée. Quand de la place se libère, l'événement suivant sur l'instrument rejoint la cible nette, même si cet événement est une sortie (rattrapage).
 - **Aucun overlay.** Pas de stop journalier, de plafond MBT, de sizing par la vol ni de verrou de gain : tous ont été testés et rejetés. Seule exception, le stop catastrophe ci-dessous : c'est un ordre de protection, qui ne s'est jamais déclenché sur l'historique.
-- **PnL.** Le PnL brut est identique à la somme des sleeves. Les coûts sont légèrement plus bas : 10 506 contre 10 548 USD sur 1 203 séances IS dans l'étude, menée avec S01 `baseline_fixed`. Avec le S01 de référence, sur 2024-01-02 → 2026-03-19, ils valent 7 637 contre 7 665 USD, pour un PnL net de 30 886 USD en netting contre 30 858 en séparé ([`netting_check.json`](../research/locked_eight_sleeve_portfolio_20261115/netting_check.json)). Chaque sleeve garde son PnL virtuel et sa règle d'arrêt.
+- **PnL.** Le PnL brut est identique à la somme des sleeves. Les coûts sont légèrement plus bas : 10 506 contre 10 548 USD sur 1 203 séances IS dans l'étude, menée avec S01 `baseline_fixed`. Sur le lock du 21 novembre (MNQ `v.0`), sur 2024-01-02 → 2026-03-19, ils valent 7 676 contre 7 704 USD, pour un PnL net de 31 667 USD en netting contre 31 639 USD en séparé ([`netting_check.json`](../research/locked_eight_sleeve_portfolio_20261121/netting_check.json)). Chaque sleeve garde son PnL virtuel et sa règle d'arrêt.
 
-Règle gelée et empreintes : [`netting_rule_20261115_r2.json`](../strategy_registry/execution/netting_rule_20261115_r2.json). Elle reprend la logique de [`netting_rule_20261115.json`](../strategy_registry/execution/netting_rule_20261115.json) à l'identique et l'applique au lock du 15 novembre. Elle est vérifiée par [`test_locked_eight_sleeve_portfolio_20261115.py`](../tests/test_locked_eight_sleeve_portfolio_20261115.py). Étude, verdict `ADOPT_AGGREGATION_ONLY` : [clôture](../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md). Exemples réels : [Book, section 6](signal_sheets/BOOK.md).
+Règle gelée et empreintes : [`netting_rule_20261121_r3.json`](../strategy_registry/execution/netting_rule_20261121_r3.json). Elle reprend à l'identique la logique de [`netting_rule_20261115_r2.json`](../strategy_registry/execution/netting_rule_20261115_r2.json) et l'applique au lock du 21 novembre. Elle est vérifiée par [`test_locked_eight_sleeve_portfolio_20261121.py`](../tests/test_locked_eight_sleeve_portfolio_20261121.py). Étude, verdict `ADOPT_AGGREGATION_ONLY` : [clôture](../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md). Exemples réels : [Book, section 6](signal_sheets/BOOK.md).
 
 ### Stop catastrophe (décidé le 15 novembre 2026)
 
@@ -117,30 +149,31 @@ Le stop catastrophe protège contre une position orpheline (déconnexion, bug de
   | retour à plat | — | ordre annulé |
 
 - **Après déclenchement**, l'instrument reste à plat jusqu'à la fin de la séance. Le stop et la cible de S01 restent posés indépendamment.
-- **Sur l'historique**, le stop ne s'est jamais déclenché (2019–2026 pour MNQ et MGC, 2021–2026 pour MBT). Il ne change donc rien au comportement des sleeves.
+- **Sur l'historique**, le stop ne s'est jamais déclenché (2019–2026 pour MNQ et MGC, 2021–2026 pour MBT). Il ne change donc rien au comportement des sleeves. C'est revérifié sur MNQ `v.0` le 21 novembre : 0 déclenchement à k = 3 ; borne p99 de la position ouverte 8 687 USD, contre 8 385 sur `c.0` ([vérification](../research/locked_eight_sleeve_portfolio_20261121/catastrophe_stop_check_v0.json)).
 - **La journée** est bornée par la limite de perte journalière (DLL) Topstep de 1 000 USD, appliquée au niveau du compte.
 
-Ce stop ne modifie pas la règle r2 : la clause « aucun overlay » vise les couches de risque rejetées. Règle versionnée : [`catastrophe_stop_20261115.json`](../strategy_registry/execution/catastrophe_stop_20261115.json), vérifiée par [`test_catastrophe_stop_rule.py`](../tests/test_catastrophe_stop_rule.py). Étude : [audit, phase 10](../audit_20261115/10_stop_catastrophe.md).
+Ce stop ne modifie pas la règle r2 : la clause « aucun overlay » vise les couches de risque rejetées. Règle versionnée : [`catastrophe_stop_20261121.json`](../strategy_registry/execution/catastrophe_stop_20261121.json), même ordre que [`catastrophe_stop_20261115.json`](../strategy_registry/execution/catastrophe_stop_20261115.json), vérifiée par [`test_catastrophe_stop_rule.py`](../tests/test_catastrophe_stop_rule.py). Étude : [audit, phase 10](../audit_20261115/10_stop_catastrophe.md).
 
 **Défaut de calendrier corrigé le 15 novembre.** Le lock du 3 novembre alignait MGC et MBT sur le calendrier MNQ (−509 USD sur 8 séances). Le lock du 15 novembre est sur le calendrier union.
 
-**Défaut de données connu, mesuré le 15 novembre.** Le fichier MNQ `c.0` n'a aucune barre RTH sur les vendredis d'échéance trimestrielle (27 jours de 2019 à 2025, plus le 20 mars et le 18 septembre 2026). Les ledgers figés ne contiennent donc aucun trade MNQ ces jours-là. Rejouées sur MNQ `v.0` recalé de l'écart de roll, les sleeves actives y font +708 USD sur 28 trades, et l'effet sur les séances suivantes vaut −702 USD : le total est neutre ([audit, écart n° 3](../audit_20261115/RAPPORT.md)). S01 y perd ses 6 trades (−1 035 USD), mais 6 trades ne justifient pas un filtre ajouté après coup. Les sleeves MNQ tradent ces jours-là normalement, sur le contrat suivant.
+**Défaut de données mesuré le 15 novembre, corrigé par le lock du 21 novembre.** Le fichier MNQ `c.0` n'a aucune barre RTH sur les vendredis d'échéance trimestrielle (27 jours de 2019 à 2025, plus le 20 mars et le 18 septembre 2026). Les ledgers figés ne contiennent donc aucun trade MNQ ces jours-là. Rejouées sur MNQ `v.0` recalé de l'écart de roll, les sleeves actives y font +708 USD sur 28 trades, et l'effet sur les séances suivantes vaut −702 USD : le total est neutre ([audit, écart n° 3](../audit_20261115/RAPPORT.md)). S01 y perd ses 6 trades (−1 035 USD), mais 6 trades ne justifient pas un filtre ajouté après coup. Les sleeves MNQ tradent ces jours-là normalement, sur le contrat suivant.
 
 **Mesure complète sur MNQ `v.0`, le 20 novembre.** `c.0` garde aussi le contrat qui expire pendant toute la semaine du roll, et crée un faux gap (jusqu'à 276 points) au changement de contrat. J'ai rejoué toute la série sur `v.0`, le contrat que trade la production, avec les moteurs inchangés.
 - **Book actif S01–S03 :** 43 976 USD contre 41 931 gelés, Sharpe 1,42 contre 1,34, drawdown max 4 655 contre 5 027 USD. `c.0` ne flattait donc pas le book.
 - **S02 :** 21 % de ses trades changent, par effet de mémoire de l'ATR, mais son total tient. Le ledger de S02 n'est pas une référence fiable trade par trade.
 - **S04 (shadow) :** −2 525 USD (−25 %), presque entièrement dans les fenêtres de roll.
 
-Détail : [résultats](../research/mnq_v0_roll_replay_20261120/RESULTS.md).
+Détail : [résultats](../research/mnq_v0_roll_replay_20261120/RESULTS.md). Le lock du 21 novembre adopte la variante ajustée de ce rejeu.
 
 ## Sources canoniques
 
-- Configuration verrouillée : [`locked_eight_sleeve_config.json`](../research/locked_eight_sleeve_portfolio_20261115/locked_eight_sleeve_config.json)
-- Manifeste de hashes : [`lock_manifest.json`](../research/locked_eight_sleeve_portfolio_20261115/lock_manifest.json)
-- PnL quotidien canonique : [`daily_pnl.csv`](../research/locked_eight_sleeve_portfolio_20261115/daily_pnl.csv)
-- Script de verrouillage et comparaison Topstep : [`relock_eight_sleeves_20261115.py`](../research/locked_eight_sleeve_portfolio_20261115/relock_eight_sleeves_20261115.py), [`topstep_summary.csv`](../research/locked_eight_sleeve_portfolio_20261115/topstep_summary.csv)
+- Configuration verrouillée : [`locked_eight_sleeve_config.json`](../research/locked_eight_sleeve_portfolio_20261121/locked_eight_sleeve_config.json)
+- Manifeste de hashes : [`lock_manifest.json`](../research/locked_eight_sleeve_portfolio_20261121/lock_manifest.json)
+- PnL quotidien canonique : [`daily_pnl.csv`](../research/locked_eight_sleeve_portfolio_20261121/daily_pnl.csv)
+- Donnée MNQ figée : [`MNQ_v_0_adj_1m_20190505_20260320.metadata.json`](../data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.metadata.json), reconstruction des sleeves : [`build_v0_sleeves.py`](../research/mnq_v0_relock_20261121/build_v0_sleeves.py)
+- Script de verrouillage et comparaison Topstep : [`relock_eight_sleeves_20261121.py`](../research/locked_eight_sleeve_portfolio_20261121/relock_eight_sleeves_20261121.py), [`topstep_summary.csv`](../research/locked_eight_sleeve_portfolio_20261121/topstep_summary.csv)
 - Contexte forward et rejeu de la règle d'arrêt, lock du 3 novembre, avec S01 `baseline_fixed` : [`forward_context.json`](../research/locked_eight_sleeve_portfolio_20261103/forward_context.json), [replay des votes gelés](../research/frozen_vote_forward_replay_20261101/)
-- Références remplacées, conservées intactes : [huit sleeves du 3 novembre](../research/locked_eight_sleeve_portfolio_20261103/SUPERSEDED.md), [neuf sleeves du 1er novembre](../research/locked_nine_sleeve_portfolio_20261101/SUPERSEDED.md), [neuf sleeves du 4 octobre](../research/locked_nine_sleeve_portfolio/SUPERSEDED.md)
+- Références remplacées, conservées intactes : [huit sleeves du 15 novembre, MNQ `c.0`](../research/locked_eight_sleeve_portfolio_20261115/SUPERSEDED.md), [huit sleeves du 3 novembre](../research/locked_eight_sleeve_portfolio_20261103/SUPERSEDED.md), [neuf sleeves du 1er novembre](../research/locked_nine_sleeve_portfolio_20261101/SUPERSEDED.md), [neuf sleeves du 4 octobre](../research/locked_nine_sleeve_portfolio/SUPERSEDED.md)
 
 ## Gouvernance
 

@@ -1,0 +1,243 @@
+{
+  "schema_version": "1.0",
+  "portfolio_id": "eight_sleeve_equal_contract_reference_20261121",
+  "status": "LOCKED_ACTIVE_REFERENCE",
+  "decision_date": "2026-11-21",
+  "decision_authority": "explicit_user_decision (2026-11-21: 'freeze le mnq v.0 au lieu de c.0' ; choices: back-adjusted v.0, same window, stop-rule thresholds recomputed on v.0)",
+  "supersedes_active_reference": "eight_sleeve_equal_contract_reference_20261115",
+  "superseded_reference_retained_for_audit": "research/locked_eight_sleeve_portfolio_20261115",
+  "changes_vs_superseded": [
+    "MNQ data: MNQ.c.0 replaced by MNQ.v.0 back-adjusted by the roll spread (data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet); S01-S04 rebuilt with unchanged engines and definitions",
+    "MNQ sleeves now trade the quarterly expiry Fridays and the roll weeks on the contract production trades; the artificial roll gap no longer enters the daily ATR",
+    "stop-rule thresholds of the MNQ sleeves recomputed with the 2026-11-03 rule on the v.0 histories (MGC/MBT unchanged, checked equal)"
+  ],
+  "allocation_family": "equal_contract",
+  "mapping": {
+    "mnq_orb_vwap_atr": 1,
+    "mnq_volatility_breakout": 1,
+    "mnq_compression_breakout": 1,
+    "mgc_volatility_breakout": 1,
+    "mgc_gap_continuation": 1,
+    "mbt_rolling_range_breakout": 1,
+    "mbt_trend_pullback_ma_structure": 1,
+    "mbt_volatility_breakout": 1
+  },
+  "portfolio_rule": "sum the executable PnL of one whole-contract copy of each frozen sleeve (S01 at its native 1-4 contracts); no fractional scaling",
+  "mnq_data": {
+    "path": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+    "sha256": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+    "metadata": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.metadata.json",
+    "builder": "research/mnq_v0_relock_20261121/build_v0_sleeves.py"
+  },
+  "sleeve_sources": {
+    "mnq_orb_vwap_atr": {
+      "type": "frozen_atr_vote_ensemble",
+      "definition": "ORB15 long-only + continuous VWAP; ATR vote of 18 sub-models ATR {14,16,18} x q_low {20,25,30} x q_high {80,85}, thresholds calibrated on IS 2019-05-05 -> 2024-02-27 only, trade when >= 9 of 18 votes; stop OR_low - 2 ticks, target 2R, exit 16:00; 0.5 % of 50 000 USD risk, 1-4 contracts",
+      "signal_sheet": "docs/signal_sheets/01_mnq_orb_vwap_atr.md",
+      "execution_requirement": "use thresholds_is.csv as frozen (calibrated on c.0 IS, copied unchanged); never recalibrate",
+      "thresholds_is": "research/signal_sheet_01_atr18_v0/thresholds_is.csv",
+      "thresholds_is_sha256": "5e2ff402faa5ada136c70ef1a677a52738f95d7357feee67830c73a1fc62fb94",
+      "data": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+      "data_sha256": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+      "rebuilt_by": "research/mnq_v0_relock_20261121/build_v0_sleeves.py",
+      "daily_source": "research/signal_sheet_01_atr18_v0/daily_results.csv",
+      "daily_source_sha256": "705e64e205fb65151b859bf14ba978b654170c18e06927904dbec9244e75900d",
+      "trades": "research/signal_sheet_01_atr18_v0/trades.csv",
+      "trades_sha256": "f1cebc850627063234be6e4a380eacdb30d9ad015cfc977da27ad0525320ccc3",
+      "summary": "research/signal_sheet_01_atr18_v0/summary.json",
+      "summary_sha256": "d6ff0aee4cfdcf21d4cb564ab6c7b5a8ebb6e589474df724a48f0e831b7798e9",
+      "c0_source_retained": "research/signal_sheet_01_atr18/daily_results.csv"
+    },
+    "mnq_volatility_breakout": {
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/volatility_breakout_42.json",
+      "ensemble_manifest_sha256": "e3e912add4f77be6af7797904635a8b70a8ec7579c3d722215a4de4580c50fb9",
+      "data": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+      "data_sha256": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+      "rebuilt_by": "research/mnq_v0_relock_20261121/build_v0_sleeves.py",
+      "daily_source": "research/signal_sheet_02_cluster_v0/daily_results.csv",
+      "daily_source_sha256": "474ae7174e54bcc9bd5fa298b333cc37fec7f272ae5e13be3610a0767aa19ce0",
+      "trades": "research/signal_sheet_02_cluster_v0/trades.csv",
+      "trades_sha256": "9e887822e816c025865210c6dba71374c05a21a9758767fce71230df9692eab3",
+      "summary": "research/signal_sheet_02_cluster_v0/summary.json",
+      "summary_sha256": "ee1ec225789cc0f21232add04fdc6742b57e7e78e7d7b6bba3ab19a168cc9cf4",
+      "c0_source_retained": "research/signal_sheet_02_cluster/daily_results.csv"
+    },
+    "mnq_compression_breakout": {
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mnq_compression_breakout_vote_27.json",
+      "ensemble_manifest_sha256": "4666855d602f315eb2d87ce465e7ab1b261b3d1dd58f3e174761f59783425b63",
+      "data": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+      "data_sha256": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+      "rebuilt_by": "research/mnq_v0_relock_20261121/build_v0_sleeves.py",
+      "daily_source": "research/signal_sheet_03_cluster_v0/daily_results.csv",
+      "daily_source_sha256": "11cda36872bdb6ba55741f1e5ba1e9adf78566aa2ae421805e330a45133eea57",
+      "trades": "research/signal_sheet_03_cluster_v0/trades.csv",
+      "trades_sha256": "774b2c62b102fbb323d1829c75ad569b35eea261b996973a330dd0d0d7b4f1c6",
+      "summary": "research/signal_sheet_03_cluster_v0/summary.json",
+      "summary_sha256": "f7bbcd1e47b8657df5bada3dc74f7b338f07caacbf548f37279b9517100c3bb0",
+      "c0_source_retained": "research/signal_sheet_03_cluster/daily_results.csv"
+    },
+    "mgc_volatility_breakout": {
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mgc_volatility_breakout_vote_9.json",
+      "ensemble_manifest_sha256": "a299d91d77e9303346f4d34c100378ad9bb08ae7646a22849a159ded9a559b3b",
+      "daily_source": "research/signal_sheet_05_cluster/daily_results.csv",
+      "daily_source_sha256": "43e93351ea86bdcbeb6caf767868bf1458092b5b37a1ca31bf9a62b9909b579b"
+    },
+    "mgc_gap_continuation": {
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mgc_gap_continuation_vote_9.json",
+      "ensemble_manifest_sha256": "db0d016fb314d416bd18ce7a9eeecd01f3c62e435a227f455e5ffa7cb75e04a9",
+      "daily_source": "research/signal_sheet_06_cluster/daily_results.csv",
+      "daily_source_sha256": "a2ceb550e1ad4e74c6f68c00ddd44697e9474c387c886a2c1bd93ab97e608acb"
+    },
+    "mbt_rolling_range_breakout": {
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mbt_rolling_range_breakout_vote_6.json",
+      "ensemble_manifest_sha256": "d498bb725d38abdff133ee946917eddf09beb94bc3d961a92f18437cdc2b21b2",
+      "daily_source": "research/signal_sheet_07_cluster/daily_results.csv",
+      "daily_source_sha256": "d797c8004a08c647afa9d39b8ebeccb5258dccd61c6f43c3c85c7a4f7eefebbd"
+    },
+    "mbt_trend_pullback_ma_structure": {
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mbt_trend_pullback_ma_structure_vote_9.json",
+      "ensemble_manifest_sha256": "ebad020847e81698a42fc75c93bb2d1d6d06f17e96916239fc86d29df82b0fa0",
+      "daily_source": "research/signal_sheet_08_cluster/daily_results.csv",
+      "daily_source_sha256": "2578a707add8d201277850e43d97d00b9dd7ad97bc77f7a733f24acc5340556a"
+    },
+    "mbt_volatility_breakout": {
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mbt_volatility_breakout_vote_12.json",
+      "ensemble_manifest_sha256": "03dc629dde4b389f6745351799c796938f98383a49a95607fadc2045225fee87",
+      "daily_source": "research/signal_sheet_09_cluster/daily_results.csv",
+      "daily_source_sha256": "f66702c10f72a376a408b6de427a96dc2126b80bd9888d57d872174d64e3fbbf"
+    }
+  },
+  "shadow_sleeves": {
+    "mnq_atr_trend_flip": {
+      "status": "SHADOW_FORWARD_ONLY",
+      "allocation": 0,
+      "type": "frozen_vote_ensemble",
+      "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mnq_atr_trend_flip_vote_9.json",
+      "ensemble_manifest_sha256": "25f751eb91b8ab39eda06e6d79084397ba34f79364f702f39211d65f97f83325",
+      "daily_source": "research/signal_sheet_04_cluster_v0/daily_results.csv",
+      "daily_source_sha256": "b09c81d744472936ed82a54a8cfd0c5355c22e44492c7f1e29fef92dc4a03d3b",
+      "removal_reason": "forward replay loss of 6,363.5 USD on 2026-03-20 -> 2026-10-02 (141 sessions), about twice its worst 141-session window since 2019; largest risk contributor after S02 (30 %) and correlated 0.57 with mnq_volatility_breakout",
+      "evidence": "research/frozen_vote_forward_replay_20261101/forward_sleeve_comparison.csv",
+      "data": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+      "c0_source_retained": "research/signal_sheet_04_cluster/daily_results.csv"
+    }
+  },
+  "calendar": {
+    "rule": "union of the instruments' session calendars; a sleeve is 0 on a union session its instrument does not trade",
+    "window": [
+      "2024-01-02",
+      "2026-03-19"
+    ],
+    "sessions": 572,
+    "note": "same 572 sessions as the 2026-11-15 lock; MNQ now has PnL on the 8 expiry Fridays"
+  },
+  "book_window_metrics": {
+    "net_pnl_usd": 31639.460000000003,
+    "daily_sharpe": 1.7821988750809856,
+    "worst_day_usd": -1655.9599999999998,
+    "max_close_drawdown_usd": -5457.53999999993,
+    "max_intraday_drawdown_usd": -6088.899999999943
+  },
+  "topstep_reference": {
+    "account": "Trading Combine 50K",
+    "rules": {
+      "profit_target_usd": 3000.0,
+      "mll_usd": 2000.0,
+      "consistency": 0.55
+    },
+    "method": "moving_block_bootstrap_pooled_blocks_3_5_10_20",
+    "seed": 20261004,
+    "paths": 8000,
+    "window": [
+      "2024-01-02",
+      "2026-03-19"
+    ],
+    "path_sampler": "sessions of the union calendar where at least one active sleeve of the v.0 book trades",
+    "horizon_35d": {
+      "pass_probability": 0.307375,
+      "mll_probability": 0.382,
+      "expiry_probability": 0.310625
+    },
+    "horizon_60d": {
+      "pass_probability": 0.453125,
+      "mll_probability": 0.4585,
+      "expiry_probability": 0.088375
+    }
+  },
+  "comparison_same_paths": {
+    "eight_20261115_c0": {
+      "horizon_35d": {
+        "pass_probability": 0.290125,
+        "mll_probability": 0.386125,
+        "expiry_probability": 0.32375
+      },
+      "horizon_60d": {
+        "pass_probability": 0.438625,
+        "mll_probability": 0.461875,
+        "expiry_probability": 0.0995
+      },
+      "risk": {
+        "net_pnl_usd": 30857.960000000006,
+        "daily_sharpe": 1.7118342181492683,
+        "worst_day_usd": -1655.9599999999998,
+        "worst_5_days_usd": -6169.300000000007,
+        "longest_losing_day_streak": 11,
+        "max_intraday_drawdown_usd": -6504.769999999931,
+        "worst_intraday_pnl_from_day_start_usd": -1700.05
+      }
+    },
+    "file": "research/locked_eight_sleeve_portfolio_20261121/topstep_summary.csv"
+  },
+  "sleeve_stop_rule": {
+    "metric": "sum of net daily PnL over the last 126 sessions of the sleeve's own calendar",
+    "threshold": "minimum of the same rolling sum over the sleeve's frozen history (worse than anything already seen)",
+    "action": "the sleeve moves to SHADOW_FORWARD_ONLY in a new versioned lock; no retuning",
+    "reinstatement": "only by a new versioned decision after at least 252 shadow sessions",
+    "registered_on": "2026-11-03",
+    "thresholds": "research/locked_eight_sleeve_portfolio_20261121/sleeve_stop_rule_thresholds.csv",
+    "note": "MNQ thresholds recomputed on the v.0 histories (user decision 2026-11-21); the c.0 values are kept in column threshold_usd_c0_20261103"
+  },
+  "execution_rule": "strategy_registry/execution/netting_rule_20261115_r2.json",
+  "netting_check": "research/locked_eight_sleeve_portfolio_20261121/netting_check.json",
+  "governance": {
+    "no_retuning": true,
+    "whole_contracts_only": true,
+    "pass_rate_optimization_performed": false,
+    "sleeve_definition_change": "none: data change only (MNQ c.0 -> v.0 back-adjusted); engines, parameters, vote manifests and S01 thresholds unchanged",
+    "prospective_start_after": "2026-11-03",
+    "prospective_start_note": "unchanged from the 2026-11-03 lock: no session after 2026-10-02 had been loaded when this lock was made, and every sleeve definition predates 2026-11-03; consistent with audit_20261115/preregistration.md (P)",
+    "data_discipline": "same window as the 2026-11-15 lock: nothing after 2026-03-20 09:29 ET was used; the windows of audit_20261115 options (O) and (P) stay unread on v.0",
+    "known_issue": "mbt_volatility_breakout vote is flat on its legacy OOS window (Sharpe -0.040) despite positive cells; flagged for review",
+    "caveat": "The 2024-01-02 -> 2026-03-19 window and the 2026-03-20 -> 2026-10-02 window were both inspected before this lock; Topstep figures are retrospective bootstrap estimates, not validations.",
+    "data_note": "v.0 back-adjusted prices before each roll are shifted by the cumulated roll spreads: price levels in the MNQ ledgers before 2026-03 are not traded prices; PnL in points is exact"
+  },
+  "locked_inputs": {
+    "superseded_lock_manifest": {
+      "path": "research/locked_eight_sleeve_portfolio_20261115/lock_manifest.json",
+      "sha256": "00221a0e6c88f54fd6a78ed059dcd28efa1d5d78f0eaf438642935d3a4f9e094"
+    },
+    "superseded_relock_script": {
+      "path": "research/locked_eight_sleeve_portfolio_20261115/relock_eight_sleeves_20261115.py",
+      "sha256": "2dbb1a3bd6d9442ec6bb43e56264db33231a89c7d71bea53cbb87753602577ee"
+    },
+    "v0_builder": {
+      "path": "research/mnq_v0_relock_20261121/build_v0_sleeves.py",
+      "sha256": "fcbe69c5a2db946fa341f13d2b2cdd0f53ba5368303c17de0491437ce0c86d51"
+    },
+    "netting_study_script": {
+      "path": "research/book_aggregation_risk_r1_20261112/run_study.py",
+      "sha256": "854c1d944f3385d3ba40db867631354d07f9e59e83ba188dd2a77f79a67f1788"
+    },
+    "aggregator": {
+      "path": "src/portfolio/aggregator.py",
+      "sha256": "2fa0dd361d4325f8f6f452c6fc6f1f6df59bbc7d9fa4d130a84cc662b26926b3"
+    }
+  }
+}

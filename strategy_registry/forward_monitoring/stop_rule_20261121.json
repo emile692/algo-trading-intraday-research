@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "rule_id": "sleeve_stop_rule_r2_shadow_20261121",
+  "status": "ACTIVE_STOP_RULE",
+  "decision_date": "2026-11-21",
+  "decision_authority": "explicit_user decision of 2026-11-21 ('freeze le mnq v.0 au lieu de c.0'; back-adjusted v.0, same window, stop-rule thresholds recomputed on v.0)",
+  "applies_to_portfolio": "eight_sleeve_equal_contract_reference_20261121",
+  "supersedes": {
+    "rule_id": "sleeve_stop_rule_r2_shadow_20261115",
+    "path": "strategy_registry/forward_monitoring/stop_rule_20261115.json",
+    "sha256": "dc7893e045c7a9a2978c1b689b2695afb23d0074907522a0b425216e0dc7d1ea",
+    "reason": "same rules; the R0, R2 and R3 thresholds of the MNQ sleeves and of the book are recomputed on the MNQ v.0 histories of the 2026-11-21 lock"
+  },
+  "tracking_start": "first session after 2026-11-03 (registry prospective_start_after); h = number of sessions of the sleeve's calendar since that start",
+  "rules": {
+    "R2_shadow": {
+      "measure": "maximum drawdown of the cumulative daily net PnL (USD) since the tracking start, after h sessions",
+      "trigger": "maximum drawdown < threshold curve at h (p1 of the stationary-bootstrap max drawdown, mean block 20, 10 000 paths, seed 20261120 + 5); MNQ and book curves recomputed on v.0 (research/locked_eight_sleeve_portfolio_20261121/stop_rule_thresholds_v0.py), MGC/MBT curves unchanged",
+      "threshold_curve": "research/locked_eight_sleeve_portfolio_20261121/r2_threshold_curve_v0.csv",
+      "valid_up_to_h": 500,
+      "beyond_h_500": "the curve must be re-estimated by a versioned decision before h = 500 (about November 2028); no extrapolation",
+      "action": "the sleeve moves to SHADOW_FORWARD_ONLY in a new versioned lock, without any retuning"
+    },
+    "R0_alert": {
+      "measure": "sum of the last 126 sessions of daily net PnL",
+      "trigger": "below the registered threshold (minimum of the same sum over the frozen history)",
+      "thresholds_file": "research/locked_eight_sleeve_portfolio_20261121/sleeve_stop_rule_thresholds.csv",
+      "action": "status ACTIVE_UNDER_REVIEW, no automatic action"
+    },
+    "R3_alert": {
+      "measure": "sum of the last 120 sessions of daily net PnL",
+      "trigger": "below the p5 of the bootstrap 120-session PnL",
+      "action": "status ACTIVE_UNDER_REVIEW, no automatic action"
+    },
+    "book": {
+      "R3": "alert",
+      "R2": "general review of the book (no automatic action)"
+    },
+    "review_exit": "a sleeve leaves ACTIVE_UNDER_REVIEW when neither R0 nor R3 has fired over the last 120 sessions",
+    "reinstatement": "only by a new versioned decision after at least 252 sessions in shadow, if the shadow cumulative PnL never fell below its p5(h) and is >= 0 at 252 (audit_20261115/05_regles_arret.md)"
+  },
+  "thresholds": {
+    "S01": {
+      "sleeve": "mnq_orb_vwap_atr",
+      "R0_126_usd": -1033.5,
+      "R3_120_p05_usd": -701.05,
+      "R2_maxdd_p01_at_250_usd": -2840.01,
+      "source": "v.0 recomputed"
+    },
+    "S02": {
+      "sleeve": "mnq_volatility_breakout",
+      "R0_126_usd": -2813.0,
+      "R3_120_p05_usd": -1874.07,
+      "R2_maxdd_p01_at_250_usd": -6267.56,
+      "source": "v.0 recomputed"
+    },
+    "S03": {
+      "sleeve": "mnq_compression_breakout",
+      "R0_126_usd": -940.5,
+      "R3_120_p05_usd": -575.5,
+      "R2_maxdd_p01_at_250_usd": -1479.51,
+      "source": "v.0 recomputed"
+    },
+    "S04": {
+      "sleeve": "mnq_atr_trend_flip",
+      "R0_126_usd": -3431.5,
+      "R3_120_p05_usd": -2742.57,
+      "R2_maxdd_p01_at_250_usd": -6755.64,
+      "source": "v.0 recomputed"
+    },
+    "S05": {
+      "sleeve": "mgc_volatility_breakout",
+      "R0_126_usd": -1020.999999999974,
+      "R3_120_p05_usd": -982.02,
+      "R2_maxdd_p01_at_250_usd": -2591.51,
+      "source": "registered (audit_20261115, unchanged data)"
+    },
+    "S06": {
+      "sleeve": "mgc_gap_continuation",
+      "R0_126_usd": -1006.49999999996,
+      "R3_120_p05_usd": -924.02,
+      "R2_maxdd_p01_at_250_usd": -2308.12,
+      "source": "registered (audit_20261115, unchanged data)"
+    },
+    "S07": {
+      "sleeve": "mbt_rolling_range_breakout",
+      "R0_126_usd": -840.64,
+      "R3_120_p05_usd": -809.7,
+      "R2_maxdd_p01_at_250_usd": -2144.58,
+      "source": "registered (audit_20261115, unchanged data)"
+    },
+    "S08": {
+      "sleeve": "mbt_trend_pullback_ma_structure",
+      "R0_126_usd": -1284.0999999999997,
+      "R3_120_p05_usd": -1149.57,
+      "R2_maxdd_p01_at_250_usd": -3009.66,
+      "source": "registered (audit_20261115, unchanged data)"
+    },
+    "S09": {
+      "sleeve": "mbt_volatility_breakout",
+      "R0_126_usd": -1479.4199999999994,
+      "R3_120_p05_usd": -717.72,
+      "R2_maxdd_p01_at_250_usd": -2239.69,
+      "source": "registered (audit_20261115, unchanged data)"
+    }
+  },
+  "book_thresholds": {
+    "R3_120_p05_usd": -960.84,
+    "R2_maxdd_p01_at_250_usd": -8084.58,
+    "source": "v.0 recomputed"
+  },
+  "retroactive_application": {
+    "decision": "the rule is applied to the replay window 2026-03-20 -> 2026-10-02, on which S04 was moved to shadow on 2026-11-03",
+    "method": "audit_20261115/phase6_status.py: R2 on the trailing 250-session max drawdown versus the curve at h = 250; R0 and R3 alerts over the last 120 sessions; data as of 2026-11-01",
+    "statuses_as_of_2026_11_15": {
+      "S01": {
+        "sleeve": "mnq_orb_vwap_atr",
+        "status": "ACTIVE",
+        "reasons": "—"
+      },
+      "S02": {
+        "sleeve": "mnq_volatility_breakout",
+        "status": "ACTIVE",
+        "reasons": "—"
+      },
+      "S03": {
+        "sleeve": "mnq_compression_breakout",
+        "status": "ACTIVE",
+        "reasons": "—"
+      },
+      "S04": {
+        "sleeve": "mnq_atr_trend_flip",
+        "status": "SHADOW_FORWARD_ONLY",
+        "reasons": "R0 du 2026-07-17 au 2026-10-02; R2 du 2026-09-09 au 2026-10-02; R3 du 2026-07-01 au 2026-10-02"
+      },
+      "S05": {
+        "sleeve": "mgc_volatility_breakout",
+        "status": "ACTIVE_UNDER_REVIEW",
+        "reasons": "R0 du 2026-07-28 au 2026-08-25; R3 du 2026-07-20 au 2026-08-18"
+      },
+      "S06": {
+        "sleeve": "mgc_gap_continuation",
+        "status": "ACTIVE",
+        "reasons": "—"
+      },
+      "S07": {
+        "sleeve": "mbt_rolling_range_breakout",
+        "status": "ACTIVE_UNDER_REVIEW",
+        "reasons": "R3 du 2026-08-18 au 2026-08-18"
+      },
+      "S08": {
+        "sleeve": "mbt_trend_pullback_ma_structure",
+        "status": "ACTIVE_UNDER_REVIEW",
+        "reasons": "R3 du 2026-06-01 au 2026-08-12"
+      },
+      "S09": {
+        "sleeve": "mbt_volatility_breakout",
+        "status": "ACTIVE_UNDER_REVIEW",
+        "reasons": "R3 du 2026-06-16 au 2026-10-01; classe « négative » sur la validation réutilisée"
+      }
+    },
+    "book_change": "none: no active sleeve reaches R2; S04 stays in shadow (R2 fired 2026-09-09 -> 2026-10-02)",
+    "note_20261121": "statuses decided on 2026-11-15 from the c.0 replay window 2026-03-20 -> 2026-10-02; kept unchanged (that window is not re-read on v.0)"
+  },
+  "evidence_sha256_lf": {
+    "audit_20261115/outputs/05_r2_threshold_curve.csv": "3245c946f15cf9db503a079f2b28e5b5f88c6467162a1bb25823f5552c168c0e",
+    "audit_20261115/outputs/05_thresholds.json": "1a46a89ce476d831bb8fa250eb448cb07b7d1fa499dd2bcf174bdb56f663dbfb",
+    "audit_20261115/outputs/05_detection.csv": "6593baf9da803df8e9617d3c86a2c5f2f3fb283e504a618b33fe3170ca745a15",
+    "audit_20261115/outputs/06_status.json": "f9c85567814d0016134f49f2cddba38898fa325ae543d12cdc341c029be3517c",
+    "research/locked_eight_sleeve_portfolio_20261121/r2_threshold_curve_v0.csv": "2ba5f51061c099f74b456bf1719ad579190809b1b4f81c95c6a1ed83351da2a2",
+    "research/locked_eight_sleeve_portfolio_20261121/stop_rule_thresholds_v0.csv": "cd16214c42b7b0c7f1f4a148baa18b9f537ade0fc1769ec1eaf3511cd5e5793c",
+    "research/locked_eight_sleeve_portfolio_20261121/stop_rule_thresholds_v0.py": "b3d5eef157b5c9e97cab6172e7f239b2c92a82e2d4cb5dbb961310f523205239"
+  },
+  "evidence_hash_note": "sha256 of the file bytes after replacing CRLF by LF",
+  "simulation_summary_median_9_sleeves_250_sessions": {
+    "R2": {
+      "false_cut": 0.073,
+      "detect_sr0": 0.144,
+      "detect_sr_minus_0_5": 0.232
+    },
+    "R0_or_R2": {
+      "false_cut": 0.211,
+      "detect_sr0": 0.358,
+      "detect_sr_minus_0_5": 0.586
+    },
+    "R0": {
+      "false_cut": 0.17,
+      "detect_sr0": 0.307,
+      "detect_sr_minus_0_5": 0.54
+    }
+  },
+  "weekly_template": "audit_20261115/05_suivi_hebdo_gabarit.csv",
+  "limits": "thresholds estimated on the history already seen, including the reused validation; the bootstrap assumes the past distribution holds; for S01 (trade frequency collapsed in 2026) detection is even slower; MNQ thresholds now computed on v.0 back-adjusted histories (same sessions plus the quarterly expiry Fridays)"
+}

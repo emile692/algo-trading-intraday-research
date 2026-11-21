@@ -115,9 +115,16 @@ pour chaque séance:
 
 ## 9. Validation historique
 
-- **IS — 2019-05-05 au 2024-02-27 :** 514 trades, `13 852 USD` nets, Sharpe `1,265`, PF `1,322`, maxDD `−2 148,50 USD`.
-- **Historique OOS réutilisé — 2024-02-28 au 2026-03-20 :** 187 trades, `5 564,50 USD`, Sharpe `1,325`, PF `1,389`, maxDD `−875,50 USD`.
-- **Historique total — 2019-05-05 au 2026-03-20 :** 701 trades, PnL net `19 416,50 USD`, Sharpe `1,281`, PF `1,339`, maxDD `−2 148,50 USD`.
+> **Données MNQ depuis le 21 novembre 2026.** Ces chiffres sont calculés sur MNQ `v.0` (le contrat le plus échangé, celui que trade la production), ajusté en arrière de l'écart de roll. Ils remplacent ceux calculés sur `c.0`, qui posait trois problèmes :
+> - il gardait le contrat qui expire pendant la semaine du roll ;
+> - il n'avait aucune barre RTH les vendredis d'échéance ;
+> - il créait un faux gap dans l'ATR au changement de contrat.
+>
+> Règles, paramètres et seuils IS (calibrés sur `c.0`, copiés tels quels) sont inchangés. Sur l'ancienne série `c.0`, la sleeve faisait : historique total 701 trades, `19 416,50 USD`, Sharpe `1,281` ; IS 514 trades, `13 852 USD` ; OOS réutilisé 187 trades, `5 564,50 USD`. Référence : [lock du 21 novembre](../../research/locked_eight_sleeve_portfolio_20261121/locked_eight_sleeve_config.json).
+
+- **IS — 2019-05-05 au 2024-02-27 :** 518 trades, `13 551 USD` nets, Sharpe `1,224`, PF `1,312`, maxDD `−2 142,50 USD`.
+- **Historique OOS réutilisé — 2024-02-28 au 2026-03-20 :** 189 trades, `5 065,50 USD`, Sharpe `1,188`, PF `1,342`, maxDD `−891,50 USD`.
+- **Historique total — 2019-05-05 au 2026-03-20 :** 707 trades, PnL net `18 616,50 USD`, Sharpe `1,213`, PF `1,319`, maxDD `−2 142,50 USD`.
 
 *Convention de Sharpe (mise à jour le 15 novembre 2026, audit `audit_20261115`, phase 0) : PnL quotidien net en USD, annualisé par √252, jours sans trade inclus, calendrier des séances de semaine de l'instrument. Les valeurs publiées auparavant (1,143 / 1,194 / 1,156) incluaient les dimanches dans le calendrier, ce qui diluait le Sharpe.*
 
@@ -127,11 +134,11 @@ Le découpage temporel est inchangé et les seuils de quantiles restent calibré
 ## 10. Checklist et limites
 
 - Vérifier timezone/DST, sémantique des timestamps, VWAP continu et cutoff 16:00.
-- Reproduire exactement 701 trades sur le fichier historique avant toute adaptation.
+- Reproduire exactement 707 trades sur le fichier MNQ `v.0` ajusté (701 sur l'ancien `c.0`) avant toute adaptation.
 - Ne pas confondre capital de recherche 50K et sizing du dépôt d'exécution.
 - Le 3-state est rejeté pour cette référence ; pas de retuning sur les données vues.
 
-Sources : [résultats recalculés de l'ensemble 18 modèles](../../research/signal_sheet_01_atr18/summary.json), [seuils IS](../../research/signal_sheet_01_atr18/thresholds_is.csv), [implémentation du signal](../../src/strategy/orb.py), [script de reconstruction](../../scripts/rebuild_signal_sheet_01_atr18.py).
+Sources : [résultats sur MNQ v.0](../../research/signal_sheet_01_atr18_v0/summary.json), [résultats sur l'ancien c.0](../../research/signal_sheet_01_atr18/summary.json), [seuils IS](../../research/signal_sheet_01_atr18/thresholds_is.csv), [reconstruction v.0](../../research/mnq_v0_relock_20261121/build_v0_sleeves.py), [implémentation du signal](../../src/strategy/orb.py), [script de reconstruction](../../scripts/rebuild_signal_sheet_01_atr18.py).
 
 ## 11. Equity curves FS et OOS
 

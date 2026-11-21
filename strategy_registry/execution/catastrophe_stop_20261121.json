@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "rule_id": "catastrophe_stop_k3_20261121",
+  "status": "ACTIVE_PROTECTIVE_ORDER",
+  "decision_date": "2026-11-21",
+  "decision_authority": "explicit_user decision of 2026-11-21 ('freeze le mnq v.0 au lieu de c.0'; back-adjusted v.0, same window, stop-rule thresholds recomputed on v.0); the order itself is unchanged (k = 3, decided 2026-11-15)",
+  "applies_to_portfolio": "eight_sleeve_equal_contract_reference_20261121",
+  "execution_rule": "strategy_registry/execution/netting_rule_20261121_r3.json",
+  "does_not_modify": "the netting rule r2 (its 'no overlay' clause refers to the rejected risk overlays: daily stop, MBT cap, volatility sizing, profit lock); this order never triggered on the history and leaves every sleeve's behaviour unchanged",
+  "purpose": "bound an orphan position (disconnection, platform or code bug) at about 3 daily ATR; it is not an alpha stop and does not bound the day. The day is bounded by the Topstep 50K daily loss limit of 1 000 USD (account level, read on help.topstep.com on 2026-11-15).",
+  "rule": {
+    "k": 3.0,
+    "scope": "one resting stop order per instrument (MNQ, MGC, MBT), at the broker, for the net position of the instrument",
+    "atr": "ATR14 of the previous session (J-1), in points: daily bars built from the 1-minute bars 09:30-16:00 New York on weekdays; true range = max(high - low, |high - previous close|, |low - previous close|); simple 14-session mean, shifted by one session",
+    "level": "long: average entry price - k x ATR(J-1); short: average entry price + k x ATR(J-1)",
+    "netting": {
+      "open_from_flat": "average price = fill; stop placed at the level above for the full quantity",
+      "increase_same_side": "average price weighted by quantity; stop level recomputed; quantity adjusted",
+      "reduce": "average price and stop level kept; quantity reduced",
+      "reverse": "average price = fill of the new side; stop recomputed on the other side",
+      "back_to_flat": "stop order cancelled"
+    },
+    "after_trigger": "the instrument stays flat until the end of the session; sleeves keep their virtual PnL and their own stop rule; S01's own stop and target orders are independent and remain in force",
+    "missing_atr": "if ATR(J-1) is not available (first 14 sessions of data), no catastrophe stop is placed and the session is flagged"
+  },
+  "evidence": {
+    "study": "audit_20261115/10_stop_catastrophe.md",
+    "script": "audit_20261115/phase10_cat_stop.py",
+    "history": "MNQ and MGC 2019-05-06 -> 2026-03-19, MBT 2021-05-03 -> 2026-03-19, 1 775 sessions, reference book with S01 = ATR 18, aggregated execution without lot cap",
+    "triggers_k3": {
+      "MNQ": 0,
+      "MGC": 0,
+      "MBT": 0
+    },
+    "triggers_k2": {
+      "MNQ": 0,
+      "MGC": 0,
+      "MBT": 1
+    },
+    "triggers_k1_5": {
+      "MNQ": 4,
+      "MGC": 0,
+      "MBT": 2
+    },
+    "open_position_bound_k3_usd": {
+      "p50": 2498.61,
+      "p99": 8385.37,
+      "max": 13020.73
+    },
+    "limits": "fill at the stop level minus one tick, gaps through the stop not modelled, 1-minute bars only",
+    "c0_evidence": "kept above (audit_20261115 phase 10, MNQ c.0)",
+    "v0_recheck": {
+      "script": "research/locked_eight_sleeve_portfolio_20261121/catastrophe_stop_check_v0.py",
+      "output": "research/locked_eight_sleeve_portfolio_20261121/catastrophe_stop_check_v0.json",
+      "sessions": 1775,
+      "triggers_k1_5": {
+        "MNQ": 3,
+        "MGC": 0,
+        "MBT": 2
+      },
+      "triggers_k2": {
+        "MNQ": 0,
+        "MGC": 0,
+        "MBT": 1
+      },
+      "triggers_k3": {
+        "MNQ": 0,
+        "MGC": 0,
+        "MBT": 0
+      },
+      "open_position_bound_k3_usd": {
+        "p50": 2517.93,
+        "p99": 8687.07,
+        "max": 13020.73
+      }
+    }
+  },
+  "evidence_sha256_lf": {
+    "audit_20261115/phase10_cat_stop.py": "33cf49cf44bdf009c6cd242b6781a41f79980e91fa23b0a0c075e7af8d51648a",
+    "audit_20261115/outputs/10_summary.json": "75e254aa342e6838a3c75ee5259c6efecfb5542e518b7e5fc0175b06f7930366",
+    "research/locked_eight_sleeve_portfolio_20261121/catastrophe_stop_check_v0.py": "2119d0a0ba821e19fef66218b32dac78c67355eaa71b8b352071d536e9feb9d8",
+    "research/locked_eight_sleeve_portfolio_20261121/catastrophe_stop_check_v0.json": "fb1eba265d8b53ea8b53b756afc6a574bb3c41a846c16a020a3257a6d7a7de5f"
+  },
+  "evidence_hash_note": "sha256 of the file bytes after replacing CRLF by LF (the audit files are written with Windows line endings)",
+  "implementation_note": "the repository holds no live execution engine; this file is the executable definition to be coded in the execution platform",
+  "supersedes": {
+    "rule_id": "catastrophe_stop_k3_20261115",
+    "path": "strategy_registry/execution/catastrophe_stop_20261115.json",
+    "sha256": "3581b0b43bbf630ce4ea55f5f2c730af25f1f6d26d39086e734b6ef8a9731e73",
+    "reason": "same order; re-attached to the MNQ v.0 lock and its evidence re-checked on v.0"
+  }
+}

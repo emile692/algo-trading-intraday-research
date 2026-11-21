@@ -63,9 +63,11 @@ for _number, _names in {
         )
 ORB_TABLE_DIR = "data/exports/atr_local_robustness_20260320_194355/tables"
 VOLATILITY_CUBE_DATA = ROOT / "research" / "signal_sheet_02_cube" / "cube_metrics.csv"
+# Since 2026-11-21 the MNQ sheets (01-04) read the sleeves rebuilt on MNQ v.0 back-adjusted (lock 20261121).
 EQUITY_DATA = {
-    1: ROOT / "research" / "signal_sheet_01_atr18" / "daily_results.csv",
-    **{number: ROOT / "research" / f"signal_sheet_{number:02d}_cluster" / "daily_results.csv" for number in range(2, 10)},
+    1: ROOT / "research" / "signal_sheet_01_atr18_v0" / "daily_results.csv",
+    **{number: ROOT / "research" / f"signal_sheet_{number:02d}_cluster_v0" / "daily_results.csv" for number in range(2, 5)},
+    **{number: ROOT / "research" / f"signal_sheet_{number:02d}_cluster" / "daily_results.csv" for number in range(5, 10)},
 }
 SHEET_LABELS = {
     1: "01 · MNQ ORB + VWAP + ATR",
@@ -890,7 +892,9 @@ def build(output_dir: Path, mermaid_js: Path) -> list[Path]:
         )
         decorated = (
             f'<div class="document-meta">FICHE SIGNAL {index:02d}/09 · DOCUMENT CLIENT · ÉDITION {edition}'
-            f' · MISE À JOUR 13 NOVEMBRE 2026 : EXÉCUTION AGRÉGÉE</div>'
+            f' · MISE À JOUR 13 NOVEMBRE 2026 : EXÉCUTION AGRÉGÉE'
+            + (' · MISE À JOUR 21 NOVEMBRE 2026 : DONNÉES MNQ v.0' if index <= 4 else '')
+            + '</div>'
             + body
         )
         destination = output_dir / f"{source.stem}.html"
@@ -918,7 +922,7 @@ def build(output_dir: Path, mermaid_js: Path) -> list[Path]:
   <h1>Les 9 sleeves<br>Fiches signal</h1>
   <div class="rule"></div>
   <p>Guide pédagogique complet : intuition, données, paramètres, construction, exécution, risques et procédure de réimplémentation.</p>
-  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]<br>Mise à jour du 13 novembre 2026 : S04 en shadow, exécution agrégée par instrument (Book, section 6)</div>
+  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]<br>Mise à jour du 13 novembre 2026 : S04 en shadow, exécution agrégée par instrument (Book, section 6)<br>Mise à jour du 21 novembre 2026 : sleeves MNQ (01–04) sur MNQ v.0 ajusté de l'écart de roll</div>
 </section>
 <section class="toc">
   <h1>Sommaire</h1>

@@ -2,6 +2,8 @@
 
 Version documentaire : **1er novembre 2026**. Portefeuille de référence : `nine_sleeve_equal_contract_reference_20261101`.
 
+> **Mise à jour du 21 novembre 2026.** Les fiches 01 à 04 (MNQ) et le Book sont calculés sur MNQ `v.0` (le contrat le plus échangé, celui que trade la production), ajusté en arrière de l'écart de roll, et non plus sur `c.0`. La référence active est `eight_sleeve_equal_contract_reference_20261121` ([`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md)). Les règles et paramètres ne changent pas. Les cubes et grilles de paramètres des fiches restent ceux calculés sur `c.0` lors de la sélection.
+
 Ce dossier décrit les neuf sleeves actives avec un gabarit identique. Une sleeve est une règle de signal autonome ; le portefeuille additionne une copie entière de chacune (`[1,1,1,1,1,1,1,1,1]`). Les chiffres sont des backtests nets historiques, pas des promesses de performance.
 
 Le recueil complet se termine par une section [Book](BOOK.md) : equity agrégée, matrice de corrélation, présence et nature des stops, risque prévu par position, mesures de risque réalisées et analyse leave-one-out. Tous les diagnostics de book restent figés sur la période de recherche commune du 2 janvier 2024 au 19 mars 2026, même si des données plus récentes sont disponibles.
@@ -103,7 +105,7 @@ Les Sharpe sont ceux du vote réellement exécuté, sur le PnL quotidien net. **
 ## Sources de gouvernance
 
 - [Référence active — huit sleeves, S04 en shadow](../ACTIVE_EIGHT_SLEEVES.md)
-- [Configuration verrouillée](../../research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json)
+- [Configuration verrouillée (21 novembre 2026, MNQ v.0)](../../research/locked_eight_sleeve_portfolio_20261121/locked_eight_sleeve_config.json)
 - [Référence remplacée du 1er novembre 2026](../ACTIVE_NINE_SLEEVES.md)
 - [Référence remplacée du 4 octobre 2026](../../research/locked_nine_sleeve_portfolio/SUPERSEDED.md)
 - [Ensembles de vote gelés](../../strategy_registry/psf_mnq/frozen_ensembles/)

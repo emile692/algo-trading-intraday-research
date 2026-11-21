@@ -1,0 +1,67 @@
+{
+  "ensemble_manifest": "strategy_registry/psf_mnq/frozen_ensembles/mnq_compression_breakout_vote_27.json",
+  "ensemble_manifest_sha256": "4666855d602f315eb2d87ce465e7ab1b261b3d1dd58f3e174761f59783425b63",
+  "ensemble_manifest_rewritten": false,
+  "data": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+  "data_sha256": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+  "submodel_count": 27,
+  "vote_threshold": 0.5,
+  "execution_semantics": {
+    "quantity": 1,
+    "target_change_execution": "open of the next available one-minute bar after the cell-state change becomes observable",
+    "commission_per_side_usd": 1.25,
+    "slippage_ticks_per_side": 1,
+    "tick_size": 0.25,
+    "point_value_usd": 2.0,
+    "hard_flatten_time": "16:08:00 America/New_York",
+    "cost_policy": "Costs apply only to changes in the aggregate target; virtual cell transitions are not charged as separate contracts.",
+    "no_position_after_hard_flatten": true
+  },
+  "aggregate_checks": {
+    "spec_hash_match": true,
+    "lookahead_violations": 0,
+    "future_high_low_violations": 0,
+    "same_bar_policy_violations": 0,
+    "double_entry_violations": 0,
+    "overnight_position_violations": 0,
+    "entry_after_last_entry_violations": 0,
+    "post_hard_flatten_violations": 0,
+    "ambiguous_multi_order_cancellations": 0,
+    "aggregate_vote_execution": true,
+    "submodel_count": 27,
+    "vote_threshold": 0.5
+  },
+  "cell_count": 27,
+  "cell_position_rows": 8976,
+  "cell_checks_all_valid": true,
+  "sharpe_definition": "sqrt(252) x mean / std of daily net PnL, as in the refinement grid",
+  "metrics": {
+    "full_sample": {
+      "session_count": 1774,
+      "net_pnl_usd": 2612.0,
+      "sharpe_annualized": 0.49286672992786545,
+      "profit_factor": 1.22798289255477,
+      "max_drawdown_usd": -1202.5,
+      "trade_count": 332,
+      "worst_day_usd": -268.5
+    },
+    "is": {
+      "session_count": 1203,
+      "net_pnl_usd": 1733.5,
+      "sharpe_annualized": 0.5591154638699192,
+      "profit_factor": 1.2444820534518017,
+      "max_drawdown_usd": -1032.0,
+      "trade_count": 222,
+      "worst_day_usd": -201.0
+    },
+    "oos_validation_reused": {
+      "session_count": 571,
+      "net_pnl_usd": 878.5,
+      "sharpe_annualized": 0.414869781005103,
+      "profit_factor": 1.2011908851482882,
+      "max_drawdown_usd": -940.5,
+      "trade_count": 110,
+      "worst_day_usd": -268.5
+    }
+  }
+}

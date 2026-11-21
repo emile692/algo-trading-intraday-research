@@ -11,17 +11,17 @@
     "ACTIVE_UNDER_REVIEW": "Active sleeve whose R0 or R3 alert fired (stop_rule_20261115): reinforced weekly monitoring, no automatic action, allocation unchanged."
   },
   "active_reference": {
-    "portfolio_id": "eight_sleeve_equal_contract_reference_20261115",
+    "portfolio_id": "eight_sleeve_equal_contract_reference_20261121",
     "status": "LOCKED_ACTIVE_REFERENCE",
     "canonical_lock": {
-      "path": "research/locked_eight_sleeve_portfolio_20261115/locked_eight_sleeve_config.json",
-      "sha256": "c15346293dd1ba8316fa6c1cf28f754fd78416cdf31c97cc624aa613ce9e381a"
+      "path": "research/locked_eight_sleeve_portfolio_20261121/locked_eight_sleeve_config.json",
+      "sha256": "119d233dd3dafc64cb91855814f0b036c135d2c089cebedb0aa77d0ff9e2d87b"
     },
-    "execution_rule": "strategy_registry/execution/netting_rule_20261115_r2.json",
+    "execution_rule": "strategy_registry/execution/netting_rule_20261121_r3.json",
     "protective_orders": [
-      "strategy_registry/execution/catastrophe_stop_20261115.json"
+      "strategy_registry/execution/catastrophe_stop_20261121.json"
     ],
-    "stop_rule": "strategy_registry/forward_monitoring/stop_rule_20261115.json",
+    "stop_rule": "strategy_registry/forward_monitoring/stop_rule_20261121.json",
     "under_review": {
       "mgc_volatility_breakout": "R0 2026-07-28 -> 2026-08-25, R3 2026-07-20 -> 2026-08-18 (retroactive application, 2026-11-15)",
       "mbt_rolling_range_breakout": "R3 2026-08-18 (retroactive application, 2026-11-15)",
@@ -40,11 +40,19 @@
     ],
     "prospective_start_after": "2026-11-03",
     "superseded_reference": {
-      "portfolio_id": "eight_sleeve_equal_contract_reference_20261103",
-      "path": "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json",
-      "sha256": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3"
+      "portfolio_id": "eight_sleeve_equal_contract_reference_20261115",
+      "path": "research/locked_eight_sleeve_portfolio_20261115/locked_eight_sleeve_config.json",
+      "sha256": "c15346293dd1ba8316fa6c1cf28f754fd78416cdf31c97cc624aa613ce9e381a"
     },
-    "note": "This registry does not copy or modify the eight sleeve definitions; the linked canonical lock remains authoritative."
+    "note": "This registry does not copy or modify the eight sleeve definitions; the linked canonical lock remains authoritative.",
+    "earlier_superseded_references": [
+      {
+        "portfolio_id": "eight_sleeve_equal_contract_reference_20261103",
+        "path": "research/locked_eight_sleeve_portfolio_20261103/locked_eight_sleeve_config.json",
+        "sha256": "22e1b2fc67736f6b7f78164ebd88d953068fa873877b1bc01379d98d71e84dd3"
+      }
+    ],
+    "mnq_data": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet"
   },
   "forward_monitoring": [
     {

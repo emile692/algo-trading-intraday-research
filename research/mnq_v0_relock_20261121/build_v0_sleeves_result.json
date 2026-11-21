@@ -1,0 +1,27 @@
+{
+  "data": {
+    "file": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+    "sha256": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+    "rows": 2422336,
+    "first": "2019-05-05 18:03:00-04:00",
+    "last": "2026-03-20 09:29:00-04:00"
+  },
+  "sleeves": {
+    "S01": {
+      "trades": 707,
+      "net_pnl_usd": 18616.5
+    },
+    "S02": {
+      "trades": 1110,
+      "net_pnl_usd": 22747.0
+    },
+    "S03": {
+      "trades": 332,
+      "net_pnl_usd": 2612.0
+    },
+    "S04": {
+      "trades": 2089,
+      "net_pnl_usd": 7550.5
+    }
+  }
+}

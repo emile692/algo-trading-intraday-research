@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "rule_id": "instrument_netting_eight_sleeves_20261121_r3",
+  "status": "ACTIVE_EXECUTION_RULE",
+  "decision_date": "2026-11-21",
+  "decision_authority": "explicit_user decision of 2026-11-21 ('freeze le mnq v.0 au lieu de c.0'; back-adjusted v.0, same window, stop-rule thresholds recomputed on v.0)",
+  "supersedes_rule": {
+    "rule_id": "instrument_netting_eight_sleeves_20261115_r2",
+    "path": "strategy_registry/execution/netting_rule_20261115_r2.json",
+    "sha256": "2dcc2703d0b5ef64db9809456c94dc18c074e32b3157f029ce33b40636a0ba92",
+    "reason": "the superseded rule applies to eight_sleeve_equal_contract_reference_20261115 (MNQ c.0); the rule logic is unchanged"
+  },
+  "applies_to_portfolio": "eight_sleeve_equal_contract_reference_20261121",
+  "portfolio_lock_unchanged": true,
+  "rule": {
+    "net_target": "per instrument, sum of the signed positions of its active sleeves: MNQ = S01 + S02 + S03, MGC = S05 + S06, MBT = S07 + S08 + S09; S04 shadow excluded",
+    "sizing": "unchanged lock sizing: 1 contract per sleeve, S01 native 1-4 contracts (0.5 % risk on 50 000 USD)",
+    "orders": "only the delta between the capped net target and the account position; vote changes at the open of the next minute; S01 stop and target as independent resting stop/limit orders whose quantity is the effect of the S01 exit on the capped net target, recomputed every minute",
+    "caps": "Topstep lots: micro MNQ/MGC = 0.1 lot, MBT = 1 lot; Combine 50K 5 lots; XFA 2 lots below 1 500 USD balance, 3 lots from 1 500 to 2 000, 5 above, tier read on the previous end-of-session balance",
+    "cap_policy": "an event that would exceed a cap is reduced to the maximum allowed; open positions are never cut because of a cap; on any later event of the instrument the position moves towards the desired net within the caps, including an exit that frees room (catch-up buy/sell)",
+    "overlays": "none: no daily stop, no MBT net cap, no volatility scaling, no profit lock (all rejected)",
+    "reference_policy_functions": "src/portfolio/aggregator.py::next_position, ::allowed_abs"
+  },
+  "s01_order_note": "S01 is the 18-model ATR vote of signal sheet 01 rebuilt on MNQ v.0 (research/signal_sheet_01_atr18_v0): same entry, stop, target, 16:00 exit and native 1-4 contract sizing; frozen IS thresholds unchanged",
+  "frozen_files": {
+    "research/book_aggregation_risk_r1_20261112/FROZEN_SPECIFICATION.json": "79dd2257084df5d2c12ec54d9c587e541cb17913df125fdbaa3d34139e424f5c",
+    "src/portfolio/aggregator.py": "2fa0dd361d4325f8f6f452c6fc6f1f6df59bbc7d9fa4d130a84cc662b26926b3",
+    "src/analytics/topstep_lifecycle/simulator.py": "598029da5c51cd2a624a7ccbe88d5ebf0313fc86737e1de1a530c12bc7b0f5a2",
+    "research/book_aggregation_risk_r1_20261112/run_study.py": "854c1d944f3385d3ba40db867631354d07f9e59e83ba188dd2a77f79a67f1788",
+    "research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md": "5e6608958d823a1b8c4a148511fbc24adf16c8a80e9ebd9c685e5381a8956aed",
+    "research/locked_eight_sleeve_portfolio_20261121/locked_eight_sleeve_config.json": "119d233dd3dafc64cb91855814f0b036c135d2c089cebedb0aa77d0ff9e2d87b",
+    "research/locked_eight_sleeve_portfolio_20261121/netting_check.json": "01c06bd167c91b8ac1fbb00987bbc350645de11cf4409dfd7d5cc623a212a7d2",
+    "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+    "research/signal_sheet_01_atr18_v0/trades.csv": "f1cebc850627063234be6e4a380eacdb30d9ad015cfc977da27ad0525320ccc3",
+    "research/signal_sheet_02_cluster_v0/trades.csv": "9e887822e816c025865210c6dba71374c05a21a9758767fce71230df9692eab3",
+    "research/signal_sheet_03_cluster_v0/trades.csv": "774b2c62b102fbb323d1829c75ad569b35eea261b996973a330dd0d0d7b4f1c6"
+  },
+  "evidence": {
+    "selftest": "research/book_aggregation_risk_r1_20261112/results/selftest_report.json",
+    "is_selection": "research/book_aggregation_risk_r1_20261112/results/is/selection.json",
+    "oos_verdict": "research/book_aggregation_risk_r1_20261112/results/oos/oos_results.json",
+    "worked_examples": "docs/signal_sheets/BOOK.md section 6",
+    "netting_reconciliation_new_book": "research/locked_eight_sleeve_portfolio_20261121/netting_check.json",
+    "note": "the ADOPT_AGGREGATION_ONLY verdict of book_aggregation_risk_r1_20261112 was obtained with S01 baseline_fixed; aggregation is a pure execution identity (gross PnL identical, re-checked on the new book), so the verdict carries over; the risk-overlay rejections were not re-run"
+  },
+  "open_points": [
+    "1 MBT = 1 lot is a cautious reading of Topstep documentation, to confirm in TopstepX Risk Settings",
+    "BOOK.md section 6 example 2 (2024-01-31) uses a baseline_fixed S01 trade that does not exist in the reference S01"
+  ],
+  "governance": "any change to the rule or to a frozen file requires a new versioned rule file; this file is never overwritten"
+}

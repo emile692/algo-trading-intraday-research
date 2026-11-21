@@ -1,0 +1,165 @@
+{
+  "book": "eight_sleeve_equal_contract_reference_20261121 (MNQ v.0 back-adjusted)",
+  "window": [
+    "2019-05-06",
+    "2026-03-19"
+  ],
+  "sessions": 1775,
+  "net_usd": 66645.56000000071,
+  "summary": [
+    {
+      "k": 1.5,
+      "sessions": 1775,
+      "bound_p50": 1260.7142857142858,
+      "bound_p99": 4348.5957285714285,
+      "bound_max": 6515.23,
+      "triggers_MNQ": 3,
+      "triggers_MGC": 0,
+      "triggers_MBT": 2
+    },
+    {
+      "k": 2.0,
+      "sessions": 1775,
+      "bound_p50": 1679.7857142857142,
+      "bound_p99": 5794.755371428571,
+      "bound_max": 8683.73,
+      "triggers_MNQ": 0,
+      "triggers_MGC": 0,
+      "triggers_MBT": 1
+    },
+    {
+      "k": 3.0,
+      "sessions": 1775,
+      "bound_p50": 2517.9285714285716,
+      "bound_p99": 8687.074657142857,
+      "bound_max": 13020.73,
+      "triggers_MNQ": 0,
+      "triggers_MGC": 0,
+      "triggers_MBT": 0
+    }
+  ],
+  "c0_audit_summary": [
+    {
+      "k": 1.5,
+      "sessions": 1775,
+      "bound_p50": 1250.1785714285716,
+      "bound_p99": 4196.112842857142,
+      "bound_max": 6515.23,
+      "share_days_bound_gt_X": 0.8146478873239437,
+      "triggers_MNQ": 4,
+      "pnl_evite_MNQ": 24.94642857142935,
+      "triggers_MGC": 0,
+      "pnl_evite_MGC": 0.0,
+      "triggers_MBT": 2,
+      "pnl_evite_MBT": -442.626428571428
+    },
+    {
+      "k": 2.0,
+      "sessions": 1775,
+      "bound_p50": 1666.3214285714287,
+      "bound_p99": 5592.531057142856,
+      "bound_max": 8683.73,
+      "share_days_bound_gt_X": 0.8535211267605634,
+      "triggers_MNQ": 0,
+      "pnl_evite_MNQ": 0.0,
+      "triggers_MGC": 0,
+      "pnl_evite_MGC": 0.0,
+      "triggers_MBT": 1,
+      "pnl_evite_MBT": -354.5371428571426
+    },
+    {
+      "k": 3.0,
+      "sessions": 1775,
+      "bound_p50": 2498.607142857143,
+      "bound_p99": 8385.367485714285,
+      "bound_max": 13020.73,
+      "share_days_bound_gt_X": 0.8907042253521127,
+      "triggers_MNQ": 0,
+      "pnl_evite_MNQ": 0.0,
+      "triggers_MGC": 0,
+      "pnl_evite_MGC": 0.0,
+      "triggers_MBT": 0,
+      "pnl_evite_MBT": 0.0
+    }
+  ],
+  "triggers": [
+    {
+      "k": 1.5,
+      "date": "2019-08-01",
+      "instrument": "MNQ",
+      "atr_j1": 84.73214285714286,
+      "minute": 365,
+      "position": 1,
+      "avg_entry": 10997.75,
+      "stop": 10870.651785714286,
+      "stopped_pnl": -257.69642857142753,
+      "actual_pnl": -273.5,
+      "pnl_evite": 15.803571428572468
+    },
+    {
+      "k": 1.5,
+      "date": "2021-11-10",
+      "instrument": "MNQ",
+      "atr_j1": 181.92857142857142,
+      "minute": 371,
+      "position": 1,
+      "avg_entry": 19290.75,
+      "stop": 19017.85714285714,
+      "stopped_pnl": -549.2857142857174,
+      "actual_pnl": -448.0,
+      "pnl_evite": -101.2857142857174
+    },
+    {
+      "k": 1.5,
+      "date": "2022-11-08",
+      "instrument": "MBT",
+      "atr_j1": 521.7857142857143,
+      "minute": 158,
+      "position": -1,
+      "avg_entry": 19270.0,
+      "stop": 20052.678571428572,
+      "stopped_pnl": -127.90785714285758,
+      "actual_pnl": 200.5399999999995,
+      "pnl_evite": -328.44785714285706
+    },
+    {
+      "k": 1.5,
+      "date": "2023-11-09",
+      "instrument": "MBT",
+      "atr_j1": 1168.9285714285713,
+      "minute": 186,
+      "position": 2,
+      "avg_entry": 37677.5,
+      "stop": 35924.107142857145,
+      "stopped_pnl": -414.13857142857006,
+      "actual_pnl": -299.9599999999991,
+      "pnl_evite": -114.17857142857093
+    },
+    {
+      "k": 1.5,
+      "date": "2025-03-04",
+      "instrument": "MNQ",
+      "atr_j1": 373.60714285714283,
+      "minute": 400,
+      "position": -1,
+      "avg_entry": 21218.75,
+      "stop": 21779.160714285714,
+      "stopped_pnl": -1124.3214285714275,
+      "actual_pnl": -1138.0,
+      "pnl_evite": 13.678571428572468
+    },
+    {
+      "k": 2.0,
+      "date": "2022-11-08",
+      "instrument": "MBT",
+      "atr_j1": 521.7857142857143,
+      "minute": 181,
+      "position": -1,
+      "avg_entry": 19270.0,
+      "stop": 20313.571428571428,
+      "stopped_pnl": -153.99714285714313,
+      "actual_pnl": 200.5399999999995,
+      "pnl_evite": -354.5371428571426
+    }
+  ]
+}

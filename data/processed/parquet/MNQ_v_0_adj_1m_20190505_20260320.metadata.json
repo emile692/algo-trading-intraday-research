@@ -1,0 +1,215 @@
+{
+  "file": "data/processed/parquet/MNQ_v_0_adj_1m_20190505_20260320.parquet",
+  "sha256": "6f16e1878db9fdb6071e25ec2eba29ce4bfc9a502541feace2f688f713639516",
+  "rows": 2422336,
+  "first": "2019-05-05 18:03:00-04:00",
+  "last": "2026-03-20 09:29:00-04:00",
+  "source": {
+    "file": "data/downloaded/MNQ_v_0_1m_20190501_20261120.parquet",
+    "sha256": "722338453215a5844ac22543371edad9dcaf92477fc983aaa79def77cd9bc74c",
+    "symbol": "MNQ.v.0",
+    "dataset": "GLBX.MDP3 ohlcv-1m (Databento), volume-ranked front month, unadjusted"
+  },
+  "cut": "last timestamp of the frozen c.0 input data/processed/parquet/MNQ_c_0_1m_20260321_094501.parquet (sha256 3d67f747ca7dfab84d97cdb5e8356610b0ca5ad0d97c4592e2d1b11b9eebf174)",
+  "adjustment": "additive back-adjustment: every bar before a v.0 contract switch += roll spread of that switch (median v.0 - c.0 close over the common minutes of the switch session, c.0 still on the old contract), rounded to 0.25; prices after the last switch are actual prices",
+  "columns": "same layout and dtypes as the c.0 file; symbol column set to the c.0 value",
+  "roll_spreads": [
+    {
+      "switch_time": "2019-06-18 20:00:00-04:00",
+      "old_instrument_id": 8078,
+      "new_instrument_id": 8084,
+      "common_minutes": 713,
+      "roll_spread_points": 27.75
+    },
+    {
+      "switch_time": "2019-09-15 20:00:00-04:00",
+      "old_instrument_id": 8084,
+      "new_instrument_id": 8107,
+      "common_minutes": 1196,
+      "roll_spread_points": 21.75
+    },
+    {
+      "switch_time": "2019-12-15 19:00:00-05:00",
+      "old_instrument_id": 8107,
+      "new_instrument_id": 8196,
+      "common_minutes": 1011,
+      "roll_spread_points": 26.75
+    },
+    {
+      "switch_time": "2020-03-15 20:01:00-04:00",
+      "old_instrument_id": 8196,
+      "new_instrument_id": 8204,
+      "common_minutes": 510,
+      "roll_spread_points": -19.0
+    },
+    {
+      "switch_time": "2020-06-16 20:00:00-04:00",
+      "old_instrument_id": 8204,
+      "new_instrument_id": 13081,
+      "common_minutes": 1293,
+      "roll_spread_points": -11.25
+    },
+    {
+      "switch_time": "2020-09-15 20:00:00-04:00",
+      "old_instrument_id": 13081,
+      "new_instrument_id": 17706,
+      "common_minutes": 1302,
+      "roll_spread_points": -14.0
+    },
+    {
+      "switch_time": "2020-12-13 19:00:00-05:00",
+      "old_instrument_id": 17706,
+      "new_instrument_id": 6227,
+      "common_minutes": 1304,
+      "roll_spread_points": 2.0
+    },
+    {
+      "switch_time": "2021-03-16 20:00:00-04:00",
+      "old_instrument_id": 6227,
+      "new_instrument_id": 9485,
+      "common_minutes": 1306,
+      "roll_spread_points": -11.75
+    },
+    {
+      "switch_time": "2021-06-13 20:00:00-04:00",
+      "old_instrument_id": 9485,
+      "new_instrument_id": 3601,
+      "common_minutes": 1300,
+      "roll_spread_points": -8.25
+    },
+    {
+      "switch_time": "2021-09-12 20:00:00-04:00",
+      "old_instrument_id": 3601,
+      "new_instrument_id": 1447,
+      "common_minutes": 1321,
+      "roll_spread_points": -7.5
+    },
+    {
+      "switch_time": "2021-12-12 19:00:00-05:00",
+      "old_instrument_id": 1447,
+      "new_instrument_id": 7575,
+      "common_minutes": 1320,
+      "roll_spread_points": 1.75
+    },
+    {
+      "switch_time": "2022-03-15 20:00:00-04:00",
+      "old_instrument_id": 7575,
+      "new_instrument_id": 13505,
+      "common_minutes": 1321,
+      "roll_spread_points": -2.75
+    },
+    {
+      "switch_time": "2022-06-14 20:00:00-04:00",
+      "old_instrument_id": 13505,
+      "new_instrument_id": 7688,
+      "common_minutes": 1321,
+      "roll_spread_points": 33.0
+    },
+    {
+      "switch_time": "2022-09-13 20:00:00-04:00",
+      "old_instrument_id": 7688,
+      "new_instrument_id": 20332,
+      "common_minutes": 1321,
+      "roll_spread_points": 80.0
+    },
+    {
+      "switch_time": "2022-12-13 19:00:00-05:00",
+      "old_instrument_id": 20332,
+      "new_instrument_id": 8071,
+      "common_minutes": 1321,
+      "roll_spread_points": 119.25
+    },
+    {
+      "switch_time": "2023-03-14 20:00:00-04:00",
+      "old_instrument_id": 8071,
+      "new_instrument_id": 4973,
+      "common_minutes": 1320,
+      "roll_spread_points": 128.0
+    },
+    {
+      "switch_time": "2023-06-13 20:00:00-04:00",
+      "old_instrument_id": 4973,
+      "new_instrument_id": 9235,
+      "common_minutes": 1321,
+      "roll_spread_points": 184.25
+    },
+    {
+      "switch_time": "2023-09-12 20:00:00-04:00",
+      "old_instrument_id": 9235,
+      "new_instrument_id": 34070,
+      "common_minutes": 1320,
+      "roll_spread_points": 194.75
+    },
+    {
+      "switch_time": "2023-12-13 19:00:00-05:00",
+      "old_instrument_id": 34070,
+      "new_instrument_id": 7101,
+      "common_minutes": 1320,
+      "roll_spread_points": 211.0
+    },
+    {
+      "switch_time": "2024-03-12 20:00:00-04:00",
+      "old_instrument_id": 7101,
+      "new_instrument_id": 10,
+      "common_minutes": 1321,
+      "roll_spread_points": 248.5
+    },
+    {
+      "switch_time": "2024-06-18 20:00:00-04:00",
+      "old_instrument_id": 10,
+      "new_instrument_id": 13941,
+      "common_minutes": 1071,
+      "roll_spread_points": 276.25
+    },
+    {
+      "switch_time": "2024-09-17 20:00:00-04:00",
+      "old_instrument_id": 13941,
+      "new_instrument_id": 42008411,
+      "common_minutes": 1321,
+      "roll_spread_points": 235.75
+    },
+    {
+      "switch_time": "2024-12-18 19:00:00-05:00",
+      "old_instrument_id": 42008411,
+      "new_instrument_id": 42003617,
+      "common_minutes": 1321,
+      "roll_spread_points": 273.75
+    },
+    {
+      "switch_time": "2025-03-19 20:00:00-04:00",
+      "old_instrument_id": 42003617,
+      "new_instrument_id": 42009475,
+      "common_minutes": 1320,
+      "roll_spread_points": 205.5
+    },
+    {
+      "switch_time": "2025-06-17 20:00:00-04:00",
+      "old_instrument_id": 42009475,
+      "new_instrument_id": 42003472,
+      "common_minutes": 1321,
+      "roll_spread_points": 224.25
+    },
+    {
+      "switch_time": "2025-09-17 20:00:00-04:00",
+      "old_instrument_id": 42003472,
+      "new_instrument_id": 42001149,
+      "common_minutes": 1321,
+      "roll_spread_points": 243.5
+    },
+    {
+      "switch_time": "2025-12-17 19:00:00-05:00",
+      "old_instrument_id": 42001149,
+      "new_instrument_id": 42004946,
+      "common_minutes": 1321,
+      "roll_spread_points": 228.5
+    },
+    {
+      "switch_time": "2026-03-18 20:00:00-04:00",
+      "old_instrument_id": 42004946,
+      "new_instrument_id": 42004936,
+      "common_minutes": 1319,
+      "roll_spread_points": 214.5
+    }
+  ],
+  "decision": "user, 2026-11-21: freeze MNQ v.0 (back-adjusted) instead of c.0, same window"
+}
