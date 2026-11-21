@@ -63,7 +63,7 @@ MBT : tick `5` points = `0,50 USD`, point `0,10 USD`, commission `1,41 USD/côt�
 
 ### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
 
-Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MBT (S07 + S08 + S09) dans **une seule cible nette MBT**, de −3 à +3 contrats ([Book, section 6](BOOK.md)). Signal, taille et PnL suivi inchangés.
+Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MBT (S07 + S08 + S09) dans **une seule cible nette MBT**, de −3 à +3 contrats ([Book, section 7](BOOK.md)). Signal, taille et PnL suivi inchangés.
 
 S07 et S08 sont dans le même sens 83 % du temps où S07 est en position : la cible MBT est souvent à +2 ou −2.
 

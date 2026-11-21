@@ -45,6 +45,12 @@ EIGHT_SLEEVE_DAILY_20261115 = ROOT / "research" / "locked_eight_sleeve_portfolio
 # Since 2026-11-21 the book figures use the lock on MNQ v.0 back-adjusted and S04 rebuilt on the same data.
 EIGHT_SLEEVE_DAILY_20261121 = ROOT / "research" / "locked_eight_sleeve_portfolio_20261121" / "daily_pnl.csv"
 S04_DAILY_V0 = ROOT / "research" / "signal_sheet_04_cluster_v0" / "daily_results.csv"
+# Active eight-sleeve book on its full sample and as three instrument signals (BOOK.md section 6, 2026-11-21).
+THREE_SIGNALS_DAILY = ROOT / "research" / "book_three_signals_20261121" / "daily_signals.csv"
+THREE_SIGNALS_METRICS = ROOT / "research" / "book_three_signals_20261121" / "signal_metrics.csv"
+SIGNAL_COLORS = {"MNQ": "#2a78d6", "MGC": "#eb6834", "MBT": "#1baf7a", "Book 8": "#102b4e"}
+SEGMENT_FILL = {"IS": None, "mixte": "#e6e5e1", "OOS": "#dbe8f4"}
+SEGMENT_TEXT = {"IS": "IS", "mixte": "Mixte", "OOS": "OOS réutilisé"}
 BOOK_RESEARCH_START = pd.Timestamp("2024-01-02")
 BOOK_RESEARCH_END = pd.Timestamp("2026-03-19")
 
@@ -454,6 +460,84 @@ def build_equity_and_book() -> None:
     plt.close(fig)
 
 
+def _segment_spans(dates: pd.Series, labels: pd.Series) -> list[tuple[str, pd.Timestamp, pd.Timestamp]]:
+    """Contiguous runs of one segment label, as (label, first date, last date)."""
+    spans: list[tuple[str, pd.Timestamp, pd.Timestamp]] = []
+    for label, first, last in zip(labels, dates, dates):
+        if spans and spans[-1][0] == label:
+            spans[-1] = (label, spans[-1][1], last)
+        else:
+            spans.append((label, first, last))
+    return spans
+
+
+def _shade_segments(ax, dates: pd.Series, labels: pd.Series) -> None:
+    spans = _segment_spans(dates, labels)
+    for i, (label, first, last) in enumerate(spans):
+        end = spans[i + 1][1] if i + 1 < len(spans) else last
+        if SEGMENT_FILL[label]:
+            ax.axvspan(first, end, color=SEGMENT_FILL[label], alpha=0.85, linewidth=0, zorder=0)
+
+
+def _segment_handles(texts: dict[str, str]) -> list:
+    return [Rectangle((0, 0), 1, 1, facecolor=SEGMENT_FILL[k] or "white", edgecolor="#b9c8d9", linewidth=0.8, label=v)
+            for k, v in texts.items()]
+
+
+def _usd_axis(ax) -> None:
+    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:,.0f}".replace(",", " ")))
+
+
+def build_book_three_signals() -> None:
+    """Book 8 on its full sample split IS / mixte / OOS, and the three instrument signals (BOOK.md section 6)."""
+    data = pd.read_csv(THREE_SIGNALS_DAILY, parse_dates=["session_date"])
+    table = pd.read_csv(THREE_SIGNALS_METRICS).set_index(["series", "segment"])
+    if data["session_date"].max() != BOOK_RESEARCH_END:
+        raise RuntimeError("the three-signal book must end on the frozen research end")
+
+    book = data["Book 8"].cumsum()
+    fig, ax = plt.subplots(figsize=(10.8, 4.4))
+    _shade_segments(ax, data["session_date"], data["segment_Book 8"])
+    line, = ax.plot(data["session_date"], book, color=SIGNAL_COLORS["Book 8"], linewidth=2.0, label="Book 8 sleeves", zorder=3)
+    mbt_start = data.loc[data["MBT"].notna(), "session_date"].min()
+    ax.axvline(mbt_start, color="#7b8794", linewidth=1.0, linestyle=":", zorder=2)
+    ax.text(mbt_start, 0.55, " entrée de MBT", transform=ax.get_xaxis_transform(), fontsize=8, color="#52514e")
+    ax.axhline(0, color="#7b8794", linewidth=0.8)
+    fs = table.loc[("Book 8", "FS")]
+    ax.set_title(f"Book retenu à 8 sleeves — full sample, Sharpe {fs.sharpe:.2f}".replace(".", ","), weight="bold")
+    ax.set_ylabel("PnL cumulé (USD)")
+    ax.set_xlabel("6 mai 2019 — 19 mars 2026 (calendrier union, coûts nominaux)")
+    ax.grid(axis="y", alpha=0.25)
+    _usd_axis(ax)
+    ax.legend(handles=[line, *_segment_handles({"IS": "IS : les 8 sleeves en IS",
+                                                 "mixte": "Mixte : MNQ et MGC en OOS, MBT en IS",
+                                                 "OOS": "OOS réutilisé : les 8 sleeves hors IS"})],
+              frameon=False, loc="upper left", fontsize=8.5)
+    fig.tight_layout()
+    fig.savefig(ASSET_DIR / "book_fs_is_oos.png", dpi=190, facecolor="white")
+    plt.close(fig)
+
+    fig, axes = plt.subplots(3, 1, figsize=(10.8, 9.0), sharex=True)
+    for ax, name in zip(axes, ("MNQ", "MGC", "MBT")):
+        rows = data[data[f"session_{name}"].astype(bool) & data[name].notna()]
+        _shade_segments(ax, rows["session_date"], rows[f"segment_{name}"])
+        ax.plot(rows["session_date"], rows[name].cumsum(), color=SIGNAL_COLORS[name], linewidth=1.8, zorder=3)
+        ax.axhline(0, color="#7b8794", linewidth=0.8)
+        parts = [f"FS {table.loc[(name, 'FS')].sharpe:.2f}", f"IS {table.loc[(name, 'IS')].sharpe:.2f}",
+                 f"OOS {table.loc[(name, 'OOS')].sharpe:.2f}"]
+        ax.set_title(f"Signal {name} — Sharpe " + " · ".join(parts).replace(".", ","), loc="left", fontsize=10.5, weight="bold")
+        ax.set_ylabel("PnL cumulé (USD)")
+        ax.grid(axis="y", alpha=0.25)
+        _usd_axis(ax)
+    fig.legend(handles=_segment_handles({"IS": "IS", "mixte": "Mixte (S01 encore en IS)", "OOS": "OOS réutilisé"}),
+               loc="upper center", bbox_to_anchor=(0.5, 0.955), ncol=3, frameon=False, fontsize=9)
+    axes[-1].set_xlabel("MNQ = S01 + S02 + S03 · MGC = S05 + S06 · MBT = S07 + S08 + S09 (MBT à partir du 3 mai 2021)")
+    fig.suptitle("Les trois signaux du book — full sample, IS et OOS réutilisé", weight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    fig.savefig(ASSET_DIR / "book_three_signals.png", dpi=190, facecolor="white")
+    plt.close(fig)
+
+
 def main() -> None:
     ASSET_DIR.mkdir(parents=True, exist_ok=True)
     build_orb()
@@ -462,6 +546,7 @@ def main() -> None:
     build_compression()
     build_mbt()
     build_equity_and_book()
+    build_book_three_signals()
     for path in sorted(ASSET_DIR.glob("*.png")):
         print(path.relative_to(ROOT))
 

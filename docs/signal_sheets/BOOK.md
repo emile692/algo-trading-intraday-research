@@ -1,12 +1,12 @@
 # Book — portefeuille des neuf sleeves
 
-> **Note du 21 novembre 2026.** Les sections 1 à 5 sont maintenant calculées sur MNQ `v.0` (le contrat le plus échangé, celui que trade la production), ajusté en arrière de l'écart de roll. Sont repris : les huit sleeves du lock `eight_sleeve_equal_contract_reference_20261121`, plus S04 (en shadow) reconstruite sur la même donnée. MGC et MBT ne changent pas. Sur `c.0`, le book à 9 sleeves faisait `36 240,96 USD` (Sharpe `1,509`, drawdown `−6 594,74 USD`), et le book actif à 8 sleeves `30 857,96 USD` (Sharpe `1,712`). La section 6 garde ses exemples d'origine. Référence : [`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md).
+> **Note du 21 novembre 2026.** Les sections 1 à 5 sont maintenant calculées sur MNQ `v.0` (le contrat le plus échangé, celui que trade la production), ajusté en arrière de l'écart de roll. Sont repris : les huit sleeves du lock `eight_sleeve_equal_contract_reference_20261121`, plus S04 (en shadow) reconstruite sur la même donnée. MGC et MBT ne changent pas. Sur `c.0`, le book à 9 sleeves faisait `36 240,96 USD` (Sharpe `1,509`, drawdown `−6 594,74 USD`), et le book actif à 8 sleeves `30 857,96 USD` (Sharpe `1,712`). La section 7 (netting) garde ses exemples d'origine. Référence : [`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md).
 >
 > **Note du 3 novembre 2026.** Ce book décrit la référence à neuf sleeves du 1er novembre 2026. La référence active compte désormais huit sleeves : `S04` est passée en shadow ([`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md)). Sans S04, la section 5 donne déjà le book restant : `30 858 USD`, Sharpe `1,712` (recalculé le 15 novembre ; `31 661 USD` et `1,751` avec l'ancien S01 et le calendrier MNQ).
 >
-> **Note du 13 novembre 2026.** Les huit sleeves actives ne sont plus exécutées séparément. Elles sont **agrégées par instrument** : une seule position nette sur MNQ, MGC et MBT (section 6). Les signaux et les tailles ne changent pas.
+> **Note du 13 novembre 2026.** Les huit sleeves actives ne sont plus exécutées séparément. Elles sont **agrégées par instrument** : une seule position nette sur MNQ, MGC et MBT (section 7). Les signaux et les tailles ne changent pas.
 >
-> **Note du 15 novembre 2026, mise à jour le même jour.** Les sections 1 à 5 sont désormais calculées avec le S01 de la fiche 01 (ensemble ATR 18) et sur le calendrier union de 572 séances : les huit sleeves du lock du 15 novembre, plus S04 (en shadow) reprise du lock du 1er novembre. La version précédente utilisait le ledger historique `baseline_fixed` (ATR 14 × q_high {90, 95}, 261 trades sur 2024-01 → 2026-03 contre 208) et le calendrier MNQ. La section 6 garde ses chiffres d'origine, calculés avec `baseline_fixed`. La référence active est désormais `eight_sleeve_equal_contract_reference_20261115` ([`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md)) : S01 de la fiche 01, calendrier union de 572 séances. Le book à 8 sleeves y fait `30 858 USD`, Sharpe `1,712`, drawdown `−5 870 USD`. Les mêmes chiffres figurent dans [l'audit, phase 1](../../audit_20261115/01_calendrier.md). **L'exemple 2 de la section 6 (31 janvier 2024) repose sur un trade S01 qui n'existe pas dans la sleeve de référence** : il illustre toujours correctement la mécanique du netting, mais pas un jour réel du book. Les exemples 1 et 5 restent des trades de la référence.
+> **Note du 15 novembre 2026, mise à jour le même jour.** Les sections 1 à 5 sont désormais calculées avec le S01 de la fiche 01 (ensemble ATR 18) et sur le calendrier union de 572 séances : les huit sleeves du lock du 15 novembre, plus S04 (en shadow) reprise du lock du 1er novembre. La version précédente utilisait le ledger historique `baseline_fixed` (ATR 14 × q_high {90, 95}, 261 trades sur 2024-01 → 2026-03 contre 208) et le calendrier MNQ. La section 7 (netting) garde ses chiffres d'origine, calculés avec `baseline_fixed`. La référence active est désormais `eight_sleeve_equal_contract_reference_20261115` ([`ACTIVE_EIGHT_SLEEVES.md`](../ACTIVE_EIGHT_SLEEVES.md)) : S01 de la fiche 01, calendrier union de 572 séances. Le book à 8 sleeves y fait `30 858 USD`, Sharpe `1,712`, drawdown `−5 870 USD`. Les mêmes chiffres figurent dans [l'audit, phase 1](../../audit_20261115/01_calendrier.md). **L'exemple 2 de la section 7 (31 janvier 2024) repose sur un trade S01 qui n'existe pas dans la sleeve de référence** : il illustre toujours correctement la mécanique du netting, mais pas un jour réel du book. Les exemples 1 et 5 restent des trades de la référence.
 
 ## 1. Construction et périmètre
 
@@ -90,15 +90,122 @@ Le book complet affiche un PnL de `36 503,46 USD`, un Sharpe annualisé de `1,54
 
 Une variation de drawdown positive signifie que le drawdown devient moins sévère ; une variation négative signifie qu'il se dégrade. Cette analyse est descriptive et rétrospective : elle mesure la dépendance historique du book à chaque sleeve, sans valider une nouvelle allocation.
 
-## 6. Exécution agrégée par instrument (netting)
+## 6. Book retenu à 8 sleeves : trois signaux par instrument
+
+*Ajouté le 21 novembre 2026. Calcul et contrôles : [`build_three_signals.py`](../../research/book_three_signals_20261121/build_three_signals.py), résultats : [`results.json`](../../research/book_three_signals_20261121/results.json).*
+
+Les sections 1 à 5 décrivent les neuf sleeves sur la fenêtre commune 2024–2026. Cette section prend le **book retenu** : les huit sleeves du lock `eight_sleeve_equal_contract_reference_20261121`, sans S04. Elle le suit sur **tout l'historique disponible (FS)**. Comme l'exécution est agrégée par instrument (section 7), ce book se lit comme **trois signaux** :
+
+- **MNQ** = S01 + S02 + S03 ;
+- **MGC** = S05 + S06 ;
+- **MBT** = S07 + S08 + S09.
+
+Chaque signal est la somme des PnL quotidiens nets de ses sleeves (equal contract, avant netting : le netting change le PnL de la fenêtre 2024–2026 de `+28 USD`).
+
+**Contrôle de cohérence :** sur la fenêtre du lock (2 janvier 2024 au 19 mars 2026), les huit séries reconstruites ici sont identiques au centime au `daily_pnl.csv` du lock, et le book y vaut bien `31 639,46 USD`.
+
+**Périmètre.**
+
+- **Calendrier :** union des calendriers des trois instruments, du **6 mai 2019 au 19 mars 2026**, soit 1 775 séances. Le 19 mars 2026 est la fin de la donnée MNQ figée.
+- **Entrée de MBT :** le signal MBT n'existe qu'à partir du **3 mai 2021**. Avant cette date, le book ne compte que MNQ et MGC.
+- **Sharpe :** un signal se mesure sur le calendrier de son instrument, le book sur le calendrier union. Sharpe = `√252 × moyenne / écart-type` du PnL quotidien en USD.
+- **Données au-delà du 19 mars 2026 :** l'historique MBT se prolonge jusqu'au 2 octobre 2026 (fiches 07 à 09), mais il n'est pas repris ici, pour garder une fin commune aux trois signaux.
+
+**IS et OOS.** Chaque sleeve a sa propre date de fin d'IS :
+
+| Sleeves | Fin de l'IS |
+|---|---|
+| S01 | 27 février 2024 |
+| S02, S03, S05, S06 | 31 décembre 2023 |
+| S07, S08, S09 | 28 mai 2025 |
+
+Une période est donc classée :
+
+- **IS** quand toutes les sleeves du signal (ou du book) sont dans leur IS ;
+- **OOS** quand toutes en sont sorties ;
+- **mixte** sinon.
+
+Ces OOS ont tous été consultés avant le gel des ensembles de vote : ce sont des **OOS réutilisés**, pas des lectures prospectives. Les chiffres IS contiennent en outre le biais de sélection des paramètres.
+
+### 6.1 Le book FS
+
+![Book retenu à 8 sleeves, full sample, IS / mixte / OOS](assets/book_fs_is_oos.png)
+
+| Période | Dates | Séances | PnL net | PnL annualisé | Sharpe | Max drawdown | Pire jour |
+|---|---|---:|---:|---:|---:|---:|---:|
+| FS | 2019-05-06 → 2026-03-19 | 1 775 | 66 583,10 USD | 9 453 USD | **1,68** | −5 457,54 USD | −1 655,96 USD |
+| IS (les 8 sleeves en IS) | 2019-05-06 → 2023-12-29 | 1 203 | 34 943,64 USD | 7 320 USD | 1,73 | −3 529,50 USD | −967,46 USD |
+| Mixte (MNQ et MGC en OOS, MBT en IS) | 2024-01-02 → 2025-05-28 | 363 | 18 690,96 USD | 12 976 USD | 1,83 | −5 457,54 USD | −1 655,96 USD |
+| OOS réutilisé (les 8 sleeves hors IS) | 2025-05-29 → 2026-03-19 | 209 | 12 948,50 USD | 15 613 USD | 1,74 | −3 768,54 USD | −1 395,46 USD |
+
+Le Sharpe du book reste stable d'une période à l'autre : `1,73` en IS, `1,83` en mixte et `1,74` en OOS. La part du PnL portée par les cinq meilleurs jours reste modérée (`22 %` du PnL FS).
+
+Le PnL annualisé, lui, double entre l'IS et l'OOS. La volatilité quotidienne double aussi, de `266` à `565 USD`, et le Sharpe ne bouge donc pas. Il y a deux raisons :
+
+- **l'entrée de MBT en 2021** ajoute un troisième signal ;
+- **le nombre de contrats est fixe** : quand les prix du Nasdaq, de l'or et du bitcoin montent, le PnL et le risque en USD augmentent avec eux.
+
+Le pire drawdown FS, `−5 457,54 USD`, tombe dans la période mixte, en 2024–2025. C'est le drawdown publié pour le lock sur la fenêtre 2024–2026.
+
+### 6.2 Les trois signaux
+
+![Les trois signaux du book, full sample, IS et OOS](assets/book_three_signals.png)
+
+| Signal | Période | Dates | Séances | PnL net | PnL annualisé | Sharpe | Max drawdown | Pire jour |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| MNQ | FS | 2019-05-06 → 2026-03-19 | 1 774 | 43 975,50 USD | 6 247 USD | **1,43** | −4 655,00 USD | −1 138,00 USD |
+| MNQ | IS | 2019-05-06 → 2023-12-29 | 1 203 | 27 287,50 USD | 5 716 USD | 1,48 | −4 655,00 USD | −1 052,50 USD |
+| MNQ | Mixte (S01 encore en IS) | 2024-01-02 → 2024-02-27 | 41 | −131,50 USD | — | — | −1 285,50 USD | −569,00 USD |
+| MNQ | OOS réutilisé | 2024-02-28 → 2026-03-19 | 530 | 16 819,50 USD | 7 997 USD | 1,50 | −3 524,00 USD | −1 138,00 USD |
+| MGC | FS | 2019-05-06 → 2026-03-19 | 1 775 | 10 166,00 USD | 1 443 USD | **0,61** | −2 121,50 USD | −1 247,00 USD |
+| MGC | IS | 2019-05-06 → 2023-12-29 | 1 203 | 4 516,00 USD | 946 USD | 0,96 | −1 107,50 USD | −365,50 USD |
+| MGC | OOS réutilisé | 2024-01-02 → 2026-03-19 | 572 | 5 650,00 USD | 2 489 USD | 0,63 | −2 121,50 USD | −1 247,00 USD |
+| MBT | FS | 2021-05-03 → 2026-03-19 | 952 | 12 441,60 USD | 3 293 USD | **1,13** | −2 426,58 USD | −968,46 USD |
+| MBT | IS | 2021-05-03 → 2025-05-28 | 759 | 8 660,10 USD | 2 875 USD | 1,09 | −2 426,58 USD | −968,46 USD |
+| MBT | OOS réutilisé | 2025-05-29 → 2026-03-19 | 193 | 3 781,50 USD | 4 938 USD | 1,29 | −1 708,04 USD | −582,96 USD |
+
+Le Sharpe de la période mixte MNQ (41 séances) n'est pas calculé : il serait sans signification sur deux mois.
+
+- **MNQ porte le book** : `66 %` du PnL FS. Son Sharpe ne se dégrade pas hors de l'IS (`1,48` en IS, `1,50` en OOS réutilisé). En OOS, ses cinq meilleurs jours font toutefois `55 %` de son PnL.
+- **MGC est le signal le plus fragile.** Son Sharpe passe de `0,96` en IS à `0,63` en OOS. Surtout, son OOS tient à quelques jours : les cinq meilleurs rapportent `9 491,50 USD`, dont `4 373 USD` le seul 30 janvier 2026, pour un OOS total de `5 650 USD`. Sans ces cinq jours, l'OOS est négatif. Du 1er janvier 2024 au 30 septembre 2025, le signal perd `1 598 USD` ; tout son gain OOS vient du marché de l'or d'octobre 2025 à mars 2026.
+- **MBT tient hors de son IS** (`1,09` puis `1,29`), mais sur 193 séances seulement. Ses cinq meilleurs jours dépassent son PnL OOS total (`119 %`), et S09 est à zéro sur son propre OOS (fiche 09).
+
+### 6.3 Corrélation des trois signaux
+
+Corrélation de Pearson des PnL quotidiens, jours sans trade inclus, sur le calendrier union (0 quand l'instrument ne cote pas), sur la période où les trois signaux existent.
+
+**Du 3 mai 2021 au 19 mars 2026 (1 261 séances) :**
+
+| | MNQ | MGC | MBT |
+|---|---:|---:|---:|
+| **MNQ** | 1 | −0,02 | 0,16 |
+| **MGC** | −0,02 | 1 | 0,02 |
+| **MBT** | 0,16 | 0,02 | 1 |
+
+**Stabilité dans le temps :**
+
+| Période | Séances | MNQ–MGC | MNQ–MBT | MGC–MBT |
+|---|---:|---:|---:|---:|
+| 2021-05-03 → 2023-12-29 | 689 | 0,00 | 0,06 | 0,07 |
+| 2024-01-02 → 2026-03-19 | 572 | −0,03 | 0,21 | 0,01 |
+
+**MGC est indépendant des deux autres** dans les deux sous-périodes. **MNQ et MBT ne le sont qu'en partie** : leur corrélation est faible mais positive, et elle monte de `0,06` à `0,21` depuis 2024, période où Nasdaq et bitcoin ont souvent bougé ensemble. Traiter les trois signaux comme indépendants est une bonne approximation pour MGC ; pour MNQ–MBT, elle sous-estime un peu le risque commun.
+
+**Ce que coûte cette corrélation.** Sur 2021–2026, le book fait un Sharpe de `1,92`. Avec des signaux non corrélés (mêmes moyennes, mêmes volatilités), il ferait `2,01` : la corrélation entre instruments coûte environ `0,09` de Sharpe. Si les huit sleeves étaient indépendantes entre elles, le book ferait `2,29`.
+
+L'essentiel de la redondance est donc **à l'intérieur de chaque instrument** : par exemple `S05–S06` à `0,66` et `S07–S08` à `0,62` (section 2). C'est pourquoi la bonne unité de diversification est le signal par instrument, et non la sleeve. Une corrélation moyenne faible ne garantit pas l'absence de pertes simultanées lors d'un choc.
+
+## 7. Exécution agrégée par instrument (netting)
+
+*Anciennement section 6 : les règles gelées `netting_rule_20261115.json`, `netting_rule_20261115_r2.json` et `netting_rule_20261121_r3.json` y renvoient sous ce numéro.*
 
 *Ajouté le 13 novembre 2026. Étude complète : [clôture de la campagne](../../research/book_aggregation_risk_r1_20261112/HYPOTHESIS_CLOSURE.md).*
 
-### 6.1 Pourquoi
+### 7.1 Pourquoi
 
 Un compte de futures ne peut pas être long et short sur le même contrat. Si les sleeves d'un même instrument étaient envoyées comme des comptes indépendants, leurs ordres se compenseraient chez le broker de façon incontrôlée, et leurs stops et flattens se marcheraient dessus. On calcule donc **une seule position par instrument**, et c'est elle qu'on envoie.
 
-### 6.2 La règle
+### 7.2 La règle
 
 | Instrument | Sleeves agrégées | Position nette possible |
 |---|---|---|
@@ -128,7 +235,7 @@ flowchart LR
     L --> O[Ordre = cible − position réelle]
 ```
 
-### 6.3 Exemples réels
+### 7.3 Exemples réels
 
 Séances rejouées avec le moteur d'agrégation. Les prix sont les prix bruts, avant le tick de slippage par côté.
 
@@ -184,7 +291,7 @@ Même PnL et mêmes contrats que les sleeves séparées. La seule différence es
 
 Le jour finit à +776 USD au lieu de +1 093. À 16:01, la sortie de S09 déclenche un *achat* : la cible nette (S07 + S08 = 2) redevient atteignable, et la règle la rejoint. C'est conforme à la règle, mais peu utile à 7 minutes du flatten. Sur 2024-01 → 2026-03, au palier de 2 lots, **287 séances sur 572** voient au moins une entrée réduite. Avec 1 MBT = 1 lot, deux sleeves MBT suffisent à remplir le premier palier XFA.
 
-### 6.4 Ce que l'agrégation change dans les chiffres
+### 7.4 Ce que l'agrégation change dans les chiffres
 
 | | Sleeves séparées | Agrégées |
 |---|---:|---:|
@@ -193,6 +300,7 @@ Le jour finit à +776 USD au lieu de +1 093. À 16:01, la sortie de S09 déclenc
 | PnL net 2024-01 → 2026-03 (somme des trades) | 31 152 USD | 31 180 USD |
 
 Les contrats ne sont économisés que lorsque deux sleeves changent de sens **à la même minute**, ce qui est rare. La fréquence des sens opposés dépend de l'instrument :
+
 - **MGC :** jamais ;
 - **MNQ :** 7 à 23 jours sur 2024-01 → 2026-03, selon la paire ;
 - **MBT :** 111 jours pour S08/S09 et 54 jours pour S07/S09, sur 2021-06 → 2026-10.
@@ -201,9 +309,10 @@ S07 et S08 sont dans le même sens pendant 83 % du temps où S07 est en position
 
 **Écart avec la section 4–5.** Le PnL quotidien du lock aligne MGC et MBT sur le calendrier MNQ. Il ignore ainsi 8 séances de 2024-01 → 2026-03 (vendredis de roll trimestriel notamment) où MGC et MBT tradent, soit −509 USD. Les chiffres S05–S09 des sections 4 et 5 en sont légèrement optimistes. La somme exacte des trades est donnée ci-dessus.
 
-### 6.5 Ce qui a été testé et écarté
+### 7.5 Ce qui a été testé et écarté
 
 Avant de retenir cette exécution simple, on a testé sur le cycle Topstep 50K complet (Combine → XFA → payout, 8 000 chemins) :
+
 - un budget de risque par sleeve ;
 - un sizing modulé par la volatilité de l'instrument ;
 - un plafond MBT ;
@@ -212,7 +321,7 @@ Avant de retenir cette exécution simple, on a testé sur le cycle Topstep 50K c
 
 **Aucune option n'a été retenue.** Le budget de risque est infaisable avec 1 MBT = 1 lot. Les stops et le plafond coupent plus de gains qu'ils n'évitent de pertes. Le verrou ne se déclenche jamais. La modulation par la vol rapporte plus, mais augmente le risque de perdre le XFA. Hors échantillon, garder les tailles actuelles fait mieux que passer S01 à 1 contrat.
 
-## 7. Garde-fous de production
+## 8. Garde-fous de production
 
 - Calculer en temps réel le risque jusqu'au stop de chaque position, avec la quantité réellement remplie et les stops effectivement présents chez le broker.
 - Traiter `S07` et les sleeves en vote comme des risques non bornés par un montant fixe tant qu'aucun stop portefeuille distinct n'est imposé : la cible agrégée ne porte pas les stops des cellules chez le broker.

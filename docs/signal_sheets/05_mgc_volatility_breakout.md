@@ -78,7 +78,7 @@ Tick MGC `0,10` point = `1 USD` ; point `10 USD` ; commission `1,25 USD/côté` 
 
 ### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
 
-Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celle de l'autre sleeve MGC (S05 + S06) dans **une seule cible nette MGC** ([Book, section 6](BOOK.md)). Signal, taille et PnL suivi inchangés. Depuis 2019, S05 et S06 n'ont jamais été en sens opposés : en pratique, l'agrégation additionne.
+Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celle de l'autre sleeve MGC (S05 + S06) dans **une seule cible nette MGC** ([Book, section 7](BOOK.md)). Signal, taille et PnL suivi inchangés. Depuis 2019, S05 et S06 n'ont jamais été en sens opposés : en pratique, l'agrégation additionne.
 
 Exemple réel, 7 juin 2024 : S06 est short depuis 08:36 (vente 1 à 2 334,6). S05 passe short à 12:00 : la cible MGC passe à −2 (vente 1 à 2 322,9). S05 sort à 13:31 : la cible revient à −1 (achat 1 à 2 323,8). Flatten à 16:08 (achat 1 à 2 305,9).
 

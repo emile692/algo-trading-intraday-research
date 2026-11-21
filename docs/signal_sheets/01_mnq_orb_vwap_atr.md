@@ -92,7 +92,7 @@ Tick MNQ `0,25` point = `0,50 USD`; valeur du point `2 USD`. Coûts de recherche
 
 ### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
 
-Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans **une seule cible nette MNQ**, et seule la différence avec la position du compte est envoyée ([Book, section 6](BOOK.md)). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.
+Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans **une seule cible nette MNQ**, et seule la différence avec la position du compte est envoyée ([Book, section 7](BOOK.md)). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.
 
 **Ce qui change pour S01 : son stop et sa cible.** Ils restent posés chez le broker, mais comme ordres stop et limite *indépendants*. Leur quantité est l'effet qu'aurait la sortie de S01 sur la position nette, recalculée chaque minute. Le sizing historique (1 à 4 contrats pour un risque d'environ 250 USD) est conservé.
 

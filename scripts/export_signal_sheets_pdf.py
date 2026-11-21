@@ -47,6 +47,8 @@ INTERACTIVE_IMAGE_PATTERNS = {
     "volatility_indicator": re.compile(r'<p><img(?P<attrs>[^>]*\bsrc="assets/02_indicator_atr_breakout\.png"[^>]*)\s*/?></p>'),
     "equity_01": re.compile(r'<p><img(?P<attrs>[^>]*\bsrc="assets/01_equity_curve\.png"[^>]*)\s*/?></p>'),
     "equity_02": re.compile(r'<p><img(?P<attrs>[^>]*\bsrc="assets/02_equity_curve\.png"[^>]*)\s*/?></p>'),
+    "book_fs": re.compile(r'<p><img(?P<attrs>[^>]*\bsrc="assets/book_fs_is_oos\.png"[^>]*)\s*/?></p>'),
+    "book_signals": re.compile(r'<p><img(?P<attrs>[^>]*\bsrc="assets/book_three_signals\.png"[^>]*)\s*/?></p>'),
 }
 for _number, _names in {
     3: ("03_indicator_compression.png", "03_equity_curve.png"),
@@ -69,6 +71,10 @@ EQUITY_DATA = {
     **{number: ROOT / "research" / f"signal_sheet_{number:02d}_cluster_v0" / "daily_results.csv" for number in range(2, 5)},
     **{number: ROOT / "research" / f"signal_sheet_{number:02d}_cluster" / "daily_results.csv" for number in range(5, 10)},
 }
+# BOOK.md section 6 (2026-11-21): active eight-sleeve book on its full sample and as three instrument signals.
+THREE_SIGNALS_DIR = ROOT / "research" / "book_three_signals_20261121"
+SIGNAL_COLORS = {"MNQ": "#2a78d6", "MGC": "#eb6834", "MBT": "#1baf7a", "Book 8": "#102b4e"}
+SEGMENT_FILL = {"mixte": "#e6e5e1", "OOS": "#dbe8f4"}
 SHEET_LABELS = {
     1: "01 · MNQ ORB + VWAP + ATR",
     2: "02 · MNQ volatility breakout",
@@ -143,6 +149,23 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 .toc a { color: #102b4e; }
 .client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
 @media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media screen {
+  html { background: #e9eef4; }
+  body { max-width: 1180px; margin: 24px auto; padding: 36px 48px 48px; background: #fff; font-size: 10.5pt;
+         box-shadow: 0 1px 3px rgba(16, 43, 78, .08), 0 8px 28px rgba(16, 43, 78, .08); border-radius: 6px; }
+  p, li { text-align: left; }
+  table { font-size: 9pt; }
+  th, td { padding: 6px 9px; }
+  code { font-size: 9pt; }
+  img { max-height: none; }
+  .cover { min-height: 70vh; margin: -36px -48px 40px; border-radius: 6px 6px 0 0; padding: 72px 64px; }
+  .toc, .signal-sheet, .book-section { margin-top: 56px; padding-top: 32px; border-top: 1px solid #d5dee8; }
+}
+@media screen and (max-width: 760px) {
+  body { margin: 0; padding: 20px 16px 32px; border-radius: 0; box-shadow: none; }
+  .cover { margin: -20px -16px 32px; padding: 48px 24px; border-radius: 0; }
+  table { display: block; overflow-x: auto; }
+}
 @media print {
   .interactive-only { display: none !important; }
   .interactive-print { display: block; }
@@ -730,6 +753,76 @@ def equity_figure(number: int) -> go.Figure:
     return figure
 
 
+def _segment_rects(figure: go.Figure, dates: pd.Series, labels: pd.Series, row: int | None = None) -> None:
+    spans: list[list] = []
+    for label, day in zip(labels, dates):
+        if spans and spans[-1][0] == label:
+            spans[-1][2] = day
+        else:
+            spans.append([label, day, day])
+    for i, (label, first, last) in enumerate(spans):
+        end = spans[i + 1][1] if i + 1 < len(spans) else last
+        if label in SEGMENT_FILL:
+            kwargs = {"row": row, "col": 1} if row else {}
+            figure.add_vrect(x0=first, x1=end, fillcolor=SEGMENT_FILL[label], opacity=.8, line_width=0, layer="below", **kwargs)
+
+
+def _fr(value: float, digits: int = 2) -> str:
+    return f"{value:,.{digits}f}".replace(",", " ").replace(".", ",")
+
+
+def book_fs_figure() -> go.Figure:
+    data = pd.read_csv(THREE_SIGNALS_DIR / "daily_signals.csv", parse_dates=["session_date"])
+    table = pd.read_csv(THREE_SIGNALS_DIR / "signal_metrics.csv").set_index(["series", "segment"])
+    data["equity"] = data["Book 8"].cumsum()
+    figure = go.Figure()
+    _segment_rects(figure, data["session_date"], data["segment_Book 8"])
+    figure.add_trace(go.Scatter(x=data["session_date"], y=data["equity"], mode="lines", name="Book 8 sleeves",
+                                line={"color": SIGNAL_COLORS["Book 8"], "width": 2, "shape": "hv"},
+                                customdata=list(zip(data["Book 8"], data["segment_Book 8"])),
+                                hovertemplate="%{x|%d/%m/%Y} · %{customdata[1]}<br>PnL jour %{customdata[0]:,.2f} USD"
+                                              "<br>PnL cumulé %{y:,.2f} USD<extra></extra>"))
+    for name, fill in (("Mixte : MNQ et MGC en OOS, MBT en IS", SEGMENT_FILL["mixte"]),
+                       ("OOS réutilisé : les 8 sleeves hors IS", SEGMENT_FILL["OOS"])):
+        figure.add_trace(go.Scatter(x=[None], y=[None], mode="markers", name=name,
+                                    marker={"symbol": "square", "size": 12, "color": fill, "line": {"color": "#b9c8d9", "width": 1}}))
+    mbt_start = data.loc[data["MBT"].notna(), "session_date"].min()
+    figure.add_vline(x=mbt_start, line_dash="dot", line_color="#7b8794")
+    figure.add_annotation(x=mbt_start, y=.55, yref="paper", text="entrée de MBT", showarrow=False, xanchor="left",
+                          font={"color": "#52514e", "size": 11})
+    parts = " · ".join(f"{seg} {_fr(table.loc[('Book 8', seg)].sharpe)}" for seg in ("IS", "mixte", "OOS"))
+    figure.update_layout(title={"text": f"Book retenu à 8 sleeves — full sample, Sharpe {_fr(table.loc[('Book 8', 'FS')].sharpe)} ({parts})", "x": .5},
+                         height=480, hovermode="x", paper_bgcolor="white", plot_bgcolor="white",
+                         legend={"orientation": "h", "x": .5, "xanchor": "center", "y": -0.25},
+                         margin={"l": 70, "r": 25, "t": 70, "b": 105})
+    figure.update_yaxes(title_text="PnL cumulé (USD)", zeroline=True, zerolinecolor="#7b8794", gridcolor="#e8ecf1")
+    figure.update_xaxes(title_text="Fond blanc : les 8 sleeves en IS", rangeslider_visible=True)
+    return figure
+
+
+def book_signals_figure() -> go.Figure:
+    data = pd.read_csv(THREE_SIGNALS_DIR / "daily_signals.csv", parse_dates=["session_date"])
+    table = pd.read_csv(THREE_SIGNALS_DIR / "signal_metrics.csv").set_index(["series", "segment"])
+    names = ("MNQ", "MGC", "MBT")
+    titles = [f"Signal {n} — Sharpe FS {_fr(table.loc[(n, 'FS')].sharpe)} · IS {_fr(table.loc[(n, 'IS')].sharpe)}"
+              f" · OOS {_fr(table.loc[(n, 'OOS')].sharpe)}" for n in names]
+    figure = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=.07, subplot_titles=titles)
+    for row, name in enumerate(names, 1):
+        rows = data[data[f"session_{name}"].astype(bool) & data[name].notna()]
+        figure.add_trace(go.Scatter(x=rows["session_date"], y=rows[name].cumsum(), mode="lines", name=f"Signal {name}",
+                                    line={"color": SIGNAL_COLORS[name], "width": 2, "shape": "hv"},
+                                    customdata=list(zip(rows[name], rows[f"segment_{name}"])),
+                                    hovertemplate="%{x|%d/%m/%Y} · %{customdata[1]}<br>PnL jour %{customdata[0]:,.2f} USD"
+                                                  "<br>PnL cumulé %{y:,.2f} USD<extra></extra>"), row=row, col=1)
+        _segment_rects(figure, rows["session_date"], rows[f"segment_{name}"], row=row)  # after the trace: Plotly skips empty subplots
+        figure.update_yaxes(title_text="USD", zeroline=True, zerolinecolor="#7b8794", gridcolor="#e8ecf1", row=row, col=1)
+    figure.update_layout(title={"text": "Les trois signaux du book — fond gris : mixte (S01 encore en IS) · fond bleu : OOS réutilisé", "x": .5},
+                         height=820, hovermode="x", paper_bgcolor="white", plot_bgcolor="white",
+                         legend={"orientation": "h", "x": .5, "xanchor": "center", "y": -0.06},
+                         margin={"l": 70, "r": 25, "t": 90, "b": 70})
+    return figure
+
+
 def interactive_sheet_figures(index: int) -> dict[str, str]:
     note = "Survoler pour lire les valeurs · glisser pour zoomer · double-cliquer pour réinitialiser"
     if index == 1:
@@ -908,7 +1001,12 @@ def build(output_dir: Path, mermaid_js: Path) -> list[Path]:
     book_source = SOURCE_DIR / "BOOK.md"
     book_text = book_source.read_text(encoding="utf-8")
     book_title = title_from_markdown(book_text)
-    book_body = markdown_to_body(book_text, book_source)
+    book_body = markdown_to_body(book_text, book_source, None, None, {
+        "book_fs": _interactive_plot_html("book-fs-is-oos", book_fs_figure(),
+                                          "Survoler pour lire le PnL quotidien et cumulé · utiliser le curseur pour choisir la période"),
+        "book_signals": _interactive_plot_html("book-three-signals", book_signals_figure(),
+                                               "Survoler pour lire le PnL des trois signaux · glisser pour zoomer · double-cliquer pour réinitialiser"),
+    })
     toc += f'<li><a href="#book">{html.escape(book_title)}</a></li>'
     sections = "".join(
         f'<section class="signal-sheet{" first" if index == 0 else ""}" id="{html.escape(anchor)}">'
@@ -922,7 +1020,7 @@ def build(output_dir: Path, mermaid_js: Path) -> list[Path]:
   <h1>Les 9 sleeves<br>Fiches signal</h1>
   <div class="rule"></div>
   <p>Guide pédagogique complet : intuition, données, paramètres, construction, exécution, risques et procédure de réimplémentation.</p>
-  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]<br>Mise à jour du 13 novembre 2026 : S04 en shadow, exécution agrégée par instrument (Book, section 6)<br>Mise à jour du 21 novembre 2026 : sleeves MNQ (01–04) sur MNQ v.0 ajusté de l'écart de roll</div>
+  <div class="date">Édition du 1er novembre 2026 · Equal-contract [1,1,1,1,1,1,1,1,1]<br>Mise à jour du 13 novembre 2026 : S04 en shadow, exécution agrégée par instrument (Book, section 7)<br>Mise à jour du 21 novembre 2026 : sleeves MNQ (01–04) sur MNQ v.0 ajusté de l'écart de roll ; book retenu à 8 sleeves lu comme trois signaux MNQ, MGC, MBT (Book, section 6)</div>
 </section>
 <section class="toc">
   <h1>Sommaire</h1>

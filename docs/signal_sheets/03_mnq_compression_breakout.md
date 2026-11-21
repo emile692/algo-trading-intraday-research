@@ -84,7 +84,7 @@ Tick `0,25` = `0,50 USD`, point `2 USD`, commission `1,25 USD/côté`, un tick d
 
 ### 7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)
 
-Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans **une seule cible nette MNQ**, et seule la différence avec la position du compte est envoyée ([Book, section 6](BOOK.md)). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.
+Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans **une seule cible nette MNQ**, et seule la différence avec la position du compte est envoyée ([Book, section 7](BOOK.md)). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.
 
 Illustration : si S02 est long et que S03 passe short, la cible MNQ passe de +1 à 0. On vend 1 contrat, le compte est plat, et les deux sleeves continuent chacune leur suivi. Quand l'une d'elles sort, le compte reprend la position de l'autre. Ce cas s'est produit 23 jours entre janvier 2024 et mars 2026.
 

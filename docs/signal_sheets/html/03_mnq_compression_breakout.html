@@ -51,6 +51,23 @@ img { display: block; max-width: 100%; max-height: 126mm; width: auto; height: a
 .toc a { color: #102b4e; }
 .client-note { margin: 7mm 0 0; padding: 4mm; border: 1px solid #d5a744; background: #fff8e8; page-break-inside: avoid; }
 @media (max-width: 900px) { .interactive-cube { min-height: 760px; } }
+@media screen {
+  html { background: #e9eef4; }
+  body { max-width: 1180px; margin: 24px auto; padding: 36px 48px 48px; background: #fff; font-size: 10.5pt;
+         box-shadow: 0 1px 3px rgba(16, 43, 78, .08), 0 8px 28px rgba(16, 43, 78, .08); border-radius: 6px; }
+  p, li { text-align: left; }
+  table { font-size: 9pt; }
+  th, td { padding: 6px 9px; }
+  code { font-size: 9pt; }
+  img { max-height: none; }
+  .cover { min-height: 70vh; margin: -36px -48px 40px; border-radius: 6px 6px 0 0; padding: 72px 64px; }
+  .toc, .signal-sheet, .book-section { margin-top: 56px; padding-top: 32px; border-top: 1px solid #d5dee8; }
+}
+@media screen and (max-width: 760px) {
+  body { margin: 0; padding: 20px 16px 32px; border-radius: 0; box-shadow: none; }
+  .cover { margin: -20px -16px 32px; padding: 48px 24px; border-radius: 0; }
+  table { display: block; overflow-x: auto; }
+}
 @media print {
   .interactive-only { display: none !important; }
   .interactive-print { display: block; }
@@ -201,7 +218,7 @@ window.addEventListener("load", () => {
 <h2 id="7-execution-couts-et-ambiguites">7. Exécution, coûts et ambiguïtés</h2>
 <p>Tick <code>0,25</code> = <code>0,50 USD</code>, point <code>2 USD</code>, commission <code>1,25 USD/côté</code>, un tick de slippage par côté. Les cellules sont virtuelles : les coûts ne sont débités que lorsque la <strong>cible agrégée</strong> change. Dans chaque cellule, fill au niveau stop ou à l'open minute adverse s'il y a gap, et stop avant cible dans une barre ambiguë. Dernière entrée 15:55, hard flatten agrégé 16:08 ; early close piloté par calendrier officiel.</p>
 <h3 id="71-execution-agregee-par-instrument-depuis-le-13-novembre-2026">7.1 Exécution agrégée par instrument (depuis le 13 novembre 2026)</h3>
-<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans <strong>une seule cible nette MNQ</strong>, et seule la différence avec la position du compte est envoyée (<a href="BOOK.md">Book, section 6</a>). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.</p>
+<p>Cette sleeve n'est plus envoyée seule. Sa position s'additionne à celles des autres sleeves MNQ actives (S01 + S02 + S03) dans <strong>une seule cible nette MNQ</strong>, et seule la différence avec la position du compte est envoyée (<a href="BOOK.md">Book, section 7</a>). Le signal, la taille, les horaires et le PnL suivi pour la sleeve ne changent pas : la sleeve garde son état virtuel et sa règle d'arrêt.</p>
 <p>Illustration : si S02 est long et que S03 passe short, la cible MNQ passe de +1 à 0. On vend 1 contrat, le compte est plat, et les deux sleeves continuent chacune leur suivi. Quand l'une d'elles sort, le compte reprend la position de l'autre. Ce cas s'est produit 23 jours entre janvier 2024 et mars 2026.</p>
 <h2 id="8-pseudocode-de-reimplementation">8. Pseudocode de réimplémentation</h2>
 <pre><code class="language-text">cellules = produit(n=[8,10,12], b=[0,1,2], c=[1.5,2.0,2.5])

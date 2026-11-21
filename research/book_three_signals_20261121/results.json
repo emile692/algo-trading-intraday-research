@@ -1,0 +1,340 @@
+{
+  "purpose": "BOOK.md section 6: active eight-sleeve book on its full sample (IS / mixte / OOS) and as three instrument signals",
+  "lock": "eight_sleeve_equal_contract_reference_20261121",
+  "fs_window": [
+    "2019-05-06",
+    "2026-03-19"
+  ],
+  "union_sessions": 1775,
+  "mbt_first_session": "2021-05-03",
+  "lock_window_reproduced": {
+    "window": [
+      "2024-01-02",
+      "2026-03-19"
+    ],
+    "max_abs_sleeve_gap_usd": 1.4551915228366852e-11,
+    "book8_pnl_usd": 31639.460000000003
+  },
+  "segment_rule": "IS when every component sleeve is inside its IS, OOS when every component is past it, 'mixte' otherwise",
+  "sleeve_is_end": {
+    "S01": "2024-02-27",
+    "S02": "2023-12-31",
+    "S03": "2023-12-31",
+    "S05": "2023-12-31",
+    "S06": "2023-12-31",
+    "S07": "2025-05-28",
+    "S08": "2025-05-28",
+    "S09": "2025-05-28"
+  },
+  "segment_bounds": {
+    "MNQ": {
+      "IS": [
+        "2019-05-06",
+        "2023-12-29"
+      ],
+      "mixte": [
+        "2024-01-02",
+        "2024-02-27"
+      ],
+      "OOS": [
+        "2024-02-28",
+        "2026-03-19"
+      ]
+    },
+    "MGC": {
+      "IS": [
+        "2019-05-06",
+        "2023-12-29"
+      ],
+      "OOS": [
+        "2024-01-02",
+        "2026-03-19"
+      ]
+    },
+    "MBT": {
+      "IS": [
+        "2021-05-03",
+        "2025-05-28"
+      ],
+      "OOS": [
+        "2025-05-29",
+        "2026-03-19"
+      ]
+    },
+    "Book 8": {
+      "IS": [
+        "2019-05-06",
+        "2023-12-29"
+      ],
+      "mixte": [
+        "2024-01-02",
+        "2025-05-28"
+      ],
+      "OOS": [
+        "2025-05-29",
+        "2026-03-19"
+      ]
+    }
+  },
+  "correlations": {
+    "FS commun": {
+      "start": "2021-05-03",
+      "end": "2026-03-19",
+      "sessions": 1261,
+      "matrix": {
+        "MNQ": {
+          "MNQ": 1.0,
+          "MGC": -0.021143,
+          "MBT": 0.15745
+        },
+        "MGC": {
+          "MNQ": -0.021143,
+          "MGC": 1.0,
+          "MBT": 0.016422
+        },
+        "MBT": {
+          "MNQ": 0.15745,
+          "MGC": 0.016422,
+          "MBT": 1.0
+        }
+      }
+    },
+    "2021-05-03 -> 2023-12-31": {
+      "start": "2021-05-03",
+      "end": "2023-12-29",
+      "sessions": 689,
+      "matrix": {
+        "MNQ": {
+          "MNQ": 1.0,
+          "MGC": -0.001824,
+          "MBT": 0.060191
+        },
+        "MGC": {
+          "MNQ": -0.001824,
+          "MGC": 1.0,
+          "MBT": 0.069423
+        },
+        "MBT": {
+          "MNQ": 0.060191,
+          "MGC": 0.069423,
+          "MBT": 1.0
+        }
+      }
+    },
+    "2024-01-02 -> 2026-03-19": {
+      "start": "2024-01-02",
+      "end": "2026-03-19",
+      "sessions": 572,
+      "matrix": {
+        "MNQ": {
+          "MNQ": 1.0,
+          "MGC": -0.028267,
+          "MBT": 0.208224
+        },
+        "MGC": {
+          "MNQ": -0.028267,
+          "MGC": 1.0,
+          "MBT": 0.00996
+        },
+        "MBT": {
+          "MNQ": 0.208224,
+          "MGC": 0.00996,
+          "MBT": 1.0
+        }
+      }
+    }
+  },
+  "independence_check_common_period": {
+    "period": [
+      "2021-05-03",
+      "2026-03-19"
+    ],
+    "book_sharpe_actual": 1.9168931039118255,
+    "book_sharpe_if_three_signals_uncorrelated": 2.006449567025681,
+    "book_sharpe_if_eight_sleeves_uncorrelated": 2.286563712776835
+  },
+  "metrics": [
+    {
+      "series": "MNQ",
+      "segment": "FS",
+      "start": "2019-05-06",
+      "end": "2026-03-19",
+      "sessions": 1774,
+      "net_pnl_usd": 43975.5,
+      "daily_vol_usd": 275.2557828979162,
+      "sharpe": 1.4296212306593794,
+      "max_dd_usd": -4655.0,
+      "worst_day_usd": -1138.0,
+      "pnl_per_year_usd": 6246.801578354002
+    },
+    {
+      "series": "MNQ",
+      "segment": "IS",
+      "start": "2019-05-06",
+      "end": "2023-12-29",
+      "sessions": 1203,
+      "net_pnl_usd": 27287.5,
+      "daily_vol_usd": 243.70885337635374,
+      "sharpe": 1.4774986250003115,
+      "max_dd_usd": -4655.0,
+      "worst_day_usd": -1052.5,
+      "pnl_per_year_usd": 5716.084788029925
+    },
+    {
+      "series": "MNQ",
+      "segment": "mixte",
+      "start": "2024-01-02",
+      "end": "2024-02-27",
+      "sessions": 41,
+      "net_pnl_usd": -131.5,
+      "daily_vol_usd": 284.41802368190724,
+      "sharpe": -0.17901319842159744,
+      "max_dd_usd": -1285.5,
+      "worst_day_usd": -569.0,
+      "pnl_per_year_usd": -808.2439024390244
+    },
+    {
+      "series": "MNQ",
+      "segment": "OOS",
+      "start": "2024-02-28",
+      "end": "2026-03-19",
+      "sessions": 530,
+      "net_pnl_usd": 16819.5,
+      "daily_vol_usd": 335.77573475966625,
+      "sharpe": 1.500334769292689,
+      "max_dd_usd": -3524.0,
+      "worst_day_usd": -1138.0,
+      "pnl_per_year_usd": 7997.196226415094
+    },
+    {
+      "series": "MGC",
+      "segment": "FS",
+      "start": "2019-05-06",
+      "end": "2026-03-19",
+      "sessions": 1775,
+      "net_pnl_usd": 10166.000000000475,
+      "daily_vol_usd": 149.70146358291285,
+      "sharpe": 0.6073317309062937,
+      "max_dd_usd": -2121.5000000000236,
+      "worst_day_usd": -1247.0000000000164,
+      "pnl_per_year_usd": 1443.2856338028844
+    },
+    {
+      "series": "MGC",
+      "segment": "IS",
+      "start": "2019-05-06",
+      "end": "2023-12-29",
+      "sessions": 1203,
+      "net_pnl_usd": 4516.000000000475,
+      "daily_vol_usd": 61.88012852908486,
+      "sharpe": 0.963024573629532,
+      "max_dd_usd": -1107.4999999999795,
+      "worst_day_usd": -365.49999999999727,
+      "pnl_per_year_usd": 945.9950124689274
+    },
+    {
+      "series": "MGC",
+      "segment": "OOS",
+      "start": "2024-01-02",
+      "end": "2026-03-19",
+      "sessions": 572,
+      "net_pnl_usd": 5650.0,
+      "daily_vol_usd": 248.07172615945336,
+      "sharpe": 0.6320849077092486,
+      "max_dd_usd": -2121.5000000000236,
+      "worst_day_usd": -1247.0000000000164,
+      "pnl_per_year_usd": 2489.1608391608393
+    },
+    {
+      "series": "MBT",
+      "segment": "FS",
+      "start": "2021-05-03",
+      "end": "2026-03-19",
+      "sessions": 952,
+      "net_pnl_usd": 12441.600000000004,
+      "daily_vol_usd": 183.85514532799797,
+      "sharpe": 1.128401794490015,
+      "max_dd_usd": -2426.579999999981,
+      "worst_day_usd": -968.46,
+      "pnl_per_year_usd": 3293.3647058823544
+    },
+    {
+      "series": "MBT",
+      "segment": "IS",
+      "start": "2021-05-03",
+      "end": "2025-05-28",
+      "sessions": 759,
+      "net_pnl_usd": 8660.100000000002,
+      "daily_vol_usd": 166.01256819847706,
+      "sharpe": 1.091039397608886,
+      "max_dd_usd": -2426.579999999981,
+      "worst_day_usd": -968.46,
+      "pnl_per_year_usd": 2875.290118577076
+    },
+    {
+      "series": "MBT",
+      "segment": "OOS",
+      "start": "2025-05-29",
+      "end": "2026-03-19",
+      "sessions": 193,
+      "net_pnl_usd": 3781.5000000000014,
+      "daily_vol_usd": 242.0126756111685,
+      "sharpe": 1.2851947802271164,
+      "max_dd_usd": -1708.0399999999995,
+      "worst_day_usd": -582.96,
+      "pnl_per_year_usd": 4937.502590673577
+    },
+    {
+      "series": "Book 8",
+      "segment": "FS",
+      "start": "2019-05-06",
+      "end": "2026-03-19",
+      "sessions": 1775,
+      "net_pnl_usd": 66583.10000000047,
+      "daily_vol_usd": 355.2278776977444,
+      "sharpe": 1.6763275522573533,
+      "max_dd_usd": -5457.539999999928,
+      "worst_day_usd": -1655.96,
+      "pnl_per_year_usd": 9452.924619718378
+    },
+    {
+      "series": "Book 8",
+      "segment": "IS",
+      "start": "2019-05-06",
+      "end": "2023-12-29",
+      "sessions": 1203,
+      "net_pnl_usd": 34943.64000000048,
+      "daily_vol_usd": 265.89147399357927,
+      "sharpe": 1.7341967737823993,
+      "max_dd_usd": -3529.4999999999823,
+      "worst_day_usd": -967.46,
+      "pnl_per_year_usd": 7319.864738154713
+    },
+    {
+      "series": "Book 8",
+      "segment": "mixte",
+      "start": "2024-01-02",
+      "end": "2025-05-28",
+      "sessions": 363,
+      "net_pnl_usd": 18690.96000000017,
+      "daily_vol_usd": 446.88832436505413,
+      "sharpe": 1.8290528109680384,
+      "max_dd_usd": -5457.53999999993,
+      "worst_day_usd": -1655.96,
+      "pnl_per_year_usd": 12975.542479338961
+    },
+    {
+      "series": "Book 8",
+      "segment": "OOS",
+      "start": "2025-05-29",
+      "end": "2026-03-19",
+      "sessions": 209,
+      "net_pnl_usd": 12948.499999999833,
+      "daily_vol_usd": 564.5770283983438,
+      "sharpe": 1.7420083880612929,
+      "max_dd_usd": -3768.539999999968,
+      "worst_day_usd": -1395.46,
+      "pnl_per_year_usd": 15612.545454545252
+    }
+  ]
+}
